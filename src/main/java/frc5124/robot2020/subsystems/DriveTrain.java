@@ -49,10 +49,13 @@ public class DriveTrain implements Subsystem {
         resetOdometry();
     }
 
+
     @Override
     public void periodic() {
         odometry.update(getGyro(), leftLeader.getSelectedSensorPosition(), rightLeader.getSelectedSensorPosition());
     }
+
+
 
     // Control methods
 
