@@ -7,6 +7,16 @@ public class Constants {
             public final static int driveLeftFollower  = 1;
             public final static int driveRightLeader   = 2;
             public final static int driveRightFollower = 3;
+
+            public final static int intakeArm = 4;
+            public final static int intakeRoller = 5;
+
+            public final static int loaderTopBelt = 6;
+            public final static int loaderBottomBelt = 7;
+
+            public final static int shooterWheel = 8;
+            public final static int shooterTurret = 9;
+
         }
     }
 
@@ -43,5 +53,5 @@ public class Constants {
       Button(int value) {
         this.value = value;
       }
-
+    }
 }

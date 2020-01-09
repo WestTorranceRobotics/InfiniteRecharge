@@ -10,14 +10,13 @@ package frc5124.robot2020;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
-import static frc5124.robot2020.Constants.*;
+// import static frc5124.robot2020.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -29,10 +28,10 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Intake m_intake = new Intake();
-  private final Loader m_loader = new Loader();
-  private final Shooter m_shooter = new Shooter();
-  private final Hanger m_hanger = new Hanger();
-  private final ControlPanelInterface m_controlPanelInterface = new ControlPanelInterface();
+  // private final Loader m_loader = new Loader();
+  // private final Shooter m_shooter = new Shooter();
+  // private final Hanger m_hanger = new Hanger();
+  // private final ControlPanelInterface m_controlPanelInterface = new ControlPanelInterface();
 
   private final XboxController m_driver = new XboxController(0);
   private final Joystick m_operator =  new Joystick(1);
@@ -76,8 +75,8 @@ public class RobotContainer {
 
     new JoystickButton(m_operator, 1).whenPressed(new DeployIntakeCommand(m_intake));
     new JoystickButton(m_operator, 2).whenPressed(new RetractIntakeCommand(m_intake));
-    new JoystickButton(m_operator, 3).whenPressed(new RunIntakeCommand(m_intake));
-    new JoystickButton(m_operator, 4).whenPressed(new RunOutIntakeCommand(m_intake));
+    new JoystickButton(m_operator, 3).whileHeld(new RunIntakeCommand(m_intake));
+    new JoystickButton(m_operator, 4).whileHeld(new RunOutIntakeCommand(m_intake));
 
             /*
         firePowerCellButton = new JoystickButton(operator, 5);
