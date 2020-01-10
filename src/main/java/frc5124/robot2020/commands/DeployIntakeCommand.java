@@ -1,9 +1,7 @@
 
 package frc5124.robot2020.commands;
-import edu.wpi.first.wpilibj2.command.CommandBase;;
-import frc5124.robot2020.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Intake;
-
 
 /**
  *
@@ -31,7 +29,7 @@ public class DeployIntakeCommand extends CommandBase {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return false;
+        return m_intake_subsystem.atSetpoint();
     }
 
     // Called once after isFinished returns true

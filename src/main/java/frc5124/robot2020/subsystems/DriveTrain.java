@@ -62,7 +62,13 @@ public class DriveTrain implements Subsystem {
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left, right);
     }
-
+  
+    // set tank drive by volts when you want to compensate for any drop in battery voltage
+    // autonomous may be better using volts
+    public void tankDriveVolts(double leftVolts, double rightVolts) { 
+        leftLeader.setVoltage(leftVolts); rightLeader.setVoltage(-rightVolts);
+    }
+    
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);
     }
@@ -80,7 +86,7 @@ public class DriveTrain implements Subsystem {
         rightLeader.setSelectedSensorPosition(0);
         odometry.resetPosition(start, getGyro());
     }
-
+  
     public Pose2d getLocation() {
         return odometry.getPoseMeters();
     }

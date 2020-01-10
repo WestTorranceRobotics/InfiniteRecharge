@@ -29,7 +29,8 @@ public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Intake m_intake = new Intake();
   // private final Loader m_loader = new Loader();
-  // private final Shooter m_shooter = new Shooter();
+  private final Shooter m_shooter = new Shooter();
+  private final Turret m_turretIntake = new Turret();
   // private final Hanger m_hanger = new Hanger();
   // private final ControlPanelInterface m_controlPanelInterface = new ControlPanelInterface();
 
@@ -78,14 +79,7 @@ public class RobotContainer {
     new JoystickButton(m_operator, 3).whileHeld(new RunIntakeCommand(m_intake));
     new JoystickButton(m_operator, 4).whileHeld(new RunOutIntakeCommand(m_intake));
 
-            /*
-        firePowerCellButton = new JoystickButton(operator, 5);
-        firePowerCellButton.whileHeld(new ShootMultiplePowerCellsCommandGroup());
-        outtakeButton = new JoystickButton(operator, 3);
-        outtakeButton.whileHeld(new RunOutIntakeCommand());
-        intakeButton = new JoystickButton(operator, 2);
-        intakeButton.whileHeld(new RunIntakeCommand());
-        */
+    new JoystickButton(m_driver, 1).whileHeld(new ShootPowerCellCommand(m_shooter));
 
     // Drive at full speed when the Start button is held
     new JoystickButton(m_driver, Button.kStart.value)
