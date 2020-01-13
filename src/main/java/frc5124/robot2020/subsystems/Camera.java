@@ -9,9 +9,9 @@ package frc5124.robot2020.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
-public class Shooter implements Subsystem {
+public class Camera implements Subsystem {
   
-  public Shooter() {
+  public Camera() {
   }
 
   @Override

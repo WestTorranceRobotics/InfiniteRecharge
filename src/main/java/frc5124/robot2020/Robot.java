@@ -3,6 +3,15 @@ package frc5124.robot2020;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc5124.robot2020.commands.AutonomousCommand;
+import frc5124.robot2020.subsystems.Camera;
+import frc5124.robot2020.subsystems.ControlPanel;
+import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Hanger;
+import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.Turret;
 
 
 /**
@@ -14,43 +23,37 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    private RobotContainer m_robotContainer;
-    private Command m_autonomousCommand;
-
-    // Command autonomousCommand;
-    // SendableChooser<Command> chooser = new SendableChooser<>();
-
-    // public static OI oi;
-    // public static DriveTrain driveTrain;
+    private RobotContainer robotContainer;
+    private Command autonomousCommand;
+    private OI oi;
+    private Camera camera;
+    private ControlPanel controlPanel;
+    private DriveTrain drivetrain;
+    private Hanger hanger;
+    private Intake intake; 
+    private Loader loader;
+    private Shooter shooter;
+    private Turret turret;
 
     @Override
     public void robotInit() {
 
-        m_robotContainer = new RobotContainer();
+        robotContainer = new RobotContainer();
+        autonomousCommand = new AutonomousCommand();
+        oi = new OI();
+        camera = new Camera();
+        controlPanel = new ControlPanel();
+        drivetrain = new DriveTrain();
+        hanger = new Hanger();
+        intake = new Intake();
+        loader = new Loader();
+        shooter = new Shooter();
+        turret = new Turret();
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
-
-        /*
-        driveTrain = new DriveTrain();
-        oi = new OI();
-
-        driveTrain.setDefaultCommand(new RunCommand(() -> driveTrain.curvatureDrive(
-            -oi.getDriver().getY(),
-            oi.getDriver().getTwist(),
-            oi.getDriver().getRawButton(Constants.OI.Driver.quickTurnButton)),
-            driveTrain));
-        
-
-        // Add commands to Autonomous Sendable Chooser
-        chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-
-        SmartDashboard.putData("Run Chosen Auto", new InstantCommand(() -> chooser.getSelected().schedule()));
-
-        */
     }
 
     /**
@@ -59,7 +62,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
-        m_robotContainer.disabledInit();
     }
 
     @Override
@@ -69,11 +71,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        m_robotContainer.autonomousInit();
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        autonomousCommand = robotContainer.getAutonomousCommand();
+        if (autonomousCommand != null) {
+            autonomousCommand.schedule();
           }
     }
 
@@ -91,11 +91,9 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
           }
-
-        m_robotContainer.teleopInit();
     }
 
     /**
