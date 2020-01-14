@@ -11,7 +11,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc5124.robot2020.commands.AutonomousCommand;
+import frc5124.robot2020.subsystems.Camera;
+import frc5124.robot2020.subsystems.ControlPanel;
 import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Hanger;
+import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.Turret;
 
 
 // import static frc5124.robot2020.Constants.*;
@@ -23,8 +31,21 @@ import frc5124.robot2020.subsystems.DriveTrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  private final DriveTrain driveTrain = new DriveTrain();
+  
+  public final DriveTrain driveTrain = new DriveTrain();
+  
+  
+  public final static Command autonomousCommand = new AutonomousCommand();
+  public final OI oi = new OI();
+  public final Camera camera = new Camera();
+  public final ControlPanel controlPanel = new ControlPanel();
+  public final DriveTrain drivetrain = new DriveTrain();
+  public final Hanger hanger = new Hanger();
+  public final Intake intake = new Intake();
+  public final Loader loader = new Loader();
+  public final Shooter shooter = new Shooter();
+  public final Turret turret = new Turret();
+
   private final XboxController driver1 = new XboxController(0);
   private final Joystick driver2 =  new Joystick(1);
 
@@ -55,7 +76,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public static Command getAutonomousCommand() {
     return null;
   }
 }

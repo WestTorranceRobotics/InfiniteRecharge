@@ -25,30 +25,12 @@ public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
-    private OI oi;
-    private Camera camera;
-    private ControlPanel controlPanel;
-    private DriveTrain drivetrain;
-    private Hanger hanger;
-    private Intake intake; 
-    private Loader loader;
-    private Shooter shooter;
-    private Turret turret;
 
     @Override
     public void robotInit() {
 
-        robotContainer = new RobotContainer();
         autonomousCommand = new AutonomousCommand();
-        oi = new OI();
-        camera = new Camera();
-        controlPanel = new ControlPanel();
-        drivetrain = new DriveTrain();
-        hanger = new Hanger();
-        intake = new Intake();
-        loader = new Loader();
-        shooter = new Shooter();
-        turret = new Turret();
+       
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
