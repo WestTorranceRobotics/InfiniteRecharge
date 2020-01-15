@@ -25,11 +25,13 @@ public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
+    public static Intake intake;
 
     @Override
     public void robotInit() {
 
         autonomousCommand = new AutonomousCommand();
+        intake = new Intake();
        
 
         // OI must be constructed after subsystems. If the OI creates Commands
