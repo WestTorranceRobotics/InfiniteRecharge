@@ -1,17 +1,6 @@
 package frc5124.robot2020.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
-
-public class DriveTrain implements Subsystem {
-
-
-    public DriveTrain() {
-        
-    }
-
-    @Overridepackage frc5124.robot2020.subsystems;
-
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -117,14 +106,3 @@ public class DriveTrainEndover implements Subsystem {
         return new Rotation2d(radians);
     }
 }
-
-
-    public void periodic() {
-
-    }
-    public void tankDrive(double left, double right) {
-        
-    }
-  
-}
-
