@@ -24,7 +24,7 @@ import frc5124.robot2020.subsystems.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  
+
   private Camera camera;
   private ControlPanel controlPanel;
   private DriveTrain driveTrain;
