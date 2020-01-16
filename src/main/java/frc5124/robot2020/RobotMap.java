@@ -1,15 +1,15 @@
 package frc5124.robot2020;
 
-import com.revrobotics.SparkMax;
+public class RobotMap {
+    public static class DriveTrain {
+        public static int leftLeaderCanId = 1;
+        public static int leftFollowerCanId = 2;
+        public static int rightLeaderCanId = 3;
+        public static int rightFollowerCanId = 4;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
-public class RobotMap { 
-    public static DoubleSolenoid intakeDeploy;
-    public static SparkMax ballIntake;
-    
-    public static class Intake {
-        public static DoubleSolenoid intakeDeploy = new DoubleSolenoid(1,2);                 // for double solenoid (forward channel, reverse channel)
-        public static int ballIntake = 3;                                                    // for spark max
+        public static double P = 1;
+        public static double I = 0.1;
+        public static double D = 0.01;
+        public static double F = 0.5;
     }
 }

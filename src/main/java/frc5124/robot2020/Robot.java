@@ -3,16 +3,6 @@ package frc5124.robot2020;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc5124.robot2020.commands.AutonomousCommand;
-import frc5124.robot2020.subsystems.Camera;
-import frc5124.robot2020.subsystems.ControlPanel;
-import frc5124.robot2020.subsystems.DriveTrain;
-import frc5124.robot2020.subsystems.Hanger;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
-import frc5124.robot2020.subsystems.Turret;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,14 +15,11 @@ public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
-    public static Intake intake;
 
     @Override
     public void robotInit() {
 
-        autonomousCommand = new AutonomousCommand();
-        intake = new Intake();
-       
+        robotContainer = new RobotContainer();
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be

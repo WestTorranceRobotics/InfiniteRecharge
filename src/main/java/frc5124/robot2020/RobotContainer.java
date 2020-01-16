@@ -7,19 +7,12 @@
 
 package frc5124.robot2020;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc5124.robot2020.commands.AutonomousCommand;
-import frc5124.robot2020.subsystems.Camera;
-import frc5124.robot2020.subsystems.ControlPanel;
-import frc5124.robot2020.subsystems.DriveTrain;
-import frc5124.robot2020.subsystems.Hanger;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
-import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.commands.*;
+import frc5124.robot2020.subsystems.*;
 
 
 // import static frc5124.robot2020.Constants.*;
@@ -31,43 +24,52 @@ import frc5124.robot2020.subsystems.Turret;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  
-  public final DriveTrain driveTrain = new DriveTrain();
-    
-  public final static Command autonomousCommand = new AutonomousCommand();
-  public final OI oi = new OI();
-  public final Camera camera = new Camera();
-  public final ControlPanel controlPanel = new ControlPanel();
-  public final DriveTrain drivetrain = new DriveTrain();
-  public final Hanger hanger = new Hanger();
-  public final static Intake intake = new Intake();
-  public final Loader loader = new Loader();
-  public final Shooter shooter = new Shooter();
-  public final Turret turret = new Turret();
 
-  private final XboxController driver1 = new XboxController(0);
-  private final Joystick driver2 =  new Joystick(1);
+  private Camera camera;
+  private ControlPanel controlPanel;
+  private DriveTrain driveTrain;
+  private Hanger hanger;
+  private Intake intake;
+  private Loader loader;
+  private Shooter shooter;
+  private Turret turret;
+
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    configureSubsystems();
+    configureShuffleboard();
     configureDefaultCommands();
     configureButtonBindings();    
   }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings(){
+  private void configureSubsystems() {
+    camera = new Camera();
+    controlPanel = new ControlPanel();
+    driveTrain = new DriveTrain();
+    hanger = new Hanger();
+    intake = new Intake();
+    loader = new Loader();
+    shooter = new Shooter();
+    turret = new Turret();
+  }
 
+  private void configureButtonBindings(){
+    OI.isPressedButton
+      .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
+      .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
   }
 
   private void configureDefaultCommands(){
-    
+    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+  }
+
+  private void configureShuffleboard() {
+    ShuffleboardTab display = Shuffleboard.getTab("Driving Display");
+    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
   }
 
   /**
@@ -75,7 +77,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public static Command getAutonomousCommand() {
-    return null;
+  public Command getAutonomousCommand() {
+    return new AutonomousCommand();
   }
 }

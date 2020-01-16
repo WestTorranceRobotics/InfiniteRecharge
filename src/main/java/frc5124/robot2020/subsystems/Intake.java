@@ -28,7 +28,6 @@ public class Intake implements Subsystem {
   @Override
   public void periodic() {
   }
-
   public void intake(){
     intakeMotor.set(.5);
   }
@@ -48,7 +47,6 @@ public class Intake implements Subsystem {
   public void liftDown(){
     intakePivot.set(Value.kReverse);          // kReverse Value will make the arm come out.  
   }
-
 
   // Control Methods
 
