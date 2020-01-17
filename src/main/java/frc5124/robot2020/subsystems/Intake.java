@@ -29,11 +29,11 @@ public class Intake implements Subsystem {
   public void periodic() {
   }
   public void intake(){
-    intakeMotor.set(.5);
+    intakeMotor.set(RobotMap.motorPower);
   }
 
   public void outtake(){
-    intakeMotor.set(-.5);
+    intakeMotor.set(-RobotMap.motorPower);
   }
 
   public void motorNoPower(){

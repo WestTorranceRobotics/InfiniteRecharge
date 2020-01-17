@@ -17,12 +17,12 @@ public class IntakePivotDown implements Command {
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        RobotContainer.intake.liftDown();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+        RobotContainer.intake.liftDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()

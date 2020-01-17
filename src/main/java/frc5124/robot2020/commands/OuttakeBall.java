@@ -9,21 +9,21 @@ import frc5124.robot2020.Robot;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.subsystems.Intake;
 
-public class RunIntake implements Command {
+public class OuttakeBal implements Command {
 
-    public RunIntake() {
+    public OuttakeBall() {
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        RobotContainer.intake.liftUp();
         RobotContainer.intake.motorNoPower();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+        RobotContainer.intake.outtake();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,7 +36,6 @@ public class RunIntake implements Command {
     @Override
     public void end(boolean interrupted) {
         RobotContainer.intake.motorNoPower();
-        RobotContainer.intake.liftUp();
     }
 
     @Override
