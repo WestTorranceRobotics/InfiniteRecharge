@@ -5,15 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.panelcontrol;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc5124.robot2020.subsystems.PanelController;
 
-public class SetShuffleBoolean extends InstantCommand {
-    public SetShuffleBoolean(boolean b, NetworkTableEntry shuffleEntry) {
-        super(() -> {
-            shuffleEntry.setBoolean(b);
-        });
+public class PanelControllerSetDeployed extends InstantCommand {
+
+    public PanelControllerSetDeployed(PanelController panelController, boolean deployed) {
+        super(() -> panelController.setDeployed(deployed), panelController);
     }
 }

@@ -9,6 +9,8 @@ public class OI {
     public static final Joystick driver = new Joystick(0);
     public static final Joystick operator = new Joystick(1);
 
-    public static final JoystickButton isPressedButton = new JoystickButton(driver, XboxController.Button.kA.value);
+    public static final JoystickButton panelControllerDeployer = new JoystickButton(driver, XboxController.Button.kA.value);
+    public static final JoystickButton rotationControl = new JoystickButton(driver, XboxController.Button.kB.value);
+    public static final JoystickButton positionControl = new JoystickButton(driver, XboxController.Button.kX.value);
 
 }

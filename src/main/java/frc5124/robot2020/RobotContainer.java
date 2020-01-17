@@ -7,15 +7,23 @@
 
 package frc5124.robot2020;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
+import java.awt.Color;
+
+import com.revrobotics.ColorSensorV3.RawColor;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
-
-
-// import static frc5124.robot2020.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,15 +34,13 @@ import frc5124.robot2020.subsystems.*;
 public class RobotContainer {
   
   private Camera camera;
-  private ControlPanel controlPanel;
+  private PanelController panelController;
   private DriveTrain driveTrain;
   private Hanger hanger;
   private Intake intake;
   private Loader loader;
   private Shooter shooter;
   private Turret turret;
-
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -48,7 +54,7 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     camera = new Camera();
-    controlPanel = new ControlPanel();
+    panelController = new PanelController();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
     intake = new Intake();
@@ -58,9 +64,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    OI.isPressedButton
-      .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
-      .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
+    OI.panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
+    OI.positionControl.whenPressed(new PositionControl(panelController));
+    OI.rotationControl.whenPressed(new RotationControl(panelController));
   }
 
   private void configureDefaultCommands(){
@@ -69,7 +75,18 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     ShuffleboardTab display = Shuffleboard.getTab("Driving Display");
-    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+    Shuffleboard.selectTab(display.getTitle());
+
+    SimpleWidget colorWidget = display.add("Control Panel Color", true)
+      .withWidget(BuiltInWidgets.kBooleanBox).withPosition(0, 0).withSize(1, 1);
+    NetworkTableEntry colorNumbersEntry = display.add("Raw Color Values", "Red: 0, Green: 0, Blue: 0").getEntry();
+    Consumer<RawColor> colorDisplayer = (color) -> {
+      float max = Math.max(Math.max(color.red, color.green), color.blue);
+      Color normalized = new Color(color.red / max, color.green / max, color.blue / max);
+      colorWidget.withProperties(Map.of("Color when true", normalized.getRGB() * 256));
+      colorNumbersEntry.setString("Red: " + color.red + ", Green: " + color.green + ", Blue: " + color.blue);
+    };
+    new ColorDisplayer(panelController, colorDisplayer).schedule();
   }
 
   /**
