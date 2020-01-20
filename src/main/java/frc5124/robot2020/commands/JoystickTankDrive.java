@@ -12,8 +12,11 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.Robot;
+import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.subsystems.DriveTrain;
 
 public class JoystickTankDrive implements Command {
@@ -21,6 +24,7 @@ public class JoystickTankDrive implements Command {
     private final DoubleSupplier leftHand;
     private final DoubleSupplier rightHand;
     private final DriveTrain driveTrain;
+    private RobotContainer robotContainer;
 
     public JoystickTankDrive(GenericHID twoHanded, DriveTrain driveTrain) {
         leftHand = () -> twoHanded.getY(Hand.kLeft);
@@ -42,5 +46,6 @@ public class JoystickTankDrive implements Command {
     @Override
     public void execute() {
         driveTrain.tankDrive(leftHand.getAsDouble(), rightHand.getAsDouble());
+        Pose2d location = driveTrain.getLocation();
     }
 }

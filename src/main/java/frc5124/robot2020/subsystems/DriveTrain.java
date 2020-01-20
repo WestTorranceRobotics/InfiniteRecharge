@@ -35,10 +35,8 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
-    private RobotContainer robotContainer;
 
     public DriveTrain() {
-        robotContainer = new RobotContainer();
 
         leftLeader = new WPI_TalonSRX(RobotMap.DriveTrain.leftLeaderCanId);
         rightLeader = new WPI_TalonSRX(RobotMap.DriveTrain.rightLeaderCanId);
@@ -59,13 +57,12 @@ public class DriveTrain implements Subsystem {
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
-
+ 
     }
 
     @Override
     public void periodic() {
-        robotContainer.display.add("Location",getLocation()).withSize(2, 1).withPosition(0,1).getEntry();
-
+        
     }
 
     // Control methods

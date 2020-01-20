@@ -7,8 +7,14 @@
 
 package frc5124.robot2020;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.GyroBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc5124.robot2020.commands.*;
@@ -35,7 +41,7 @@ public class RobotContainer {
   private Turret turret;
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  
+
   public ShuffleboardTab display;
 
   /**
@@ -72,6 +78,24 @@ public class RobotContainer {
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
     shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+
+    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
+    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
+    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    poseLayout.add("Rotation", shuffleboardGyro(() -> System.currentTimeMillis()/100 /*90 - driveTrain.getLocation().getRotation().getDegrees()*/))
+      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+    // new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schaedule();
+  }
+
+  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+    return new GyroBase(){
+      @Override public void close() {}
+      @Override public void reset() {}
+      @Override public double getRate() {return 0;}
+      @Override public double getAngle() {return d.getAsDouble();}
+      @Override public void calibrate() {}
+    };
   }
 
   /**
