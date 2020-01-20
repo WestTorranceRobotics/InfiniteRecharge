@@ -35,6 +35,8 @@ public class RobotContainer {
   private Turret turret;
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  
+  public ShuffleboardTab display;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -68,7 +70,7 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
-    ShuffleboardTab display = Shuffleboard.getTab("Driving Display");
+    display = Shuffleboard.getTab("Driving Display");
     shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
   }
 
