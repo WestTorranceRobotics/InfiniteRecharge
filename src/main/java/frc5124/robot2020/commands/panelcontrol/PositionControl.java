@@ -11,14 +11,38 @@ import java.util.Set;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.PanelController;
+import frc5124.robot2020.subsystems.PanelController.PanelColor;
 
 public class PositionControl implements Command {
 
     private final PanelController panelController;
+    private PanelColor target;
 
     public PositionControl(PanelController panelController) {
         this.panelController = panelController;
+    }
+
+    @Override
+    public void initialize() {
+        target = panelController.getPositionControlTarget();
+        panelController.resetColorEncoder();
+    }
+
+    @Override
+    public void execute() {
+        panelController.setSpinner(Math.signum(panelController.getCountsToTarget(target)) * RobotMap.PanelController.positionControlPower);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return panelController.getCountsToTarget(target) == 0;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        panelController.setSpinner(0);
     }
 
     @Override

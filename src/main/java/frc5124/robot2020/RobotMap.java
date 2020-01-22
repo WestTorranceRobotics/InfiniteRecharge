@@ -27,7 +27,7 @@ public class RobotMap {
         public static final RawColor redReading = new RawColor(800, 100, 200, 500);
         public static final RawColor yellowReading = new RawColor(700, 700, 50, 500);
 
-        public static final double positionControlPower = 10;
+        public static final double positionControlPower = 0.1;
         public static final IntToDoubleFunction rotationControlDistanceToPowerFunction =
             (i) -> i > 8 ? 1 : i / 8;
     }
