@@ -19,8 +19,8 @@ public class Intake implements Subsystem {
   // private final SparkMax intakeMotor = RobotMap.ballIntake;  
   // private final DoubleSolenoid intakePivot = RobotMap.intakeDeploy(2);
 
-  private final SparkMax intakeMotor = RobotMap.ballIntake;
-  private final DoubleSolenoid intakePivot = RobotMap.intakeDeploy;
+  private final SparkMax intakeMotor;
+  private final DoubleSolenoid intakePivot;
 
   public Intake() {
   }

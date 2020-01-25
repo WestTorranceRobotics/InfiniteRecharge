@@ -9,7 +9,7 @@ import frc5124.robot2020.Robot;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.subsystems.Intake;
 
-public class OuttakeBal implements Command {
+public class OuttakeBall implements Command {
 
     public OuttakeBall() {
     }
