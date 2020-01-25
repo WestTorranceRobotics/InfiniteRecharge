@@ -10,29 +10,33 @@ package frc5124.robot2020.commands.panelcontrol;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.revrobotics.ColorSensorV3.RawColor;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.subsystems.PanelController;
+import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 public class ColorDisplayer implements Command {
 
     private final PanelController panelController;
-    private final Consumer<RawColor> displayer;
+    private final Consumer<OutputColor> displayer;
 
-    public ColorDisplayer(PanelController panelController, Consumer<RawColor> displayer) {
+    public ColorDisplayer(PanelController panelController, Consumer<OutputColor> displayer) {
         this.panelController = panelController;
         this.displayer = displayer;
     }
 
     public void execute() {
-        displayer.accept(panelController.readColor());
+        displayer.accept(panelController.getColor());
     }
 
     @Override
     public Set<Subsystem> getRequirements() {
         return Set.of();
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
 
 }

@@ -42,6 +42,10 @@ public class PanelController implements Subsystem {
     colorSensor = new ColorSensorV3(Port.kOnboard);
 
     matcher = new ColorMatch();
+    matcher.addColorMatch(PanelColor.BLUE.color());
+    matcher.addColorMatch(PanelColor.YELLOW.color());
+    matcher.addColorMatch(PanelColor.GREEN.color());
+    matcher.addColorMatch(PanelColor.RED.color());
   }
 
   @Override
@@ -50,7 +54,7 @@ public class PanelController implements Subsystem {
       color = null;
     }
     if (deployed) {
-      PanelColor nextColor = getColor();
+      PanelColor nextColor = getColor().choice;
       if (color == null) {
         color = nextColor;
         return;
@@ -86,7 +90,7 @@ public class PanelController implements Subsystem {
 
   public synchronized void resetColorEncoder() {
     colorEncoderCount = 0;
-    color = getColor();
+    color = getColor().choice;
   }
 
   public int getColorEncoder() {
@@ -107,14 +111,15 @@ public class PanelController implements Subsystem {
     return diff;
   }
 
-  public PanelColor getColor() {
-    Color match = matcher.matchClosestColor(convertRaw(readColor())).color;
+  public OutputColor getColor() {
+    RawColor color = readColor();
+    Color match = matcher.matchClosestColor(convertRaw(color)).color;
     for (PanelColor possibility : PanelColor.values()) {
       if (match == possibility.color()) {
-        return possibility;
+        return new OutputColor(color, possibility);
       }
     }
-    return null;
+    return new OutputColor(color, null);
   }
 
   public void setSpinner(double power) {
@@ -146,6 +151,15 @@ public class PanelController implements Subsystem {
     }
     public Color color() {
       return color;
+    }
+  }
+
+  public static class OutputColor {
+    public final RawColor value;
+    public final PanelColor choice;
+    private OutputColor(RawColor value, PanelColor choice) {
+      this.value = value;
+      this.choice = choice;
     }
   }
 

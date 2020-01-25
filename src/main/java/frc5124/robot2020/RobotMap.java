@@ -22,10 +22,10 @@ public class RobotMap {
         public static final int deployerForwardSolenoidChannel = 0;
         public static final int deployerReverseSolenoidChannel = 7;
 
-        public static final RawColor blueReading = new RawColor(100, 150, 800, 500);
-        public static final RawColor greenReading = new RawColor(150, 800, 100, 500);
-        public static final RawColor redReading = new RawColor(800, 100, 200, 500);
-        public static final RawColor yellowReading = new RawColor(700, 700, 50, 500);
+        public static final RawColor blueReading = new RawColor(30000, 11000, 400, 70); // RSL
+        public static final RawColor greenReading = new RawColor(33000, 262000, 130000, 1020); // Limelight
+        public static final RawColor redReading = new RawColor(8000, 23000, 12000, 240); // Karen
+        public static final RawColor yellowReading = new RawColor(5400, 7100, 2300, 140); // BOOT
 
         public static final double positionControlPower = 0.1;
         public static final IntToDoubleFunction rotationControlDistanceToPowerFunction =
