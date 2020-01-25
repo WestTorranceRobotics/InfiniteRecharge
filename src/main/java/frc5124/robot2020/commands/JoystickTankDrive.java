@@ -45,7 +45,7 @@ public class JoystickTankDrive implements Command {
 
     @Override
     public void execute() {
-        driveTrain.tankDrive(leftHand.getAsDouble(), rightHand.getAsDouble());
-        Pose2d location = driveTrain.getLocation();
+        driveTrain.tankDrive(-leftHand.getAsDouble(), -rightHand.getAsDouble());
+        
     }
 }

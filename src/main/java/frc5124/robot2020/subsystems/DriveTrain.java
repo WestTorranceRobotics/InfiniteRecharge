@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -28,6 +29,8 @@ public class DriveTrain implements Subsystem {
     private WPI_TalonSRX rightLeader;
     private WPI_TalonSRX leftFollower;
     private WPI_TalonSRX rightFollower;
+    private Encoder leftGroup;
+    private Encoder rightGroup;
     SimpleWidget odometryWidget;
     private AHRS gyro;
 
@@ -46,6 +49,10 @@ public class DriveTrain implements Subsystem {
         rightFollower = new WPI_TalonSRX(RobotMap.DriveTrain.rightFollowerCanId);
         rightFollower.follow(rightLeader);
 
+        leftGroup = new Encoder(3,4,false,Encoder.EncodingType.k2X);
+
+        rightGroup = new Encoder(0, 1,false,Encoder.EncodingType.k2X);
+
         gyro = new AHRS();
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
@@ -62,7 +69,11 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-        
+        double leftGROUP = (double) leftGroup.get();
+
+        double rightGROUP = (double) rightGroup.get();
+
+        odometry.update(getGyro(), leftGROUP, rightGROUP);
     }
 
     // Control methods
@@ -70,6 +81,7 @@ public class DriveTrain implements Subsystem {
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left,right)
 ;    }
+    
 
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);
@@ -95,6 +107,9 @@ public class DriveTrain implements Subsystem {
 
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
+    }
+    public DifferentialDriveOdometry getOdometry(){
+        return odometry;
     }
 
     private Rotation2d getGyro() {

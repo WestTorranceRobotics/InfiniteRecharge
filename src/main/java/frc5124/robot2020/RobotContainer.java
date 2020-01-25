@@ -83,9 +83,13 @@ public class RobotContainer {
     ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
     NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> System.currentTimeMillis()/100 /*90 - driveTrain.getLocation().getRotation().getDegrees()*/))
+    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-    // new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schaedule();
+      
+
+    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
+    
+    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

@@ -7,18 +7,22 @@
 
 package frc5124.robot2020.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.*;
 
-public class DriveDistance extends CommandBase {
+public class LocationUpdaterCommand extends CommandBase {
   /**
-   * Creates a new DriveDistance.
+   * Creates a new LocationUpdaterCommand.
    */
+  DriveTrain driveTrain;
+  NetworkTableEntry xSlider;
+  NetworkTableEntry ySlider;
 
-  private DriveTrain driveTrain;
-
-  public DriveDistance(DriveTrain driveTrain) {
+  public LocationUpdaterCommand(DriveTrain driveTrain, NetworkTableEntry xSlider, NetworkTableEntry ySlider) {
     this.driveTrain = driveTrain;
+    this.xSlider = xSlider;
+    this.ySlider = ySlider;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,7 +34,9 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if(driveTrain.)
+    xSlider.setDouble(0.5);
+    ySlider.setDouble(driveTrain.getLocation().getTranslation().getY());
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +47,6 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
