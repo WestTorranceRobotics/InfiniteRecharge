@@ -8,24 +8,20 @@
 package frc5124.robot2020.commands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.*;
+import frc5124.robot2020.subsystems.Loader;
 
-public class LocationUpdaterCommand extends CommandBase {
+
+public class UltraSonicSensor extends CommandBase {
   /**
-   * Creates a new LocationUpdaterCommand.
+   * Creates a new UltraSonicSensor.
    */
-  DriveTrain driveTrain;
-  NetworkTableEntry xSlider;
-  NetworkTableEntry ySlider;
-  ComplexWidget rotation;
+  private Loader loader;
+  private NetworkTableEntry ultraSonic;
 
-  public LocationUpdaterCommand(DriveTrain driveTrain, NetworkTableEntry xSlider, NetworkTableEntry ySlider,ComplexWidget rotation) {
-    this.driveTrain = driveTrain;
-    this.xSlider = xSlider;
-    this.ySlider = ySlider;
-    this.rotation = rotation;
+  public UltraSonicSensor(Loader loader,NetworkTableEntry ultraSonic ) {
+    this.loader = loader;
+    this.ultraSonic = ultraSonic;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,9 +33,10 @@ public class LocationUpdaterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    xSlider.setDouble(driveTrain.getLocation().getTranslation().getY());
-    ySlider.setDouble(driveTrain.getLocation().getTranslation().getY());
-    
+      ultraSonic.setDouble(loader.currentDistance);
+      if(loader.currentDistance < 10){
+        ultraSonic.setBoolean(true);
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -52,7 +49,6 @@ public class LocationUpdaterCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
   public boolean runWhenDisabled(){
     return true;
   }

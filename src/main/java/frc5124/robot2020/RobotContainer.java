@@ -33,7 +33,6 @@ import frc5124.robot2020.subsystems.*;
 public class RobotContainer {
   
   private Camera camera;
-  private ControlPanel controlPanel;
   private DriveTrain driveTrain;
   private Hanger hanger;
   private Intake intake;
@@ -57,7 +56,6 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     camera = new Camera();
-    controlPanel = new ControlPanel();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
     intake = new Intake();
@@ -84,13 +82,15 @@ public class RobotContainer {
     ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
     NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    NetworkTableEntry ultraSonic = display.add("Ultrasonic", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     ComplexWidget rotation = poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-      
 
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    new LocationUpdaterCommand(driveTrain, xSlider, ySlider,rotation).schedule();
+
+    new UltraSonicSensor(loader,ultraSonic).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

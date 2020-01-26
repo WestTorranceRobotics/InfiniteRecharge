@@ -20,8 +20,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ColorSensorV3;
-import com.revrobotics.ColorMatch;
+import frc5124.robot2020.subsystems.DriveTrain;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -30,24 +31,36 @@ import edu.wpi.first.wpilibj.I2C.Port;
 public class Loader implements Subsystem {
   private WPI_TalonSRX topBelt;
   private WPI_TalonSRX bottomBelt;
-  private ColorSensorV3 ballDetection;
-  private final ColorMatch matcher;
+  private DriveTrain driveTrain = new DriveTrain();
+  // distance in inches the robot wants to stay from an object
+  private static final double kHoldDistance = 12.0;
+
+  // factor to convert sensor values to a distance in inches
+  private static final double kValueToInches = 0.125;
+
+  // proportional speed constant
+  private static final double kP = 0.05;
+
+  private static final int kUltrasonicPort = 1;
+
+  private final AnalogInput m_ultrasonic = new AnalogInput(kUltrasonicPort);
+
+  public double currentDistance;
+
+  /**
+   * Tells the robot to drive to a set distance (in inches) from an object
+   * using proportional control.
+   */
+  
 
   
   public Loader() {
-    topBelt = new WPI_TalonSRX(1);
-    bottomBelt = new WPI_TalonSRX(2);
-    ballDetection = new ColorSensorV3(Port.kOnboard);
 
-    matcher = new ColorMatch();
-  }
-  public void runBelt (double x) {
-    topBelt.set(x);
-    bottomBelt.set(x);
   }
 
   @Override
   public void periodic() {
+    currentDistance = m_ultrasonic.getValue() * kValueToInches;
   }
 
   // Control Methods
