@@ -7,7 +7,6 @@
 
 package frc5124.robot2020.subsystems;
 
-
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
@@ -21,32 +20,30 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.;
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj.I2C.Port;
 
-import edu.wpi.first.wpilibj.
 
 public class Loader implements Subsystem {
   private WPI_TalonSRX topBelt;
   private WPI_TalonSRX bottomBelt;
-  private 
+  private ColorSensorV3 ballDetection;
+  private final ColorMatch matcher;
+
+  
   public Loader() {
+    topBelt = new WPI_TalonSRX(1);
+    bottomBelt = new WPI_TalonSRX(2);
+    ballDetection = new ColorSensorV3(Port.kOnboard);
+
+    matcher = new ColorMatch();
   }
   public void runBelt (double x) {
     topBelt.set(x);
     bottomBelt.set(x);
-  }
-  public boolean hasBall() {
-
   }
 
   @Override
