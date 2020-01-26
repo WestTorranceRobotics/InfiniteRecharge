@@ -82,14 +82,6 @@ public class DriveTrain implements Subsystem {
         differentialDrive.tankDrive(left,right)
 ;    }
 
-    public Encoder getLeftgroup(){
-        return leftGroup;
-    }
-
-    public Encoder getRightGroup(){
-        return rightGroup;
-    }
-    
 
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);
