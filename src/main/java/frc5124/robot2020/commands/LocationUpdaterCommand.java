@@ -52,8 +52,4 @@ public class LocationUpdaterCommand extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
-  public boolean runWhenDisabled(){
-    return true;
-  }
 }
