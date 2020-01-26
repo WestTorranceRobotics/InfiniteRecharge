@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 //import frc5124.robot2020.RobotMap;
 
 public class Hanger implements Subsystem {
-  // private final TalonFX hangerMotor = RobotMap.pullUp; 
-  // private final DoubleSolenoid hangerClamp = RobotMap.clampUp; 
+  private final TalonFX hangerMotor = RobotMap.pullUp; 
+  private final DoubleSolenoid hangerClamp = RobotMap.clampUp; 
   
   public Hanger() {
   }
