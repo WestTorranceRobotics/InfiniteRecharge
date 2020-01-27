@@ -1,5 +1,9 @@
 package frc5124.robot2020;
 
+import com.revrobotics.SparkMax;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class RobotMap {
     public static class DriveTrain {
         public static int leftLeaderCanId = 1;
@@ -14,6 +18,6 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static int motorPower = .5;
+        public static double motorPower = .5;
     }
 }

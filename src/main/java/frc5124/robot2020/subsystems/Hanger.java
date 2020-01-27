@@ -18,7 +18,4 @@ public class Hanger implements Subsystem {
   public void periodic() {
   }
 
-  // Control Methods
-
-  // TODO
 }

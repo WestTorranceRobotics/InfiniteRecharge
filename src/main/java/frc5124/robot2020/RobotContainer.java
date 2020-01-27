@@ -8,9 +8,13 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
@@ -33,6 +37,11 @@ public class RobotContainer {
   private Loader loader;
   private Shooter shooter;
   private Turret turret;
+
+  public XboxController operator = new XboxController(2);
+  public Joystick driver = new Joystick(0);
+  public JoystickButton operatorA = new JoystickButton(operator, 1);
+  public JoystickButton operatorB = new JoystickButton(operator, 2);
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
@@ -58,13 +67,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    OI.isPressedButton
-      .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
-      .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
+      operatorA.whileHeld(new IntakeBall(intake));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
   }
 
   private void configureShuffleboard() {

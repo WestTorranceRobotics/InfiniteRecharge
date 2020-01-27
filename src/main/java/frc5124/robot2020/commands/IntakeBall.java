@@ -11,19 +11,22 @@ import frc5124.robot2020.subsystems.Intake;
 
 public class IntakeBall implements Command {
 
-    public IntakeBall() {
+    private final Intake intake;
+
+    public IntakeBall(Intake subsystem) {
+        intake = subsystem;
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        RobotContainer.intake.motorNoPower();
+        intake.motorNoPower();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        RobotContainer.intake.intake();
+        intake.intake();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,11 +38,11 @@ public class IntakeBall implements Command {
     // Called once after isFinished returns true
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.intake.motorNoPower();
+        intake.motorNoPower();
     }
 
     @Override
     public Set<Subsystem> getRequirements() {
-        return Set.of(Robot.intake);
+        return Set.of();
     }
 }

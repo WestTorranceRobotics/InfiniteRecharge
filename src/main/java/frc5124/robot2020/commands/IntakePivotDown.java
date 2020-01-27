@@ -11,7 +11,10 @@ import frc5124.robot2020.subsystems.Intake;
 
 public class IntakePivotDown implements Command {
 
-    public IntakePivotDown() {
+    private final Intake intake;
+
+    public IntakePivotDown(Intake subsystem) {
+        intake = subsystem;
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +25,7 @@ public class IntakePivotDown implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        RobotContainer.intake.liftDown();
+        intake.liftDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,6 +41,6 @@ public class IntakePivotDown implements Command {
 
     @Override
     public Set<Subsystem> getRequirements() {
-        return Set.of(Robot.intake);
+        return Set.of();
     }
 }
