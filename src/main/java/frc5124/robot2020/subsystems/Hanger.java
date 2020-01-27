@@ -7,7 +7,9 @@
 
 package frc5124.robot2020.subsystems;
 
+// import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+//import frc5124.robot2020.RobotMap;
 
 public class Hanger implements Subsystem {
   
@@ -18,4 +20,6 @@ public class Hanger implements Subsystem {
   public void periodic() {
   }
 
+  // Control Methods
+  // TODO
 }

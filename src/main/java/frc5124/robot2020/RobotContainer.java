@@ -33,7 +33,7 @@ public class RobotContainer {
   private ControlPanel controlPanel;
   private DriveTrain driveTrain;
   private Hanger hanger;
-  private Intake intake;
+  public Intake intake;
   private Loader loader;
   private Shooter shooter;
   private Turret turret;

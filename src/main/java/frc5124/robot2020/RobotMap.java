@@ -18,6 +18,6 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static double motorPower = .5;
+        public static double motorPower = 0.5;
     }
 }
