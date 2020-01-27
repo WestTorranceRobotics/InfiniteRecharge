@@ -40,8 +40,10 @@ public class RobotContainer {
 
   public XboxController operator = new XboxController(2);
   public Joystick driver = new Joystick(0);
-  public JoystickButton operatorA = new JoystickButton(operator, 1);
+  public JoystickButton operatorX = new JoystickButton(operator, 3);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
+  public JoystickButton operatorA = new JoystickButton(operator, 1);
+  public JoystickButton operatorY = new JoystickButton(operator, 4);
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
@@ -67,7 +69,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-      operatorA.whileHeld(new IntakeBall(intake));
+      operatorX.whileHeld(new IntakeBall(intake));
+      operatorB.whileHeld(new OuttakeBall(intake));
+      operatorA.whileHeld(new IntakePivotDown(intake));
+      operatorY.whileHeld(new IntakePivotUp(intake));
   }
 
   private void configureDefaultCommands(){
