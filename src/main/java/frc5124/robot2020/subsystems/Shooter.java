@@ -72,7 +72,7 @@ public class Shooter implements Subsystem {
  * Units of ft/s
  */
   private void getVelocity() {
-    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) / .75) * conversionConstant); // 1 rpm / .75 [ gear reduction]) * conversionConstant
+    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) * .75) * conversionConstant); // 1 rpm / .75 [ gear reduction]) * conversionConstant
   }
   
   private void setPower (double power) {
