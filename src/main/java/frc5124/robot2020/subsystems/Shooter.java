@@ -6,12 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -26,7 +23,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class Shooter implements Subsystem {
   private final double processTime = .02; //in units of seconds
-  private final double maxVelocity = 0; //in units of ft/s
+  private final double maxVelocity = 99; //in units of ft/s
+  private final double conversionConstant = 2 * 3.141592654 * 0.33333; //radius = .3333 ft
   private double kOut = 0;
   private double currentVelocity, error, integral = 0; 
   private double kI, kP = 1; 
@@ -40,10 +38,9 @@ public class Shooter implements Subsystem {
 
 
   /**
-   * To be called in a loop
-   * 
-   * in units of ft/s
-   * @param velocity
+   * To be called in a execution loop
+   *  
+   * @param velocity in units of ft/s
    */
   public void setVelocity (double targetVelocity) {
   getVelocity();
@@ -51,23 +48,28 @@ public class Shooter implements Subsystem {
   setPower(kOut); //kOut is the kPI output
   }
 
+  /**
+   * @deprecated
+   */
   public void directPower (double power) {
   setPower(power);
-  //jeff.set(ControlMode.PercentOutput, 1);
   }
 
   /**
    * lightweight PI loop
    */
   private void kPI(double targetVelocity) {
-    currentVelocity = (targetVelocity > maxVelocity) ? maxVelocity : 0;
+    targetVelocity = (targetVelocity > maxVelocity) ? maxVelocity : 0;
     error = targetVelocity - currentVelocity;
-    integral += error*processTime;
-    kOut = kP*error + kI*error;
+    integral += error * processTime;
+    kOut = kP*error + kI*integral;
   }
 
+/**
+ * Units of ft/s
+ */
   private void getVelocity() {
-    this.currentVelocity = shootMotor.getEncoder().getVelocity();
+    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) * 42) / .75) * conversionConstant; // ((1 rpm * 42 ticks) / .75 [ gear reduction]) * conversionConstant
   }
   
   private void setPower (double power) {
