@@ -31,7 +31,7 @@ public class RobotContainer {
   private Hanger hanger;
   private Intake intake;
   private Loader loader;
-  private Shooter shooter; // test push
+  private Shooter shooter; 
   private Turret turret;
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
@@ -64,7 +64,8 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+   // driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    shooter.setDefaultCommand(new ShootTest(shooter));
   }
 
   private void configureShuffleboard() {
