@@ -13,6 +13,9 @@ public class RobotMap {
     }
     public static class Shooter {
         public static int shootMotorID = 11; 
+        
+
+
     }
 
 }

@@ -22,12 +22,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * 
  */
 public class Shooter implements Subsystem {
+  private final double wheelRadius = .33333;
+  private final double pi = 3.141592654;
+  private final double conversionConstant = 2 * pi * wheelRadius; 
   private final double processTime = .02; //in units of seconds
   private final double maxVelocity = 99; //in units of ft/s
-  private final double conversionConstant = 2 * 3.141592654 * 0.33333; //radius = .3333 ft
   private double kOut = 0;
   private double currentVelocity, error, integral = 0; 
-  private double kI, kP = 1; 
+  private double kI;
+  private double kP;
   //private TalonSRX jeff = new TalonSRX(3);
   private CANSparkMax shootMotor = new CANSparkMax(RobotMap.Shooter.shootMotorID, MotorType.kBrushless);
 
@@ -69,7 +72,7 @@ public class Shooter implements Subsystem {
  * Units of ft/s
  */
   private void getVelocity() {
-    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) * 42) / .75) * conversionConstant; // ((1 rpm * 42 ticks) / .75 [ gear reduction]) * conversionConstant
+    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) / .75) * conversionConstant); // 1 rpm / .75 [ gear reduction]) * conversionConstant
   }
   
   private void setPower (double power) {
