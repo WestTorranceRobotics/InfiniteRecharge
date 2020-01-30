@@ -10,18 +10,17 @@ package frc5124.robot2020.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 public class Intake implements Subsystem {
-    public DoubleSolenoid intakePivot;
+    public Solenoid intakePivot;
     public CANSparkMax intakeMotor; 
   
   public Intake() {
 
-    intakePivot = new DoubleSolenoid(0, 1);
+    intakePivot = new Solenoid(0, 1);
     intakeMotor = new CANSparkMax(1, MotorType.kBrushless);
 
   }
@@ -42,10 +41,10 @@ public class Intake implements Subsystem {
   }
 
   public void liftUp(){
-    intakePivot.set(Value.kForward);          // kForward Value makes it stay up. 
+    intakePivot.set(true);          // kForward Value makes it stay up. 
   }
 
   public void liftDown(){
-    intakePivot.set(Value.kReverse);          // kReverse Value will make the arm come out.  
+    intakePivot.set(false);          // kReverse Value will make the arm come out.  
   }
 }
