@@ -72,7 +72,8 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driverLeft,OI.driverRight, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.operator, driveTrain));
   }
 
   private void configureShuffleboard() {

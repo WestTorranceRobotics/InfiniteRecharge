@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -110,6 +111,11 @@ public class DriveTrain implements Subsystem {
     }
     public DifferentialDriveOdometry getOdometry(){
         return odometry;
+    }
+
+    public void setMode(ControlMode mode){
+        leftLeader.set(mode,0);
+        rightLeader.set(mode,0);
     }
 
     private Rotation2d getGyro() {
