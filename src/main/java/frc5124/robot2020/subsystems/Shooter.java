@@ -41,11 +41,12 @@ public class Shooter implements Subsystem {
   public void periodic() {
     holdVelocity(targetVelocity);
   }
-  
+
   /**
    * WARNING
    * Control Loop Untuned
    * @param targetVelocity in units of ft/s; truncated if exceeding maxVelocity
+   * 
    */
   public void setVelocity (double targetVelocity) {
     if (targetVelocity > RobotMap.Shooter.maxVelocity) {
