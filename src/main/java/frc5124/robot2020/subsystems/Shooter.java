@@ -6,11 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.Robot;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.controller.*;
 
 
 /**
@@ -22,31 +25,33 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * 
  */
 public class Shooter implements Subsystem {
-  private final double wheelRadius = .33333;
-  private final double pi = 3.141592654;
-  private final double conversionConstant = 2 * pi * wheelRadius; 
-  private final double processTime = .02; //in units of seconds
-  private final double maxVelocity = 99; //in units of ft/s
   private double kOut = 0;
-  private double currentVelocity, error, integral = 0; 
-  private double kI;
-  private double kP;
-  //private TalonSRX jeff = new TalonSRX(3);
-  private CANSparkMax shootMotor = new CANSparkMax(RobotMap.Shooter.shootMotorID, MotorType.kBrushless);
+  private double currentVelocity = 0;
+  private double targetVelocity = 0; //ft/s
+  private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.Shooter.shootFollowerCanID, MotorType.kBrushless);
+  private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.Shooter.shootLeaderCanID, MotorType.kBrushless);
+  private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
 
   
   public Shooter() {
-
+    shootMotorFollower.follow(shootMotorLeader);
   }
-
-
   /**
-   * To be called in a execution loop
-   *  
-   * @param velocity in units of ft/s
+   * WARNING
+   * Control Loop Untuned
+   * @param targetVelocity in units of ft/s; truncated if exceeding maxVelocity
    */
   public void setVelocity (double targetVelocity) {
-  getVelocity();
+    if (targetVelocity > RobotMap.Shooter.maxVelocity) {
+      targetVelocity = RobotMap.Shooter.maxVelocity;
+    }
+    this.targetVelocity = targetVelocity;
+  }
+
+  /**
+   * Must be called in periodic
+   */
+  private void holdVelocity (double targetVelocity) {
   kPI(targetVelocity);
   setPower(kOut); //kOut is the kPI output
   }
@@ -62,23 +67,27 @@ public class Shooter implements Subsystem {
    * lightweight PI loop
    */
   private void kPI(double targetVelocity) {
-    targetVelocity = (targetVelocity > maxVelocity) ? maxVelocity : 0;
-    error = targetVelocity - currentVelocity;
-    integral += error * processTime;
-    kOut = kP*error + kI*integral;
+    getVelocity();
+    kOut = shootControl.calculate(currentVelocity, targetVelocity);
+    if (kOut == 0) {
+      return;
+    }
+    kOut = kOut + RobotMap.Shooter.Kf;
   }
 
 /**
  * Units of ft/s
  */
   private void getVelocity() {
-    this.currentVelocity = (((shootMotor.getEncoder().getVelocity()) * .75) * conversionConstant); // 1 rpm / .75 [ gear reduction]) * conversionConstant
+    this.currentVelocity = (((shootMotorLeader.getEncoder().getVelocity()) * .75) * RobotMap.Shooter.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
   }
   
   private void setPower (double power) {
-    shootMotor.set(power);
+    shootMotorLeader.set(power);
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    holdVelocity(targetVelocity);
+  }
 }
