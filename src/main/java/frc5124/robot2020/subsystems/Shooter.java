@@ -36,6 +36,12 @@ public class Shooter implements Subsystem {
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader);
   }
+
+  @Override
+  public void periodic() {
+    holdVelocity(targetVelocity);
+  }
+  
   /**
    * WARNING
    * Control Loop Untuned
@@ -84,10 +90,5 @@ public class Shooter implements Subsystem {
   
   private void setPower (double power) {
     shootMotorLeader.set(power);
-  }
-
-  @Override
-  public void periodic() {
-    holdVelocity(targetVelocity);
   }
 }
