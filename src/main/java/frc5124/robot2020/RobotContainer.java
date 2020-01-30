@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
@@ -45,6 +46,9 @@ public class RobotContainer {
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorY = new JoystickButton(operator, 4);
 
+  public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public JoystickButton operatorLB = new JoystickButton(operator, 5);
+
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
   /**
@@ -73,6 +77,8 @@ public class RobotContainer {
       operatorB.whileHeld(new OuttakeBall(intake));
       operatorA.whileHeld(new IntakePivotDown(intake));
       operatorY.whileHeld(new IntakePivotUp(intake));
+      operatorLB.whileHeld(new LiftUp(hanger));
+      operatorRB.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){

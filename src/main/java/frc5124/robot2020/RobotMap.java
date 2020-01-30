@@ -20,4 +20,10 @@ public class RobotMap {
     public static class Intake {
         public static double motorPower = 0.5;
     }
+
+    public static class Hanger {
+        public static double hangerMotor = 0.5;   
+        public static double hangerHalt = 0;
+        public static int limitChannelID = 999;     
+    }
 }
