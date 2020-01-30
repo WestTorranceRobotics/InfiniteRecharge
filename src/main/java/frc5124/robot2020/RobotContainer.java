@@ -28,9 +28,9 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Intake m_intake = new Intake();
-  // private final Loader m_loader = new Loader();
+  private final Loader m_loader = new Loader();
   private final Shooter m_shooter = new Shooter();
-  private final Turret m_turretIntake = new Turret();
+  // private final Turret m_turretIntake = new Turret();
   // private final Hanger m_hanger = new Hanger();
   // private final ControlPanelInterface m_controlPanelInterface = new ControlPanelInterface();
 
@@ -51,7 +51,8 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to tank drive
     m_driveTrain.setDefaultCommand(new DrivewithJoysticksCommand(m_driver, m_driveTrain));
-
+    m_loader.setDefaultCommand(new RunLoadWithSensor(m_loader));
+    
             // SmartDashboard Buttons
             /*
             SmartDashboard.putData("Deploy Intake Command", new DeployIntakeCommand());
@@ -78,6 +79,7 @@ public class RobotContainer {
     new JoystickButton(m_operator, 2).whenPressed(new RetractIntakeCommand(m_intake));
     new JoystickButton(m_operator, 3).whileHeld(new RunIntakeCommand(m_intake));
     new JoystickButton(m_operator, 4).whileHeld(new RunOutIntakeCommand(m_intake));
+
 
     new JoystickButton(m_driver, 1).whileHeld(new ShootPowerCellCommand(m_shooter));
 
