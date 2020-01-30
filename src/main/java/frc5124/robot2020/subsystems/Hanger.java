@@ -23,7 +23,6 @@ public class Hanger implements Subsystem {
   private Solenoid brake;
   private DigitalInput heightLimit;
 
-  
   public Hanger() {
     hangerMotor = new TalonFX(1);
     brake = new Solenoid(2);
@@ -49,7 +48,7 @@ public class Hanger implements Subsystem {
   public void liftDown(){
     hangerMotor.set(ControlMode.PercentOutput, -RobotMap.Hanger.hangerMotor);
   }
-  
+
   public void setNoPower(){
     hangerMotor.set(ControlMode.PercentOutput, RobotMap.Hanger.hangerHalt);
   }
