@@ -5,6 +5,7 @@ import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -49,6 +50,8 @@ public class DriveTrain implements Subsystem {
         leftFollower.follow(leftLeader);
         rightFollower = new WPI_TalonSRX(RobotMap.DriveTrain.rightFollowerCanId);
         rightFollower.follow(rightLeader);
+        
+    
 
         leftGroup = new Encoder(3,4,false,Encoder.EncodingType.k2X);
 
@@ -60,11 +63,17 @@ public class DriveTrain implements Subsystem {
         differentialDrive.setSafetyEnabled(true);
         differentialDrive.setExpiration(0.1);
         differentialDrive.setMaxOutput(1.0);
+       
 
         kinematics = new DifferentialDriveKinematics(30);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
+        
  
     }
 

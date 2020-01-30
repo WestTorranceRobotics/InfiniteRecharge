@@ -63,7 +63,7 @@ public class JoystickTankDrive implements Command {
                 //left side coast, right side break
             }
             if(leftHand.getY() < 0.1 || leftHand.getY() > -0.1 || rightHand.getY() < 0.1 || rightHand.getY() > -0.1){
-                driveTrain.setMode(ControlMode.Disabled);
+               
             }
         }
     }
