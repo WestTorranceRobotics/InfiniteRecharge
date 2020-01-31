@@ -21,7 +21,7 @@ public class Intake implements Subsystem {
   public Intake() {
 
     intakePivot = new Solenoid(0, 1);
-    intakeMotor = new CANSparkMax(1, MotorType.kBrushless);
+    intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
 
   }
 
@@ -29,11 +29,11 @@ public class Intake implements Subsystem {
   public void periodic() {
   }
   public void intake(){
-    intakeMotor.set(RobotMap.Intake.motorPower);
+    intakeMotor.set(1);
   }
 
   public void outtake(){
-    intakeMotor.set(-RobotMap.Intake.motorPower);
+    intakeMotor.set(-1);
   }
 
   public void motorNoPower(){

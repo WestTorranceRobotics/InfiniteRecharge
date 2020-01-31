@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.RobotMap;
+import frc5124.robot2020.RobotMap;  
 
 public class Hanger implements Subsystem {
   private TalonFX hangerMotor;
@@ -24,7 +25,7 @@ public class Hanger implements Subsystem {
   private DigitalInput heightLimit;
 
   public Hanger() {
-    hangerMotor = new TalonFX(1);
+    hangerMotor = new TalonFX(5);
     brake = new Solenoid(2);
     heightLimit = new DigitalInput(RobotMap.Hanger.limitChannelID);
   }
@@ -34,12 +35,12 @@ public class Hanger implements Subsystem {
   }
   
   public void liftUp(){
-    hangerMotor.set(ControlMode.PercentOutput, RobotMap.Hanger.hangerMotor);
+    hangerMotor.set(ControlMode.PercentOutput, 1);
     brake.set(false);
   }
 
   public void reachedLimit(){
-    if (heightLimit.get()){
+    if (heightLimit.get() == false){
       hangerMotor.set(ControlMode.PercentOutput, 0);
       brake.set(true);
     }
@@ -57,4 +58,7 @@ public class Hanger implements Subsystem {
     brake.set(true);
   }
 
+  public boolean limitSwitchPressed(){
+    return heightLimit.get();
+  }
 }
