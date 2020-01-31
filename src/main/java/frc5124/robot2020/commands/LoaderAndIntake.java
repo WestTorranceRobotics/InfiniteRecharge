@@ -9,42 +9,54 @@ package frc5124.robot2020.commands;
 
 import java.util.Set;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 
-
-public class UltraSonicSensor implements Command {
+public class LoaderAndIntake extends CommandBase {
   /**
-   * Creates a new UltraSonicSensor.
+   * Creates a new LoaderAndIntake.
    */
-  private Loader loader;
-  private NetworkTableEntry ultraSonic;
-  private NetworkTableEntry distance;
 
-  public UltraSonicSensor(Loader loader,NetworkTableEntry ultraSonic,NetworkTableEntry distance ) {
+   private Loader loader;
+   private Intake intake;
+   int counter = 0;
+   boolean isDone;
+
+  public LoaderAndIntake(Loader loader, Intake intake) {
     this.loader = loader;
-    this.ultraSonic = ultraSonic;
-    this.distance = distance;
+    this.intake = intake;
+    addRequirements(loader, intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    isDone = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
+  @Override
   public void execute() {
-      ultraSonic.setBoolean(loader.getDistance() < 10);
-      distance.setDouble(loader.getDistance());
-
-      
+    if (loader.hasBall()){
+      loader.moveOneSpot();
+      counter++;
+    }
+    if(counter == 5){
+      isDone = true;
+    }
   }
-  public Set<Subsystem> getRequirements(){
-    return Set.of();
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
   }
 
-  @Override 
-  public boolean runsWhenDisabled(){
-    return true;
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return isDone;
   }
 }

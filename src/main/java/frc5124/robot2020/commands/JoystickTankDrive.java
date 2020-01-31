@@ -10,7 +10,11 @@ package frc5124.robot2020.commands;
 import java.util.Set;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,21 +25,24 @@ import frc5124.robot2020.subsystems.DriveTrain;
 
 public class JoystickTankDrive implements Command {
 
-    private final DoubleSupplier leftHand;
-    private final DoubleSupplier rightHand;
     private final DriveTrain driveTrain;
     private RobotContainer robotContainer;
+    private XboxController xboxController;
+    private Joystick leftHand;
+    private Joystick rightHand;
+    private boolean isXbox;
 
-    public JoystickTankDrive(GenericHID twoHanded, DriveTrain driveTrain) {
-        leftHand = () -> twoHanded.getY(Hand.kLeft);
-        rightHand = () -> twoHanded.getY(Hand.kRight);
+    public JoystickTankDrive(Joystick leftHand, Joystick rightHand, DriveTrain driveTrain) {
+        this.leftHand = leftHand;
+        this.rightHand = rightHand;
         this.driveTrain = driveTrain;
+        isXbox = false;
     }
 
-    public JoystickTankDrive(GenericHID leftHand, GenericHID rightHand, DriveTrain driveTrain) {
-        this.leftHand = leftHand::getY;
-        this.rightHand = rightHand::getY;
+    public JoystickTankDrive(XboxController driver, DriveTrain driveTrain) {
+        this.xboxController = driver;
         this.driveTrain = driveTrain;
+        isXbox = true;
     }
 
     @Override
@@ -45,7 +52,19 @@ public class JoystickTankDrive implements Command {
 
     @Override
     public void execute() {
-        driveTrain.tankDrive(-leftHand.getAsDouble(), -rightHand.getAsDouble());
-        
+
+        if(isXbox){
+            driveTrain.tankDrive(xboxController.getY(Hand.kLeft),xboxController.getY(Hand.kRight));
+        }
+        else{
+            if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
+                
+                driveTrain.tankDrive(leftHand.getY(), rightHand.getY());
+                //left side coast, right side break
+            }
+            if(leftHand.getY() < 0.1 || leftHand.getY() > -0.1 || rightHand.getY() < 0.1 || rightHand.getY() > -0.1){
+                driveTrain.setMode(ControlMode.Disabled);
+            }
+        }
     }
 }

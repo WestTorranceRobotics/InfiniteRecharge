@@ -9,23 +9,21 @@ package frc5124.robot2020.commands;
 
 import java.util.Set;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.subsystems.*;
+import frc5124.robot2020.subsystems.Intake;
 
-public class LocationUpdaterCommand implements Command {
+public class intakeBalls extends CommandBase {
   /**
-   * Creates a new LocationUpdaterCommand.
+   * Creates a new intakeBalls.
    */
-  DriveTrain driveTrain;
-  NetworkTableEntry xSlider;
-  NetworkTableEntry ySlider;
+  private Intake intake;
+  private boolean run;
 
-  public LocationUpdaterCommand(DriveTrain driveTrain, NetworkTableEntry xSlider, NetworkTableEntry ySlider) {
-    this.driveTrain = driveTrain;
-    this.xSlider = xSlider;
-    this.ySlider = ySlider;
+  public intakeBalls(Intake intake, boolean run) {
+    this.intake = intake;
+    this.run = run;
+    
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,8 +35,13 @@ public class LocationUpdaterCommand implements Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    xSlider.setDouble(driveTrain.getLocation().getTranslation().getX());
-    ySlider.setDouble(driveTrain.getLocation().getTranslation().getY());
+    if (run == true){
+      intake.intake();
+    }
+    if (run == false){
+      intake.motorNoPower();
+      isFinished();
+    }
 
   }
 
@@ -50,12 +53,16 @@ public class LocationUpdaterCommand implements Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 
   @Override
   public Set<Subsystem> getRequirements() {
     // TODO Auto-generated method stub
     return null;
+  }
+  @Override
+  public boolean runsWhenDisabled() {
+    return true;
   }
 }

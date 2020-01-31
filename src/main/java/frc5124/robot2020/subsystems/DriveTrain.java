@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -34,6 +38,9 @@ public class DriveTrain implements Subsystem {
     SimpleWidget odometryWidget;
     private AHRS gyro;
 
+    private double kP = 1;
+    //Proptional of PID
+
     private DifferentialDrive differentialDrive;
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
@@ -49,10 +56,6 @@ public class DriveTrain implements Subsystem {
         rightFollower = new WPI_TalonSRX(RobotMap.DriveTrain.rightFollowerCanId);
         rightFollower.follow(rightLeader);
 
-        leftGroup = new Encoder(3,4,false,Encoder.EncodingType.k2X);
-
-        rightGroup = new Encoder(0, 1,false,Encoder.EncodingType.k2X);
-
         gyro = new AHRS();
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
@@ -64,7 +67,15 @@ public class DriveTrain implements Subsystem {
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
- 
+        
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
+
+        //sets motors to break mode not coast
+
+
     }
 
     @Override
@@ -81,7 +92,7 @@ public class DriveTrain implements Subsystem {
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left,right)
 ;    }
-
+    
 
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);
@@ -104,12 +115,26 @@ public class DriveTrain implements Subsystem {
     public Pose2d getLocation() {
         return odometry.getPoseMeters();
     }
+    public TalonSRX getleftLeader(){
+        return leftLeader;
+    }
+    public Encoder getEncoderLeft(){
+        return leftGroup;
+    }
+    public Encoder getEncoderRight(){
+        return rightGroup;
+    }
 
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
     }
     public DifferentialDriveOdometry getOdometry(){
         return odometry;
+    }
+
+    public void setMode(ControlMode mode){
+        leftLeader.set(mode,0);
+        rightLeader.set(mode,0);
     }
 
     private Rotation2d getGyro() {

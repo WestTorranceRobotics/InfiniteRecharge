@@ -13,7 +13,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -58,9 +57,9 @@ public class RobotContainer {
     camera = new Camera();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
-    intake = new Intake();
-    loader = new Loader();
-    shooter = new Shooter();
+    //intake = new Intake();
+    //loader = new Loader();
+    //shooter = new Shooter();
     turret = new Turret();
   }
 
@@ -68,10 +67,13 @@ public class RobotContainer {
     OI.isPressedButton
       .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
       .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
+
+    //OI.ISB_BUTTON.whenPressed(new driveDistance(driveTrain, 5, 0));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driverLeft,OI.driverRight, driveTrain));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.operator, driveTrain));
   }
 
   private void configureShuffleboard() {
@@ -82,15 +84,17 @@ public class RobotContainer {
     ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
     NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry ultraSonic = display.add("Ultrasonic", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
-    ComplexWidget rotation = poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
+    ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
+    NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
+    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+      
 
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider,rotation).schedule();
+    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
 
-    new UltraSonicSensor(loader,ultraSonic).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
@@ -109,6 +113,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutonomousCommand();
+    return new AutonomousCommand(driveTrain, loader, shooter);
   }
 }
