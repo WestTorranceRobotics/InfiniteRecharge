@@ -13,6 +13,7 @@ import frc5124.robot2020.subsystems.Shooter;
 
 public class ShootTest extends CommandBase {
   private final Shooter m_Shooter;
+  double target;
   /**
    * Creates a new ShootTest.
    */
@@ -24,13 +25,14 @@ public class ShootTest extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Shooter.directPower(1);
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.directPower(1);
+    
+  
   
   }
 

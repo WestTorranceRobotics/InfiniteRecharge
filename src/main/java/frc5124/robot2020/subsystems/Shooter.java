@@ -7,12 +7,16 @@
 
 package frc5124.robot2020.subsystems;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.Robot;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.controller.*;
 
 
@@ -35,12 +39,17 @@ public class Shooter implements Subsystem {
   
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader);
+    
+    
   }
 
   @Override
   public void periodic() {
+   
     holdVelocity(targetVelocity);
+
   }
+ 
 
   /**
    * WARNING
@@ -76,18 +85,20 @@ public class Shooter implements Subsystem {
   private void kPI(double targetVelocity) {
     getVelocity();
     kOut = shootControl.calculate(currentVelocity, targetVelocity);
-    if (kOut == 0) {
-      return;
-    }
-    kOut = kOut + RobotMap.Shooter.Kf;
+     if (targetVelocity== 0) {
+       return;
+     }
+  
+    kOut = kOut + RobotMap.Shooter.Kf ; 
   }
 
 /**
  * Units of ft/s
  */
-  private void getVelocity() {
-    this.currentVelocity = (((shootMotorLeader.getEncoder().getVelocity()) * .75) * RobotMap.Shooter.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
-  }
+  public void getVelocity() {
+    this.currentVelocity = ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.Shooter.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
+    
+   }
   
   private void setPower (double power) {
     shootMotorLeader.set(power);
