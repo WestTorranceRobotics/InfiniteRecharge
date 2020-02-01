@@ -9,12 +9,14 @@ package frc5124.robot2020.commands;
 
 import java.util.Set;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.DriveTrain;
 
-public class driveDistance implements Command {
+public class DriveDistance implements Command {
   /**
    * Creates a new driveDistance.
    */
@@ -23,7 +25,7 @@ public class driveDistance implements Command {
   private double power;
   private boolean isDone = false;
 
-  public driveDistance(DriveTrain driveTrain, double distance, double power) {
+  public DriveDistance(DriveTrain driveTrain, double distance, double power) {
     this.driveTrain = driveTrain;
     this.distance = distance;
     this.power = power;

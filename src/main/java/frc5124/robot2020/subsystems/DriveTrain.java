@@ -6,6 +6,7 @@ import frc5124.robot2020.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -29,13 +30,16 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsCo
 
 public class DriveTrain implements Subsystem {
 
-    private WPI_TalonSRX leftLeader;
-    private WPI_TalonSRX rightLeader;
-    private WPI_TalonSRX leftFollower;
-    private WPI_TalonSRX rightFollower;
-    private Encoder leftGroup;
-    private Encoder rightGroup;
+    private WPI_TalonFX leftLeader;
+    private WPI_TalonFX rightLeader;
+    private WPI_TalonFX leftFollower;
+    private WPI_TalonFX rightFollower;
+    private double LeftEncoder;
+    private double RightEncoder;
     SimpleWidget odometryWidget;
+    
+    public final static int kTimeoutMs = 30;
+
     private AHRS gyro;
 
     private double kP = 1;
@@ -48,15 +52,18 @@ public class DriveTrain implements Subsystem {
 
     public DriveTrain() {
 
-        leftLeader = new WPI_TalonSRX(RobotMap.DriveTrain.leftLeaderCanId);
-        rightLeader = new WPI_TalonSRX(RobotMap.DriveTrain.rightLeaderCanId);
+        leftLeader = new WPI_TalonFX(RobotMap.DriveTrain.leftLeaderCanId);
+        rightLeader = new WPI_TalonFX(RobotMap.DriveTrain.rightLeaderCanId);
 
-        leftFollower = new WPI_TalonSRX(RobotMap.DriveTrain.leftFollowerCanId);
+        leftFollower = new WPI_TalonFX(RobotMap.DriveTrain.leftFollowerCanId);
         leftFollower.follow(leftLeader);
-        rightFollower = new WPI_TalonSRX(RobotMap.DriveTrain.rightFollowerCanId);
+        rightFollower = new WPI_TalonFX(RobotMap.DriveTrain.rightFollowerCanId);
         rightFollower.follow(rightLeader);
-        
-    
+
+        leftLeader.setSelectedSensorPosition(0);
+
+        rightLeader.setSelectedSensorPosition(0);
+        leftLeader.getSelectedSensorPosition();
 
         gyro = new AHRS();
         
@@ -83,11 +90,8 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-        double leftGROUP = (double) leftGroup.get();
 
-        double rightGROUP = (double) rightGroup.get();
-
-        odometry.update(getGyro(), leftGROUP, rightGROUP);
+        odometry.update(getGyro(), 2,2);
     }
 
     // Control methods
@@ -95,6 +99,8 @@ public class DriveTrain implements Subsystem {
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left,right)
 ;    }
+
+    
     
 
     public void arcadeDrive(double speed, double turn) {
@@ -118,26 +124,12 @@ public class DriveTrain implements Subsystem {
     public Pose2d getLocation() {
         return odometry.getPoseMeters();
     }
-    public TalonSRX getleftLeader(){
-        return leftLeader;
-    }
-    public Encoder getEncoderLeft(){
-        return leftGroup;
-    }
-    public Encoder getEncoderRight(){
-        return rightGroup;
-    }
 
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
     }
     public DifferentialDriveOdometry getOdometry(){
         return odometry;
-    }
-
-    public void setMode(ControlMode mode){
-        leftLeader.set(mode,0);
-        rightLeader.set(mode,0);
     }
 
     private Rotation2d getGyro() {
