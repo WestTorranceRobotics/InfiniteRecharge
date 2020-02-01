@@ -64,6 +64,7 @@ public class DriveTrain implements Subsystem {
 
         rightLeader.setSelectedSensorPosition(0);
         leftLeader.getSelectedSensorPosition();
+        
 
         gyro = new AHRS();
         
@@ -84,6 +85,8 @@ public class DriveTrain implements Subsystem {
         rightFollower.setNeutralMode(NeutralMode.Brake);
 
         //sets motors to break mode not coast
+        
+
 
 
     }
@@ -97,8 +100,7 @@ public class DriveTrain implements Subsystem {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right)
-;    }
+        differentialDrive.tankDrive(left,right);    } 
 
     
     

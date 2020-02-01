@@ -31,6 +31,8 @@ public class JoystickTankDrive implements Command {
     private Joystick leftHand;
     private Joystick rightHand;
     private boolean isXbox;
+    private double leftHandIn;
+    private double rightHandIn;
 
     public JoystickTankDrive(Joystick leftHand, Joystick rightHand, DriveTrain driveTrain) {
         this.leftHand = leftHand;
@@ -58,8 +60,11 @@ public class JoystickTankDrive implements Command {
         }
         else{
             if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
-                
-                driveTrain.tankDrive(leftHand.getY(), rightHand.getY());
+                leftHandIn  = leftHand.getY();
+                rightHandIn = rightHand.getY();
+                if (leftHandIn > .8) { leftHandIn = .8;} else if (leftHandIn < -.8) {leftHandIn = -.8;}
+                if (rightHandIn > .8) { rightHandIn = .8;} else if (rightHandIn > -.8) {rightHandIn = -.8;}
+                driveTrain.tankDrive(leftHandIn, rightHandIn);
                 //left side coast, right side break
             }
         }
