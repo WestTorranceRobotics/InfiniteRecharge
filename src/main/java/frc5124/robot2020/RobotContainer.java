@@ -8,9 +8,14 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
@@ -24,17 +29,29 @@ import frc5124.robot2020.subsystems.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  
+
   private Camera camera;
   private ControlPanel controlPanel;
   private DriveTrain driveTrain;
   private Hanger hanger;
-  private Intake intake;
+  public Intake intake;
   private Loader loader;
   private Shooter shooter;
   private Turret turret;
 
+  public XboxController operator = new XboxController(2);
+  public Joystick driver = new Joystick(0);
+  public JoystickButton operatorA = new JoystickButton(operator, 1);
+  public JoystickButton operatorB = new JoystickButton(operator, 2);
+  public JoystickButton operatorX = new JoystickButton(operator, 3);
+  public JoystickButton operatorY = new JoystickButton(operator, 4);
+  public JoystickButton operatorLB = new JoystickButton(operator, 5);
+  public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public POVButton operatorUp = new POVButton(operator, 0);
+  public POVButton operatorDown = new POVButton(operator, 180);
+
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -55,16 +72,20 @@ public class RobotContainer {
     loader = new Loader();
     shooter = new Shooter();
     turret = new Turret();
+
   }
 
   private void configureButtonBindings(){
-    OI.isPressedButton
-      .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
-      .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
+      operatorRB.whileHeld(new IntakeBall(intake));
+      operatorLB.whileHeld(new OuttakeBall(intake));
+      operatorA.whileHeld(new IntakePivotDown(intake));
+      operatorY.whileHeld(new IntakePivotUp(intake));
+      operatorUp.whileHeld(new LiftUp(hanger));
+      operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
   }
 
   private void configureShuffleboard() {
@@ -78,6 +99,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutonomousCommand();
+    return new AutonomousCommand(driveTrain);
   }
 }
