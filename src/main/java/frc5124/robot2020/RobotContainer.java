@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
@@ -40,15 +41,17 @@ public class RobotContainer {
 
   public XboxController operator = new XboxController(2);
   public Joystick driver = new Joystick(0);
-  public JoystickButton operatorX = new JoystickButton(operator, 3);
-  public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorA = new JoystickButton(operator, 1);
+  public JoystickButton operatorB = new JoystickButton(operator, 2);
+  public JoystickButton operatorX = new JoystickButton(operator, 3);
   public JoystickButton operatorY = new JoystickButton(operator, 4);
-
-  public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
+  public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public POVButton operatorUp = new POVButton(operator, 0);
+  public POVButton operatorDown = new POVButton(operator, 180);
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -69,15 +72,16 @@ public class RobotContainer {
     loader = new Loader();
     shooter = new Shooter();
     turret = new Turret();
+
   }
 
   private void configureButtonBindings(){
-      operatorX.whileHeld(new IntakeBall(intake));
-      operatorB.whileHeld(new OuttakeBall(intake));
+      operatorRB.whileHeld(new IntakeBall(intake));
+      operatorLB.whileHeld(new OuttakeBall(intake));
       operatorA.whileHeld(new IntakePivotDown(intake));
       operatorY.whileHeld(new IntakePivotUp(intake));
-      operatorLB.whileHeld(new LiftUp(hanger));
-      operatorRB.whileHeld(new LiftDown(hanger));
+      operatorUp.whileHeld(new LiftUp(hanger));
+      operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){
@@ -95,6 +99,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutonomousCommand();
+    return new AutonomousCommand(driveTrain);
   }
 }

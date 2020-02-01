@@ -4,11 +4,14 @@ import java.util.Set;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.subsystems.DriveTrain;
 
 public class AutonomousCommand implements Command {
 
-    public AutonomousCommand() {
+    private final DriveTrain driveTrain;
 
+    public AutonomousCommand(DriveTrain subsystem) {
+        driveTrain = subsystem;
     }
 
     // Called just before this Command runs the first time
@@ -19,6 +22,8 @@ public class AutonomousCommand implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+        driveTrain.driveToPos(20);
+        driveTrain.noDrive();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 public class Intake implements Subsystem {
-    public Solenoid intakePivot;
-    public CANSparkMax intakeMotor; 
+    private Solenoid intakePivot;
+    private CANSparkMax intakeMotor; 
   
   public Intake() {
 
