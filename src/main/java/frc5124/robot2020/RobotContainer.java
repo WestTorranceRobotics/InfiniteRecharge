@@ -20,8 +20,6 @@ import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
 
-// import static frc5124.robot2020.Constants.*;
-
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
   * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -47,6 +45,7 @@ public class RobotContainer {
   public JoystickButton operatorY = new JoystickButton(operator, 4);
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
+
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
 
