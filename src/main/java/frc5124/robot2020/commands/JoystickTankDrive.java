@@ -63,7 +63,7 @@ public class JoystickTankDrive implements Command {
                 leftHandIn  = leftHand.getY();
                 rightHandIn = rightHand.getY();
                 if (leftHandIn > .8) { leftHandIn = .8;} else if (leftHandIn < -.8) {leftHandIn = -.8;}
-                if (rightHandIn > .8) { rightHandIn = .8;} else if (rightHandIn > -.8) {rightHandIn = -.8;}
+                if (rightHandIn > .8) { rightHandIn = .8;} else if (rightHandIn < -.8) {rightHandIn = -.8;}
                 driveTrain.tankDrive(leftHandIn, rightHandIn);
                 //left side coast, right side break
             }
