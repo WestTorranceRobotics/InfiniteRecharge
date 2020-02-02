@@ -7,7 +7,9 @@
 
 package frc5124.robot2020;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -72,16 +74,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorRB.whileHeld(new IntakeBall(intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
-    operatorA.whileHeld(new IntakePivotDown(intake));
-    operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){
-    //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    turret.setDefaultCommand(new TargetTracker(turret));
   }
 
   private void configureShuffleboard() {

@@ -21,6 +21,18 @@ public class RobotMap {
         public static double motorPower = 0.5;
     }
 
+    public static class Turret {
+        public static int spinnerCanId;
+        public static String networkTableName = "limelight";
+        public static String horizontalTargetEntry = "tx";
+
+        public static double P = 0.01;
+        public static double I = 0.001;
+        public static double D = 0.0001;
+
+        public static double percentSpeedLimit = 0.2;
+    }
+
     public static class Hanger {
         public static double hangerMotor = 0.5;   
         public static double hangerHalt = 0;
