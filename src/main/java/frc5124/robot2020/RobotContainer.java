@@ -11,6 +11,8 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GyroBase;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -39,6 +41,10 @@ public class RobotContainer {
   private Shooter shooter;
   private Turret turret;
 
+  public static final Joystick driverLeft = new Joystick(0);
+  public static final Joystick driverRight = new Joystick(1);
+  public static final XboxController operator = new XboxController(2);
+
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
   public ShuffleboardTab display;
@@ -57,22 +63,20 @@ public class RobotContainer {
     camera = new Camera();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
-    //intake = new Intake();
-    //loader = new Loader();
-    //shooter = new Shooter();
+    intake = new Intake();
+    loader = new Loader();
+    shooter = new Shooter();
     turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    OI.isPressedButton
-      .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
-      .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
-
-    //OI.ISB_BUTTON.whenPressed(new driveDistance(driveTrain, 5, 0));
+    // OI.isPressedButton
+    //   .whenPressed(new SetShuffleBoolean(true, shuffleboardButtonBooleanEntry))
+    //   .whenReleased(new SetShuffleBoolean(false, shuffleboardButtonBooleanEntry));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driverLeft,OI.driverRight, driveTrain));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     //driveTrain.setDefaultCommand(new JoystickTankDrive(OI.operator, driveTrain));
   }
 

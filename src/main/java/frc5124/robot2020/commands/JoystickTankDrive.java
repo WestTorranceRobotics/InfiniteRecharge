@@ -26,11 +26,8 @@ import frc5124.robot2020.subsystems.DriveTrain;
 public class JoystickTankDrive implements Command {
 
     private final DriveTrain driveTrain;
-    private RobotContainer robotContainer;
-    private XboxController xboxController;
     private Joystick leftHand;
     private Joystick rightHand;
-    private boolean isXbox;
     private double leftHandIn;
     private double rightHandIn;
 
@@ -38,13 +35,6 @@ public class JoystickTankDrive implements Command {
         this.leftHand = leftHand;
         this.rightHand = rightHand;
         this.driveTrain = driveTrain;
-        isXbox = false;
-    }
-
-    public JoystickTankDrive(XboxController driver, DriveTrain driveTrain) {
-        this.xboxController = driver;
-        this.driveTrain = driveTrain;
-        isXbox = true;
     }
 
     @Override
@@ -54,19 +44,10 @@ public class JoystickTankDrive implements Command {
 
     @Override
     public void execute() {
-
-        if(isXbox){
-            driveTrain.tankDrive(xboxController.getY(Hand.kLeft),xboxController.getY(Hand.kRight));
-        }
-        else{
-            if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
-                leftHandIn  = leftHand.getY();
-                rightHandIn = rightHand.getY();
-                if (leftHandIn > .8) { leftHandIn = .8;} else if (leftHandIn < -.8) {leftHandIn = -.8;}
-                if (rightHandIn > .8) { rightHandIn = .8;} else if (rightHandIn < -.8) {rightHandIn = -.8;}
-                driveTrain.tankDrive(leftHandIn, rightHandIn);
-                //left side coast, right side break
-            }
+        if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
+            leftHandIn = Math.pow(leftHand.getY(), 3);
+            rightHandIn = Math.pow(rightHand.getY(), 3);
+            driveTrain.tankDrive(leftHandIn, rightHandIn);
         }
     }
 }

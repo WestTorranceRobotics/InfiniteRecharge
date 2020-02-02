@@ -6,11 +6,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class OI {
     
-    public static final Joystick driverLeft = new Joystick(0);
-    public static final Joystick driverRight = new Joystick(1);
-    public static final XboxController operator = new XboxController(2);
-
-    public static final JoystickButton isPressedButton = new JoystickButton(operator, XboxController.Button.kA.value);
-    public static final JoystickButton ISB_BUTTON = new JoystickButton(operator, XboxController.Button.kB.value);
+    
 
 }
