@@ -78,7 +78,7 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     ShuffleboardTab display = Shuffleboard.getTab("Driving Display");
-    // Shuffleboard.selectTab(display.getTitle());
+    Shuffleboard.selectTab(display.getTitle());
 
     ShuffleboardLayout colorReader = display.getLayout("Control Panel Color", BuiltInLayouts.kList)
       .withPosition(0, 2).withSize(3, 2);
