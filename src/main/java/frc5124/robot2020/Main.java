@@ -1,6 +1,7 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.wpilibj.RobotBase;
+;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all.
