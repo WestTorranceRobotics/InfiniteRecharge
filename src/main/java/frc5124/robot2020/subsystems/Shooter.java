@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.controller.*;
 public class Shooter implements Subsystem {
   private double kOut = 0;
   private double currentVelocity = 0;
-  private double targetVelocity = 0; //ft/s
+  private boolean run = true;
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.Shooter.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.Shooter.shootLeaderCanID, MotorType.kBrushless);
   private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
@@ -45,29 +45,17 @@ public class Shooter implements Subsystem {
 
   @Override
   public void periodic() {
-   
-    holdVelocity(targetVelocity);
+  }
 
+  public void runWheel(boolean run) {
+    this.run = run;
   }
  
 
   /**
-   * WARNING
-   * Control Loop Untuned
-   * @param targetVelocity in units of ft/s; truncated if exceeding maxVelocity
-   * 
+   * Must be called in execute
    */
-  public void setVelocity (double targetVelocity) {
-    if (targetVelocity > RobotMap.Shooter.maxVelocity) {
-      targetVelocity = RobotMap.Shooter.maxVelocity;
-    }
-    this.targetVelocity = targetVelocity;
-  }
-
-  /**
-   * Must be called in periodic
-   */
-  private void holdVelocity (double targetVelocity) {
+  public void holdVelocity (double targetVelocity) {
   kPI(targetVelocity);
   setPower(kOut); //kOut is the kPI output
   }
@@ -76,7 +64,11 @@ public class Shooter implements Subsystem {
    * @deprecated
    */
   public void directPower (double power) {
+    if (run) {
   setPower(power);
+  } else {
+    setPower(0);
+  }
   }
 
   /**

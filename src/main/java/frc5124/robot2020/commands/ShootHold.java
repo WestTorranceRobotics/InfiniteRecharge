@@ -11,35 +11,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class ShootTest extends CommandBase {
-  private final Shooter m_Shooter;
+public class ShootHold extends CommandBase {
+  private final Shooter shooter;
   double target;
   /**
    * Creates a new ShootTest.
    */
-  public ShootTest(Shooter subsystem) {
-    m_Shooter = subsystem;
-    addRequirements(m_Shooter);
+  public ShootHold(Shooter subsystem) {
+    shooter = subsystem;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.runWheel(true);
    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-  
-  
+    shooter.holdVelocity(30);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  
+    shooter.runWheel(false);
   }
 
   // Returns true when the command should end.
