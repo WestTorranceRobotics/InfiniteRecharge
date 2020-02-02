@@ -1,5 +1,14 @@
 package frc5124.robot2020.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
@@ -29,7 +38,6 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 
 public class DriveTrain implements Subsystem {
-
     private WPI_TalonFX leftLeader;
     private WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
@@ -85,14 +93,11 @@ public class DriveTrain implements Subsystem {
         rightFollower.setNeutralMode(NeutralMode.Brake);
 
         //sets motors to break mode not coast
-        
-
-
-
     }
 
     @Override
     public void periodic() {
+    }
 
         odometry.update(getGyro(), 2,2);
     }
@@ -139,3 +144,4 @@ public class DriveTrain implements Subsystem {
         return new Rotation2d(radians);
     }
 } 
+
