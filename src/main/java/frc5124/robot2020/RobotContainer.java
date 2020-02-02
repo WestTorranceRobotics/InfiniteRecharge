@@ -26,6 +26,7 @@ import frc5124.robot2020.subsystems.*;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
 
   private Camera camera;
@@ -51,15 +52,12 @@ public class RobotContainer {
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureSubsystems();
+    configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    configureButtonBindings();    
+    
   }
 
   private void configureSubsystems() {
@@ -67,20 +65,19 @@ public class RobotContainer {
     controlPanel = new ControlPanel();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
-    intake = new Intake();
+    intake = new Intake(); 
     loader = new Loader();
     shooter = new Shooter();
     turret = new Turret();
-
   }
 
   private void configureButtonBindings(){
-      operatorRB.whileHeld(new IntakeBall(intake));
-      operatorLB.whileHeld(new OuttakeBall(intake));
-      operatorA.whileHeld(new IntakePivotDown(intake));
-      operatorY.whileHeld(new IntakePivotUp(intake));
-      operatorUp.whileHeld(new LiftUp(hanger));
-      operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRB.whileHeld(new IntakeBall(intake));
+    operatorLB.whileHeld(new OuttakeBall(intake));
+    operatorA.whileHeld(new IntakePivotDown(intake));
+    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){
@@ -101,3 +98,4 @@ public class RobotContainer {
     return new AutonomousCommand(driveTrain);
   }
 }
+  

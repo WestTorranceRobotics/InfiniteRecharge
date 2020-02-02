@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class DriveTrain implements Subsystem {
@@ -36,6 +37,7 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("ticks", leftFront.getSelectedSensorPosition());
     }
 
     public void driveToPos(double distance){
