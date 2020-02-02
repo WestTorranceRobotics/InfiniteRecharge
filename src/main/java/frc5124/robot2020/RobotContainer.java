@@ -75,12 +75,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-      operatorRB.whileHeld(new IntakeBall(intake));
-      operatorLB.whileHeld(new OuttakeBall(intake));
-      operatorA.whileHeld(new IntakePivotDown(intake));
-      operatorY.whileHeld(new IntakePivotUp(intake));
-      operatorUp.whileHeld(new LiftUp(hanger));
-      operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRB.whileHeld(new IntakeBall(intake));
+    operatorLB.whileHeld(new OuttakeBall(intake));
+    operatorA.whileHeld(new IntakePivotDown(intake));
+    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureDefaultCommands(){
