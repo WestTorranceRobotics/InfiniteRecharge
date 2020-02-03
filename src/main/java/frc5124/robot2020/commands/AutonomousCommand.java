@@ -23,8 +23,6 @@ public class AutonomousCommand implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        driveTrain.driveToPos(20);
-        driveTrain.noDrive();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -38,8 +38,8 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 
 public class DriveTrain implements Subsystem {
-    private WPI_TalonFX leftLeader;
-    private WPI_TalonFX rightLeader;
+    public WPI_TalonFX leftLeader;
+    public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
     private WPI_TalonFX rightFollower;
     private double LeftEncoder;
@@ -98,16 +98,12 @@ public class DriveTrain implements Subsystem {
     @Override
     public void periodic() {
     }
-
-        odometry.update(getGyro(), 2,2);
-    }
+    
 
     // Control methods
 
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left,right);    } 
-
-    
     
 
     public void arcadeDrive(double speed, double turn) {
@@ -142,6 +138,9 @@ public class DriveTrain implements Subsystem {
     private Rotation2d getGyro() {
         double radians = Math.toRadians(90 - gyro.getAngle());
         return new Rotation2d(radians);
+    }
+    public double getGryoDegree() {
+        return gyro.getAngle();
     }
 } 
 
