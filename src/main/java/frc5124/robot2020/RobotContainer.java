@@ -27,8 +27,6 @@ import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
 
-// import static frc5124.robot2020.Constants.*;
-
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
   * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -56,8 +54,10 @@ public class RobotContainer {
   public JoystickButton operatorY = new JoystickButton(operator, 4);
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
+
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
+  public POVButton operatorRight = new POVButton(operator, 90);
   
   public ShuffleboardTab display;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
@@ -84,17 +84,15 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-  }
 
-  private void configureDefaultCommands(){
-      driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    
-      operatorRB.whileHeld(new IntakeBall(intake));
-      operatorLB.whileHeld(new OuttakeBall(intake));
-      operatorA.whileHeld(new IntakePivotDown(intake));
-      operatorY.whileHeld(new IntakePivotUp(intake));
-      operatorUp.whileHeld(new LiftUp(hanger));
-      operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRB.whileHeld(new IntakeBall(intake));
+    operatorLB.whileHeld(new OuttakeBall(intake));
+    operatorA.whileHeld(new IntakePivotDown(intake));
+    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRight.whileHeld(new TurretTurn(turret));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   }
 
   private void configureShuffleboard() {
