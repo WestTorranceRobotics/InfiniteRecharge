@@ -1,8 +1,11 @@
 package frc5124.robot2020;
 
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -15,11 +18,18 @@ public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
     private Command autonomousCommand;
+    
+    
 
     @Override
     public void robotInit() {
 
-        robotContainer = new RobotContainer();
+       robotContainer = new RobotContainer();  
+      
+       
+    
+       
+       
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be

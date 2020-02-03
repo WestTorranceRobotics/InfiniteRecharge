@@ -40,7 +40,7 @@ public class RobotContainer {
   private Hanger hanger;
   public Intake intake;
   private Loader loader;
-  private Shooter shooter;
+  private Shooter shooter; 
   private Turret turret;
 
 
@@ -80,11 +80,12 @@ public class RobotContainer {
     loader = new Loader();
     shooter = new Shooter();
     turret = new Turret();
-
   }
 
   private void configureButtonBindings(){
+  }
 
+  private void configureDefaultCommands(){
     operatorRB.whileHeld(new IntakeBall(intake));
     operatorLB.whileHeld(new OuttakeBall(intake));
     operatorA.whileHeld(new IntakePivotDown(intake));
@@ -93,6 +94,7 @@ public class RobotContainer {
     operatorDown.whileHeld(new LiftDown(hanger));
     operatorRight.whileHeld(new TurretTurn(turret));
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    shooter.setDefaultCommand(new ShootHold(shooter));
   }
 
   private void configureShuffleboard() {
@@ -112,7 +114,6 @@ public class RobotContainer {
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
     new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
-
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
