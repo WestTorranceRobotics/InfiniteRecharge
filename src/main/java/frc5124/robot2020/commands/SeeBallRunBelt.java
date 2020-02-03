@@ -7,44 +7,47 @@
 
 package frc5124.robot2020.commands;
 
-import java.util.Set;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
 
+public class SeeBallRunBelt extends CommandBase {
 
-public class UltraSonicSensor implements Command {
-  /**
-   * Creates a new UltraSonicSensor.
-   */
-  private Loader loader;
-  private NetworkTableEntry ultraSonic;
-  private NetworkTableEntry distance;
+  private Loader m_Loader;
 
-  public UltraSonicSensor(Loader loader,NetworkTableEntry ultraSonic,NetworkTableEntry distance ) {
-    this.loader = loader;
-    this.ultraSonic = ultraSonic;
-    this.distance = distance;
+  public SeeBallRunBelt(Loader subsystem) {
+    m_Loader = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Loader);
   }
 
   // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
+  @Override
   public void execute() {
-      ultraSonic.setBoolean(loader.getVoltage() < 10);
-      distance.setDouble(loader.getVoltage());
+    if (m_Loader.seeBall()) {
+      m_Loader.runBelt();
+    } else {
+      m_Loader.stopBelt();
+     // isDone = true;
+    }
+    // 1000 is just a placeholder, after we test for optimal time we'll replace it
+  }
 
-      
-  }
-  public Set<Subsystem> getRequirements(){
-    return Set.of();
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_Loader.stopBelt();
   }
 
-  @Override 
-  public boolean runsWhenDisabled(){
-    return true;
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
+
 }

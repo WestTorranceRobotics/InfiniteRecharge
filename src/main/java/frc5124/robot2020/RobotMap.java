@@ -46,7 +46,6 @@ public class RobotMap {
         public static double maxVelocity = 99; //ft/s
     }
 }
-
     public static class Intake {
         public static double motorPower = 0.5;
     }

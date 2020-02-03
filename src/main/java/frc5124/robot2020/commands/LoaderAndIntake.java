@@ -40,13 +40,6 @@ public class LoaderAndIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (loader.hasBall()){
-      loader.moveOneSpot();
-      counter++;
-    }
-    if(counter == 5){
-      isDone = true;
-    }
   }
 
   // Called once the command ends or is interrupted.
