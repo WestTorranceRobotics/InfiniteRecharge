@@ -48,7 +48,7 @@ public class Loader implements Subsystem {
   //also moved to SeeBallRunBeltAndFlipCylin command
   }
   
-  public void runBelt() throws InterruptedException {
+  public void runBelt() {
     topBeltMotor.set(1);
     // bottomBeltMotor.set(1);
   }
@@ -58,7 +58,7 @@ public class Loader implements Subsystem {
   }
   //This is the flipCylinder method. Based on its input it goes into one of three modes. 
   //Mode 0 causes the cylinder to go forward, mode 1 causes the cylinder to go backward, and mode 2 turns the cylinder off.
-  public void flipCylinder(int x) throws InterruptedException {
+  public void flipCylinder(int x) {
     if (x == 0){
       CylinderDoubleSol.set(DoubleSolenoid.Value.kForward); 
     }

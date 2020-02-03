@@ -7,49 +7,58 @@
 
 package frc5124.robot2020.commands;
 
-import java.util.Set;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 
-public class LoaderAndIntake extends CommandBase {
-  /**
-   * Creates a new LoaderAndIntake.
-   */
+import java.util.Set;
 
-   private Loader loader;
-   private Intake intake;
-   int counter = 0;
-   boolean isDone;
+import edu.wpi.first.wpilibj.XboxController;
 
-  public LoaderAndIntake(Loader loader, Intake intake) {
-    this.loader = loader;
-    this.intake = intake;
-    addRequirements(loader, intake);
+public class SeeBallRunBelt implements Command {
+
+  private final Loader m_Loader;
+  private boolean isDone = false;
+  XboxController controller = new XboxController(5);
+
+  public SeeBallRunBelt(Loader subsystem) {
+    m_Loader = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isDone = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_Loader.seeBall()) {
+      m_Loader.runBelt();
+    } else {
+      m_Loader.stopBelt();
+      isDone = true;
+    }
+    // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_Loader.stopBelt();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return isDone;
+  }
+
+  @Override
+  public Set<Subsystem> getRequirements() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
