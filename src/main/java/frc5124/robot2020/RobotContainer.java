@@ -48,6 +48,7 @@ public class RobotContainer {
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
+  public POVButton operatorRight = new POVButton(operator, 90);
 
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
 
@@ -81,6 +82,7 @@ public class RobotContainer {
     operatorY.whileHeld(new IntakePivotUp(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRight.whileHeld(new TurretTurn(turret));
   }
 
   private void configureDefaultCommands(){
