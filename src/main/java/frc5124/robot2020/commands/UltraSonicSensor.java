@@ -34,8 +34,8 @@ public class UltraSonicSensor implements Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   public void execute() {
-      ultraSonic.setBoolean(loader.getDistance() < 10);
-      distance.setDouble(loader.getDistance());
+      ultraSonic.setBoolean(loader.getVoltage() < 10);
+      distance.setDouble(loader.getVoltage());
 
       
   }

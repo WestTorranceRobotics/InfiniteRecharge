@@ -37,13 +37,13 @@ import frc5124.robot2020.subsystems.*;
  */
 public class RobotContainer {
 
-  private Camera camera;
-  private DriveTrain driveTrain;
-  private Hanger hanger;
-  public Intake intake;
+  // private Camera camera;
+  // private DriveTrain driveTrain;
+  // private Hanger hanger;
+  // public Intake intake;
   private Loader loader;
-  private Shooter shooter;
-  private Turret turret;
+  // private Shooter shooter;
+  // private Turret turret;
 
 
   public static final Joystick driverLeft = new Joystick(0);
@@ -73,28 +73,29 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    driveTrain = new DriveTrain();
-    hanger = new Hanger();
-    intake = new Intake();
+    // camera = new Camera();
+    // driveTrain = new DriveTrain();
+    // hanger = new Hanger();
+    // intake = new Intake();
     loader = new Loader();
-    shooter = new Shooter();
-    turret = new Turret();
+    // shooter = new Shooter();
+    // turret = new Turret();
 
   }
 
   private void configureButtonBindings(){
+    operatorX.whileHeld(new SeeBallRunBelt(loader));
   }
 
   private void configureDefaultCommands(){
-      driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    
-      operatorRB.whileHeld(new IntakeBall(intake));
-      operatorLB.whileHeld(new OuttakeBall(intake));
-      operatorA.whileHeld(new IntakePivotDown(intake));
-      operatorY.whileHeld(new IntakePivotUp(intake));
-      operatorUp.whileHeld(new LiftUp(hanger));
-      operatorDown.whileHeld(new LiftDown(hanger));
+      //driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+     // loader.setDefaultCommand(new SeeBallRunBelt(loader));
+      // operatorRB.whileHeld(new IntakeBall(intake));
+      // operatorLB.whileHeld(new OuttakeBall(intake));
+      // operatorA.whileHeld(new IntakePivotDown(intake));
+      // operatorY.whileHeld(new IntakePivotUp(intake));
+      // operatorUp.whileHeld(new LiftUp(hanger));
+      // operatorDown.whileHeld(new LiftDown(hanger));
   }
 
   private void configureShuffleboard() {
@@ -108,12 +109,12 @@ public class RobotContainer {
     ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
     NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+   // poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
+     // .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+   // new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
 
   }
 
@@ -132,7 +133,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return new AutonomousCommand(driveTrain);
-  }
+  // public Command getAutonomousCommand() {
+  //   //return new AutonomousCommand(driveTrain);
+  // }
 }

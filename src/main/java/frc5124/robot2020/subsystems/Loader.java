@@ -18,15 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Loader implements Subsystem {
 
-  DoubleSolenoid CylinderDoubleSol = new DoubleSolenoid(1, 2);
-  I2C.Port i2cPort = I2C.Port.kOnboard;
+ // DoubleSolenoid CylinderDoubleSol = new DoubleSolenoid(1, 2);
   AnalogInput sensor = new AnalogInput(1);
-  CANSparkMax topBeltMotor = new CANSparkMax(3, MotorType.kBrushless);
-  CANSparkMax bottomBeltMotor = new CANSparkMax(4, MotorType.kBrushless);
-  XboxController controller = new XboxController(5);
-  private static final double VOLTS_TO_DIST = 1.0;
-  private static final double fieldEmptyDistance = 4.0;
-  private CANSparkMax beltSpeedController;
+  CANSparkMax topBeltMotor = new CANSparkMax(7, MotorType.kBrushless);
+  //CANSparkMax bottomBeltMotor = new CANSparkMax(4, MotorType.kBrushless);
+  private static final double fieldEmptyDistance = 1.0;
+  double beltSpeed = 0.5;
+  //private CANSparkMax beltSpeedController;
   
   public Loader() {
 
@@ -49,25 +47,25 @@ public class Loader implements Subsystem {
   }
   
   public void runBelt() {
-    topBeltMotor.set(1);
+    topBeltMotor.set(beltSpeed);
     // bottomBeltMotor.set(1);
   }
   public void stopBelt() {    
-    topBeltMotor.set(0);
+    topBeltMotor.set(0.0);
     // bottomBeltMotor.set(0); 
   }
   //This is the flipCylinder method. Based on its input it goes into one of three modes. 
   //Mode 0 causes the cylinder to go forward, mode 1 causes the cylinder to go backward, and mode 2 turns the cylinder off.
   public void flipCylinder(int x) {
-    if (x == 0){
-      CylinderDoubleSol.set(DoubleSolenoid.Value.kForward); 
-    }
-    else if (x == 1){
-      CylinderDoubleSol.set(DoubleSolenoid.Value.kReverse);
-    }
-    else {
-      CylinderDoubleSol.set(DoubleSolenoid.Value.kOff);
-    }
+    // if (x == 0){
+    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kForward); 
+    // }
+    // else if (x == 1){
+    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kReverse);
+    // }
+    // else {
+    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kOff);
+    // }
   }
 
   //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
@@ -75,19 +73,14 @@ public class Loader implements Subsystem {
     return sensor.getVoltage();
   }
 
-  public double getDistance() {
-    return getVoltage() * VOLTS_TO_DIST;
-  }
-
   public boolean seeBall() {
-    return (getDistance() < fieldEmptyDistance);
+    return (getVoltage() < fieldEmptyDistance);
   }
 
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Ultrasonic Sensor Voltage", getVoltage());
-    SmartDashboard.putNumber("Ultrasonic Sensor Distance", getDistance());
     SmartDashboard.putBoolean("Ultrasonic Sensor sees ball", seeBall());
   }
 

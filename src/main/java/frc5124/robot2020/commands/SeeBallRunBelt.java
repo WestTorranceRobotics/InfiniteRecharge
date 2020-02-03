@@ -7,24 +7,18 @@
 
 package frc5124.robot2020.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
 
-import java.util.Set;
+public class SeeBallRunBelt extends CommandBase {
 
-import edu.wpi.first.wpilibj.XboxController;
-
-public class SeeBallRunBelt implements Command {
-
-  private final Loader m_Loader;
-  private boolean isDone = false;
-  XboxController controller = new XboxController(5);
+  private Loader m_Loader;
 
   public SeeBallRunBelt(Loader subsystem) {
     m_Loader = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Loader);
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +33,7 @@ public class SeeBallRunBelt implements Command {
       m_Loader.runBelt();
     } else {
       m_Loader.stopBelt();
-      isDone = true;
+     // isDone = true;
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
@@ -53,12 +47,7 @@ public class SeeBallRunBelt implements Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 
-  @Override
-  public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }
