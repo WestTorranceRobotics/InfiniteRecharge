@@ -15,6 +15,8 @@ import java.awt.Color;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -23,6 +25,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
@@ -44,6 +47,14 @@ public class RobotContainer {
   private Loader loader;
   private Shooter shooter;
   private Turret turret;
+
+  
+  public static final Joystick driver = new Joystick(0);
+  public static final Joystick operator = new Joystick(1);
+
+  public static final JoystickButton panelControllerDeployer = new JoystickButton(driver, XboxController.Button.kA.value);
+  public static final JoystickButton rotationControl = new JoystickButton(driver, XboxController.Button.kB.value);
+  public static final JoystickButton positionControl = new JoystickButton(driver, XboxController.Button.kX.value);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -67,13 +78,13 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    OI.panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
-    OI.positionControl.whenPressed(new PositionControl(panelController));
-    OI.rotationControl.whenPressed(new RotationControl(panelController));
+    panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
+    positionControl.whenPressed(new PositionControl(panelController));
+    rotationControl.whenPressed(new RotationControl(panelController));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(OI.driver, driveTrain));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driver, driveTrain));
   }
 
   private void configureShuffleboard() {

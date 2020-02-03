@@ -19,8 +19,7 @@ public class RobotMap {
     }
     public static class PanelController {
         public static final int spinnerCanId = 11;
-        public static final int deployerForwardSolenoidChannel = 0;
-        public static final int deployerReverseSolenoidChannel = 7;
+        public static final int deployerSolenoidChannel = 0;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
         public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red

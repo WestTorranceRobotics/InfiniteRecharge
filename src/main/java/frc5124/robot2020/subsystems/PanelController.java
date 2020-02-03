@@ -13,9 +13,8 @@ import com.revrobotics.ColorSensorV3.RawColor;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.ColorShim;
@@ -25,7 +24,7 @@ import frc5124.robot2020.RobotMap;
 
 public class PanelController implements Subsystem {
 
-  private final DoubleSolenoid deployer;
+  private final Solenoid deployer;
   private final CANSparkMax spinnerMotor;
   private final ColorSensorV3 colorSensor;
 
@@ -36,8 +35,7 @@ public class PanelController implements Subsystem {
   private boolean deployed;
   
   public PanelController() {
-    deployer = new DoubleSolenoid(RobotMap.pcmCanId,
-      RobotMap.PanelController.deployerForwardSolenoidChannel, RobotMap.PanelController.deployerReverseSolenoidChannel);
+    deployer = new Solenoid(RobotMap.pcmCanId, RobotMap.PanelController.deployerSolenoidChannel);
     spinnerMotor = new CANSparkMax(RobotMap.PanelController.spinnerCanId, MotorType.kBrushless);
     colorSensor = new ColorSensorV3(Port.kOnboard);
 
@@ -76,7 +74,7 @@ public class PanelController implements Subsystem {
 
   public synchronized void setDeployed(boolean deployed) {
     this.deployed = deployed;
-    deployer.set(deployed ? Value.kForward : Value.kReverse);
+    deployer.set(deployed);
   }
 
   public boolean isDeployed() {
