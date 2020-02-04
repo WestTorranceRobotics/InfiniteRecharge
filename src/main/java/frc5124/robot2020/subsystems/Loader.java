@@ -6,14 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+//import frc5124.robot2020.RobotMap;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.XboxController;
-import frc5124.robot2020.RobotMap;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+//import edu.wpi.first.wpilibj.DoubleSolenoid;
+//import edu.wpi.first.wpilibj.I2C;
+
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Loader implements Subsystem {
@@ -22,28 +23,11 @@ public class Loader implements Subsystem {
   AnalogInput sensor = new AnalogInput(1);
   CANSparkMax topBeltMotor = new CANSparkMax(7, MotorType.kBrushless);
   //CANSparkMax bottomBeltMotor = new CANSparkMax(4, MotorType.kBrushless);
-  private static final double fieldEmptyDistance = 1.0;
+  private static final double fieldEmptyVoltage = 1.0;
   double beltSpeed = 0.5;
   //private CANSparkMax beltSpeedController;
   
   public Loader() {
-
-   //Reads value from the hasball method, if there is one it intakes the ball(need to change how long blueBeltMotor is running.
-  //  if (hasBall()){
-  //    runBelt(1000);
-  //  }
-  //moved to SeeBallRunBeltAndFlipCylin command
-
-  //If x is pressed it runs the flipCylinder method.
-  //  if(controller.getXButton()){
-  //     pressx++;
-  //     if(pressx == 3){
-  //       pressx = 0;
-  //     }
-  //     flipCylinder(pressx);
-  //  }
-  // }
-  //also moved to SeeBallRunBeltAndFlipCylin command
   }
   
   public void runBelt() {
@@ -74,7 +58,7 @@ public class Loader implements Subsystem {
   }
 
   public boolean seeBall() {
-    return (getVoltage() < fieldEmptyDistance);
+    return (getVoltage() < fieldEmptyVoltage);
   }
 
   //This was here when I started so I left it that way.

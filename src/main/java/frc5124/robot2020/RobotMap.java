@@ -1,14 +1,13 @@
 package frc5124.robot2020;
 
-
 import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
-import com.revrobotics.SparkMax;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 public class RobotMap {
     public static final int pcmCanId = 0;
+    public static final int intakeRollerCanId = 5;
+    public static final int turretCanId = 6;
+    
     public static class DriveTrain {
         public static int rightLeaderCanId = 1;
         public static int rightFollowerCanId = 2;
@@ -45,7 +44,7 @@ public class RobotMap {
         public static double conversionConstant = 2 * 3.141592654 * .33333 * .75; 
         public static double maxVelocity = 99; //ft/s
     }
-}
+
     public static class Intake {
         public static double motorPower = 0.5;
     }
@@ -56,4 +55,3 @@ public class RobotMap {
         public static int limitChannelID = 1;             //DIO port    
     }
 }
-
