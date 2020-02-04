@@ -1,14 +1,14 @@
 package frc5124.robot2020;
 
-
 import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
-import com.revrobotics.SparkMax;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 public class RobotMap {
     public static final int pcmCanId = 0;
+    public static final int intakeRollerCanId = 5;
+    public static final int turretCanId = 6;
+    public static final int hangerCanId = 7;
+    
     public static class DriveTrain {
         public static int rightLeaderCanId = 1;
         public static int rightFollowerCanId = 2;
@@ -21,7 +21,7 @@ public class RobotMap {
         public static double F = 0.5;
     }
     public static class PanelController {
-        public static final int spinnerCanId = 11;
+        public static final int spinnerCanId = 10;
         public static final int deployerSolenoidChannel = 0;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
@@ -35,25 +35,18 @@ public class RobotMap {
     }
   
     public static class Shooter {
-        public static int shootLeaderCanID = 11; 
-        public static int shootFollowerCanID = 99; 
-        public static double Kp = 0;
-        public static double Ki = 0;
-        public static double Kd = 0;
-        public static double Kf = .195;
-        public static double period = .05;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75; 
-        public static double maxVelocity = 99; //ft/s
+        public static int shootLeaderCanID = 8; 
+        public static int shootFollowerCanID = 9; 
     }
-}
+
     public static class Intake {
         public static double motorPower = 0.5;
     }
 
     public static class Hanger {
         public static double hangerMotor = 0.5;   
-        public static double hangerHalt = 0;
-        public static int limitChannelID = 1;             //DIO port    
+        public static double hangerHalt = 0.0;
+        public static int topLimitChannelID = 1;             //DIO port 
+        public static int bottomLimitChannelID = 2;             //DIO port    
     }
 }
-

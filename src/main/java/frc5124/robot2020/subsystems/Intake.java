@@ -1,43 +1,55 @@
-package frc5124.robot2020.subsystems;
 
+package frc5124.robot2020.subsystems;
+// import frc5124.robot2020.Constants;
+import frc5124.robot2020.RobotMap;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+//import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Solenoid;
-
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.RobotMap;
 
 public class Intake implements Subsystem {
-    private Solenoid intakePivot;
-    private CANSparkMax intakeMotor; 
-  
+
+  //private Solenoid armSolenoid;
+
+  private CANSparkMax rollerSpeedController;
+
   public Intake() {
-    intakePivot = new Solenoid(0, 1);
-    intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
+      
+      //armSolenoid = new Solenoid(0, 0);
+
+      rollerSpeedController = new CANSparkMax(RobotMap.intakeRollerCanId, MotorType.kBrushless);
+      rollerSpeedController.setInverted(false);
+      rollerSpeedController.set(0);
   }
 
   @Override
   public void periodic() {
-  }
-  public void intake(){
+      // Put code here to be run every loop
 
-    intakeMotor.set(1);
   }
 
-  public void outtake(){
-    intakeMotor.set(-1);
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+
+  public void in() {
+      rollerSpeedController.set(1.0);
   }
 
-  public void motorNoPower(){
-    intakeMotor.set(0);
+  public void out() {
+      rollerSpeedController.set(-1.0);
   }
 
-  public void liftUp(){
-    intakePivot.set(true);          // kForward Value makes it stay up. 
+  public void stop() {
+      rollerSpeedController.set(0.0);
   }
 
-  public void liftDown(){
-    intakePivot.set(false);          // kReverse Value will make the arm come out.  
+  public void deploy() {
+  //        armSolenoid.set(true);
   }
+
+  public void retract() {
+  //        armSolenoid.set(false);
+  }
+
 }

@@ -7,24 +7,18 @@
 
 package frc5124.robot2020.commands;
 
-import java.util.Set;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.subsystems.Intake;
 
 public class intakeBalls extends CommandBase {
   /**
    * Creates a new intakeBalls.
    */
-  private Intake intake;
-  private boolean run;
+  private Intake m_intake;
 
-  public intakeBalls(Intake intake, boolean run) {
-    this.intake = intake;
-    this.run = run;
-    
-    // Use addRequirements() here to declare subsystem dependencies.
+  public intakeBalls(Intake subsystem) {
+    m_intake = subsystem;
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -35,14 +29,7 @@ public class intakeBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (run == true){
-      intake.intake();
-    }
-    if (run == false){
-      intake.motorNoPower();
-      isFinished();
-    }
-
+      m_intake.in();
   }
 
   // Called once the command ends or is interrupted.
@@ -53,16 +40,7 @@ public class intakeBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 
-  @Override
-  public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override
-  public boolean runsWhenDisabled() {
-    return true;
-  }
 }

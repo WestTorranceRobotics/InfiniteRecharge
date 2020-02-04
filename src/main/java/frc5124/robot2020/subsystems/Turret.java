@@ -6,20 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+import frc5124.robot2020.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
 
-  private TalonSRX turretMotor;
+  private CANSparkMax turretMotor;
   //private VictorSP turretMotor;
   
   public Turret() {
-    turretMotor = new TalonSRX(1);
+    turretMotor = new CANSparkMax(RobotMap.turretCanId, MotorType.kBrushless);
   //  turretMotor = new VictorSP(1);
   }
 
@@ -28,9 +28,19 @@ public class Turret implements Subsystem {
   }
 
   public void turnTurretPos(){
-    turretMotor.set(ControlMode.PercentOutput, .3);
+    turretMotor.set(0.3);
   }
+
   public void turnTurretNeg(){
-    turretMotor.set(ControlMode.PercentOutput, -.3);
+    turretMotor.set(-.3);
+  }
+
+  public void stop(){
+    turretMotor.set(0.0);
+  }
+  
+  // Add logic and sensor to tell if the turret has turned to it max rotation to avoid tangling cables
+  public boolean isAtTurnLimit() {
+    return false;
   }
 }
