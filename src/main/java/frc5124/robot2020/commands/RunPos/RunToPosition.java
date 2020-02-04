@@ -56,10 +56,7 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
         targetTheta = Math.atan((transX/transY));
         targetDistance = Math.sqrt((transX*transX)+(transY*transY));
         double currentX = (currentPos.getTranslation().getX() + transX);
-        double currentY = (currentPos.getTranslation().getY() + transY);
-        
-        
-        
+        double currentY = (currentPos.getTranslation().getY() + transY); 
   }
 
   // Called once the command ends or is interrupted.

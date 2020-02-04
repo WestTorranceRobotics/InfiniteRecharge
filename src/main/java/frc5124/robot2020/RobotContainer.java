@@ -74,20 +74,20 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    //driveTrain = new DriveTrain();
+   // camera = new Camera();
+    driveTrain = new DriveTrain();
    // hanger = new Hanger();
-    intake = new Intake();
-    //loader = new Loader();
-    //shooter = new Shooter();
-    turret = new Turret();
+   // intake = new Intake();
+   // loader = new Loader();
+  //  shooter = new Shooter();
+    //turret = new Turret();
   }
 
   private void configureButtonBindings(){
   }
 
   private void configureDefaultCommands(){
-    //driveTrain.setDefaultCommand(new RunToPosition(driveTrain,1,1));
+     driveTrain.setDefaultCommand(new RunToPosition(driveTrain,1,1));
     // operatorRB.whileHeld(new IntakeBall(intake));
     // operatorLB.whileHeld(new OuttakeBall(intake));
     // operatorA.whileHeld(new IntakePivotDown(intake));
@@ -119,13 +119,13 @@ public class RobotContainer {
   }
 
   // private GyroBase shuffleboardGyro(DoubleSupplier d) {
-  //   // return new GyroBase(){
-  //   //   @Override public void close() {}
-  //   //   @Override public void reset() {}
-  //   //   @Override public double getRate() {return 0;}
-  //   //   @Override public double getAngle() {return d.getAsDouble();}
-  //   //   @Override public void calibrate() {}
-  //   // };
+  //   return new GyroBase(){
+  //     @Override public void close() {}
+  //     @Override public void reset() {}
+  //     @Override public double getRate() {return 0;}
+  //     @Override public double getAngle() {return d.getAsDouble();}
+  //     @Override public void calibrate() {}
+  //   };
   // }
 
   /**
