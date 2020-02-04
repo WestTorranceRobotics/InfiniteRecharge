@@ -60,18 +60,22 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-        odometry.update(getGyro(), leftLeader.getSelectedSensorPosition(), rightLeader.getSelectedSensorPosition());
-        SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
-        SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("angle", getGryoDegree());
+    // double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    // double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    
+    //     odometry.update(getGyro(), l * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI), r * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI)) ;
+    //     SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
+    //     SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
+    //     SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+    //     SmartDashboard.putNumber("angle", getGryoDegree());
+    //     SmartDashboard.updateValues();
     }
 
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right)
-;    }
-    
+        differentialDrive.tankDrive(left,right);   
+     }
 
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);

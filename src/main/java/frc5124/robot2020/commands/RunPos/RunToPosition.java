@@ -37,16 +37,13 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
    * @param transY translation in Y axis
    * 
    */
-  public RunToPosition(double transX, double transY) {
+  public RunToPosition(DriveTrain subsystem, double transX, double transY) {
+    driveTrain = subsystem;
+    addRequirements(driveTrain);
     this.transX = transX;
     this.transY = transY;
-    driveTrain = new DriveTrain();
-    addRequirements(driveTrain);
-
-
-    // Use addRequirements() here to declare subsystem dependencies.
+      // Use addRequirements() here to declare subsystem dependencies.
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
