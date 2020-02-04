@@ -26,9 +26,9 @@ public class Loader implements Subsystem {
 
     CylinderDoubleSol = new DoubleSolenoid(1, 2);
     i2cPort = I2C.Port.kOnboard;
-    ultraSonicSensor1 = new AnalogInput(RobotMap.Loader.ussID1);
-    topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanID, MotorType.kBrushless);
-    bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
+    // ultraSonicSensor1 = new AnalogInput(RobotMap.Loader.ussID1);
+    // topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanID, MotorType.kBrushless);
+    // bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
     
 
    //Reads value from the hasball method, if there is one it intakes the ball(need to change how long blueBeltMotor is running.

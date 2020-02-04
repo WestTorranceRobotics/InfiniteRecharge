@@ -34,7 +34,7 @@ public class Shooter implements Subsystem {
   private double kOut = 0;
   private double currentVelocity = 0;
   private boolean run = true;
-
+  private double targetVelocity = 0;
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.Shooter.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.Shooter.shootLeaderCanID, MotorType.kBrushless);
   private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
@@ -59,23 +59,10 @@ public class Shooter implements Subsystem {
     if (targetVelocity > RobotMap.Shooter.maxVelocity) {
       targetVelocity = RobotMap.Shooter.maxVelocity;
     }
-    this.targetVelocity = targetVelocity;
+    //this.targetVelocity = targetVelocity;
   }
 
-  /**
-   * Must be called in periodic
-   */
-  private void holdVelocity (double targetVelocity) {
-  kPI(targetVelocity);
-  setPower(kOut); //kOut is the kPI output
-  }
 
-  /**
-   * @deprecated
-   */
-  public void directPower (double power) {
-  setPower(power);
-  }
 
 
   public void runWheel(boolean run) {

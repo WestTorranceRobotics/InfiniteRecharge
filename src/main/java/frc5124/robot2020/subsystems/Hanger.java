@@ -27,7 +27,7 @@ public class Hanger implements Subsystem {
   public Hanger() {
     hangerMotor = new TalonFX(5);
     brake = new Solenoid(2);
-    heightLimit = new DigitalInput(RobotMap.Hanger.limitChannelID);
+    //heightLimit = new DigitalInput(RobotMap.Hanger.limitChannelID);
   }
 
   @Override
@@ -47,11 +47,11 @@ public class Hanger implements Subsystem {
   }
 
   public void liftDown(){
-    hangerMotor.set(ControlMode.PercentOutput, -RobotMap.Hanger.hangerMotor);
+   // hangerMotor.set(ControlMode.PercentOutput, -RobotMap.Hanger.hangerMotor);
   }
 
   public void setNoPower(){
-    hangerMotor.set(ControlMode.PercentOutput, RobotMap.Hanger.hangerHalt);
+  //  hangerMotor.set(ControlMode.PercentOutput, RobotMap.Hanger.hangerHalt);
   }
 
   public void brake(){
