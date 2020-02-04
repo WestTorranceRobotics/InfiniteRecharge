@@ -163,7 +163,6 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    shooter.setDefaultCommand(new ShootHold(shooter));
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
