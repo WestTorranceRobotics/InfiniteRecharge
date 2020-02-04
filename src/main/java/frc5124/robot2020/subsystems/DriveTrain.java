@@ -63,6 +63,7 @@ public class DriveTrain implements Subsystem {
         odometry.update(getGyro(), leftLeader.getSelectedSensorPosition(), rightLeader.getSelectedSensorPosition());
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
+        SmartDashboard.putNumber("angle", getGryoDegree());
     }
 
     // Control methods
