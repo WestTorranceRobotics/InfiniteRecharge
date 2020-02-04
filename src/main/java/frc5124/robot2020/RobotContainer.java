@@ -86,15 +86,15 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    operatorRB.whileHeld(new IntakeBall(intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
-    operatorA.whileHeld(new IntakePivotDown(intake));
-    operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));
-    operatorRight.whileHeld(new TurretTurn(turret));
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    shooter.setDefaultCommand(new ShootHold(shooter));
+    // operatorRB.whileHeld(new IntakeBall(intake));
+    // operatorLB.whileHeld(new OuttakeBall(intake));
+    // operatorA.whileHeld(new IntakePivotDown(intake));
+    // operatorY.whileHeld(new IntakePivotUp(intake));
+    // operatorUp.whileHeld(new LiftUp(hanger));
+    // operatorDown.whileHeld(new LiftDown(hanger));
+    // operatorRight.whileHeld(new TurretTurn(turret));
+    // driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    // shooter.setDefaultCommand(new ShootHold(shooter));
   }
 
   private void configureShuffleboard() {

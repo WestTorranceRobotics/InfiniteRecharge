@@ -28,7 +28,6 @@ public class RobotMap {
         public static double conversionConstant = 2 * 3.141592654 * .33333 * .75; 
         public static double maxVelocity = 99; //ft/s
     }
-}
 
     public static class Intake {
         public static double motorPower = 0.5;
