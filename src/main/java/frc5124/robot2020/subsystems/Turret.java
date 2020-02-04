@@ -30,7 +30,17 @@ public class Turret implements Subsystem {
   public void turnTurretPos(){
     turretMotor.set(0.3);
   }
+
   public void turnTurretNeg(){
     turretMotor.set(-.3);
+  }
+
+  public void stop(){
+    turretMotor.set(0.0);
+  }
+  
+  // Add logic and sensor to tell if the turret has turned to it max rotation to avoid tangling cables
+  public boolean isAtTurnLimit() {
+    return false;
   }
 }

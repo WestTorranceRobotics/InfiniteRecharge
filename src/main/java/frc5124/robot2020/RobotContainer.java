@@ -13,10 +13,11 @@ import java.awt.Color;
 import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -43,7 +44,7 @@ import frc5124.robot2020.subsystems.PanelController.OutputColor;
  */
 public class RobotContainer {
 
-  private Camera camera;
+  //private Camera camera;
   private PanelController panelController;
   private DriveTrain driveTrain;
   private Hanger hanger;
@@ -52,12 +53,7 @@ public class RobotContainer {
   private Shooter shooter; 
   private Turret turret;
 
-  public static final Joystick driver = new Joystick(0);
-  public static final Joystick operator = new Joystick(1);
 
-  public static final JoystickButton panelControllerDeployer = new JoystickButton(driver, XboxController.Button.kA.value);
-  public static final JoystickButton rotationControl = new JoystickButton(driver, XboxController.Button.kB.value);
-  public static final JoystickButton positionControl = new JoystickButton(driver, XboxController.Button.kX.value);
 
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
@@ -73,6 +69,10 @@ public class RobotContainer {
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
+
+  public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
+  public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
+  public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
   
   public ShuffleboardTab display;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
@@ -89,7 +89,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
+    //camera = new Camera();
     panelController = new PanelController();
     driveTrain = new DriveTrain();
     hanger = new Hanger();
@@ -100,6 +100,20 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
+    operatorRB.whileHeld(new intakeBalls (intake));
+    operatorLB.whileHeld(new OuttakeBall(intake));
+
+    operatorA.whileHeld(new IntakePivotDown(intake));
+    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorX.whileHeld(new SeeBallRunBelt(loader));
+
+    operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
+
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
+    operatorRight.whileHeld(new TurretTurn(turret));
+
+
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));
@@ -148,14 +162,6 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    operatorRB.whileHeld(new IntakeBall(intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
-    operatorA.whileHeld(new IntakePivotDown(intake));
-    operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorX.whileHeld(new SeeBallRunBelt(loader));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));
-    operatorRight.whileHeld(new TurretTurn(turret));
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     shooter.setDefaultCommand(new ShootHold(shooter));
   }
@@ -172,11 +178,29 @@ public class RobotContainer {
   }
 
   /**
+   * Code to run when starting teleop mode.
+   */
+  public void teleopInit() {
+  }
+
+  /**
+   * Code to run when starting autonomous mode.
+   */
+  public void autonomousInit() {
+  }
+
+  /**
+   * Code to run when disabling the robot.
+   */
+  public void disabledInit() {
+  }
+
+  /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   //return new AutonomousCommand(driveTrain);
-  // }
+  public Command getAutonomousCommand() {
+    return null;
+  }
 }
