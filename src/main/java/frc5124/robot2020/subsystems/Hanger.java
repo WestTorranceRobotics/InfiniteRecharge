@@ -20,13 +20,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 
 public class Hanger implements Subsystem {
-  private TalonFX hangerMotor;
-  private Solenoid brake;
-  private DigitalInput heightLimit;
+  // private TalonFX hangerMotor;
+  // private Solenoid brake;
+  // private DigitalInput heightLimit;
 
   public Hanger() {
-    hangerMotor = new TalonFX(5);
-    brake = new Solenoid(2);
+    // hangerMotor = new TalonFX(5);
+    // brake = new Solenoid(2);
     //heightLimit = new DigitalInput(RobotMap.Hanger.limitChannelID);
   }
 
@@ -35,15 +35,15 @@ public class Hanger implements Subsystem {
   }
   
   public void liftUp(){
-    hangerMotor.set(ControlMode.PercentOutput, 1);
-    brake.set(false);
+    // hangerMotor.set(ControlMode.PercentOutput, 1);
+    // brake.set(false);
   }
 
   public void reachedLimit(){
-    if (heightLimit.get() == false){
-      hangerMotor.set(ControlMode.PercentOutput, 0);
-      brake.set(true);
-    }
+    // if (heightLimit.get() == false){
+    //   hangerMotor.set(ControlMode.PercentOutput, 0);
+    //   brake.set(true);
+    // }
   }
 
   public void liftDown(){
@@ -55,10 +55,10 @@ public class Hanger implements Subsystem {
   }
 
   public void brake(){
-    brake.set(true);
+    // brake.set(true);
   }
 
-  public boolean limitSwitchPressed(){
-    return heightLimit.get();
-  }
+  // public boolean limitSwitchPressed(){
+  //   // return heightLimit.get();
+  // }
 }

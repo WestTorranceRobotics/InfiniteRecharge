@@ -13,7 +13,7 @@ public class Intake implements Subsystem {
     private CANSparkMax intakeMotor; 
   
   public Intake() {
-    intakePivot = new Solenoid(0, 1);
+   // intakePivot = new Solenoid(0, 1);
     intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
   }
 

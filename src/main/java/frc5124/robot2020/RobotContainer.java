@@ -75,10 +75,10 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     camera = new Camera();
-    driveTrain = new DriveTrain();
-    hanger = new Hanger();
+    //driveTrain = new DriveTrain();
+   // hanger = new Hanger();
     intake = new Intake();
-    loader = new Loader();
+    //loader = new Loader();
     //shooter = new Shooter();
     turret = new Turret();
   }
@@ -87,7 +87,7 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new RunToPosition(driveTrain,1,1));
+    //driveTrain.setDefaultCommand(new RunToPosition(driveTrain,1,1));
     // operatorRB.whileHeld(new IntakeBall(intake));
     // operatorLB.whileHeld(new OuttakeBall(intake));
     // operatorA.whileHeld(new IntakePivotDown(intake));
