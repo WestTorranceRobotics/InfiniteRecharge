@@ -38,9 +38,6 @@ public class RobotContainer {
 
   private Camera camera;
   private DriveTrain driveTrain;
-  private Hanger hanger;
-  public Intake intake;
-  private Loader loader;
   private Shooter shooter; 
   private Turret turret;
 
@@ -74,13 +71,10 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-   // camera = new Camera();
+    camera = new Camera();
     driveTrain = new DriveTrain();
-   // hanger = new Hanger();
-   // intake = new Intake();
-   // loader = new Loader();
-  //  shooter = new Shooter();
-    //turret = new Turret();
+    shooter = new Shooter();
+    turret = new Turret();
   }
 
   private void configureButtonBindings(){
@@ -118,15 +112,15 @@ public class RobotContainer {
     // new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
-  // private GyroBase shuffleboardGyro(DoubleSupplier d) {
-  //   return new GyroBase(){
-  //     @Override public void close() {}
-  //     @Override public void reset() {}
-  //     @Override public double getRate() {return 0;}
-  //     @Override public double getAngle() {return d.getAsDouble();}
-  //     @Override public void calibrate() {}
-  //   };
-  // }
+  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+    return new GyroBase(){
+      @Override public void close() {}
+      @Override public void reset() {}
+      @Override public double getRate() {return 0;}
+      @Override public double getAngle() {return d.getAsDouble();}
+      @Override public void calibrate() {}
+    };
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

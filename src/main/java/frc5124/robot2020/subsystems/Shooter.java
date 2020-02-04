@@ -20,7 +20,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.controller.*;
-import edu.wpi.first.wpilibj.controller.*;
 
 /**
  * 
@@ -33,67 +32,28 @@ import edu.wpi.first.wpilibj.controller.*;
 public class Shooter implements Subsystem {
   private double kOut = 0;
   private double currentVelocity = 0;
-  private boolean run = true;
-  private double targetVelocity = 0;
-  private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.Shooter.shootFollowerCanID, MotorType.kBrushless);
-  private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.Shooter.shootLeaderCanID, MotorType.kBrushless);
-  private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
+  private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
+  private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
+  private PIDController shootControl = new PIDController(RobotMap.ShooterMap.Kp, RobotMap.ShooterMap.Ki, RobotMap.ShooterMap.Kd, RobotMap.ShooterMap.period);
 
   
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader);
   }
-
-  @Override
-  public void periodic() {
-    holdVelocity(targetVelocity);
-  }
-
-  /**
-   * WARNING
-   * Control Loop Untuned
-   * @param targetVelocity in units of ft/s; truncated if exceeding maxVelocity
-   * 
-   */
-  public void setVelocity (double targetVelocity) {
-    if (targetVelocity > RobotMap.Shooter.maxVelocity) {
-      targetVelocity = RobotMap.Shooter.maxVelocity;
-    }
-    //this.targetVelocity = targetVelocity;
-  }
-
-
-
-
-  public void runWheel(boolean run) {
-    this.run = run;
-  }
  
-
-  /**
-   * Must be called in execute
-   */
-  public void holdVelocity (double targetVelocity) {
-  kPI(targetVelocity);
-  setPower(kOut); //kOut is the kPI output
-  }
-
   /**
    * @deprecated
    */
   public void directPower (double power) {
-    if (run) {
-  setPower(power);
-  } else {
-    setPower(0);
-  }
+    setPower(power);
   }
 
 
   /**
-   * lightweight PI loop
+   * PI loop
+   * @param targetVelocity desired velocity
    */
-  private void kPI(double targetVelocity) {
+  public void kPIHold(double targetVelocity) {
     getVelocity();
     kOut = shootControl.calculate(currentVelocity, targetVelocity);
 
@@ -101,7 +61,8 @@ public class Shooter implements Subsystem {
        return;
      }
   
-    kOut = kOut + RobotMap.Shooter.Kf ; 
+    kOut = kOut + RobotMap.ShooterMap.Kf ; 
+    setPower(kOut);
   }
 
 /**
@@ -109,12 +70,18 @@ public class Shooter implements Subsystem {
  */
 
   public void getVelocity() {
-    this.currentVelocity = ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.Shooter.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
+    this.currentVelocity = ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.ShooterMap.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
     
    }
   
   private void setPower (double power) {
     shootMotorLeader.set(power);
   }
+
+  
+  @Override
+  public void periodic() {
+  }
+
 }
 

@@ -31,12 +31,12 @@ public class DriveTrain implements Subsystem {
 
     public DriveTrain() {
 
-        leftLeader = new WPI_TalonFX(RobotMap.DriveTrain.leftLeaderCanId);
-        rightLeader = new WPI_TalonFX(RobotMap.DriveTrain.rightLeaderCanId);
+        leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanId);
+        rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanId);
 
-        leftFollower = new WPI_TalonFX(RobotMap.DriveTrain.leftFollowerCanId);
+        leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanId);
         leftFollower.follow(leftLeader);
-        rightFollower = new WPI_TalonFX(RobotMap.DriveTrain.rightFollowerCanId);
+        rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanId);
         rightFollower.follow(rightLeader);
 
         leftLeader.setSelectedSensorPosition(0);
