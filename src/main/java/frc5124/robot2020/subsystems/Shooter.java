@@ -13,6 +13,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -38,6 +39,16 @@ public class Shooter implements Subsystem {
     shootController.setP(RobotMap.ShooterMap.Kp);
     shootController.setI(RobotMap.ShooterMap.Ki);
     shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+    
+
+        SmartDashboard.putNumber("P Gain", 0);
+        SmartDashboard.putNumber("I Gain", 0);
+        SmartDashboard.putNumber("D Gain", 0);
+        SmartDashboard.putNumber("I Zone", 0);
+        SmartDashboard.putNumber("Feed Forward", 0);
+        SmartDashboard.putNumber("Max Output", 0);
+        SmartDashboard.putNumber("Min Output", 0);
+        SmartDashboard.putNumber("SetPoint", 0);
   }
 
   /**
@@ -50,6 +61,15 @@ public class Shooter implements Subsystem {
     } else {
         shootController.setReference(targetVelocity, ControlType.kVelocity);
       }
+  }
+
+  public void updatePID(){
+    shootController.setD(RobotMap.ShooterMap.Kd);
+    shootController.setFF(RobotMap.ShooterMap.Kf);
+    shootController.setP(RobotMap.ShooterMap.Kp);
+    shootController.setI(RobotMap.ShooterMap.Ki);
+    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+
   }
 
 /**
@@ -73,6 +93,7 @@ public class Shooter implements Subsystem {
   
   @Override
   public void periodic() {
+    SmartDashboard.updateValues();
   }
 
 }
