@@ -38,6 +38,7 @@ import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
+import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
 //import frc5124.robot2020.subsystems.PanelController.OutputColor;
@@ -110,18 +111,15 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    operatorX.whileHeld(new setIntakePower(intake, 1));
-    operatorX.whenReleased(new setIntakePower(intake, 0));
+    operatorX.whileHeld(new setIntakePower(intake, RobotMap.IntakeMap.motorPower));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorRB.whenReleased(new RotateTurret(turret, 0));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorLB.whenReleased(new RotateTurret(turret, 0));
-    operatorUp.whenPressed(new ShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
-    operatorUp.whenReleased(new ShootVelocity(shooter, 0));
+    operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+
 
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     

@@ -7,15 +7,17 @@
 
 package frc5124.robot2020.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 
-//Class can be moved to be an inline
-public class ShootVelocity extends InstantCommand {
+public class setShootVelocity extends CommandBase {
   private Shooter shooter;
   private double targetVelocity;
   
-  public ShootVelocity(Shooter subsystem, double targetVelocity) {
+  /**
+   * Creates a new setShootVelocity.
+   */
+  public setShootVelocity(Shooter subsystem, double targetVelocity) {
     shooter = subsystem;
     addRequirements(shooter);
     this.targetVelocity = targetVelocity;
@@ -25,5 +27,22 @@ public class ShootVelocity extends InstantCommand {
   @Override
   public void initialize() {
     shooter.setTargetVelocity(targetVelocity);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    shooter.setTargetVelocity(0);
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

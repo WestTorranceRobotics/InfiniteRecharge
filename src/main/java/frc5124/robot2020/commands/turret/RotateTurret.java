@@ -26,13 +26,14 @@ public class RotateTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turret.rotateTurret(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    turret.rotateTurret(power);
+  
     // if (1==1 && !turret.limitReached) { //1==1 placeholder
     //   turret.limitReached = true;
     // } 
@@ -44,6 +45,7 @@ public class RotateTurret extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    turret.rotateTurret(0);
   }
 
   // Returns true when the command should end.
