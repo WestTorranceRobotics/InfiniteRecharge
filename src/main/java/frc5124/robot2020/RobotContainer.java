@@ -105,9 +105,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-  }
 
-  private void configureDefaultCommands(){
     operatorX.whileHeld(new setIntakePower(intake, RobotMap.IntakeMap.motorPower));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
@@ -119,6 +117,10 @@ public class RobotContainer {
 
 
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+  }
+
+  private void configureDefaultCommands(){
+    
     
   }
 
