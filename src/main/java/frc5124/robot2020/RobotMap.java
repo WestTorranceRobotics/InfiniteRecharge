@@ -25,8 +25,7 @@ public class RobotMap {
         public static double Ki = 0;
         public static double Kd = 0;
         public static double Kf = .195;
-        public static double period = .05;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75; 
+        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
     }
 
