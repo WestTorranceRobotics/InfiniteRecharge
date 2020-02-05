@@ -21,17 +21,9 @@ public class DriveTrain implements Subsystem {
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
     private WPI_TalonFX rightFollower;
-<<<<<<< Updated upstream
     private SimpleWidget odometryWidget;
     private AHRS gyro;
     // private DifferentialDrive differentialDrive;
-=======
-    private Encoder leftGroup;
-    private Encoder rightGroup;
-    private SimpleWidget odometryWidget;
-    private AHRS gyro;
-    private DifferentialDrive differentialDrive;
->>>>>>> Stashed changes
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
@@ -52,33 +44,22 @@ public class DriveTrain implements Subsystem {
 
         gyro = new AHRS(SPI.Port.kMXP);
         
-<<<<<<< Updated upstream
         // differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         // differentialDrive.setSafetyEnabled(true);
         // differentialDrive.setExpiration(0.1);
         // differentialDrive.setMaxOutput(1.0);
-=======
-        differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
-        differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(0.1);
-        differentialDrive.setMaxOutput(1.0);
->>>>>>> Stashed changes
 
         kinematics = new DifferentialDriveKinematics(30);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
-<<<<<<< Updated upstream
 
         gyro.reset();
         gyro.zeroYaw();
-=======
->>>>>>> Stashed changes
     }
 
     @Override
     public void periodic() {
-<<<<<<< Updated upstream
     double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
@@ -88,18 +69,10 @@ public class DriveTrain implements Subsystem {
         SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
         SmartDashboard.putNumber("angle", getGryoDegree());
         SmartDashboard.updateValues();
-=======
-        double leftGROUP = (double) leftGroup.get();
-
-        double rightGROUP = (double) rightGroup.get();
-
-        odometry.update(getGyro(), leftGROUP, rightGROUP);
->>>>>>> Stashed changes
     }
 
     // Control methods
 
-<<<<<<< Updated upstream
     // public void tankDrive(double left, double right) {
     //     differentialDrive.tankDrive(left,right);   
     //  }
@@ -107,12 +80,6 @@ public class DriveTrain implements Subsystem {
     // public void arcadeDrive(double speed, double turn) {
     //     differentialDrive.arcadeDrive(speed, turn);
     // }
-=======
-    public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right)
-;    }
-    
->>>>>>> Stashed changes
 
     // public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
     //     differentialDrive.curvatureDrive(speed, curve, isQuickTurn);

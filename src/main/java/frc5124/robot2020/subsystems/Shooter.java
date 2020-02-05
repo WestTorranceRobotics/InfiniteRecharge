@@ -34,47 +34,31 @@ public class Shooter implements Subsystem {
   private double currentVelocity = 0;
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
-  private PIDController shootControl = new PIDController(RobotMap.ShooterMap.Kp, RobotMap.ShooterMap.Ki, RobotMap.ShooterMap.Kd, RobotMap.ShooterMap.period);
+ 
 
   
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader);
   }
- 
-  /**
-   * @deprecated
-   */
-  public void directPower (double power) {
-    setPower(power);
-  }
-
 
   /**
    * PI loop
    * @param targetVelocity desired velocity
    */
   public void kPIHold(double targetVelocity) {
-    getVelocity();
-    kOut = shootControl.calculate(currentVelocity, targetVelocity);
-
-     if (targetVelocity== 0) {
-       return;
-     }
-  
-    kOut = kOut + RobotMap.ShooterMap.Kf ; 
-    setPower(kOut);
+    
   }
 
 /**
  * Units of ft/s
  */
 
-  public void getVelocity() {
-    this.currentVelocity = ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.ShooterMap.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
+  public double getVelocity() {
+    return ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.ShooterMap.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
     
    }
   
-  private void setPower (double power) {
+  public void setPower (double power) {
     shootMotorLeader.set(power);
   }
 
