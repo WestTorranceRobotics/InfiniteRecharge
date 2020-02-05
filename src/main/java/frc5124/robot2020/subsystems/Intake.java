@@ -29,6 +29,11 @@ public class Intake implements Subsystem {
 
   }
 
+  public void setIntakePower(double power) {
+    rollerSpeedController.set(power);
+
+  }
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 

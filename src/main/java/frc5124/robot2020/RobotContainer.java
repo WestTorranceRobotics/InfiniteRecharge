@@ -98,6 +98,7 @@ public class RobotContainer {
   private void configureSubsystems() {
     camera = new Camera();
     //panelController = new PanelController();
+    intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
@@ -109,17 +110,17 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    //operatorRB.whileHeld(new IntakeBall(intake));
-    //operatorLB.whileHeld(new OuttakeBall(intake));
+    operatorX.whileHeld(new setIntakePower(intake, 1));
+    operatorX.whenReleased(new setIntakePower(intake, 0));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
-    operatorRB.whileHeld(new RotateTurret(turret, 1));
+    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorRB.whenReleased(new RotateTurret(turret, 0));
-    operatorLB.whileHeld(new RotateTurret(turret, -1));
+    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     operatorLB.whenReleased(new RotateTurret(turret, 0));
-    operatorUp.whenPressed(new ShootVelocity(shooter, 30));
+    operatorUp.whenPressed(new ShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
     operatorUp.whenReleased(new ShootVelocity(shooter, 0));
 
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));

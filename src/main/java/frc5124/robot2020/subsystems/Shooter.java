@@ -46,9 +46,10 @@ public class Shooter implements Subsystem {
   public void setTargetVelocity(double targetVelocity) {
     targetVelocity = (targetVelocity / RobotMap.ShooterMap.conversionConstant);
     if (shootMotorLeader.getAppliedOutput() == 0 && targetVelocity == 0) {
-      return;
-    }
-      shootController.setReference(targetVelocity, ControlType.kVelocity);
+      
+    } else {
+        shootController.setReference(targetVelocity, ControlType.kVelocity);
+      }
   }
 
 /**
@@ -63,6 +64,10 @@ public class Shooter implements Subsystem {
    */
   public void directPower (double power) {
     shootMotorLeader.set(power);
+  }
+
+  public boolean atSpeed () {
+    return true;
   }
 
   

@@ -31,16 +31,16 @@ public class Turret implements Subsystem {
 
   public void rotateTurret(double power) {
     if (limitReached && turretMotor.getAppliedOutput() == 0) {
-      return;
+      
     } else if (limitReached) {
       turretMotor.set(0);
-      return;
+      
     } else if (!limitReached && turretMotor.getAppliedOutput() != power) {
       turretMotor.set(power);
-      return;
+      
     }
     else {
-      return;
+      
     }
   }
 

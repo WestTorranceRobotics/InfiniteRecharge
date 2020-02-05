@@ -27,6 +27,8 @@ public class RobotMap {
         public static double Kf = .195;
         public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
+        public static double shootVelocity = 30;
+
     }
 
     public static class IntakeMap {
@@ -52,6 +54,8 @@ public class RobotMap {
 
     public static class TurretMap{
         public static int turretCanID = 0;
+        public static double turretSpeed = 1;
+    
     }
     
     public static class CameraMap {}
