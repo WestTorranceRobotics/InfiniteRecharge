@@ -45,12 +45,18 @@ public class RobotMap {
         public static int bottomLimitChannelID = 2;             //DIO port    
     }
 
-    public static class PanelControlMap{
-        public static int deployerSolenoidChannel = 0;
-        public static int spinnerCanID = 10;
-       
+    public static class PanelControlMap {
+        public static final int spinnerCanId = 10;
+        public static final int deployerSolenoidChannel = 0;
 
-        
+        public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
+        public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red
+        public static final RawColor greenReading = new RawColor(6000, 22500, 9000, 250); // green
+        public static final RawColor blueReading = new RawColor(6500, 26000, 28000, 440); // blue
+
+        public static final double positionControlPower = 0.1;
+        public static final IntToDoubleFunction rotationControlDistanceToPowerFunction =
+            (i) -> i > 8 ? 1 : i / 8;
     }
 
     public static class TurretMap{
