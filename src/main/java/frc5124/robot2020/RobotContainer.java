@@ -26,8 +26,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.auto.*;
@@ -38,7 +36,6 @@ import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
-import frc5124.robot2020.commands.*;
 import frc5124.robot2020.subsystems.*;
 
 //import frc5124.robot2020.subsystems.PanelController.OutputColor;
