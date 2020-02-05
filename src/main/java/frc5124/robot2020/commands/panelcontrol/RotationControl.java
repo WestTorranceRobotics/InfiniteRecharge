@@ -24,24 +24,24 @@ public class RotationControl implements Command {
 
     @Override
     public void initialize() {
-        panelController.resetColorEncoder();
+      //  panelController.resetColorEncoder();
     }
 
     public void execute() {
-        panelController.setSpinner(
-            RobotMap.PanelController.rotationControlDistanceToPowerFunction
-                    .applyAsDouble(25 - panelController.getColorEncoder())
-        );
+        //panelController.setSpinner(
+        //     RobotMap.PanelController.rotationControlDistanceToPowerFunction
+        //             .applyAsDouble(25 - panelController.getColorEncoder())
+        // );
     }
 
-    @Override
-    public boolean isFinished() {
-        return panelController.getColorEncoder() >= 25;
-    }
+    // @Override
+    // public boolean isFinished() {
+    //    // return panelController.getColorEncoder() >= 25;
+    // }
 
     @Override
     public void end(boolean interrupted) {
-        panelController.setSpinner(0);
+       // panelController.setSpinner(0);
     }
 
     @Override

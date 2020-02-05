@@ -10,13 +10,12 @@ package frc5124.robot2020.commands.shooter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc5124.robot2020.subsystems.Shooter;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class setShootVelocity extends InstantCommand {
+//Class can be moved to be an inline
+public class ShootVelocity extends InstantCommand {
   private Shooter shooter;
   private double targetVelocity;
-  public setShootVelocity(Shooter subsystem, double targetVelocity) {
+  
+  public ShootVelocity(Shooter subsystem, double targetVelocity) {
     shooter = subsystem;
     addRequirements(shooter);
     this.targetVelocity = targetVelocity;
@@ -25,5 +24,6 @@ public class setShootVelocity extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.setTargetVelocity(targetVelocity);
   }
 }

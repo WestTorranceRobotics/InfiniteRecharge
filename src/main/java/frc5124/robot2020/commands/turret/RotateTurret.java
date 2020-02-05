@@ -16,7 +16,7 @@ public class RotateTurret extends CommandBase {
   private double power;
   /**
    * Creates a new RotateTurret.
-   * @param Useable if limit not reached. Suggest moving by units
+   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
    */
   public RotateTurret(Turret subsystem, double power) {
     turret = subsystem;

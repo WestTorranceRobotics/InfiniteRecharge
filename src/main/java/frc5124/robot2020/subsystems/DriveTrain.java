@@ -1,5 +1,6 @@
 package frc5124.robot2020.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -23,7 +24,7 @@ public class DriveTrain implements Subsystem {
     private WPI_TalonFX rightFollower;
     private SimpleWidget odometryWidget;
     private AHRS gyro;
-    // private DifferentialDrive differentialDrive;
+    private DifferentialDrive differentialDrive;
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
@@ -31,12 +32,12 @@ public class DriveTrain implements Subsystem {
 
     public DriveTrain() {
 
-        leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanId);
-        rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanId);
+        leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanID);
+        rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanID);
 
-        leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanId);
+        leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanID);
         leftFollower.follow(leftLeader);
-        rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanId);
+        rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanID);
         rightFollower.follow(rightLeader);
 
         leftLeader.setSelectedSensorPosition(0);
@@ -44,10 +45,10 @@ public class DriveTrain implements Subsystem {
 
         gyro = new AHRS(SPI.Port.kMXP);
         
-        // differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
-        // differentialDrive.setSafetyEnabled(true);
-        // differentialDrive.setExpiration(0.1);
-        // differentialDrive.setMaxOutput(1.0);
+        differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
+        differentialDrive.setSafetyEnabled(true);
+        differentialDrive.setExpiration(0.1);
+        differentialDrive.setMaxOutput(1.0);
 
         kinematics = new DifferentialDriveKinematics(30);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
@@ -60,41 +61,32 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-<<<<<<< HEAD
-    double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
-    double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+        //the following is test code**********************************the following is test code
+
+    // double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    // double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
-        odometry.update(getGyro(), l * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI), r * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI)) ;
-        SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
-        SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
-        SmartDashboard.putNumber("angle", getGryoDegree());
-        SmartDashboard.updateValues();
+    //     odometry.update(getGyro(), l * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI), r * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI)) ;
+    //     SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
+    //     SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
+    //     SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+    //     SmartDashboard.putNumber("angle", getGryoDegree());
+    //     SmartDashboard.updateValues();
     }
-
-    // Control methods
-
-    // public void tankDrive(double left, double right) {
-    //     differentialDrive.tankDrive(left,right);   
-    //  }
-
-    // public void arcadeDrive(double speed, double turn) {
-    //     differentialDrive.arcadeDrive(speed, turn);
-    // }
-=======
-    }
-    
 
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right);    } 
-    
->>>>>>> origin/master
+        differentialDrive.tankDrive(left,right);   
+     }
 
-    // public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
-    //     differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
-    // }
+    public void arcadeDrive(double speed, double turn) {
+        differentialDrive.arcadeDrive(speed, turn);
+    }
+
+    public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
+        differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
+    }
 
     public void resetOdometry() {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
@@ -129,9 +121,4 @@ public class DriveTrain implements Subsystem {
     public double getGryoDegree() {
         return gyro.getAngle();
     }
-<<<<<<< HEAD
 }
-=======
-} 
-
->>>>>>> origin/master

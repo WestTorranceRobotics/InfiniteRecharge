@@ -1,4 +1,4 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
 import java.util.Set;
 
@@ -23,11 +23,6 @@ public class AutonomousCommand implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-<<<<<<< HEAD
-      //  driveTrain.driveToPos(20);
-     //   driveTrain.noDrive();
-=======
->>>>>>> origin/master
     }
 
     // Make this return true when this Command no longer needs to run execute()

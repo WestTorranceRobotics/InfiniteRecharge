@@ -111,35 +111,41 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands(){
-    operatorRB.whileHeld(new IntakeBall(intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
+    //operatorRB.whileHeld(new IntakeBall(intake));
+    //operatorLB.whileHeld(new OuttakeBall(intake));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
-    operatorRight.whileHeld(new TurretTurn(turret));
+    operatorRB.whileHeld(new RotateTurret(turret, 1));
+    operatorRB.whenReleased(new RotateTurret(turret, 0));
+    operatorLB.whileHeld(new RotateTurret(turret, -1));
+    operatorLB.whenReleased(new RotateTurret(turret, 0));
+    operatorUp.whenPressed(new ShootVelocity(shooter, 30));
+    operatorUp.whenReleased(new ShootVelocity(shooter, 0));
+
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    shooter.setDefaultCommand(new ShootHold(shooter));
+    
   }
 
 
   private void configureShuffleboard() {
-    display = Shuffleboard.getTab("Driving Display");
-    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+    // display = Shuffleboard.getTab("Driving Display");
+    // shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
 
-    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
-    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
-    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
-    NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+    // ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
+    // ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
+    // NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    // NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    // ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
+    // NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    // NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
+    // poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
+    //   .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
-    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
+    // display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    // new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

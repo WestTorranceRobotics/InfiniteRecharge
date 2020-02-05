@@ -13,6 +13,6 @@ import frc5124.robot2020.subsystems.PanelController;
 public class PanelControllerToggleDeployed extends InstantCommand {
 
     public PanelControllerToggleDeployed(PanelController panelController) {
-        super(() -> panelController.setDeployed(!panelController.isDeployed()), panelController);
+       // super(() -> panelController.setDeployed(!panelController.isDeployed()), panelController);
     }
 }
