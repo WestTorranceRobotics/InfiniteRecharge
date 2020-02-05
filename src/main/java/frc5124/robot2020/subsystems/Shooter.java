@@ -41,14 +41,6 @@ public class Shooter implements Subsystem {
     shootMotorFollower.follow(shootMotorLeader);
   }
 
-  /**
-   * PI loop
-   * @param targetVelocity desired velocity
-   */
-  public void kPIHold(double targetVelocity) {
-    
-  }
-
 /**
  * Units of ft/s
  */
