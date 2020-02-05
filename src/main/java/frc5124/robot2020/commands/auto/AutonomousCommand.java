@@ -1,20 +1,18 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
-import java.lang.module.ModuleDescriptor.Requires;
 import java.util.Set;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.Robot;
-import frc5124.robot2020.RobotContainer;
-import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class TurretTurn implements Command {
+public class AutonomousCommand implements Command {
 
-    private final Turret turret;
+    private final DriveTrain driveTrain;
 
-    public TurretTurn(Turret subsystem) {
-        turret = subsystem;
+    public AutonomousCommand(DriveTrain subsystem) {
+        driveTrain = subsystem;
+
     }
 
     // Called just before this Command runs the first time
@@ -25,7 +23,6 @@ public class TurretTurn implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        turret.turnTurretPos();
     }
 
     // Make this return true when this Command no longer needs to run execute()

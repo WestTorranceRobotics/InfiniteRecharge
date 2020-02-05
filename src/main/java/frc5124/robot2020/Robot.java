@@ -1,7 +1,5 @@
 package frc5124.robot2020;
 
-
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,21 +14,43 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    private RobotContainer robotContainer;
-    private Command autonomousCommand;
-    
-    
+    private RobotContainer m_robotContainer;
+    private Command m_autonomousCommand;
+
+    // Command autonomousCommand;
+    // SendableChooser<Command> chooser = new SendableChooser<>();
+
+    // public static OI oi;
+    // public static DriveTrain driveTrain;
 
     @Override
     public void robotInit() {
 
-       robotContainer = new RobotContainer();  
-       
+        m_robotContainer = new RobotContainer();
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
+
+        /*
+        driveTrain = new DriveTrain();
+        oi = new OI();
+
+        driveTrain.setDefaultCommand(new RunCommand(() -> driveTrain.curvatureDrive(
+            -oi.getDriver().getY(),
+            oi.getDriver().getTwist(),
+            oi.getDriver().getRawButton(Constants.OI.Driver.quickTurnButton)),
+            driveTrain));
+        
+
+        // Add commands to Autonomous Sendable Chooser
+        chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+        SmartDashboard.putData("Auto mode", chooser);
+
+        SmartDashboard.putData("Run Chosen Auto", new InstantCommand(() -> chooser.getSelected().schedule()));
+
+        */
     }
 
     /**
@@ -39,6 +59,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit(){
+        m_robotContainer.disabledInit();
     }
 
     @Override
@@ -48,10 +69,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        // autonomousCommand = robotContainer.getAutonomousCommand();
-        // if (autonomousCommand != null) {
-        //     autonomousCommand.schedule();
-        //   }
+        m_robotContainer.autonomousInit();
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+          }
     }
 
     /**
@@ -68,9 +91,11 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) {
-            autonomousCommand.cancel();
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
           }
+
+        m_robotContainer.teleopInit();
     }
 
     /**

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.RunPos;
+package frc5124.robot2020.commands.auto.RunPos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
@@ -19,16 +19,18 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 
 public class RunDistance extends CommandBase {
-  private Pose2d currentPos;
-  private double targetTheta;
-  private DriveTrain driveTrain;
-  private double transX;
-  private double transY;
-  private double targetDistance;
-  private ParallelCommandGroup runPos = new ParallelCommandGroup();
-  private double currentDistance;
-  private PIDController distanceController = new PIDController(0, 0, 0);
-  private PIDController angleController = new PIDController(0, 0, 0);
+private Pose2d currentPos;
+private double targetTheta;
+private DriveTrain driveTrain;
+private double transX;
+private double transY;
+private double targetDistance;
+private ParallelCommandGroup runPos = new ParallelCommandGroup();
+private double currentDistance;
+private PIDController distanceController = new PIDController(0, 0, 0);
+private PIDController angleController = new PIDController(0,0,0); 
+
+
 
   /**
    * Creates a new RunToPosition.
@@ -50,8 +52,7 @@ public class RunDistance extends CommandBase {
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
   
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,13 +60,8 @@ public class RunDistance extends CommandBase {
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
-        double turn = angleController.calculate(driveTrain.getGryoDegree(), targetTheta);
-
-        if(driveTrain.getGryoDegree() <= targetTheta){
-          driveTrain.arcadeDrive(0,turn);
         }
-        else{
-          targetDistance = Math.sqrt((transX*transX)+(transY*transY));
+          this.targetDistance = Math.sqrt((transX*transX)+(transY*transY));
           double currentX = (currentPos.getTranslation().getX() + transX);
           double currentY = (currentPos.getTranslation().getY() + transY); 
         

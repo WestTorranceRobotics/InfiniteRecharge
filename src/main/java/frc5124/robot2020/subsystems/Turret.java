@@ -6,31 +6,51 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+import frc5124.robot2020.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.VictorSP;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
-
-  private TalonSRX turretMotor;
+  public boolean limitReached = false;
+  private CANSparkMax turretMotor;
   //private VictorSP turretMotor;
   
   public Turret() {
-    turretMotor = new TalonSRX(1);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
   //  turretMotor = new VictorSP(1);
   }
 
   @Override
   public void periodic() {
+    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    // limitReached();                                        //exists for instantCommand as opposed to looping command
+    // }
   }
 
-  public void turnTurretPos(){
-    turretMotor.set(ControlMode.PercentOutput, .3);
+  public void rotateTurret(double power) {
+    if (limitReached && turretMotor.getAppliedOutput() == 0) {
+      
+    } else if (limitReached) {
+      turretMotor.set(0);
+      
+    } else if (!limitReached && turretMotor.getAppliedOutput() != power) {
+      turretMotor.set(power);
+      
+    }
+    else {
+      
+    }
   }
-  public void turnTurretNeg(){
-    turretMotor.set(ControlMode.PercentOutput, -.3);
+
+  public int getEncoder(){
+    return turretMotor.getEncoder().getCountsPerRevolution();
   }
+
+  private boolean limitReached() {
+    return true;
+    
+  }
+
 }

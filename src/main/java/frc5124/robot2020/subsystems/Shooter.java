@@ -6,15 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
-import edu.wpi.first.wpilibj.controller.PIDController;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -25,22 +24,76 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * 
  */
 public class Shooter implements Subsystem {
-  private double kOut = 0;
-  private double currentVelocity = 0;
-  private boolean run = true;
-
-  private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.Shooter.shootFollowerCanID, MotorType.kBrushless);
-  private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.Shooter.shootLeaderCanID, MotorType.kBrushless);
-  private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
+  private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
+  private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
+  private CANPIDController shootController; 
+  private double currentVelocity;
+ 
 
   
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader);
+    shootController = shootMotorLeader.getPIDController();
+    shootController.setD(RobotMap.ShooterMap.Kd);
+    shootController.setFF(RobotMap.ShooterMap.Kf);
+    shootController.setP(RobotMap.ShooterMap.Kp);
+    shootController.setI(RobotMap.ShooterMap.Ki);
+    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+    
+
+        SmartDashboard.putNumber("P Gain", 0);
+        SmartDashboard.putNumber("I Gain", 0);
+        SmartDashboard.putNumber("D Gain", 0);
+        SmartDashboard.putNumber("I Zone", 0);
+        SmartDashboard.putNumber("Feed Forward", 0);
+        SmartDashboard.putNumber("Max Output", 0);
+        SmartDashboard.putNumber("Min Output", 0);
+        SmartDashboard.putNumber("SetPoint", 0);
   }
 
+  /**
+   * @param targetVelocity desired ft/s [advise 30 or 0]
+   */
+  public void setTargetVelocity(double targetVelocity) {
+    targetVelocity = (targetVelocity / RobotMap.ShooterMap.conversionConstant);
+    if (shootMotorLeader.getAppliedOutput() == 0 && targetVelocity == 0) {
+      
+    } else {
+        shootController.setReference(targetVelocity, ControlType.kVelocity);
+      }
+  }
+
+  public void updatePID(){
+    shootController.setD(RobotMap.ShooterMap.Kd);
+    shootController.setFF(RobotMap.ShooterMap.Kf);
+    shootController.setP(RobotMap.ShooterMap.Kp);
+    shootController.setI(RobotMap.ShooterMap.Ki);
+    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+
+  }
+
+/**
+ * Units of ft/s
+ */
+  public double getVelocity() {
+    return ((shootMotorLeader.getEncoder().getVelocity())  * RobotMap.ShooterMap.conversionConstant); 
+   }
+  
+  /**
+   * @deprecated
+   */
+  public void directPower (double power) {
+    shootMotorLeader.set(power);
+  }
+
+  public boolean atSpeed () {
+    return true;
+  }
+
+  
   @Override
   public void periodic() {
-    // holdVelocity(targetVelocity);
+    SmartDashboard.updateValues();
   }
 
 //   /**

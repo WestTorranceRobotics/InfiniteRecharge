@@ -1,5 +1,6 @@
 package frc5124.robot2020.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -23,7 +24,7 @@ public class DriveTrain implements Subsystem {
     private WPI_TalonFX leftFollower;
     private WPI_TalonFX rightFollower;
     private AHRS gyro;
-     private DifferentialDrive differentialDrive;
+    private DifferentialDrive differentialDrive;
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
@@ -31,12 +32,12 @@ public class DriveTrain implements Subsystem {
 
     public DriveTrain() {
 
-        leftLeader = new WPI_TalonFX(RobotMap.DriveTrain.leftLeaderCanId);
-        rightLeader = new WPI_TalonFX(RobotMap.DriveTrain.rightLeaderCanId);
+        leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanID);
+        rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanID);
 
-        leftFollower = new WPI_TalonFX(RobotMap.DriveTrain.leftFollowerCanId);
+        leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanID);
         leftFollower.follow(leftLeader);
-        rightFollower = new WPI_TalonFX(RobotMap.DriveTrain.rightFollowerCanId);
+        rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanID);
         rightFollower.follow(rightLeader);
 
         leftLeader.setSelectedSensorPosition(0);
@@ -60,9 +61,10 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-    double r = (double) rightLeader.getSelectedSensorPosition();
-    double l = (double) leftLeader.getSelectedSensorPosition();
-    // double l = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+        //the following is test code**********************************the following is test code
+
+    double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
         odometry.update(getGyro(), -l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f), r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)) ;
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
@@ -86,9 +88,9 @@ public class DriveTrain implements Subsystem {
         differentialDrive.arcadeDrive(speed, turn);
     }
 
-    // public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
-    //     differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
-    // }
+    public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
+        differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
+    }
 
     public void resetOdometry() {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
