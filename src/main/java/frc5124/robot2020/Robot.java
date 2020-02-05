@@ -25,10 +25,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
 
        robotContainer = new RobotContainer();  
-      
-       
-    
-       
        
 
         // OI must be constructed after subsystems. If the OI creates Commands

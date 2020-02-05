@@ -12,6 +12,7 @@ import frc5124.robot2020.subsystems.DriveTrain;
 
 import javax.swing.GroupLayout.ParallelGroup;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -25,6 +26,10 @@ private double transX;
 private double transY;
 private double targetDistance;
 private ParallelCommandGroup runPos = new ParallelCommandGroup();
+private double currentDistance;
+private PIDController distanceController = new PIDController(0, 0, 0);
+private PIDController angleController = new PIDController(0,0,0); 
+
 
 
   /**
@@ -54,9 +59,17 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
+
         targetDistance = Math.sqrt((transX*transX)+(transY*transY));
         double currentX = (currentPos.getTranslation().getX() + transX);
         double currentY = (currentPos.getTranslation().getY() + transY); 
+        
+          currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
+
+          distanceController.calculate(currentDistance, targetDistance);
+        
+
+
   }
 
   // Called once the command ends or is interrupted.

@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -26,7 +27,7 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
-    
+    private PIDController angleController = new PIDController(0, 0, 0);
 
     public DriveTrain() {
 
@@ -63,13 +64,15 @@ public class DriveTrain implements Subsystem {
     double l = (double) leftLeader.getSelectedSensorPosition();
     // double l = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
-        odometry.update(getGyro(), l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f), r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)) ;
+        odometry.update(getGyro(), -l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f), r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)) ;
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
         SmartDashboard.putNumber("encodeyBoy", Math.abs(l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)));
         SmartDashboard.putNumber("encodeyGuy", Math.abs(r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)));
         //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiameter; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
         SmartDashboard.putNumber("angle", getGryoDegree());
+        SmartDashboard.putNumber("Target Value", Math.toDegrees(Math.atan2(10,10)));
+        SmartDashboard.putNumber("Power",  angleController.calculate(getGryoDegree(), 45));
         SmartDashboard.updateValues();
     }
 
@@ -116,6 +119,10 @@ public class DriveTrain implements Subsystem {
     private Rotation2d getGyro() {
         double radians = Math.toRadians(90 - gyro.getAngle());
         return new Rotation2d(radians);
+    }
+
+    public AHRS getGyroScope(){
+        return gyro;
     }
     public double getGryoDegree() {
         return gyro.getAngle();

@@ -17,7 +17,7 @@ public class holdShooterVelocity extends CommandBase {
   double targetVelocity = 0;
   double kOut = 0;
   double currentVelocity = 0;
-  private PIDController shootControl = new PIDController(RobotMap.ShooterMap.Kp, RobotMap.ShooterMap.Ki, RobotMap.ShooterMap.Kd, RobotMap.ShooterMap.period);
+  private PIDController shootControl = new PIDController(RobotMap.Shooter.Kp, RobotMap.Shooter.Ki, RobotMap.Shooter.Kd, RobotMap.Shooter.period);
   /**
    * Creates a new holdShooterVelocity.
    */
@@ -35,13 +35,13 @@ public class holdShooterVelocity extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentVelocity = shooter.getVelocity();
-    kOut = shootControl.calculate(currentVelocity, targetVelocity);
-    if (currentVelocity == 0 ) {
-      shooter.setPower(0);
-      return;}
-    kOut = kOut + RobotMap.ShooterMap.Kf ; 
-   shooter.setPower(kOut);
+  //   currentVelocity = shooter.getVelocity();
+  //   kOut = shootControl.calculate(currentVelocity, targetVelocity);
+  //   if (currentVelocity == 0 ) {
+  //     shooter.setPower(0);
+  //     return;}
+  //   kOut = kOut + RobotMap.ShooterMap.Kf ; 
+  //  shooter.setPower(kOut);
   }
 
   // Called once the command ends or is interrupted.

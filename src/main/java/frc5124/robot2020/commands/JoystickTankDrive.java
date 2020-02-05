@@ -45,10 +45,10 @@ public class JoystickTankDrive implements Command {
     @Override
     public void execute() {
 
-        // if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
-        //     leftHandIn = Math.pow(leftHand.getY(), 3);
-        //     rightHandIn = Math.pow(rightHand.getY(), 3);
-        //     driveTrain.tankDrive(leftHandIn, rightHandIn);
-        // }
+        if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
+            leftHandIn = Math.pow(leftHand.getY(), 3);
+            rightHandIn = Math.pow(rightHand.getY(), 3);
+            driveTrain.tankDrive(leftHandIn, rightHandIn);
+        }
     }
 }

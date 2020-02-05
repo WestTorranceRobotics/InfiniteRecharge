@@ -18,31 +18,30 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 
-public class RunToPosition extends CommandBase {
-private Pose2d currentPos;
-private double targetTheta;
-private DriveTrain driveTrain;
-private double transX;
-private double transY;
-private double targetDistance;
-private ParallelCommandGroup runPos = new ParallelCommandGroup();
-private double currentDistance;
-private PIDController distanceController = new PIDController(0, 0, 0);
-private PIDController angleController = new PIDController(0,0,0); 
-
-
+public class RunDistance extends CommandBase {
+  private Pose2d currentPos;
+  private double targetTheta;
+  private DriveTrain driveTrain;
+  private double transX;
+  private double transY;
+  private double targetDistance;
+  private ParallelCommandGroup runPos = new ParallelCommandGroup();
+  private double currentDistance;
+  private PIDController distanceController = new PIDController(0, 0, 0);
+  private PIDController angleController = new PIDController(0, 0, 0);
 
   /**
    * Creates a new RunToPosition.
    */
-   /**
+  /**
    * 
    * Creates a new RunToPosition.
+   * 
    * @param transX translation in X axis
    * @param transY translation in Y axis
    * 
    */
-  public RunToPosition(DriveTrain subsystem, double transX, double transY) {
+  public RunDistance(DriveTrain subsystem, double transX, double transY) {
     driveTrain = subsystem;
     addRequirements(driveTrain);
     this.transX = transX;
@@ -52,6 +51,7 @@ private PIDController angleController = new PIDController(0,0,0);
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+  }
   
 
   // Called every time the scheduler runs while the command is scheduled.

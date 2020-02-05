@@ -5,15 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.RunPos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class getEncoder extends CommandBase {
+public class resetGyro extends CommandBase {
   /**
-   * Creates a new getEncoder.
+   * Creates a new resetGyro.
    */
-  public getEncoder() {
+  private DriveTrain m_DriveTrain;
+
+  public resetGyro(DriveTrain driveTrain) {
+    m_DriveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +29,7 @@ public class getEncoder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
   }
 
   // Called once the command ends or is interrupted.
