@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.RunPos;
+package frc5124.robot2020.commands.auto.runPos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
