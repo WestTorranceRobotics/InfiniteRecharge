@@ -24,9 +24,9 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
-    if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    limitReached();                                        //exists for instantCommand as opposed to looping command
-    }
+    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    // limitReached();                                        //exists for instantCommand as opposed to looping command
+    // }
   }
 
   public void rotateTurret(double power) {
