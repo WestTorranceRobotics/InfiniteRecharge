@@ -21,9 +21,8 @@ public class DriveTrain implements Subsystem {
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
     private WPI_TalonFX rightFollower;
-    private SimpleWidget odometryWidget;
     private AHRS gyro;
-    // private DifferentialDrive differentialDrive;
+     private DifferentialDrive differentialDrive;
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
@@ -31,12 +30,12 @@ public class DriveTrain implements Subsystem {
 
     public DriveTrain() {
 
-        leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanId);
-        rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanId);
+        leftLeader = new WPI_TalonFX(RobotMap.DriveTrain.leftLeaderCanId);
+        rightLeader = new WPI_TalonFX(RobotMap.DriveTrain.rightLeaderCanId);
 
-        leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanId);
+        leftFollower = new WPI_TalonFX(RobotMap.DriveTrain.leftFollowerCanId);
         leftFollower.follow(leftLeader);
-        rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanId);
+        rightFollower = new WPI_TalonFX(RobotMap.DriveTrain.rightFollowerCanId);
         rightFollower.follow(rightLeader);
 
         leftLeader.setSelectedSensorPosition(0);
@@ -44,10 +43,10 @@ public class DriveTrain implements Subsystem {
 
         gyro = new AHRS(SPI.Port.kMXP);
         
-        // differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
-        // differentialDrive.setSafetyEnabled(true);
-        // differentialDrive.setExpiration(0.1);
-        // differentialDrive.setMaxOutput(1.0);
+        differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
+        differentialDrive.setSafetyEnabled(true);
+        differentialDrive.setExpiration(0.1);
+        differentialDrive.setMaxOutput(1.0);
 
         kinematics = new DifferentialDriveKinematics(30);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
@@ -60,26 +59,29 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
-    double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
-    double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    double r = (double) rightLeader.getSelectedSensorPosition();
+    double l = (double) leftLeader.getSelectedSensorPosition();
+    // double l = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
-        odometry.update(getGyro(), l * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI), r * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI)) ;
+        odometry.update(getGyro(), l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f), r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)) ;
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        SmartDashboard.putNumber("encodeyBoy", Math.abs(l * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)));
+        SmartDashboard.putNumber("encodeyGuy", Math.abs(r * (18.0f/28.0f) * (10.0f/64.0f) * 0.1524f * Math.PI * (1.0f/2048.0f)));
+        //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiameter; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
         SmartDashboard.putNumber("angle", getGryoDegree());
         SmartDashboard.updateValues();
     }
 
     // Control methods
 
-    // public void tankDrive(double left, double right) {
-    //     differentialDrive.tankDrive(left,right);   
-    //  }
+    public void tankDrive(double left, double right) {
+        differentialDrive.tankDrive(left,right);   
+     }
 
-    // public void arcadeDrive(double speed, double turn) {
-    //     differentialDrive.arcadeDrive(speed, turn);
-    // }
+    public void arcadeDrive(double speed, double turn) {
+        differentialDrive.arcadeDrive(speed, turn);
+    }
 
     // public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
     //     differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
