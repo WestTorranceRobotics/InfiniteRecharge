@@ -22,7 +22,6 @@ public class DriveTrain implements Subsystem {
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
     private WPI_TalonFX rightFollower;
-    private SimpleWidget odometryWidget;
     private AHRS gyro;
     private DifferentialDrive differentialDrive;
     private DifferentialDriveKinematics kinematics;
