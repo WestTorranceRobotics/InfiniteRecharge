@@ -5,43 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Turret;
 
-public class SeeBallRunBelt extends CommandBase {
-
-  private Loader m_Loader;
-
-  public SeeBallRunBelt(Loader subsystem) {
-    m_Loader = subsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Loader);
+public class RotateTurret extends CommandBase {
+  private Turret turret;
+  private double power;
+  /**
+   * Creates a new RotateTurret.
+   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   */
+  public RotateTurret(Turret subsystem, double power) {
+    turret = subsystem;
+    addRequirements(turret);
+    this.power = power;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turret.rotateTurret(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
-    } else {
-      m_Loader.stopBelt();
-     // isDone = true;
-    }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
+  
+    // if (1==1 && !turret.limitReached) { //1==1 placeholder
+    //   turret.limitReached = true;
+    // } 
+    // else if (!(1==1) && turret.limitReached) { //1==1 placeholder
+    //   turret.limitReached = false;
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Loader.stopBelt();
+    turret.rotateTurret(0);
   }
 
   // Returns true when the command should end.
@@ -49,5 +53,4 @@ public class SeeBallRunBelt extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

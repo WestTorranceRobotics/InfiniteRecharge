@@ -24,16 +24,21 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc5124.robot2020.commands.*;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc5124.robot2020.commands.driveTrain.*;
+import frc5124.robot2020.commands.auto.*;
+import frc5124.robot2020.commands.hanger.*;
+import frc5124.robot2020.commands.intake.*;
+import frc5124.robot2020.commands.loader.*;
+import frc5124.robot2020.commands.shooter.*;
+import frc5124.robot2020.commands.turret.*;
+import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
 
-import frc5124.robot2020.subsystems.PanelController.OutputColor;
+//import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 
 /**
@@ -44,14 +49,14 @@ import frc5124.robot2020.subsystems.PanelController.OutputColor;
  */
 public class RobotContainer {
 
-  //private Camera camera;
+  private Camera camera;
   private PanelController panelController;
-  private DriveTrain driveTrain;
+  private Intake intake;
   private Hanger hanger;
-  public Intake intake;
-  private Loader loader;
+  private DriveTrain driveTrain;
   private Shooter shooter; 
   private Turret turret;
+  private Loader loader;
 
 
 
@@ -89,39 +94,40 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    //camera = new Camera();
+    camera = new Camera();
     panelController = new PanelController();
-    driveTrain = new DriveTrain();
-    hanger = new Hanger();
     intake = new Intake();
+    hanger = new Hanger();
     loader = new Loader();
+    driveTrain = new DriveTrain();
     shooter = new Shooter();
     turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    operatorRB.whileHeld(new intakeBalls (intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
 
+    operatorX.whileHeld(new setIntakePower(intake, RobotMap.IntakeMap.motorPower));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorX.whileHeld(new SeeBallRunBelt(loader));
-
-    operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
-
     operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));
-    operatorRight.whileHeld(new TurretTurn(turret));
+    operatorDown.whileHeld(new LiftDown(hanger));   
+    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
 
 
-    panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
-    positionControl.whenPressed(new PositionControl(panelController));
-    rotationControl.whenPressed(new RotationControl(panelController));
+   
+  }
+
+  private void configureDefaultCommands(){
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    
+    
   }
 
 
   private void configureShuffleboard() {
-     display = Shuffleboard.getTab("Driving Display");
+    display = Shuffleboard.getTab("Driving Display");
     shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
 
     ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
@@ -131,38 +137,12 @@ public class RobotContainer {
     ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
     NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
-   // poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-     // .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
+      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     
     new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
-    
-    ShuffleboardTab display = Shuffleboard.getTab("Driving Display");
-    Shuffleboard.selectTab(display.getTitle());
-
-    ShuffleboardLayout colorReader = display.getLayout("Control Panel Color", BuiltInLayouts.kList)
-      .withPosition(0, 2).withSize(3, 2);
-    SimpleWidget colorWidget = colorReader.add("Control Panel Color", true)
-      .withWidget(BuiltInWidgets.kBooleanBox);
-    NetworkTableEntry colorNumbersEntry = colorReader.add("Raw Color Values", "Red: 0, Green: 0, Blue: 0").getEntry();
-    NetworkTableEntry colorAnswer = colorReader.add("Answer", "Nothing").getEntry();
-    Consumer<OutputColor> colorDisplayer = (incolor) -> {
-      RawColor color = incolor.value;
-      float max = Math.max(Math.max(color.red, color.green), color.blue);
-      Color normalized = new Color(color.red / max, color.green / max, color.blue / max);
-      colorWidget.withProperties(Map.of("Color when true", 0xFF + 256 * normalized.getRGB()));
-      colorNumbersEntry.setString(
-        "Red: " + color.red + ", Green: " + color.green +
-        ", Blue: " + color.blue + ", IR: " + color.ir
-      );
-      colorAnswer.setString(incolor.choice == null ? "NOTHING" : incolor.choice.name());
-    };
-    new ColorDisplayer(panelController, colorDisplayer).schedule();
-  }
-
-  private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

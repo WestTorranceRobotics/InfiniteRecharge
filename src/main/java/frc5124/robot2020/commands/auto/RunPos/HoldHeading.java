@@ -5,15 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto.runPos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class TargetLimeLIght extends CommandBase {
+public class HoldHeading extends CommandBase {
+  private DriveTrain driveTrain;
   /**
-   * Creates a new TargetLimeLIght.
+   * Creates a new holdAnglee.
    */
-  public TargetLimeLIght() {
+  public HoldHeading() {
+    driveTrain = new DriveTrain();
+    addRequirements(driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,4 +41,5 @@ public class TargetLimeLIght extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }

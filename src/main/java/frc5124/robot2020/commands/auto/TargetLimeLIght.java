@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class getEncoder extends CommandBase {
+public class TargetLimeLIght extends CommandBase {
   /**
-   * Creates a new getEncoder.
+   * Creates a new TargetLimeLIght.
    */
-  public getEncoder() {
+  public TargetLimeLIght() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

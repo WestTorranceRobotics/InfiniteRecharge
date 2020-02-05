@@ -1,27 +1,28 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
+import java.util.Set;
 
-public class OuttakeBall extends CommandBase {
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-    private final Intake m_intake;
+public class AutonomousCommand implements Command {
 
-    public OuttakeBall(Intake subsystem) {
-        m_intake = subsystem;
-        addRequirements(m_intake);
+    private final DriveTrain driveTrain;
+
+    public AutonomousCommand(DriveTrain subsystem) {
+        driveTrain = subsystem;
+
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        m_intake.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        m_intake.out();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,6 +34,10 @@ public class OuttakeBall extends CommandBase {
     // Called once after isFinished returns true
     @Override
     public void end(boolean interrupted) {
-        m_intake.stop();
+    }
+
+    @Override
+    public Set<Subsystem> getRequirements() {
+        return Set.of();
     }
 }

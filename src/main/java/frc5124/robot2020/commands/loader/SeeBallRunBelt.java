@@ -5,28 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.loader;
 
-import java.util.Set;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.Loader;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.subsystems.*;
+public class SeeBallRunBelt extends CommandBase {
 
-public class LocationUpdaterCommand implements Command {
-  /**
-   * Creates a new LocationUpdaterCommand.
-   */
-  DriveTrain driveTrain;
-  NetworkTableEntry xSlider;
-  NetworkTableEntry ySlider;
+  private Loader m_Loader;
 
-  public LocationUpdaterCommand(DriveTrain driveTrain, NetworkTableEntry xSlider, NetworkTableEntry ySlider) {
-    this.driveTrain = driveTrain;
-    this.xSlider = xSlider;
-    this.ySlider = ySlider;
+  public SeeBallRunBelt(Loader subsystem) {
+    m_Loader = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Loader);
   }
 
   // Called when the command is initially scheduled.
@@ -37,14 +29,19 @@ public class LocationUpdaterCommand implements Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    xSlider.setDouble(driveTrain.getLocation().getTranslation().getX());
-    ySlider.setDouble(driveTrain.getLocation().getTranslation().getY());
-
+    if (m_Loader.seeBall()) {
+      m_Loader.runBelt();
+    } else {
+      m_Loader.stopBelt();
+     // isDone = true;
+    }
+    // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_Loader.stopBelt();
   }
 
   // Returns true when the command should end.
@@ -53,9 +50,4 @@ public class LocationUpdaterCommand implements Command {
     return false;
   }
 
-  @Override
-  public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }

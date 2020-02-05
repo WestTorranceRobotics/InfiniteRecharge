@@ -10,37 +10,47 @@ import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
-
+  public boolean limitReached = false;
   private CANSparkMax turretMotor;
   //private VictorSP turretMotor;
   
   public Turret() {
-    turretMotor = new CANSparkMax(RobotMap.turretCanId, MotorType.kBrushless);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
   //  turretMotor = new VictorSP(1);
   }
 
   @Override
   public void periodic() {
+    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    // limitReached();                                        //exists for instantCommand as opposed to looping command
+    // }
   }
 
-  public void turnTurretPos(){
-    turretMotor.set(0.3);
+  public void rotateTurret(double power) {
+    if (limitReached && turretMotor.getAppliedOutput() == 0) {
+      
+    } else if (limitReached) {
+      turretMotor.set(0);
+      
+    } else if (!limitReached && turretMotor.getAppliedOutput() != power) {
+      turretMotor.set(power);
+      
+    }
+    else {
+      
+    }
   }
 
-  public void turnTurretNeg(){
-    turretMotor.set(-.3);
+  public int getEncoder(){
+    return turretMotor.getEncoder().getCountsPerRevolution();
   }
 
-  public void stop(){
-    turretMotor.set(0.0);
+  private boolean limitReached() {
+    return true;
+    
   }
-  
-  // Add logic and sensor to tell if the turret has turned to it max rotation to avoid tangling cables
-  public boolean isAtTurnLimit() {
-    return false;
-  }
+
 }

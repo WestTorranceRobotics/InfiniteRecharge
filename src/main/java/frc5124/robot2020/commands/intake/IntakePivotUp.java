@@ -1,18 +1,15 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.intake;
 
-import java.util.Set;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.Intake;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.subsystems.DriveTrain;
+public class IntakePivotUp extends CommandBase {
 
-public class AutonomousCommand implements Command {
+    private final Intake m_intake;
 
-    private final DriveTrain driveTrain;
-
-    public AutonomousCommand(DriveTrain subsystem) {
-        driveTrain = subsystem;
-
+    public IntakePivotUp(Intake subsystem) {
+        m_intake = subsystem;
+        addRequirements(m_intake);
     }
 
     // Called just before this Command runs the first time
@@ -23,6 +20,7 @@ public class AutonomousCommand implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+        m_intake.retract();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,8 +34,4 @@ public class AutonomousCommand implements Command {
     public void end(boolean interrupted) {
     }
 
-    @Override
-    public Set<Subsystem> getRequirements() {
-        return Set.of();
-    }
 }
