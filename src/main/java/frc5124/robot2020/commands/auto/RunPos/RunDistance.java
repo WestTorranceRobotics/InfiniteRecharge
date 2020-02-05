@@ -8,14 +8,20 @@
 package frc5124.robot2020.commands.RunPos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+<<<<<<< HEAD:src/main/java/frc5124/robot2020/commands/RunPos/RunDistance.java
 import frc5124.robot2020.subsystems.DriveTrain;
+=======
+import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Loader;
+>>>>>>> origin/master:src/main/java/frc5124/robot2020/commands/LoaderAndIntake.java
 
-public class HoldHeading extends CommandBase {
+public class RunDistance extends CommandBase {
   private DriveTrain driveTrain;
+  
   /**
-   * Creates a new holdAnglee.
+   * Creates a new RunDistance.
    */
-  public HoldHeading() {
+  public RunDistance() {
     driveTrain = new DriveTrain();
     addRequirements(driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,7 +35,11 @@ public class HoldHeading extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< HEAD:src/main/java/frc5124/robot2020/commands/RunPos/RunDistance.java
 
+
+=======
+>>>>>>> origin/master:src/main/java/frc5124/robot2020/commands/LoaderAndIntake.java
   }
 
   // Called once the command ends or is interrupted.

@@ -5,20 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.RunPos;
+package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.DriveTrain;
 
-public class RunDistance extends CommandBase {
-  private DriveTrain driveTrain;
-  
+public class RotateTurret extends CommandBase {
   /**
-   * Creates a new RunDistance.
+   * Creates a new RotateTurret.
    */
-  public RunDistance() {
-    driveTrain = new DriveTrain();
-    addRequirements(driveTrain);
+  public RotateTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,8 +25,6 @@ public class RunDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
   }
 
   // Called once the command ends or is interrupted.

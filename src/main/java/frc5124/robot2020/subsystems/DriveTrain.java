@@ -60,6 +60,7 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
+<<<<<<< HEAD
     double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
     
@@ -80,6 +81,16 @@ public class DriveTrain implements Subsystem {
     // public void arcadeDrive(double speed, double turn) {
     //     differentialDrive.arcadeDrive(speed, turn);
     // }
+=======
+    }
+    
+
+    // Control methods
+
+    public void tankDrive(double left, double right) {
+        differentialDrive.tankDrive(left,right);    } 
+    
+>>>>>>> origin/master
 
     // public void curvatureDrive(double speed, double curve, boolean isQuickTurn) {
     //     differentialDrive.curvatureDrive(speed, curve, isQuickTurn);
@@ -118,4 +129,9 @@ public class DriveTrain implements Subsystem {
     public double getGryoDegree() {
         return gyro.getAngle();
     }
+<<<<<<< HEAD
 }
+=======
+} 
+
+>>>>>>> origin/master

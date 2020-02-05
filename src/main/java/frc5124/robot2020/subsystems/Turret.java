@@ -6,31 +6,48 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+import frc5124.robot2020.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
 
-  private TalonSRX turretMotor;
+  private CANSparkMax turretMotor;
   //private VictorSP turretMotor;
   
   public Turret() {
-    turretMotor = new TalonSRX(1);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
   //  turretMotor = new VictorSP(1);
   }
 
   @Override
   public void periodic() {
+    
   }
 
-  public void turnTurretPos(){
-    turretMotor.set(ControlMode.PercentOutput, .3);
+  public void rotateTurret(double power) {
+    if (limitReached() && turretMotor.getAppliedOutput() == 0) {
+      return;
+    } else if (limitReached()) {
+      turretMotor.set(0);
+      return;
+    } else if (!limitReached()) {
+      turretMotor.set(power);
+      return;
+    }
+    else {
+      return;
+    }
   }
-  public void turnTurretNeg(){
-    turretMotor.set(ControlMode.PercentOutput, -.3);
+
+  public int getEncoder(){
+    return turretMotor.getEncoder().getCountsPerRevolution();
+  }
+
+  public boolean limitReached() {
+    return false;
   }
 }
