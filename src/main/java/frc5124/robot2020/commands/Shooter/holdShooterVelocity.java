@@ -39,7 +39,8 @@ public class holdShooterVelocity extends CommandBase {
     kOut = shootControl.calculate(currentVelocity, targetVelocity);
     if (currentVelocity == 0 ) {
       shooter.setPower(0);
-      return;}
+      return;
+    }
     kOut = kOut + RobotMap.ShooterMap.Kf ; 
    shooter.setPower(kOut);
   }
