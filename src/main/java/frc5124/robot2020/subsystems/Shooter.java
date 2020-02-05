@@ -30,8 +30,6 @@ import edu.wpi.first.wpilibj.controller.*;
  * 
  */
 public class Shooter implements Subsystem {
-  private double kOut = 0;
-  private double currentVelocity = 0;
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
  
