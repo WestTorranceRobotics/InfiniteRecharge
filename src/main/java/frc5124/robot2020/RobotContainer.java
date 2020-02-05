@@ -116,10 +116,11 @@ public class RobotContainer {
     operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
 
 
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+   
   }
 
   private void configureDefaultCommands(){
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     
     
   }
