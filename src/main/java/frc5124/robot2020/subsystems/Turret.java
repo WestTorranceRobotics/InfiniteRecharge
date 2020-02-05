@@ -24,6 +24,9 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
+    if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    limitReached();                                        //exists for instantCommand as opposed to looping command
+    }
   }
 
   public void rotateTurret(double power) {
@@ -32,7 +35,7 @@ public class Turret implements Subsystem {
     } else if (limitReached) {
       turretMotor.set(0);
       return;
-    } else if (!limitReached) {
+    } else if (!limitReached && turretMotor.getAppliedOutput() != power) {
       turretMotor.set(power);
       return;
     }
@@ -43,6 +46,11 @@ public class Turret implements Subsystem {
 
   public int getEncoder(){
     return turretMotor.getEncoder().getCountsPerRevolution();
+  }
+
+  private boolean limitReached() {
+    return true;
+    
   }
 
 }
