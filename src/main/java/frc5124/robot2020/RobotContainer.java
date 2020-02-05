@@ -53,8 +53,6 @@ public class RobotContainer {
   private Shooter shooter; 
   private Turret turret;
 
-
-
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
@@ -100,19 +98,15 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorRB.whileHeld(new intakeBalls (intake));
+    operatorRB.whileHeld(new intakeBalls(intake));
     operatorLB.whileHeld(new OuttakeBall(intake));
-
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorX.whileHeld(new SeeBallRunBelt(loader));
-
+    operatorX.whileHeld(new LoaderAndIntake(loader, intake));
     operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
-
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
     operatorRight.whileHeld(new TurretTurn(turret));
-
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
