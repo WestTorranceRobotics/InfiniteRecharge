@@ -14,7 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
-
+  public boolean limitReached = false;
   private CANSparkMax turretMotor;
   //private VictorSP turretMotor;
   
@@ -25,16 +25,15 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
-    
   }
 
   public void rotateTurret(double power) {
-    if (limitReached() && turretMotor.getAppliedOutput() == 0) {
+    if (limitReached && turretMotor.getAppliedOutput() == 0) {
       return;
-    } else if (limitReached()) {
+    } else if (limitReached) {
       turretMotor.set(0);
       return;
-    } else if (!limitReached()) {
+    } else if (!limitReached) {
       turretMotor.set(power);
       return;
     }
@@ -47,7 +46,4 @@ public class Turret implements Subsystem {
     return turretMotor.getEncoder().getCountsPerRevolution();
   }
 
-  public boolean limitReached() {
-    return false;
-  }
 }
