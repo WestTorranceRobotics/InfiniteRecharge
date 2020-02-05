@@ -6,12 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
-import edu.wpi.first.wpilibj.controller.PIDController;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.Robot;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANPIDController;
