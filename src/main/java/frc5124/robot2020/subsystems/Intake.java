@@ -10,14 +10,16 @@ public class Intake implements Subsystem {
 
   private Solenoid armSolenoid;
   private CANSparkMax rollerSpeedController;
+  private boolean deployed;
 
   public Intake() {
-      
       armSolenoid = new Solenoid(0, 0);
-
-      rollerSpeedController = new CANSparkMax(RobotMap.Intake.intakeRollerCanId, MotorType.kBrushless);
+    
+      rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);
       rollerSpeedController.setInverted(false);
       rollerSpeedController.set(0);
+
+      deployed = false;
   }
 
   @Override
@@ -29,24 +31,17 @@ public class Intake implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public void in() {
-    rollerSpeedController.set(1.0);
+  public void setDeployed(boolean deployed) {
+      armSolenoid.set(deployed);
+      this.deployed = deployed;
   }
 
-  public void out() {
-      rollerSpeedController.set(-1.0);
+  public boolean isDeployed() {
+      return deployed;
   }
 
-  public void stop() {
-      rollerSpeedController.set(0.0);
-  }
-
-  public void deploy() {
-      armSolenoid.set(true);
-  }
-
-  public void retract() {
-      armSolenoid.set(false);
+  public void setIntakePower(double power){
+      rollerSpeedController.set(power);
   }
 
 }

@@ -7,10 +7,6 @@
 
 package frc5124.robot2020;
 
-import java.util.Map;
-import java.util.function.Consumer;
-import java.awt.Color;
-import com.revrobotics.ColorSensorV3.RawColor;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import java.util.function.DoubleSupplier;
 //import edu.wpi.first.networktables.NetworkTableEntry;
@@ -28,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
+import frc5124.robot2020.commands.LoaderAndIntakeGroup;
 import frc5124.robot2020.commands.auto.*;
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
@@ -104,29 +101,23 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    
-    operatorBack.whileHeld(new OuttakeBall(intake));
-    operatorA.whileHeld(new IntakePivotDown(intake));
-    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorBack.whileHeld(new SetIntakePower(intake, -.8));
+    operatorY.whileHeld(new ToggleIntakePivot(intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+    operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
+    rotationControl.whenPressed(new RotationControl(panelController));   
     rotationControl.whenPressed(new RotationControl(panelController));
-
-
-   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-
   }
 
 
@@ -138,9 +129,6 @@ public class RobotContainer {
     ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
     NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    ShuffleboardLayout pIDlLayout = display.getLayout("Controller", BuiltInLayouts.kGrid).withSize(3,3).withPosition(4,0);
-    NetworkTableEntry Motor = pIDlLayout.add("Motor speed", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry pIDController = pIDlLayout.add("PID Controller", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
     poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
