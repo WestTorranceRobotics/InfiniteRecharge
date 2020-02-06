@@ -114,6 +114,7 @@ public class RobotContainer {
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));   
+    rotationControl.whenPressed(new RotationControl(panelController));
   }
 
   private void configureDefaultCommands(){

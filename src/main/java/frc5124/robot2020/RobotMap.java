@@ -31,7 +31,6 @@ public class RobotMap {
         public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
         public static double shootVelocity = 30;
-
     }
 
     public static class HangerMap {
@@ -73,4 +72,3 @@ public class RobotMap {
 
     public static class LoaderMap{}
 }
-
