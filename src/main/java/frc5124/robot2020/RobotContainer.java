@@ -58,8 +58,6 @@ public class RobotContainer {
   private Turret turret;
   private Loader loader;
 
-
-
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
@@ -70,6 +68,7 @@ public class RobotContainer {
   public JoystickButton operatorY = new JoystickButton(operator, 4);
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public JoystickButton operatorBack = new JoystickButton(operator, 7);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -105,15 +104,21 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-
-    operatorX.whileHeld(new setIntakePower(intake, RobotMap.IntakeMap.motorPower));
+    
+    operatorBack.whileHeld(new OuttakeBall(intake));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+
+    panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
+    positionControl.whenPressed(new PositionControl(panelController));
+    rotationControl.whenPressed(new RotationControl(panelController));
 
 
    
@@ -121,8 +126,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    
-    
+
   }
 
 

@@ -5,19 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
-
-import javax.swing.GroupLayout.ParallelGroup;
-
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 
-public class RunToPosition extends CommandBase {
+public class RunDistance extends CommandBase {
 private Pose2d currentPos;
 private double targetTheta;
 private DriveTrain driveTrain;
@@ -25,6 +23,10 @@ private double transX;
 private double transY;
 private double targetDistance;
 private ParallelCommandGroup runPos = new ParallelCommandGroup();
+private double currentDistance;
+private PIDController distanceController = new PIDController(0, 0, 0);
+private PIDController angleController = new PIDController(0,0,0); 
+
 
 
   /**
@@ -37,7 +39,7 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
    * @param transY translation in Y axis
    * 
    */
-  public RunToPosition(DriveTrain subsystem, double transX, double transY) {
+  public RunDistance(DriveTrain subsystem, double transX, double transY) {
     driveTrain = subsystem;
     addRequirements(driveTrain);
     this.transX = transX;
@@ -46,17 +48,31 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
-        targetDistance = Math.sqrt((transX*transX)+(transY*transY));
-        double currentX = (currentPos.getTranslation().getX() + transX);
-        double currentY = (currentPos.getTranslation().getY() + transY); 
+        double turn = angleController.calculate(driveTrain.getGryoDegree(), targetTheta);
+
+        if(driveTrain.getGryoDegree() <= targetTheta){
+          driveTrain.arcadeDrive(0,turn);
+        }
+        else{
+          targetDistance = Math.sqrt((transX*transX)+(transY*transY));
+          double currentX = (currentPos.getTranslation().getX() + transX);
+          double currentY = (currentPos.getTranslation().getY() + transY); 
+        
+          currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
+
+          distanceController.calculate(currentDistance, targetDistance);
+        }
+        
+
+
   }
 
   // Called once the command ends or is interrupted.
@@ -70,3 +86,4 @@ private ParallelCommandGroup runPos = new ParallelCommandGroup();
     return false;
   }
 }
+
