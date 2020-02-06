@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.RunPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
@@ -20,8 +20,8 @@ public class TurnToAngle extends CommandBase {
   private double m_y; 
   private double targetAngle;
   private boolean isDone = false;
-  private int turnDirection = 0;
-  private PIDController angleController = new PIDController(0.0000005,0.0000005,0.00000005);
+  private boolean isClockwise = true;
+  
   private double turnPower;
 
   public TurnToAngle(DriveTrain driveTrain, double x, double y) {
@@ -41,28 +41,24 @@ public class TurnToAngle extends CommandBase {
     
     m_driveTrain.getGyroScope().zeroYaw();
 
-    if (m_x < 0 && m_y < 0){
-      turnDirection = 1;
-    }
-    else if(m_x < 0 && m_y > 0){
-      turnDirection = 1;
-    }
+    if (m_x < 0){isClockwise = false;}
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(turnDirection == 0){
+
+    if(isClockwise){
      if(m_driveTrain.getGryoDegree() < targetAngle){
        m_driveTrain.arcadeDrive(0, -0.3);
      }
-      else{
-        isDone = true;
-      }
+     else{
+       isDone = true;
+     }
     }
-    else if (turnDirection == 1){
-      if(m_driveTrain.getGryoDegree() > -targetAngle){
+    else {
+      if(m_driveTrain.getGryoDegree() > -targetAngle){ 
         m_driveTrain.arcadeDrive(0, 0.3);
       }
       else{

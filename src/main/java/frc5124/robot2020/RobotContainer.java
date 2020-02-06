@@ -7,40 +7,35 @@
 
 package frc5124.robot2020;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.awt.Color;
 import com.revrobotics.ColorSensorV3.RawColor;
-<<<<<<< HEAD
 import edu.wpi.first.networktables.NetworkTableEntry;
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.networktables.NetworkTableEntry;
-=======
-import edu.wpi.first.networktables.NetworkTableEntry;
-import java.util.function.DoubleSupplier;
-//import edu.wpi.first.networktables.NetworkTableEntry;
->>>>>>> c28850f205118727f29ffec768853a1d465f94b4
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-<<<<<<< HEAD
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
-import frc5124.robot2020.commands.RunPos.RunToPosition;
-import frc5124.robot2020.commands.RunPos.TurnToAngle;
-import frc5124.robot2020.commands.RunPos.resetGyro;
-=======
+import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -53,7 +48,6 @@ import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
->>>>>>> c28850f205118727f29ffec768853a1d465f94b4
 import frc5124.robot2020.subsystems.*;
 
 //import frc5124.robot2020.subsystems.PanelController.OutputColor;
@@ -99,6 +93,7 @@ public class RobotContainer {
   public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
   
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
 
 
   /**
@@ -123,8 +118,6 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-
-  private void configureDefaultCommands(){
     operatorX.whileHeld(new setIntakePower(intake, RobotMap.IntakeMap.motorPower));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
@@ -133,9 +126,13 @@ public class RobotContainer {
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+    operatorA.whenActive(new TurnToAngle(driveTrain,10,10));
+  }
+
+  private void configureDefaultCommands(){
 
 
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    driveTrain.setDefaultCommand(new RunToPosition(driveTrain, 10, 10));
     
   }
 
@@ -194,6 +191,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new ZoomZoom(TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0, 1)),
+      List.of(),
+      new Pose2d(0, 12, new Rotation2d(0, 1)),
+      new TrajectoryConfig(RobotMap.DriveTrainMap.maxV, RobotMap.DriveTrainMap.maxA)
+    ), driveTrain);
   }
 }

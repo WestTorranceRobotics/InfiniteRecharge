@@ -5,12 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.RunPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
+import java.util.ResourceBundle.Control;
+
 import javax.swing.GroupLayout.ParallelGroup;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -27,8 +33,8 @@ private double transY;
 private double targetDistance;
 private ParallelCommandGroup runPos = new ParallelCommandGroup();
 private double currentDistance;
+private double error, kP, turnPower;
 private PIDController distanceController = new PIDController(0, 0, 0);
-private PIDController angleController = new PIDController(0,0,0); 
 
 
 
@@ -44,6 +50,7 @@ private PIDController angleController = new PIDController(0,0,0);
    */
   public RunToPosition(DriveTrain subsystem, double transX, double transY) {
     driveTrain = subsystem;
+
     addRequirements(driveTrain);
     this.transX = transX;
     this.transY = transY;
@@ -52,22 +59,24 @@ private PIDController angleController = new PIDController(0,0,0);
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
+
+        driveTrain.getLeftLeader().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0,50);
 
         targetDistance = Math.sqrt((transX*transX)+(transY*transY));
         double currentX = (currentPos.getTranslation().getX() + transX);
         double currentY = (currentPos.getTranslation().getY() + transY); 
         
-          currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
+        currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
+  }
 
-          distanceController.calculate(currentDistance, targetDistance);
-        
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+
+    // driveTrain.getLeftLeader().set(ControlMode.MotionMagic, targetDistance, DemandType.AuxPID,);
+    // driveTrain.getLeftLeader().getSelectedSensorPosition(1);
 
 
   }

@@ -16,6 +16,15 @@ public class RobotMap {
         public static double I = 0.1;
         public static double D = 0.01;
         public static double F = 0.5;
+
+        public static double maxV = 12;
+        public static double maxA = 2;
+
+        public static double motorS = 1;
+        public static double motorV = 1;
+        public static double motorA = 0;
+        
+        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {
@@ -25,7 +34,7 @@ public class RobotMap {
         public static double Ki = 0;
         public static double Kd = 0;
         public static double Kf = .195;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
+        public static double conversionConstant = 2 * Math.PI * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
         public static double shootVelocity = 30;
 

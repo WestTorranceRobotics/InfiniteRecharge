@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.RunPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
@@ -60,7 +60,7 @@ private PIDController angleController = new PIDController(0,0,0);
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
-        }
+        
           this.targetDistance = Math.sqrt((transX*transX)+(transY*transY));
           double currentX = (currentPos.getTranslation().getX() + transX);
           double currentY = (currentPos.getTranslation().getY() + transY); 
@@ -68,7 +68,7 @@ private PIDController angleController = new PIDController(0,0,0);
           currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
 
           distanceController.calculate(currentDistance, targetDistance);
-        }
+        
         
 
 

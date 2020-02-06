@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.RunPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
-public class resetGyro extends CommandBase {
+public class ResetGyro extends CommandBase {
   /**
    * Creates a new resetGyro.
    */
   private DriveTrain m_DriveTrain;
 
-  public resetGyro(DriveTrain driveTrain) {
+  public ResetGyro(DriveTrain driveTrain) {
     m_DriveTrain = driveTrain;
     // Use addRequirements() here to declare subsystem dependencies.
   }
