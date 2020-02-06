@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
+import frc5124.robot2020.commands.LoaderAndIntakeGroup;
 import frc5124.robot2020.commands.auto.*;
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
@@ -104,12 +105,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    
-    operatorBack.whileHeld(new OuttakeBall(intake));
-    operatorA.whileHeld(new IntakePivotDown(intake));
-    operatorY.whileHeld(new IntakePivotUp(intake));
+    operatorBack.whileHeld(new setIntakePower(intake, -.8));
+    operatorY.whileHeld(new ToggleIntakePivot(intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
@@ -118,15 +116,11 @@ public class RobotContainer {
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
-    rotationControl.whenPressed(new RotationControl(panelController));
-
-
-   
+    rotationControl.whenPressed(new RotationControl(panelController));   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-
   }
 
 
