@@ -13,7 +13,7 @@ public class Intake implements Subsystem {
   private boolean deployed;
 
   public Intake() {
-      armSolenoid = new Solenoid(0, 0);
+      armSolenoid = new Solenoid(RobotMap.pcmCanId, RobotMap.Intake.armSolenoidId);
     
       rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);
       rollerSpeedController.setInverted(false);

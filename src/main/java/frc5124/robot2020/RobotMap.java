@@ -14,7 +14,6 @@ public class RobotMap {
         public static double P = 1;
         public static double I = 0.1;
         public static double D = 0.01;
-        public static double F = 0.5;
 
         public static double maxV = 12;
         public static double maxA = 2;
@@ -41,6 +40,7 @@ public class RobotMap {
     public static class Intake {
         public static double motorPower = 0.5;
         public static int rollerCanId = 5;
+        public static int armSolenoidId = 1;
     }
 
     public static class HangerMap {
