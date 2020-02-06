@@ -5,21 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.Shooter;
 
-public class getEncoder extends CommandBase {
+public class setShootVelocity extends CommandBase {
+  private Shooter shooter;
+  private double targetVelocity;
+  
   /**
-   * Creates a new getEncoder.
+   * Creates a new setShootVelocity.
    */
-  public getEncoder() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public setShootVelocity(Shooter subsystem, double targetVelocity) {
+    shooter = subsystem;
+    addRequirements(shooter);
+    this.targetVelocity = targetVelocity;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.setTargetVelocity(targetVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,6 +37,7 @@ public class getEncoder extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.setTargetVelocity(0);
   }
 
   // Returns true when the command should end.

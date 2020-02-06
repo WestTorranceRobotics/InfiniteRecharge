@@ -35,8 +35,8 @@ public class PanelController implements Subsystem {
   private boolean deployed;
   
   public PanelController() {
-    deployer = new Solenoid(RobotMap.pcmCanId, RobotMap.PanelController.deployerSolenoidChannel);
-    spinnerMotor = new CANSparkMax(RobotMap.PanelController.spinnerCanId, MotorType.kBrushless);
+    deployer = new Solenoid(RobotMap.pcmCanId, RobotMap.PanelControlMap.deployerSolenoidChannel);
+    spinnerMotor = new CANSparkMax(RobotMap.PanelControlMap.spinnerCanId, MotorType.kBrushless);
     colorSensor = new ColorSensorV3(Port.kOnboard);
 
     matcher = new ColorMatch();
@@ -139,10 +139,10 @@ public class PanelController implements Subsystem {
   }
 
   public enum PanelColor {
-    YELLOW(RobotMap.PanelController.yellowReading),
-    BLUE(RobotMap.PanelController.blueReading),
-    GREEN(RobotMap.PanelController.greenReading),
-    RED(RobotMap.PanelController.redReading);
+    YELLOW(RobotMap.PanelControlMap.yellowReading),
+    BLUE(RobotMap.PanelControlMap.blueReading),
+    GREEN(RobotMap.PanelControlMap.greenReading),
+    RED(RobotMap.PanelControlMap.redReading);
     private final Color color;
     private PanelColor(RawColor color) {
       this.color = convertRaw(color);

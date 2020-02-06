@@ -5,43 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Intake;
 
-public class SeeBallRunBelt extends CommandBase {
-
-  private Loader m_Loader;
-
-  public SeeBallRunBelt(Loader subsystem) {
-    m_Loader = subsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Loader);
+public class setIntakePower extends CommandBase {
+  private Intake intake;
+  private double power;
+  /**
+   * Creates a new setIntakePower.
+   */
+  public setIntakePower(Intake subsystem, double power) {
+    intake = subsystem;
+    addRequirements(intake);
+    this.power = power;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intake.setIntakePower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
-    } else {
-      m_Loader.stopBelt();
-     // isDone = true;
-    }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Loader.stopBelt();
+    intake.setIntakePower(0);
   }
 
   // Returns true when the command should end.
@@ -49,5 +44,4 @@ public class SeeBallRunBelt extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

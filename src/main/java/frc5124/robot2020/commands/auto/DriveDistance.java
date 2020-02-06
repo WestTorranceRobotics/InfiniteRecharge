@@ -1,4 +1,4 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
 import java.util.Set;
 

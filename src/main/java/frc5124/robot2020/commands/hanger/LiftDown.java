@@ -1,13 +1,13 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.hanger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Hanger;
 
-public class LiftUp extends CommandBase {
+public class LiftDown extends CommandBase {
 
     private final Hanger m_hanger;
 
-    public LiftUp(Hanger subsystem) {
+    public LiftDown(Hanger subsystem) {
         m_hanger = subsystem;
         addRequirements(m_hanger);
     }
@@ -15,7 +15,7 @@ public class LiftUp extends CommandBase {
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        m_hanger.liftUp();  
+        m_hanger.liftDown();  
     }
 
     // Called repeatedly when this Command is scheduled to run

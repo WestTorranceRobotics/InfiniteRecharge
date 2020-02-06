@@ -5,20 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
 
-public class intakeBalls extends CommandBase {
+public class TurnToAngle extends CommandBase {
   /**
-   * Creates a new intakeBalls.
+   * Creates a new TurnToAngle.
    */
-  private Intake m_intake;
-
-  public intakeBalls(Intake subsystem) {
-    m_intake = subsystem;
-    addRequirements(m_intake);
+  public TurnToAngle() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +25,6 @@ public class intakeBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_intake.in();
   }
 
   // Called once the command ends or is interrupted.
@@ -42,5 +37,4 @@ public class intakeBalls extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }
