@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import frc5124.robot2020.subsystems.DriveTrain;;
 public class DriveDistance implements Command {
+    ;
     private DriveTrain driveTrain;
     private double gyroAngle, error, x, y, targetAngle, distance;
     private boolean isDone = false;

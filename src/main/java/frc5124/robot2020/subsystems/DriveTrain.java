@@ -46,12 +46,12 @@ public class DriveTrain implements Subsystem {
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(0.1);
-        differentialDrive.setMaxOutput(1.0);
+        differentialDrive.setExpiration(RobotMap.DriveTrainMap.expiration);
+        differentialDrive.setMaxOutput(RobotMap.DriveTrainMap.maxOutput);
 
         kinematics = new DifferentialDriveKinematics(30);
-        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
-        odometry = new DifferentialDriveOdometry(getGyro());
+        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxSpeed);
+        odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
 
         gyro.reset();
@@ -62,15 +62,17 @@ public class DriveTrain implements Subsystem {
     public void periodic() {
         //the following is test code**********************************the following is test code
 
-    // double l = rightLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
-    // double r = leftLeader.getSensorCollection().getIntegratedSensorAbsolutePosition();
+    double r = rightLeader.getSelectedSensorPosition();
+    double l = leftLeader.getSelectedSensorPosition();
     
-    //     odometry.update(getGyro(), l * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI), r * (18/28) * (10/64) * (1/2048) * (.1524*Math.PI)) ;
-    //     SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
-    //     SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-    //     SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
-    //     SmartDashboard.putNumber("angle", getGryoDegree());
-    //     SmartDashboard.updateValues();
+        odometry.update(getGyro(), l *
+         (18/28) * (10/64) * (1/2048) * (6*Math.PI), r * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
+        SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
+        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        SmartDashboard.putNumber("angle", getGryoDegree());
+        SmartDashboard.updateValues();
     }
 
     // Control methods
@@ -91,9 +93,10 @@ public class DriveTrain implements Subsystem {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
     }
 
-    public void directPower(double power){
-        rightLeader.set(power);
-        leftLeader.set(power);
+    
+    public void setPower(double powerLeft, double powerRight){
+        rightLeader.set(powerRight);
+        leftLeader.set(powerLeft);
     }
 
     public void resetOdometry(Pose2d start) {

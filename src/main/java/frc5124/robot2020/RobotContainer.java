@@ -114,8 +114,6 @@ public class RobotContainer {
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
-
-
    
   }
 

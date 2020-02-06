@@ -16,6 +16,9 @@ public class RobotMap {
         public static double I = 0.1;
         public static double D = 0.01;
         public static double F = 0.5;
+        public static double expiration = 0.1; 
+        public static double maxOutput = 1.0;
+        public static double maxSpeed = 100;
     }
   
     public static class ShooterMap {

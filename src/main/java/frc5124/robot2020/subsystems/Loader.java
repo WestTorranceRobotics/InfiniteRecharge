@@ -38,19 +38,6 @@ public class Loader implements Subsystem {
     topBeltMotor.set(0.0);
     // bottomBeltMotor.set(0); 
   }
-  //This is the flipCylinder method. Based on its input it goes into one of three modes. 
-  //Mode 0 causes the cylinder to go forward, mode 1 causes the cylinder to go backward, and mode 2 turns the cylinder off.
-  public void flipCylinder(int x) {
-    // if (x == 0){
-    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kForward); 
-    // }
-    // else if (x == 1){
-    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kReverse);
-    // }
-    // else {
-    //   CylinderDoubleSol.set(DoubleSolenoid.Value.kOff);
-    // }
-  }
 
   //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
   public double getVoltage() {
