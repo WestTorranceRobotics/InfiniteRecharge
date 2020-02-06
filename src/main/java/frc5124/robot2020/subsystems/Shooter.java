@@ -57,7 +57,7 @@ public class Shooter implements Subsystem {
   public void setTargetVelocity(double targetVelocity) {
     targetVelocity = (targetVelocity / RobotMap.ShooterMap.conversionConstant);
     if (shootMotorLeader.getAppliedOutput() == 0 && targetVelocity == 0) {
-      
+    
     } else {
         shootController.setReference(targetVelocity, ControlType.kVelocity);
       }
@@ -69,7 +69,6 @@ public class Shooter implements Subsystem {
     shootController.setP(RobotMap.ShooterMap.Kp);
     shootController.setI(RobotMap.ShooterMap.Ki);
     shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
-
   }
 
 /**
@@ -80,7 +79,7 @@ public class Shooter implements Subsystem {
    }
   
   /**
-   * @deprecated
+   * 
    */
   public void directPower (double power) {
     shootMotorLeader.set(power);

@@ -19,13 +19,13 @@ import frc5124.robot2020.RobotMap;
 
 public class Hanger implements Subsystem {
   private TalonFX hangerMotor;
-  private Solenoid brake;
+ // private Solenoid brake;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
 
   public Hanger() {
     hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
-    brake = new Solenoid(2);
+  //  brake = new Solenoid(2);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
   }
@@ -62,6 +62,6 @@ public class Hanger implements Subsystem {
   }
 
   private void brake(boolean brakeSet){
-    brake.set(brakeSet);
+  //  brake.set(brakeSet);
   }
 }

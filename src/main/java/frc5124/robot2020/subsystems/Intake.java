@@ -8,18 +8,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Intake implements Subsystem {
 
-  private Solenoid armSolenoid;
+  //private Solenoid armSolenoid;
   private CANSparkMax rollerSpeedController;
   private boolean deployed;
 
   public Intake() {
       
-      armSolenoid = new Solenoid(0, 0);
-
+     // armSolenoid = new Solenoid(0, 0);
       rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);
       rollerSpeedController.setInverted(false);
-      rollerSpeedController.set(0);
-
+      rollerSpeedController.restoreFactoryDefaults();
       deployed = false;
   }
 
@@ -32,17 +30,17 @@ public class Intake implements Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public void setDeployed(boolean deployed) {
-      armSolenoid.set(deployed);
-      this.deployed = deployed;
-  }
+//   public void setDeployed(boolean deployed) {
+//       armSolenoid.set(deployed);
+//       this.deployed = deployed;
+//   }
 
   public boolean isDeployed() {
       return deployed;
   }
 
   public void setIntakePower(double power){
-      rollerSpeedController.set(power);
+    rollerSpeedController.set(power);
   }
 
 }
