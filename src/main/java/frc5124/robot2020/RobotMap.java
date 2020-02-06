@@ -5,7 +5,6 @@ import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
     public static int pcmCanId = 0;
-
     public static class DriveTrainMap {
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
@@ -37,13 +36,11 @@ public class RobotMap {
         public static double conversionConstant = 2 * Math.PI * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
         public static double shootVelocity = 30;
-
     }
 
-    public static class IntakeMap {
+    public static class Intake {
         public static double motorPower = 0.5;
         public static int rollerCanId = 5;
-
     }
 
     public static class HangerMap {
@@ -68,10 +65,14 @@ public class RobotMap {
             (i) -> i > 8 ? 1 : i / 8;
     }
 
+    public static class Loader {
+        public static int topBeltCanId = 3;
+        public static int bottomBeltCanId = 4; 
+    }
+
     public static class TurretMap{
         public static int turretCanID = 6;
         public static double turretSpeed = 1;
-    
     }
     
     public static class CameraMap {}
