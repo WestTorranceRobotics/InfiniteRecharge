@@ -63,6 +63,7 @@ public class RobotContainer {
   public JoystickButton operatorY = new JoystickButton(operator, 4);
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public JoystickButton operatorBack = new JoystickButton(operator, 7);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -98,11 +99,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorRB.whileHeld(new intakeBalls(intake));
-    operatorLB.whileHeld(new OuttakeBall(intake));
+    
+    operatorBack.whileHeld(new OuttakeBall(intake));
     operatorA.whileHeld(new IntakePivotDown(intake));
     operatorY.whileHeld(new IntakePivotUp(intake));
-    operatorX.whileHeld(new LoaderAndIntake(loader, intake));
+    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorB.whileHeld(new ShooterSpinUp(shooter));  // not the right button, need to change the mapping
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));

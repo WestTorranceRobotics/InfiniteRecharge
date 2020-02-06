@@ -5,7 +5,6 @@ import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
     public static final int pcmCanId = 0;
-    public static final int intakeRollerCanId = 5;
     public static final int turretCanId = 6;
     public static final int hangerCanId = 7;
     
@@ -40,7 +39,12 @@ public class RobotMap {
     }
 
     public static class Intake {
-        public static double motorPower = 0.5;
+        public static int intakeRollerCanId = 5;
+    }
+
+    public static class Loader {
+        public static int topBeltCanId = 3;
+        public static int bottomBeltCanId = 4; 
     }
 
     public static class Hanger {

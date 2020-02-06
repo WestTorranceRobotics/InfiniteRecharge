@@ -10,6 +10,8 @@ package frc5124.robot2020.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.RobotMap;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -19,12 +21,14 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Loader implements Subsystem {
   AnalogInput sensor = new AnalogInput(1);
-  CANSparkMax topBeltMotor = new CANSparkMax(7, MotorType.kBrushless);
-  CANSparkMax bottomBeltMotor = new CANSparkMax(4, MotorType.kBrushless);
+  CANSparkMax topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
+  CANSparkMax bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
   private static final double fieldEmptyVoltage = 1.0;
   double beltSpeed = 0.5;
   
   public Loader() {
+    bottomBeltMotor.follow(topBeltMotor);
+    bottomBeltMotor.setInverted(true);
   }
   
   public void runBelt() {
