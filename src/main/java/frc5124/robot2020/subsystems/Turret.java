@@ -19,14 +19,14 @@ public class Turret implements Subsystem {
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
-  //  turretMotor = new VictorSP(1);
+   //turretMotor = new VictorSP(1);
   }
 
   @Override
   public void periodic() {
-    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    // limitReached();                                        //exists for instantCommand as opposed to looping command
-    // }
+    if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    limitReached();                                        //exists for instantCommand as opposed to looping command
+    }
   }
 
   public void rotateTurret(double power) {
@@ -50,7 +50,6 @@ public class Turret implements Subsystem {
 
   private boolean limitReached() {
     return true;
-    
   }
 
 }
