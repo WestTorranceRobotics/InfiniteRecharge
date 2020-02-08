@@ -228,9 +228,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
  targetDistance = Math.sqrt((transX*transX)+(transY*transY)) * driveTrain.getTICKS_PER_INCHES();
 
  leftLeader.setSelectedSensorPosition(0);
- rightLeader.setSelectedSensorPosition(0);
-
- rightLeader.setSelectedSensorPosition(0,kPIDLoopIdx, Constants.kTimeoutMs);
+  rightLeader.setSelectedSensorPosition(0);
 
  rightLeader.selectProfileSlot(kSlot_Distanc, PID_PRIMARY);
  rightLeader.selectProfileSlot(kSlot_Turning, PID_TURN);
@@ -244,7 +242,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
 
       rightLeader.set(ControlMode.Position, targetDistance, DemandType.AuxPID, targetAngle);
      
-      leftLeader.follow(rightLeader);
+      leftLeader.follow(rightLeader, FollowerType.AuxOutput1);
   }
 
   // Called once the command ends or is interrupted.
