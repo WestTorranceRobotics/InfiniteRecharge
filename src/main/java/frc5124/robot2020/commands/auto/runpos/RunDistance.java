@@ -36,6 +36,7 @@ private double targetDistance;
 private double currentDistance;
 private WPI_TalonFX leftLeader;
 private WPI_TalonFX rightLeader;
+
 /* We allow either a 0 or 1 when selecting an ordinal for remote devices [You can have up to 2 devices assigned remotely to a talon/victor] */
 public final int REMOTE_0 = 0;
 public final int REMOTE_1 = 1;
@@ -113,139 +114,133 @@ private boolean firstCall;
     leftLeader.setSelectedSensorPosition(0);
     rightLeader.setSelectedSensorPosition(0);
 
-//     rightLeader.configFactoryDefault();
-// 		leftLeader.configFactoryDefault();
+    rightLeader.configFactoryDefault();
+		leftLeader.configFactoryDefault();
 
 
-//    /* Configure the left Talon's selected sensor as local QuadEncoder */
-// 		leftLeader.configSelectedFeedbackSensor(	FeedbackDevice.QuadEncoder,				// Local Feedback Source
-//     PID_PRIMARY,					// PID Slot for Source [0, 1]
-//     kTimeoutMs);					// Configuration Timeout
+   /* Configure the left Talon's selected sensor as local QuadEncoder */
+		leftLeader.configSelectedFeedbackSensor(	FeedbackDevice.IntegratedSensor,				// Local Feedback Source
+    PID_PRIMARY,					// PID Slot for Source [0, 1]
+    kTimeoutMs);					// Configuration Timeout
 
-// /* Configure the Remote Talon's selected sensor as a remote sensor for the right Talon */
-//  rightLeader.configRemoteFeedbackFilter(leftLeader.getDeviceID(),					// Device ID of Source
-//   RemoteSensorSource.CANifier_Quadrature,	// Remote Feedback Source
-//   REMOTE_0,							// Source number [0, 1]
-//   kTimeoutMs);						// Configuration Timeout
+/* Configure the Remote Talon's selected sensor as a remote sensor for the right Talon */
+ rightLeader.configRemoteFeedbackFilter(leftLeader.getDeviceID(),					// Device ID of Source
+  RemoteSensorSource.CANifier_Quadrature,	// Remote Feedback Source
+  REMOTE_0,							// Source number [0, 1]
+  kTimeoutMs);						// Configuration Timeout
 
-// /* Setup Sum signal to be used for Distance */
-// rightLeader.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, kTimeoutMs);				// Feedback Device of Remote Talon
-// rightLeader.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);	// Quadrature Encoder of current Talon
+/* Setup Sum signal to be used for Distance */
+rightLeader.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, kTimeoutMs);				// Feedback Device of Remote Talon
+rightLeader.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);	// Quadrature Encoder of current Talon
 
-// /* Setup Difference signal to be used for Turn */
-// rightLeader.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0, kTimeoutMs);
-// rightLeader.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);
+/* Setup Difference signal to be used for Turn */
+rightLeader.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0, kTimeoutMs);
+rightLeader.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);
 
-// /* Configure Sum [Sum of both QuadEncoders] to be used for Primary PID Index */
-// rightLeader.configSelectedFeedbackSensor(	FeedbackDevice.SensorSum, 
-//     PID_PRIMARY,
-//     kTimeoutMs);
+/* Configure Sum [Sum of both QuadEncoders] to be used for Primary PID Index */
+rightLeader.configSelectedFeedbackSensor(	FeedbackDevice.SensorSum, 
+    PID_PRIMARY,
+    kTimeoutMs);
 
-// /* Scale Feedback by 0.5 to half the sum of Distance */
-// rightLeader.configSelectedFeedbackCoefficient(	0.5, 						// Coefficient
-//       PID_PRIMARY,		// PID Slot of Source 
-//       kTimeoutMs);		// Configuration Timeout
+/* Scale Feedback by 0.5 to half the sum of Distance */
+rightLeader.configSelectedFeedbackCoefficient(	0.5, 						// Coefficient
+      PID_PRIMARY,		// PID Slot of Source 
+      kTimeoutMs);		// Configuration Timeout
 
-// /* Configure Difference [Difference between both QuadEncoders] to be used for Auxiliary PID Index */
-// rightLeader.configSelectedFeedbackSensor(	FeedbackDevice.SensorDifference, 
-//     PID_TURN, 
-//     kTimeoutMs);
+/* Configure Difference [Difference between both QuadEncoders] to be used for Auxiliary PID Index */
+rightLeader.configSelectedFeedbackSensor(	FeedbackDevice.SensorDifference, 
+    PID_TURN, 
+    kTimeoutMs);
 
-// /* Scale the Feedback Sensor using a coefficient */
-// rightLeader.configSelectedFeedbackCoefficient(	1,
-//       PID_TURN, 
-//       kTimeoutMs);
+/* Scale the Feedback Sensor using a coefficient */
+rightLeader.configSelectedFeedbackCoefficient(	1,
+      PID_TURN, 
+      kTimeoutMs);
 
-// /* Configure output and sensor direction */
-// leftLeader.setInverted(false);
-// leftLeader.setSensorPhase(true);
-// rightLeader.setInverted(true); 
-// rightLeader.setSensorPhase(true);
+/* Configure output and sensor direction */
+leftLeader.setInverted(false);
+leftLeader.setSensorPhase(true);
+rightLeader.setInverted(true); 
+rightLeader.setSensorPhase(true);
 
-// /* Set status frame periods to ensure we don't have stale data */
-// rightLeader.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
-// rightLeader.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20,kTimeoutMs);
-// rightLeader.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20,kTimeoutMs);
-// rightLeader.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, kTimeoutMs);
-// rightLeader.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
+/* Set status frame periods to ensure we don't have stale data */
+rightLeader.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
+rightLeader.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20,kTimeoutMs);
+rightLeader.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20,kTimeoutMs);
+rightLeader.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, kTimeoutMs);
+rightLeader.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
 
-// // /* Configure neutral deadband */
-// // _rightMaster.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
-// // _leftMaster.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
+// /* Configure neutral deadband */
+// _rightMaster.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
+// _leftMaster.configNeutralDeadband(Constants.kNeutralDeadband, Constants.kTimeoutMs);
 
-// /* Motion Magic Configurations */
-// rightLeader.configMotionAcceleration(2000, kTimeoutMs);
-// rightLeader.configMotionCruiseVelocity(2000, kTimeoutMs);
+/* Motion Magic Configurations */
+rightLeader.configMotionAcceleration(2000, kTimeoutMs);
+rightLeader.configMotionCruiseVelocity(2000, kTimeoutMs);
 
-// /**
-// * Max out the peak output (for all modes).  
-// * However you can limit the output of a given PID object with configClosedLoopPeakOutput().
-// */
-// leftLeader.configPeakOutputForward(+1.0, kTimeoutMs);
-// leftLeader.configPeakOutputReverse(-1.0, kTimeoutMs);
-// rightLeader.configPeakOutputForward(+1.0, kTimeoutMs);
-// rightLeader.configPeakOutputReverse(-1.0, kTimeoutMs);
+/**
+* Max out the peak output (for all modes).  
+* However you can limit the output of a given PID object with configClosedLoopPeakOutput().
+*/
+leftLeader.configPeakOutputForward(+1.0, kTimeoutMs);
+leftLeader.configPeakOutputReverse(-1.0, kTimeoutMs);
+rightLeader.configPeakOutputForward(+1.0, kTimeoutMs);
+rightLeader.configPeakOutputReverse(-1.0, kTimeoutMs);
 
-// /* FPID Gains for distance servo */
-// rightLeader.config_kP(kSlot_Distanc, distancekP, kTimeoutMs);
-// rightLeader.config_kI(kSlot_Distanc, distancekI, kTimeoutMs);
-// rightLeader.config_kD(kSlot_Distanc, distancekD, kTimeoutMs);
-// rightLeader.config_kF(kSlot_Distanc, distancekF, kTimeoutMs);
-// rightLeader.config_IntegralZone(kSlot_Distanc, distancekIz, kTimeoutMs);
-// rightLeader.configClosedLoopPeakOutput(kSlot_Distanc, distancekPeakOut, kTimeoutMs);
-// rightLeader.configAllowableClosedloopError(kSlot_Distanc, 0, kTimeoutMs);
+/* FPID Gains for distance servo */
+rightLeader.config_kP(kSlot_Distanc, distancekP, kTimeoutMs);
+rightLeader.config_kI(kSlot_Distanc, distancekI, kTimeoutMs);
+rightLeader.config_kD(kSlot_Distanc, distancekD, kTimeoutMs);
+rightLeader.config_kF(kSlot_Distanc, distancekF, kTimeoutMs);
+rightLeader.config_IntegralZone(kSlot_Distanc, distancekIz, kTimeoutMs);
+rightLeader.configClosedLoopPeakOutput(kSlot_Distanc, distancekPeakOut, kTimeoutMs);
+rightLeader.configAllowableClosedloopError(kSlot_Distanc, 0, kTimeoutMs);
 
-// /* FPID Gains for turn servo */
-// rightLeader.config_kP(kSlot_Turning, turningkP, kTimeoutMs);
-// rightLeader.config_kI(kSlot_Turning, turningkI, kTimeoutMs);
-// rightLeader.config_kD(kSlot_Turning, turningkD, kTimeoutMs);
-// rightLeader.config_kF(kSlot_Turning, turningkF, kTimeoutMs);
-// rightLeader.config_IntegralZone(kSlot_Turning, turningkIz, kTimeoutMs);
-// rightLeader.configClosedLoopPeakOutput(kSlot_Turning, turningkPeakOut, kTimeoutMs);
-// rightLeader.configAllowableClosedloopError(kSlot_Turning, 0, kTimeoutMs);
+/* FPID Gains for turn servo */
+rightLeader.config_kP(kSlot_Turning, turningkP, kTimeoutMs);
+rightLeader.config_kI(kSlot_Turning, turningkI, kTimeoutMs);
+rightLeader.config_kD(kSlot_Turning, turningkD, kTimeoutMs);
+rightLeader.config_kF(kSlot_Turning, turningkF, kTimeoutMs);
+rightLeader.config_IntegralZone(kSlot_Turning, turningkIz, kTimeoutMs);
+rightLeader.configClosedLoopPeakOutput(kSlot_Turning, turningkPeakOut, kTimeoutMs);
+rightLeader.configAllowableClosedloopError(kSlot_Turning, 0, kTimeoutMs);
 
-// /**
-// * 1ms per loop.  PID loop can be slowed down if need be.
-// * For example,
-// * - if sensor updates are too slow
-// * - sensor deltas are very small per update, so derivative error never gets large enough to be useful.
-// * - sensor movement is very slow causing the derivative error to be near zero.
-// */
-// int closedLoopTimeMs = 1;
-// rightLeader.configClosedLoopPeriod(0, closedLoopTimeMs, kTimeoutMs);
-// rightLeader.configClosedLoopPeriod(1, closedLoopTimeMs, kTimeoutMs);
+/**
+* 1ms per loop.  PID loop can be slowed down if need be.
+* For example,
+* - if sensor updates are too slow
+* - sensor deltas are very small per update, so derivative error never gets large enough to be useful.
+* - sensor movement is very slow causing the derivative error to be near zero.
+*/
+int closedLoopTimeMs = 1;
+rightLeader.configClosedLoopPeriod(0, closedLoopTimeMs, kTimeoutMs);
+rightLeader.configClosedLoopPeriod(1, closedLoopTimeMs, kTimeoutMs);
 
-// /**
-// * configAuxPIDPolarity(boolean invert, int timeoutMs)
-// * false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
-// * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
-// */
-// rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
+/**
+* configAuxPIDPolarity(boolean invert, int timeoutMs)
+* false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
+* true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
+*/
+rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
 
 
-//  targetAngle = rightLeader.getSelectedSensorPosition(1);
+ targetAngle = rightLeader.getSelectedSensorPosition(1);
 
  targetDistance = Math.sqrt((transX*transX)+(transY*transY)) * driveTrain.getTICKS_PER_INCHES();
  
-  firstCall = true;
+ rightLeader.selectProfileSlot(kSlot_Distanc, PID_PRIMARY);
+ rightLeader.selectProfileSlot(kSlot_Turning, PID_TURN);
   
 }
   
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute(){
 
-      // if(firstCall){
-      //   rightLeader.selectProfileSlot(kSlot_Distanc, PID_PRIMARY);
-      //   rightLeader.selectProfileSlot(kSlot_Turning, PID_TURN);
-      // }
-
-      rightLeader.set(ControlMode.Position, targetDistance);
+      rightLeader.set(ControlMode.Position,targetDistance, );
      
       leftLeader.follow(rightLeader);
-      
-      //firstCall = false;
 
   }
 
