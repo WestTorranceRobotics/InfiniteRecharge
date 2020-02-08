@@ -7,7 +7,7 @@ public class RobotMap {
 
     public static final int pcmCanId = 0;
     public static final int turretCanId = 6;
-    public static final int hangerCanId = 13;
+    public static final int modNumSolenoid = 0;
     
     public static class DriveTrainMap {
         public static int rightLeaderCanID = 1;
@@ -50,10 +50,11 @@ public class RobotMap {
     }
     public static class Intake {
         public static double motorPower = 0.5;
-        public static int rollerCanId = 8;
+        public static int rollerCanId = 7;
+        public static int intakeSolenoid = 1;
     }
     public static class Loader {
-        public static int topBeltCanId = 6;
+        public static int topBeltCanId = 9;
         public static int bottomBeltCanId = 10; 
     }
 
@@ -65,7 +66,8 @@ public class RobotMap {
     public static class HangerMap {
         public static double hangerMotor = 0.8;   
         public static double hangerHalt = 0.0;
-        public static int hangerCanID = 7;
+        public static int hangerCanID = 5;
+        public static int hangerSolenoid = 2;
         public static int topLimitChannelID = 1;             //DIO port 
         public static int bottomLimitChannelID = 2;             //DIO port    
     }

@@ -101,12 +101,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, .6));
-    //operatorY.whileHeld(new ToggleIntakePivot(intake));
-    operatorY.whileHeld(new SeeBallRunBelt(loader));
+    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.whileHeld(new LiftUp(hanger));
+    operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
