@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
@@ -32,9 +32,10 @@ private PIDController angleController = new PIDController(0,0,0);
   /**
    * Creates a new RunToPosition.
    */
-   /**
+  /**
    * 
    * Creates a new RunToPosition.
+   * 
    * @param transX translation in X axis
    * @param transY translation in Y axis
    * 
@@ -56,20 +57,15 @@ private PIDController angleController = new PIDController(0,0,0);
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
-        double turn = angleController.calculate(driveTrain.getGryoDegree(), targetTheta);
-
-        if(driveTrain.getGryoDegree() <= targetTheta){
-          driveTrain.arcadeDrive(0,turn);
-        }
-        else{
-          targetDistance = Math.sqrt((transX*transX)+(transY*transY));
+        
+          this.targetDistance = Math.sqrt((transX*transX)+(transY*transY));
           double currentX = (currentPos.getTranslation().getX() + transX);
           double currentY = (currentPos.getTranslation().getY() + transY); 
         
           currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
 
           distanceController.calculate(currentDistance, targetDistance);
-        }
+        
         
 
 

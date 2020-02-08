@@ -1,16 +1,23 @@
 package frc5124.robot2020.subsystems;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
@@ -27,12 +34,15 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
+    private PIDController angleController = new PIDController(0.005,0.00005,0.000005);
     
+    private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
 
     public DriveTrain() {
 
         leftLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.leftLeaderCanID);
         rightLeader = new WPI_TalonFX(RobotMap.DriveTrainMap.rightLeaderCanID);
+        leftLeader.setInverted(true);
 
         leftFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.leftFollowerCanID);
         leftFollower.follow(leftLeader);
@@ -46,11 +56,9 @@ public class DriveTrain implements Subsystem {
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(RobotMap.DriveTrainMap.expiration);
-        differentialDrive.setMaxOutput(RobotMap.DriveTrainMap.maxOutput);
 
         kinematics = new DifferentialDriveKinematics(30);
-        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxSpeed);
+        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxV);
         odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
 
@@ -65,15 +73,20 @@ public class DriveTrain implements Subsystem {
     double r = rightLeader.getSelectedSensorPosition();
     double l = leftLeader.getSelectedSensorPosition();
     
-        odometry.update(getGyro(), l *
-         (18/28) * (10/64) * (1/2048) * (6*Math.PI), r * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
-        SmartDashboard.putNumber("encodeyBoy", l * (18/28) * (10/64) * (1/2048) * (6*Math.PI));
+        SmartDashboard.putNumber("encodeyBoy", l * INCHES_PER_TICK);
+        SmartDashboard.putNumber("encodeyGuy", r * INCHES_PER_TICK);
+        
+        //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiameter; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
+
         SmartDashboard.putNumber("angle", getGryoDegree());
+        SmartDashboard.putNumber("Target Value", Math.toDegrees(Math.atan2(10,10)));
+        
         SmartDashboard.updateValues();
     }
+
 
     // Control methods
 
@@ -98,6 +111,13 @@ public class DriveTrain implements Subsystem {
         rightLeader.set(powerRight);
         leftLeader.set(powerLeft);
     }
+    
+    public WPI_TalonFX getLeftLeader(){
+        return leftLeader;
+    }
+    public WPI_TalonFX getRightLeader(){
+        return rightLeader;
+    }
 
     public void resetOdometry(Pose2d start) {
         leftLeader.setSelectedSensorPosition(0);
@@ -108,6 +128,9 @@ public class DriveTrain implements Subsystem {
     public Pose2d getLocation() {
         return odometry.getPoseMeters();
     }
+    public PIDController getPID(){
+        return angleController;
+    }
 
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
@@ -117,10 +140,22 @@ public class DriveTrain implements Subsystem {
     }
 
     private Rotation2d getGyro() {
+        gyro.getRoll();
         double radians = Math.toRadians(90 - gyro.getAngle());
         return new Rotation2d(radians);
     }
+
+    public AHRS getGyroScope(){
+        return gyro;
+    }
     public double getGryoDegree() {
         return gyro.getAngle();
+    }
+
+    public DifferentialDriveWheelSpeeds wheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(
+            leftLeader.getSelectedSensorVelocity() * 10 * INCHES_PER_TICK,
+            rightLeader.getSelectedSensorVelocity() * 10 * INCHES_PER_TICK
+        );
     }
 }

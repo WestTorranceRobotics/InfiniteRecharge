@@ -5,25 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runPos;
+package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Shooter;
 
-public class HoldHeading extends CommandBase {
-  private DriveTrain driveTrain;
+public class SetShootVelocity extends CommandBase {
+  private Shooter shooter;
+  private double targetVelocity;
+  
   /**
-   * Creates a new holdAnglee.
+   * Creates a new setShootVelocity.
    */
-  public HoldHeading() {
-    driveTrain = new DriveTrain();
-    addRequirements(driveTrain);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public SetShootVelocity(Shooter subsystem, double targetVelocity) {
+    shooter = subsystem;
+    addRequirements(shooter);
+    this.targetVelocity = targetVelocity;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.setTargetVelocity(targetVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,6 +37,7 @@ public class HoldHeading extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.setTargetVelocity(0);
   }
 
   // Returns true when the command should end.
@@ -41,5 +45,4 @@ public class HoldHeading extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

@@ -5,7 +5,6 @@ import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
     public static int pcmCanId = 0;
-
     public static class DriveTrainMap {
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
@@ -15,10 +14,15 @@ public class RobotMap {
         public static double P = 1;
         public static double I = 0.1;
         public static double D = 0.01;
-        public static double F = 0.5;
-        public static double expiration = 0.1; 
-        public static double maxOutput = 1.0;
-        public static double maxSpeed = 100;
+
+        public static double maxV = 12;
+        public static double maxA = 2;
+
+        public static double motorS = 1;
+        public static double motorV = 1;
+        public static double motorA = 0;
+        
+        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {
@@ -28,16 +32,15 @@ public class RobotMap {
         public static double Ki = 0;
         public static double Kd = 0;
         public static double Kf = .195;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
+        public static double conversionConstant = 2 * Math.PI * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
         public static double shootVelocity = 30;
-
     }
 
-    public static class IntakeMap {
+    public static class Intake {
         public static double motorPower = 0.5;
         public static int rollerCanId = 5;
-
+        public static int armSolenoidId = 1;
     }
 
     public static class HangerMap {
@@ -62,10 +65,14 @@ public class RobotMap {
             (i) -> i > 8 ? 1 : i / 8;
     }
 
+    public static class Loader {
+        public static int topBeltCanId = 3;
+        public static int bottomBeltCanId = 4; 
+    }
+
     public static class TurretMap{
         public static int turretCanID = 6;
         public static double turretSpeed = 1;
-    
     }
     
     public static class CameraMap {}

@@ -5,39 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class setShootVelocity extends CommandBase {
-  private Shooter shooter;
-  private double targetVelocity;
-  
+public class ResetGyro extends CommandBase {
   /**
-   * Creates a new setShootVelocity.
+   * Creates a new resetGyro.
    */
-  public setShootVelocity(Shooter subsystem, double targetVelocity) {
-    shooter = subsystem;
-    addRequirements(shooter);
-    this.targetVelocity = targetVelocity;
+  private DriveTrain m_DriveTrain;
+
+  public ResetGyro(DriveTrain driveTrain) {
+    m_DriveTrain = driveTrain;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setTargetVelocity(targetVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setTargetVelocity(0);
   }
 
   // Returns true when the command should end.

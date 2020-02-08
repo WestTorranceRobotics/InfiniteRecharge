@@ -5,15 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runPos;
+package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class TurnToAngle extends CommandBase {
+public class HoldHeading extends CommandBase {
+  private DriveTrain driveTrain;
   /**
-   * Creates a new TurnToAngle.
+   * Creates a new holdAnglee.
    */
-  public TurnToAngle() {
+  public HoldHeading() {
+    driveTrain = new DriveTrain();
+    addRequirements(driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,4 +41,5 @@ public class TurnToAngle extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }
