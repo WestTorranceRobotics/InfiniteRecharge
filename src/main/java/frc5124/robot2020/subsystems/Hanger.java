@@ -48,7 +48,7 @@ public class Hanger implements Subsystem {
   }
 
   public void liftDown(){
-    if (!reachedBottomLimit()) {
+    if (notReachedBottomLimit()) {
       brake.set(true);
       hangerMotor.set(ControlMode.PercentOutput, -RobotMap.HangerMap.hangerMotor);
     }
@@ -62,7 +62,7 @@ public class Hanger implements Subsystem {
     return topLimit.get();
   }
 
-  public boolean reachedBottomLimit(){
+  public boolean notReachedBottomLimit(){
     return bottomLimit.get();
   }
 
