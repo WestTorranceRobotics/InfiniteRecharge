@@ -11,10 +11,14 @@ public class ToggleIntakePivot extends CommandBase {
         intake = subsystem;
         addRequirements(intake);
     }
+    
+    @Override
+    public void initialize(){
+        intake.setDeployed(!intake.isDeployed());
+    }
 
     @Override
     public void execute() {
-      //  intake.setDeployed(!intake.isDeployed());
     }
 
     // Make this return true when this Command no longer needs to run execute()
