@@ -22,23 +22,17 @@ public class RobotMap {
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 8; 
+        public static int shootLeaderCanID = 19; 
         public static int shootFollowerCanID = 9; 
         public static double Kp = 0;
         public static double Ki = 0;
         public static double Kd = 0;
         public static double Kf = .195;
+        public static double KiZone = 1;
+        public static double tolerance = 2;
         public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
         public static double maxVelocity = 99; //ft/s
         public static double shootVelocity = 30;
-    }
-
-    public static class HangerMap {
-        public static double hangerMotor = 0.5;   
-        public static double hangerHalt = 0.0;
-        public static int hangerCanID = 13;
-        public static int topLimitChannelID = 1;             //DIO port 
-        public static int bottomLimitChannelID = 2;             //DIO port    
     }
 
     public static class PanelControlMap {
@@ -66,6 +60,14 @@ public class RobotMap {
     public static class TurretMap{
         public static int turretCanID = 6;
         public static double turretSpeed = 1;
+    }
+
+    public static class HangerMap {
+        public static double hangerMotor = 0.8;   
+        public static double hangerHalt = 0.0;
+        public static int hangerCanID = 7;
+        public static int topLimitChannelID = 1;             //DIO port 
+        public static int bottomLimitChannelID = 2;             //DIO port    
     }
     
     public static class CameraMap {}

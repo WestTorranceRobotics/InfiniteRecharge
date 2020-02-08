@@ -15,7 +15,7 @@ public class LiftDown extends CommandBase {
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        m_hanger.liftDown();  
+       m_hanger.liftDown();  
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -26,7 +26,7 @@ public class LiftDown extends CommandBase {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return m_hanger.reachedTopLimit();
+        return m_hanger.notReachedTopLimit();
     }
 
     // Called once after isFinished returns true

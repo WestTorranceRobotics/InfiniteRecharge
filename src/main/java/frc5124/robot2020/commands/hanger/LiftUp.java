@@ -15,18 +15,19 @@ public class LiftUp extends CommandBase {
     // Called just before this Command runs the first time
     @Override
     public void initialize() {
-        m_hanger.liftUp();  
+        m_hanger.setNoPower();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+        m_hanger.liftUp();  
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return m_hanger.reachedTopLimit();
+        return false; 
     }
 
     // Called once after isFinished returns true

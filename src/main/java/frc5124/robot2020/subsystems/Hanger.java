@@ -9,23 +9,25 @@ package frc5124.robot2020.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.revrobotics.CANDigitalInput.LimitSwitch;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitch;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 
 public class Hanger implements Subsystem {
   private TalonFX hangerMotor;
- // private Solenoid brake;
+  private Solenoid brake;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
 
   public Hanger() {
     hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
-  //  brake = new Solenoid(2);
+    brake = new Solenoid(0, 2);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
   }
@@ -33,22 +35,30 @@ public class Hanger implements Subsystem {
   @Override
   public void periodic() {
   }
-  
-  public void liftUp(){
-    if (!reachedTopLimit()) {
-      brake(false);
+   
+  public void liftUp() {
+    if (notReachedTopLimit()) {
+      brake.set(true);
       hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerMotor);
+    }
+    else {
+      hangerMotor.set(ControlMode.PercentOutput, 0);
+      brake.set(false);
     }
   }
 
   public void liftDown(){
     if (!reachedBottomLimit()) {
-      brake(false);
+      brake.set(true);
       hangerMotor.set(ControlMode.PercentOutput, -RobotMap.HangerMap.hangerMotor);
+    }
+    else {
+      hangerMotor.set(ControlMode.PercentOutput, 0);
+      brake.set(false);
     }
   }
 
-  public boolean reachedTopLimit(){
+  public boolean notReachedTopLimit(){
     return topLimit.get();
   }
 
@@ -58,10 +68,6 @@ public class Hanger implements Subsystem {
 
   public void setNoPower(){
     hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerHalt);
-    brake(true);
-  }
-
-  private void brake(boolean brakeSet){
-  //  brake.set(brakeSet);
+    brake.set(false);
   }
 }
