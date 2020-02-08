@@ -74,6 +74,7 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
+  
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorX = new JoystickButton(operator, 3);
@@ -106,14 +107,14 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    panelController = new PanelController();
+    // camera = new Camera();
+     panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-    turret = new Turret();
+     turret = new Turret();
   }
 
   private void configureButtonBindings(){
@@ -131,7 +132,7 @@ public class RobotContainer {
     rotationControl.whenPressed(new RotationControl(panelController));   
     rotationControl.whenPressed(new RotationControl(panelController));
 
-    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10), false);
+    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10));
     
   }
 
@@ -152,7 +153,7 @@ public class RobotContainer {
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

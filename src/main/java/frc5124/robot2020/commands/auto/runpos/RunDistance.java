@@ -33,7 +33,6 @@ private DriveTrain driveTrain;
 private double transX;
 private double transY;
 private double targetDistance;
-private ParallelCommandGroup runPos = new ParallelCommandGroup();
 private double currentDistance;
 private WPI_TalonFX leftLeader;
 private WPI_TalonFX rightLeader;
@@ -125,7 +124,7 @@ private boolean firstCall;
 
 // /* Configure the Remote Talon's selected sensor as a remote sensor for the right Talon */
 //  rightLeader.configRemoteFeedbackFilter(leftLeader.getDeviceID(),					// Device ID of Source
-//   RemoteSensorSource.TalonSRX_SelectedSensor,	// Remote Feedback Source
+//   RemoteSensorSource.CANifier_Quadrature,	// Remote Feedback Source
 //   REMOTE_0,							// Source number [0, 1]
 //   kTimeoutMs);						// Configuration Timeout
 
@@ -244,7 +243,7 @@ private boolean firstCall;
 
       rightLeader.set(ControlMode.Position, targetDistance);
      
-      // leftLeader.follow(rightLeader, FollowerType.AuxOutput1);
+      leftLeader.follow(rightLeader);
       
       //firstCall = false;
 

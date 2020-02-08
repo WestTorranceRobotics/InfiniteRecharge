@@ -8,12 +8,7 @@
 package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.subsystems.DriveTrain;
-
-import java.util.Set;
-
-import edu.wpi.first.wpilibj.controller.PIDController;
 
 public class TurnToAngle  extends CommandBase {
   /**
@@ -30,7 +25,7 @@ public class TurnToAngle  extends CommandBase {
     m_driveTrain = driveTrain;
     m_x = x;
     m_y = y;
-
+    addRequirements(driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -43,10 +38,10 @@ public class TurnToAngle  extends CommandBase {
 
     m_driveTrain.getGyroScope().zeroYaw();
 
-    if (m_x < 0 && m_y < 0) {
-      isClockwise = 1;
+    if (m_x < 0) {
+      isClockwise = 0;
     }
-    if (m_x < 0 && m_y > 0){
+    if (m_x > 0){
       isClockwise = 1;
     }
 
@@ -86,11 +81,5 @@ public class TurnToAngle  extends CommandBase {
   @Override
   public boolean isFinished() {
     return isDone;
-  }
-
-  @Override
-  public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
   }
 }

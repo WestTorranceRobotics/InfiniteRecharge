@@ -49,18 +49,18 @@ public class DriveTrain implements Subsystem {
         rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanID);
         rightFollower.follow(rightLeader);
 
-        leftLeader.setInverted(false);
+        leftLeader.setInverted(true);
         
-        rightLeader.setInverted(true);
+        rightLeader.setInverted(false);
 
         leftFollower.setInverted(InvertType.FollowMaster);
-        rightFollower.setInverted(InvertType.FollowMaster);
+        rightFollower.setInverted(InvertType.FollowMaster); 
 
-         /*
-         * [4] adjust sensor phase so sensor moves positive when Talon LEDs are green
-         */
-        rightLeader.setSensorPhase(true);
-        leftLeader.setSensorPhase(true);
+        //  /*
+        //  * [4] adjust sensor phase so sensor moves positive when Talon LEDs are green
+        //  */
+        // rightLeader.setSensorPhase(true);
+        // leftLeader.setSensorPhase(true);
 
 
         gyro = new AHRS(SPI.Port.kMXP);
@@ -91,8 +91,8 @@ public class DriveTrain implements Subsystem {
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
         SmartDashboard.putNumber("encodeyBoy", l * INCHES_PER_TICK);
         SmartDashboard.putNumber("encodeyGuy", r * INCHES_PER_TICK);
-        
-        //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiameter; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
+
+        //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
 
         SmartDashboard.putNumber("angle", getGryoDegree());
         SmartDashboard.putNumber("Target Value", Math.toDegrees(Math.atan2(10,10)));
