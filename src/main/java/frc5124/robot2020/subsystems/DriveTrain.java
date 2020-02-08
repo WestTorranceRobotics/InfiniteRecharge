@@ -37,7 +37,7 @@ public class DriveTrain implements Subsystem {
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
-    private double TICK_PER_INCHES = (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
+    private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
 
     public DriveTrain() {
 
@@ -91,12 +91,9 @@ public class DriveTrain implements Subsystem {
         SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
         SmartDashboard.putNumber("encodeyBoy", l * INCHES_PER_TICK);
         SmartDashboard.putNumber("encodeyGuy", r * INCHES_PER_TICK);
+        SmartDashboard.putNumber("Target Distance", 40 *TICK_PER_INCHES);
 
         //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
-
-        SmartDashboard.putNumber("angle", getGryoDegree());
-        SmartDashboard.putNumber("Target Value", Math.toDegrees(Math.atan2(10,10)));
-        SmartDashboard.putNumber("PID", angleController.calculate(getGryoDegree(), Math.toDegrees(Math.atan2(10,10))));
 
         SmartDashboard.updateValues();
     }
