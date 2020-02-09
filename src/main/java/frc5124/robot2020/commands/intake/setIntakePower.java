@@ -10,13 +10,13 @@ package frc5124.robot2020.commands.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Intake;
 
-public class SetIntakePower extends CommandBase {
+public class setIntakePower extends CommandBase {
   private Intake intake;
   private double power;
   /**
    * Creates a new setIntakePower.
    */
-  public SetIntakePower(Intake subsystem, double power) {
+  public setIntakePower(Intake subsystem, double power) {
     intake = subsystem;
     addRequirements(intake);
     this.power = power;

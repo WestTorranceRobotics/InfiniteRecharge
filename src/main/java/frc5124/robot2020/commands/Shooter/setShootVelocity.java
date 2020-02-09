@@ -10,14 +10,14 @@ package frc5124.robot2020.commands.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class SetShootVelocity extends CommandBase {
+public class setShootVelocity extends CommandBase {
   private Shooter shooter;
   private double targetVelocity;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public SetShootVelocity(Shooter subsystem, double targetVelocity) {
+  public setShootVelocity(Shooter subsystem, double targetVelocity) {
     shooter = subsystem;
     addRequirements(shooter);
     this.targetVelocity = targetVelocity;

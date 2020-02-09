@@ -118,14 +118,14 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.8));
+    operatorBack.whileHeld(new setIntakePower(intake, -.8));
     operatorY.whileHeld(new ToggleIntakePivot(intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+    operatorUp.whenPressed(new setShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));

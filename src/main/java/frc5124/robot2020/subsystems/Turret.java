@@ -22,13 +22,6 @@ public class Turret implements Subsystem {
    //turretMotor = new VictorSP(1);
   }
 
-  @Override
-  public void periodic() {
-    if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    limitReached();                                        //exists for instantCommand as opposed to looping command
-    }
-  }
-
   public void rotateTurret(double power) {
     if (limitReached && turretMotor.getAppliedOutput() == 0) {
       
@@ -39,9 +32,7 @@ public class Turret implements Subsystem {
       turretMotor.set(power);
       
     }
-    else {
-      
-    }
+
   }
 
   public int getEncoder(){
@@ -51,5 +42,5 @@ public class Turret implements Subsystem {
   private boolean limitReached() {
     return true;
   }
-
+  
 }
