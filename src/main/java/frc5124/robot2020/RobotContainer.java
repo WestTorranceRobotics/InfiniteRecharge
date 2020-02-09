@@ -108,13 +108,13 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     // camera = new Camera();
-     panelController = new PanelController();
+    panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-     turret = new Turret();
+    turret = new Turret();
   }
 
   private void configureButtonBindings(){
@@ -125,15 +125,12 @@ public class RobotContainer {
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorRight.whenPressed(new SetShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
+    operatorRight.whenPressed(new SetShootRPM(shooter,  573));
     
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));   
     rotationControl.whenPressed(new RotationControl(panelController));
-
-    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10));
-
   }
 
   private void configureDefaultCommands(){
@@ -191,11 +188,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new ZoomZoom(TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0, 1)),
-      List.of(),
-      new Pose2d(0, 12, new Rotation2d(0, 1)),
-      new TrajectoryConfig(RobotMap.DriveTrainMap.maxV, RobotMap.DriveTrainMap.maxA)
-    ), driveTrain);
+    return null;
   }
 }
