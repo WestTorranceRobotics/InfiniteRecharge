@@ -4,7 +4,10 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
+
     public static int pcmCanId = 0;
+    public static final int modNumSolenoid = 0;
+
     public static class DriveTrainMap {
 
         public static int rightLeaderCanID = 1;
@@ -65,10 +68,14 @@ public class RobotMap {
         public static final IntToDoubleFunction rotationControlDistanceToPowerFunction =
             (i) -> i > 8 ? 1 : i / 8;
     }
-
+    public static class Intake {
+        public static double motorPower = 0.5;
+        public static int rollerCanId = 7;
+        public static int intakeSolenoid = 1;
+    }
     public static class Loader {
-        public static int topBeltCanId = 3;
-        public static int bottomBeltCanId = 4; 
+        public static int topBeltCanId = 9;
+        public static int bottomBeltCanId = 10; 
     }
 
     public static class TurretMap{
@@ -76,6 +83,15 @@ public class RobotMap {
         public static double turretSpeed = 1;
         public static double Kp = 0.04; 
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
+    }
+
+    public static class HangerMap {
+        public static double hangerMotor = 0.8;   
+        public static double hangerHalt = 0.0;
+        public static int hangerCanID = 5;
+        public static int hangerSolenoid = 2;
+        public static int topLimitChannelID = 1;             //DIO port 
+        public static int bottomLimitChannelID = 2;             //DIO port    
     }
     
     public static class CameraMap {}
