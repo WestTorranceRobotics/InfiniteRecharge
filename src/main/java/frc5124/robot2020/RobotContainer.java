@@ -67,7 +67,7 @@ public class RobotContainer {
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
-   private Shooter shooter; 
+  private Shooter shooter; 
   private Turret turret;
   private Loader loader;
 
