@@ -26,7 +26,7 @@ public class Turret implements Subsystem {
     turretPID = turretMotor.getPIDController();
     turretPID.setD(RobotMap.TurretMap.Kd);
     turretPID.setP(RobotMap.TurretMap.Kp);
-    turretPID.setReference(5, ControlType.kPosition);
+    turretPID.setReference(0, ControlType.kPosition);
 
     SmartDashboard.putNumber("P", RobotMap.TurretMap.Kp);
     SmartDashboard.putNumber("I", 0);

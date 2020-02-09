@@ -31,7 +31,7 @@ public class PIDTune extends CommandBase {
   @Override
   public void execute() {
     if (SmartDashboard.getBoolean("update", true)) {
-    //turret.updateCoeffs();
+    turret.updateCoeffs();
   }
   SmartDashboard.putBoolean("update", false);
 
