@@ -28,12 +28,7 @@ public class Turret implements Subsystem {
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setReference(0, ControlType.kVelocity);
-    
-
-    
   }
-
-
 
   public double getRotations() {
     return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
