@@ -56,7 +56,7 @@ public class returnTurretToStart extends CommandBase {
   public void end(boolean interrupted) {
     //sets turret motor and encoder to 0
     turret.getMotor().set(0);
-    turret.getEncoder().setPosition(0);
+   // turret.getEncoder().setPosition(0);
   }
 
   // Returns true when the command should end.
