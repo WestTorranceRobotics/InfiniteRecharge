@@ -74,8 +74,8 @@ public class RobotMap {
     public static class TurretMap{
         public static int turretCanID = 11;
         public static double turretSpeed = 1;
-        public static double Kp = 0.000142;
-        public static double Kd = 0.000528;
+        public static double Kp = 0.04; 
+        public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
     }
     
     public static class CameraMap {}
