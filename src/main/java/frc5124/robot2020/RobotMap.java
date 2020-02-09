@@ -22,22 +22,19 @@ public class RobotMap {
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 19; 
-        public static int shootFollowerCanID = 9; 
-        public static double Kp = 0;
-        public static double Ki = 0;
-        public static double Kd = 0;
-        public static double Kf = .195;
-        public static double KiZone = 1;
-        public static double tolerance = 2;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
-        public static double maxVelocity = 99; //ft/s
-        public static double shootVelocity = 30;
+        public static int shootLeaderCanID = 8; 
+        public static int shootFollowerCanID = 6; 
+        public static double Kp = 0.000016;
+        public static double Ki = 0; //unused
+        public static double Kd = 0.000037;
+        public static double Kf = 0.000227;
+        public static double lineRefRPM = 573;
+        public static double reduction = .75;
     }
 
     public static class PanelControlMap {
         public static final int spinnerCanId = 10;
-        public static final int deployerSolenoidChannel = 0;
+        public static final int deployerSolenoidChannel = 4;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
         public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red

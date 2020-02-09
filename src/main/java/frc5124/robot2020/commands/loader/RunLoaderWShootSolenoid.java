@@ -5,39 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.loader;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class SetShootVelocity extends CommandBase {
-  private Shooter shooter;
-  private double targetVelocity;
-  
-  /**
-   * Creates a new setShootVelocity.
-   */
-  public SetShootVelocity(Shooter subsystem, double targetVelocity) {
-    shooter = subsystem;
-    addRequirements(shooter);
-    this.targetVelocity = targetVelocity;
+public class RunLoaderWShootSolenoid extends CommandBase {
+
+  private Loader m_Loader;
+  private Shooter m_Shooter;
+
+  public RunLoaderWShootSolenoid(Loader loader, Shooter shooter) {
+    m_Loader = loader;
+    m_Shooter = shooter;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Loader);
+    addRequirements(m_Shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setTargetVelocity(targetVelocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_Shooter.EntryHoleOpenedOrClose()){
+      m_Loader.runBelt();
+    } 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setTargetVelocity(0);
+    m_Loader.stopBelt();
   }
 
   // Returns true when the command should end.
@@ -45,4 +49,5 @@ public class SetShootVelocity extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }

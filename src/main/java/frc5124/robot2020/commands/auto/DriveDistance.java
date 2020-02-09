@@ -30,7 +30,7 @@ public class DriveDistance implements Command {
         driveTrain.leftLeader.getSensorCollection().setIntegratedSensorPositionToAbsolute(0);
         driveTrain.rightLeader.getSensorCollection().setIntegratedSensorPositionToAbsolute(0);
         targetAngle = Math.toDegrees(Math.atan2(y, x));
-        gyroAngle = driveTrain.getGryoDegree();
+        gyroAngle = driveTrain.getGyroDegree();
         distanceTraveled = distance * countsPerIn;
     }
     @Override

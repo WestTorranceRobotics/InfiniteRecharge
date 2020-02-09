@@ -56,9 +56,9 @@ private PIDController angleController = new PIDController(0,0,0);
   public void execute() {
         currentPos =  driveTrain.getLocation();
         targetTheta = Math.atan((transX/transY));
-        double turn = angleController.calculate(driveTrain.getGryoDegree(), targetTheta);
+        double turn = angleController.calculate(driveTrain.getGyroDegree(), targetTheta);
 
-        if(driveTrain.getGryoDegree() <= targetTheta){
+        if(driveTrain.getGyroDegree() <= targetTheta){
           driveTrain.arcadeDrive(0,turn);
         }
         else{

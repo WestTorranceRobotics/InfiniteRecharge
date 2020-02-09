@@ -117,7 +117,11 @@ public class DriveTrain implements Subsystem {
         double radians = Math.toRadians(90 - gyro.getAngle());
         return new Rotation2d(radians);
     }
-    public double getGryoDegree() {
+    public double getGyroDegree() {
         return gyro.getAngle();
     }
+
+
+
+    
 }
