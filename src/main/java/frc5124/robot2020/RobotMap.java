@@ -41,20 +41,6 @@ public class RobotMap {
         public static double reduction = .75;
     }
 
-    public static class Intake {
-        public static double motorPower = 0.5;
-        public static int rollerCanId = 5;
-        public static int armSolenoidId = 1;
-    }
-
-    public static class HangerMap {
-        public static double hangerMotor = 0.5;   
-        public static double hangerHalt = 0.0;
-        public static int hangerCanID = 7;
-        public static int topLimitChannelID = 1;             //DIO port 
-        public static int bottomLimitChannelID = 2;             //DIO port    
-    }
-
     public static class PanelControlMap {
         public static final int spinnerCanId = 10;
         public static final int deployerSolenoidChannel = 0;
@@ -95,6 +81,4 @@ public class RobotMap {
     }
     
     public static class CameraMap {}
-
-    public static class LoaderMap{}
 }
