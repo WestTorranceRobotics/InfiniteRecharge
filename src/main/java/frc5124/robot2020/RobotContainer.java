@@ -38,7 +38,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.LoaderAndIntakeGroup;
-import frc5124.robot2020.commands.auto.*;
+import frc5124.robot2020.commands.auto.runpos.TurnToAngle;
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
@@ -74,6 +74,7 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
+  
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorX = new JoystickButton(operator, 3);
@@ -81,7 +82,8 @@ public class RobotContainer {
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
-  
+  public JoystickButton operatorStart = new JoystickButton(operator, XboxController.Button.kStart.value);
+
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
@@ -105,30 +107,32 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    panelController = new PanelController();
+    // camera = new Camera();
+     panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-    turret = new Turret();
+     turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    operatorRB.whileHeld(new setShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
-    operatorBack.whileHeld(new SetIntakePower(intake, -.8));
+    operatorBack.whileHeld(new setIntakePower(intake, -.8));
     operatorY.whileHeld(new ToggleIntakePivot(intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-   // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-  // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-   
+    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorUp.whenPressed(new setShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));
+
+    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10));
+    
   }
 
   private void configureDefaultCommands(){
@@ -150,8 +154,7 @@ public class RobotContainer {
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-    
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
