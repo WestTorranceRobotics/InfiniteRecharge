@@ -49,7 +49,11 @@ private PIDController angleController = new PIDController(0,0,0);
   }
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+
+    
+  }
   
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,6 +69,7 @@ private PIDController angleController = new PIDController(0,0,0);
           currentDistance =  Math.sqrt((currentX * currentX)+(currentY * currentY));
 
           distanceController.calculate(currentDistance, targetDistance);
+          
         
         
 

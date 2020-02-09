@@ -26,57 +26,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter implements Subsystem {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
-  private CANPIDController shootController; 
+  private CANPIDController shootPID; 
   private double currentVelocity;
  
 
   
   public Shooter() {
-    shootMotorFollower.follow(shootMotorLeader);
-    shootController = shootMotorLeader.getPIDController();
-    shootController.setD(RobotMap.ShooterMap.Kd);
-    shootController.setFF(RobotMap.ShooterMap.Kf);
-    shootController.setP(RobotMap.ShooterMap.Kp);
-    shootController.setI(RobotMap.ShooterMap.Ki);
-    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+    shootMotorFollower.follow(shootMotorLeader, true);
+    shootPID = shootMotorLeader.getPIDController();
+    shootPID.setD(RobotMap.ShooterMap.Kd);
+    shootPID.setP(RobotMap.ShooterMap.Kp);
+    shootPID.setFF(RobotMap.ShooterMap.Kf);
+    shootPID.setReference(0, ControlType.kVelocity);
+    shootPID.setOutputRange(-600, 600);
     
-
-        SmartDashboard.putNumber("P Gain", 0);
-        SmartDashboard.putNumber("I Gain", 0);
-        SmartDashboard.putNumber("D Gain", 0);
-        SmartDashboard.putNumber("I Zone", 0);
-        SmartDashboard.putNumber("Feed Forward", 0);
-        SmartDashboard.putNumber("Max Output", 0);
-        SmartDashboard.putNumber("Min Output", 0);
-        SmartDashboard.putNumber("SetPoint", 0);
   }
+
+  
 
   /**
-   * @param targetVelocity desired ft/s [advise 30 or 0]
+   * @param targetRPM desired RPM of shooter
    */
-  public void setTargetVelocity(double targetVelocity) {
-    targetVelocity = (targetVelocity / RobotMap.ShooterMap.conversionConstant);
-    if (shootMotorLeader.getAppliedOutput() == 0 && targetVelocity == 0) {
-      
-    } else {
-        shootController.setReference(targetVelocity, ControlType.kVelocity);
-      }
+  public void setTargetVelocity(double targetRPM) {
+    shootPID.setReference(targetRPM, ControlType.kVelocity);
   }
 
-  public void updatePID(){
-    shootController.setD(RobotMap.ShooterMap.Kd);
-    shootController.setFF(RobotMap.ShooterMap.Kf);
-    shootController.setP(RobotMap.ShooterMap.Kp);
-    shootController.setI(RobotMap.ShooterMap.Ki);
-    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
-
-  }
 
 /**
  * Units of ft/s
  */
   public double getVelocity() {
-    return ((shootMotorLeader.getEncoder().getVelocity())  * RobotMap.ShooterMap.conversionConstant); 
+    return (shootMotorLeader.getEncoder().getVelocity()); 
    }
   
   /**
@@ -93,84 +73,7 @@ public class Shooter implements Subsystem {
   
   @Override
   public void periodic() {
-    SmartDashboard.updateValues();
   }
 
-//   /**
-//    * WARNING
-//    * Control Loop Untuned
-//    * @param targetVelocity in units of ft/s; truncated if exceeding maxVelocity
-//    * 
-//    */
-//   public void setVelocity (double targetVelocity) {
-//   }
-
-//   /**
-//    * Must be called in periodic
-//    */
-//   private void holdVelocity (double targetVelocity) {
-//   kPI(targetVelocity);
-//   setPower(kOut); //kOut is the kPI output
-//   }
-
-//   /**
-//    * @deprecated
-//    */
-//   public void directPower (double power) {
-//   setPower(power);
-//   }
-
-
-//   public void runWheel(boolean run) {
-//     this.run = run;
-//   }
- 
-
-//   /**
-//    * Must be called in execute
-//    */
-//   public void holdVelocity (double targetVelocity) {
-//   kPI(targetVelocity);
-//   setPower(kOut); //kOut is the kPI output
-//   }
-
-//   /**
-//    * @deprecated
-//    */
-//   public void directPower (double power) {
-//     if (run) {
-//   setPower(power);
-//   } else {
-//     setPower(0);
-//   }
-//   }
-
-
-//   /**
-//    * lightweight PI loop
-//    */
-//   private void kPI(double targetVelocity) {
-//     getVelocity();
-//     kOut = shootControl.calculate(currentVelocity, targetVelocity);
-
-//      if (targetVelocity== 0) {
-//        return;
-//      }
-  
-//     kOut = kOut + RobotMap.Shooter.Kf ; 
-//   }
-
-// /**
-//  * Units of ft/s
-//  */
-
-//   public void getVelocity() {
-//     this.currentVelocity = ((shootMotorLeader.getEncoder().getVelocity() / 60)  * RobotMap.Shooter.conversionConstant); // 1 rpm * .75 (gear reduction) * conversionConstant
-    
-//    }
-  
-//   private void setPower (double power) {
-//     shootMotorLeader.set(power);
-//   }
 }
 

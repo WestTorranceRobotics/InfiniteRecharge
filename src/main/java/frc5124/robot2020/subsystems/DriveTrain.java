@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -105,7 +106,6 @@ public class DriveTrain implements Subsystem {
     public void resetOdometry() {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
     }
-
     
     public void setPower(double powerLeft, double powerRight){
         rightLeader.set(powerRight);

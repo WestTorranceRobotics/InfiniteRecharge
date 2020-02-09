@@ -66,7 +66,7 @@ public class RobotContainer {
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
-  private Shooter shooter; 
+   private Shooter shooter; 
   private Turret turret;
   private Loader loader;
 
@@ -81,11 +81,11 @@ public class RobotContainer {
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
-
+  
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-
+ 
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
   public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
@@ -116,14 +116,15 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
+    operatorRB.whileHeld(new setShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
     operatorBack.whileHeld(new SetIntakePower(intake, -.8));
     operatorY.whileHeld(new ToggleIntakePivot(intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+   // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+  // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+   
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
@@ -132,6 +133,8 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    turret.setDefaultCommand(new PIDTune(turret));
+ 
   }
 
 

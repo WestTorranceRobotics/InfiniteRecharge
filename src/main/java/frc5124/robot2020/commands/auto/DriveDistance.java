@@ -24,6 +24,7 @@ public class DriveDistance implements Command {
         this.x = x;
         this.y = y;
         this.distance = dist;
+    
     }
     // Called repeatedly when this Command is scheduled to run
     @Override 

@@ -8,16 +8,19 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SetShootVelocity extends CommandBase {
+
+public class setShootRPM extends CommandBase {
   private Shooter shooter;
   private double targetVelocity;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public SetShootVelocity(Shooter subsystem, double targetVelocity) {
+  public setShootRPM (Shooter subsystem, double targetVelocity) {
     shooter = subsystem;
     addRequirements(shooter);
     this.targetVelocity = targetVelocity;
@@ -32,6 +35,7 @@ public class SetShootVelocity extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("v", shooter.getVelocity() * .75);
   }
 
   // Called once the command ends or is interrupted.

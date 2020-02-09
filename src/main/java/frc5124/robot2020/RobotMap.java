@@ -11,9 +11,9 @@ public class RobotMap {
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
-        public static double P = 1;
+        public static double P = 0.000102;
         public static double I = 0.1;
-        public static double D = 0.01;
+        public static double D = 4.14e-5;
 
         public static double maxV = 12;
         public static double maxA = 2;
@@ -27,14 +27,13 @@ public class RobotMap {
   
     public static class ShooterMap {
         public static int shootLeaderCanID = 8; 
-        public static int shootFollowerCanID = 9; 
-        public static double Kp = 0;
-        public static double Ki = 0;
-        public static double Kd = 0;
-        public static double Kf = .195;
-        public static double conversionConstant = 2 * Math.PI * .33333 * .75 * (1.0/60.0); 
-        public static double maxVelocity = 99; //ft/s
-        public static double shootVelocity = 30;
+        public static int shootFollowerCanID = 6; 
+        public static double Kp = 0.000016;
+        public static double Ki = 0; //unused
+        public static double Kd = 0.000037;
+        public static double Kf = 0.000227;
+        public static double lineRefRPM = 573;
+        public static double reduction = .75;
     }
 
     public static class Intake {
@@ -71,8 +70,10 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static int turretCanID = 6;
+        public static int turretCanID = 11;
         public static double turretSpeed = 1;
+        public static double Kp = 0.000142;
+        public static double Kd = 0.000528;
     }
     
     public static class CameraMap {}

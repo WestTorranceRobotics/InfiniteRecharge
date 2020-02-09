@@ -8,26 +8,50 @@
 package frc5124.robot2020.subsystems;
 import frc5124.robot2020.RobotMap;
 
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
   public boolean limitReached = false;
   private CANSparkMax turretMotor;
-  //private VictorSP turretMotor;
+  private CANPIDController turretPID;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
-  //  turretMotor = new VictorSP(1);
+    turretPID = turretMotor.getPIDController();
+    // turretPID.setD(RobotMap.TurretMap.Kd);
+    // turretPID.setP(RobotMap.TurretMap.Kp);
+    // turretPID.setReference(5, ControlType.kPosition);
+
+    // SmartDashboard.putNumber("P", RobotMap.TurretMap.Kp);
+    // SmartDashboard.putNumber("I", 0);
+    // SmartDashboard.putNumber("D", RobotMap.TurretMap.Kd);
+    // SmartDashboard.putNumber("F", 0);
+    // SmartDashboard.putNumber("Ref", 0 );
+    
   }
 
   @Override
   public void periodic() {
-    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    // limitReached();                                        //exists for instantCommand as opposed to looping command
-    // }
+    SmartDashboard.updateValues();
   }
+
+
+  // public void updateCoeffs() {
+  //   turretPID.setD(SmartDashboard.getNumber("D", RobotMap.TurretMap.Kd));
+  //   turretPID.setI(SmartDashboard.getNumber("I", 0 ));
+  //   turretPID.setFF(SmartDashboard.getNumber("F", 0));
+  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+  //   turretPID.setReference(SmartDashboard.getNumber("Ref", 0), ControlType.kPosition);
+    
+
+
+  // }
 
   public void rotateTurret(double power) {
     if (limitReached && turretMotor.getAppliedOutput() == 0) {
