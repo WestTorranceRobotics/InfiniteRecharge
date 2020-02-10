@@ -9,39 +9,44 @@ package frc5124.robot2020.commands.loader;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Intake;
+public class EjectBallsOut extends CommandBase {
 
-public class SeeBallRunBelt extends CommandBase {
+    private Loader m_Loader;
+    private Intake m_Intake;
 
-  private Loader m_Loader;
+    public EjectBallsOut(Loader subsystem, Intake subsystem2) {
+        m_Loader = subsystem;
+        m_Intake = subsystem2;
 
-  public SeeBallRunBelt(Loader subsystem) {
-    m_Loader = subsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Loader);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
-    } else {
-      m_Loader.stopBelt();
-     // isDone = true;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(m_Loader);
     }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
+
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+    }
+
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        try {
+            m_Loader.ejectBallsOut();
+            m_Intake.setPower(-1);
+            wait(3500);
+            m_Intake.setPower(0);
+
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Loader.stopBelt();
+    m_Loader.setPower(0);
   }
 
   // Returns true when the command should end.
