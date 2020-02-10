@@ -21,10 +21,9 @@ public class LoaderAndShooterGroup extends ParallelCommandGroup {
    */
   private static Loader loader;
   private static Shooter shooter;
-  private static double targetVel;
 
   public LoaderAndShooterGroup() {
-    super(new SetShootRPM(shooter, targetVel), new RunLoaderWShootSolenoid(loader, shooter));
+    super(new SetShootRPM(shooter), new RunLoaderWShootSolenoid(loader, shooter));
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
   }
