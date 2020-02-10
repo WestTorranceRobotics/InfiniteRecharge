@@ -43,7 +43,6 @@ public class returnTurretToStart extends CommandBase {
     //   turret.setPower(0.3);
     // }
     // else{
-      turret.setPower(0);
     // }
 
     // SmartDashboard.putBoolean("IS DONE", turret.getMagnetSensor().get());

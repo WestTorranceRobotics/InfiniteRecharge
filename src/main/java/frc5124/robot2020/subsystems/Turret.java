@@ -44,7 +44,6 @@ public class Turret implements Subsystem {
     turretPID.setP(0);
   }
 
-
   public double getRotations() {
     return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
   }

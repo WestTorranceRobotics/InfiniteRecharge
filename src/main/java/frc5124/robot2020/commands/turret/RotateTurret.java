@@ -34,18 +34,14 @@ public class RotateTurret extends CommandBase {
   // Need encoder position limits to finish coding
   @Override
   public void execute() {
-  
-    if(turret.getMagnetSensor().get()){
-    
-      turret.setPower(0.3);
-    
-    }
+    turret.setTurretDegrees(0);
 
-    else if(!turret.getMagnetSensor().get()){
-      turret.setPower(0);
+    if(!turret.getMagnetSensor().get()){
+      isDone = true;
     }
+    
     else if(turret.getDegrees() < 1 && turret.getDegrees() > -1){
-
+      isDone = true;
     }
 
     SmartDashboard.getBoolean("ON?", turret.getMagnetSensor().get());
