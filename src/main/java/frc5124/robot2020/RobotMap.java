@@ -5,20 +5,29 @@ import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
 
-    public static final int pcmCanId = 0;
-    public static final int turretCanId = 6;
+    public static int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
-    
+
     public static class DriveTrainMap {
+
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
+        
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
-        public static double P = 1;
+        public static double P = 0.000102;
         public static double I = 0.1;
-        public static double D = 0.01;
-        public static double F = 0.5;
+        public static double D = 4.14e-5;
+
+        public static double maxV = 12;
+        public static double maxA = 2;
+
+        public static double motorS = 1;
+        public static double motorV = 1;
+        public static double motorA = 0;
+        
+        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {
@@ -35,7 +44,7 @@ public class RobotMap {
 
     public static class PanelControlMap {
         public static final int spinnerCanId = 10;
-        public static final int deployerSolenoidChannel = 4;
+        public static final int deployerSolenoidChannel = 0;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
         public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red
@@ -57,8 +66,11 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static int turretCanID = 6;
+        public static int turretCanID = 11;
         public static double turretSpeed = 1;
+        public static double Kp = 0.04; 
+        public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
     }
 
     public static class HangerMap {
@@ -71,6 +83,4 @@ public class RobotMap {
     }
     
     public static class CameraMap {}
-
-    public static class LoaderMap{}
 }
