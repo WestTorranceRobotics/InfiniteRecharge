@@ -35,9 +35,14 @@ public class Shooter implements Subsystem {
   /**
    * @param targetRPM desired RPM of shooter
    */
-  public void setTargetVelocity(double targetRPM) {
-    shootPID.setReference(targetRPM, ControlType.kVelocity);
-  }
+  public void startShooter() {
+    shootPID.setReference(RobotMap.ShooterMap.lineRefRPM, ControlType.kVelocity);
+    }
+
+    public void stopShooter () {
+      shootPID.setReference(0, ControlType.kVelocity);
+    }
+  
 
 /**
  * Units of ft/s

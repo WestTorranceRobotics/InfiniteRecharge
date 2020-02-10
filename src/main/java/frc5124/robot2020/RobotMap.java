@@ -69,6 +69,7 @@ public class RobotMap {
         public static double turretSpeed = 1;
         public static double Kp = 0.04; 
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
     }
 
     public static class HangerMap {

@@ -125,7 +125,7 @@ public class RobotContainer {
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorRight.whenPressed(new SetShootRPM(shooter,  573));
+    operatorRight.whenPressed(new SetShootRPM(shooter));
     
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));

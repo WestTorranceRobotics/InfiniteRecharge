@@ -9,7 +9,6 @@ package frc5124.robot2020.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.EjectBallsOut;
 import frc5124.robot2020.commands.loader.SeeBallRunBelt;
 import frc5124.robot2020.subsystems.*;
 
@@ -24,7 +23,6 @@ public class LoaderAndIntakeGroup extends ParallelCommandGroup {
   private Intake intake;
   
   public LoaderAndIntakeGroup(Intake intake, Loader loader) {
-    super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader), new EjectBallsOut(
-      loader, intake));   
+    super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader));   
   }
 }
