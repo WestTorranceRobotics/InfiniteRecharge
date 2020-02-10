@@ -5,27 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.intake;
+package frc5124.robot2020.commands.turret.turretGroups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Turret;
 
-public class setIntakePower extends CommandBase {
-  private Intake intake;
-  private double power;
+public class setTurretDegrees extends CommandBase {
+  private Turret turret;
+  private double degrees;
   /**
-   * Creates a new setIntakePower.
+   * Creates a new setTurretDegrees.
    */
-  public setIntakePower(Intake subsystem, double power) {
-    intake = subsystem;
-    addRequirements(intake);
-    this.power = power;
+  public setTurretDegrees(Turret subsystem, double degrees) {
+    turret = subsystem;
+    addRequirements(turret);
+    this.degrees = degrees;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setIntakePower(power);
+    turret.setTurretDegrees(degrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +36,6 @@ public class setIntakePower extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.setIntakePower(0);
   }
 
   // Returns true when the command should end.

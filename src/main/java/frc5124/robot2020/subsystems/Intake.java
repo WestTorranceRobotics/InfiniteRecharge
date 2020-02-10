@@ -7,41 +7,33 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 public class Intake implements Subsystem {
-
-  private Solenoid armSolenoid;
-  private CANSparkMax rollerSpeedController;
-  private boolean deployed;
+  private Solenoid armSolenoid;         //for pivot of the arm
+  private CANSparkMax rollerSpeedController;          //motor
+  private boolean deployed;         //need to create the toggle for the pivot 
 
   public Intake() {
-      armSolenoid = new Solenoid(RobotMap.pcmCanId, RobotMap.Intake.armSolenoidId);
-    
-      rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);
+      armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.Intake.intakeSolenoid);         // mod num & channel num         
+      rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
+      rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
-      rollerSpeedController.set(0);
-
-      deployed = false;
+      deployed = false;         // pivot is up 
   }
 
   @Override
   public void periodic() {
-      // Put code here to be run every loop
-
+    // Put code here to be run every loop
   }
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   public void setDeployed(boolean deployed) {
-      armSolenoid.set(deployed);
-      this.deployed = deployed;
+    armSolenoid.set(deployed);
+    this.deployed = deployed;
   }
 
   public boolean isDeployed() {
-      return deployed;
+    return deployed;
   }
 
   public void setIntakePower(double power){
-      rollerSpeedController.set(power);
+    rollerSpeedController.set(power);
   }
-
 }

@@ -32,13 +32,17 @@ public class Turret implements Subsystem {
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
-    turretPID.setReference(0, ControlType.kVelocity);
-    magneticSensor = new DigitalInput(0);
-    turretMotor.setIdleMode(IdleMode.kBrake);
-
-    
+    turretPID.setReference(0, ControlType.kPosition);
   }
 
+  public void setTurretDegrees(double degrees) {
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
+  }
+
+  public void disableTurretPID () {
+    turretPID.setP(0);
+  }
 
 
   public double getRotations() {
@@ -46,34 +50,6 @@ public class Turret implements Subsystem {
   }
   public double getDegrees(){
     return getRotations() * (1.0/(66.0 + (2/3))) * 360.0;
-  }
-
-  // public void rotateTurret(double power) {
-  //   //if clockwise limit reached, and an attempt is made to keep going clockwise, stop the motor
-  //   if (turretMotor.getAppliedOutput() == 0 && turretEncoder.getPosition() >= clockwiseLimit && power > 0) {
-  //     turretMotor.set(0);
-  //   } 
-  //   //if clockwise limit reached, but an attempt is made to go counter-clockwise, move the motor
-  //   else if (turretMotor.getAppliedOutput() == 0 && turretEncoder.getPosition() >= clockwiseLimit && power < 0) {
-  //     turretMotor.set(power);
-  //   } 
-
-  //   //if counter-clockwise limit reached, and an attempt is made to keep going counter-clockwise, stop the motor
-  //   else if (turretMotor.getAppliedOutput() == 0 && turretEncoder.getPosition() <= counterClockwiseLimit && power < 0) {
-  //     turretMotor.set(0);
-  //   } 
-  //   //if counter-clockwise limit reached, and an attempt is made to go clockwise, move the motor
-  //   else if (turretMotor.getAppliedOutput() == 0 && turretEncoder.getPosition() >= counterClockwiseLimit && power > 0) {
-  //     turretMotor.set(power);
-  //   }
-
-  //   else {
-  //     turretMotor.set(0);
-  //   }
-  // }
-
-  public void setPower(double power){
-    turretMotor.set(power);
   }
 
   public int getEncoderCountsPerRevolution(){

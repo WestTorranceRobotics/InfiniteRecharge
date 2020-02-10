@@ -108,7 +108,4 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
     }
 
-	public static void winMatch() {
-        RobotBase.startRobot(Robot::new);
-	}
 }

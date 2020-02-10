@@ -15,22 +15,12 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * 
- * WARNING 
- * Untuned
- * 
- * 
- * 
- */
 public class Shooter implements Subsystem {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
   private CANPIDController shootPID; 
   private double currentVelocity;
  
-
-  
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader, true);
     shootPID = shootMotorLeader.getPIDController();
@@ -42,15 +32,17 @@ public class Shooter implements Subsystem {
     
   }
 
-  
-
   /**
    * @param targetRPM desired RPM of shooter
    */
-  public void setTargetVelocity(double targetRPM) {
-    shootPID.setReference(targetRPM, ControlType.kVelocity);
-  }
+  public void startShooter() {
+    shootPID.setReference(RobotMap.ShooterMap.lineRefRPM, ControlType.kVelocity);
+    }
 
+    public void stopShooter () {
+      shootPID.setReference(0, ControlType.kVelocity);
+    }
+  
 
 /**
  * Units of ft/s
@@ -60,7 +52,7 @@ public class Shooter implements Subsystem {
    }
   
   /**
-   * @deprecated
+   * 
    */
   public void directPower (double power) {
     shootMotorLeader.set(power);
@@ -70,10 +62,7 @@ public class Shooter implements Subsystem {
     return true;
   }
 
-  
   @Override
   public void periodic() {
   }
-
 }
-

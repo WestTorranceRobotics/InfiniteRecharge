@@ -9,11 +9,9 @@ package frc5124.robot2020.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.revrobotics.CANDigitalInput.LimitSwitch;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 
@@ -25,25 +23,33 @@ public class Hanger implements Subsystem {
 
   public Hanger() {
     hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
-   //brake = new Solenoid(2);
+    brake = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
+    SmartDashboard.updateValues();
   }
-  
-  public void liftUp(){
-    if (!reachedTopLimit()) {
-      brake(false);
+   
+  public void liftUp() {
+    if (reachedTopLimit()) {
+      setNoPower();
+    }
+    else {
+      brake.set(false);
       hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerMotor);
     }
   }
 
   public void liftDown(){
-    if (!reachedBottomLimit()) {
-      brake(false);
+    if (reachedBottomLimit()) {
+      setNoPower();
+    }
+    else {
+      brake.set(false);
       hangerMotor.set(ControlMode.PercentOutput, -RobotMap.HangerMap.hangerMotor);
     }
   }
@@ -58,10 +64,6 @@ public class Hanger implements Subsystem {
 
   public void setNoPower(){
     hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerHalt);
-    brake(true);
-  }
-
-  private void brake(boolean brakeSet){
-    brake.set(brakeSet);
+    brake.set(true);
   }
 }

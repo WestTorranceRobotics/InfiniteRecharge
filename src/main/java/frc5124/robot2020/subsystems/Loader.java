@@ -20,24 +20,32 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Loader implements Subsystem {
+  private CANSparkMax topBeltMotor;
+  private CANSparkMax bottomBeltMotor;
   AnalogInput sensor = new AnalogInput(1);
-  CANSparkMax topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
-  CANSparkMax bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
   private static final double fieldEmptyVoltage = 1.0;
-  double beltSpeed = 0.5;
+  double beltSpeed = 0.8;
   
   public Loader() {
+    topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
+    bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
+    topBeltMotor.restoreFactoryDefaults();
+    bottomBeltMotor.restoreFactoryDefaults();
+    // SmartDashboard.putNumber("Ultrasonic Sensor Voltage", getVoltage());
+    // SmartDashboard.putBoolean("Ultrasonic Sensor sees ball", seeBall());
+  }
+
+  public void setPower(double power){
+    topBeltMotor.set(power);
   }
   
   public void runBelt() {
     topBeltMotor.set(beltSpeed);
-    bottomBeltMotor.set(beltSpeed);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
-    bottomBeltMotor.set(0); 
   }
 
   //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
@@ -50,7 +58,7 @@ public class Loader implements Subsystem {
   }
 
   public void runLoader() {
-    if(seeBall()){
+    if(!seeBall()){
       runBelt();
     }
     else{
@@ -61,7 +69,7 @@ public class Loader implements Subsystem {
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Ultrasonic Sensor Voltage", getVoltage());
-    SmartDashboard.putBoolean("Ultrasonic Sensor sees ball", seeBall());
+    SmartDashboard.updateValues();
   }
+  
 }
