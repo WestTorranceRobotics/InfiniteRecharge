@@ -24,7 +24,7 @@ public class SetShootRPM extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooting();
+    m_shooter.startShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +35,7 @@ public class SetShootRPM extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooting();
+    m_shooter.stopShooter();
   }
 
   // Returns true when the command should end.
