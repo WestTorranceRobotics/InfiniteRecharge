@@ -8,8 +8,7 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.commands.shooter.*;
-
+import frc5124.robot2020.subsystems.Shooter;
 
 public class SetShootRPM extends CommandBase {
   private Shooter m_shooter;
