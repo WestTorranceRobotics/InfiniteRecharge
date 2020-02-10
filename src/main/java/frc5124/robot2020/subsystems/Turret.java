@@ -13,7 +13,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
-import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -45,48 +44,21 @@ public class Turret implements Subsystem {
   }
 
   public void rotateTurret(double power) {
-    if (Math.abs(getEncoder()-startPosition) <= RobotMap.TurretMap.turnLimit) {
-      if (power != 0) {
-        turretMotor.set(power);
-      }
-      else {
-        turretMotor.set(0);
-      }
+    //limits how much the turret can turn when set to a power
+    if (Math.abs(getEncoder()-startPosition) < RobotMap.TurretMap.turnLimit) {
+      turretMotor.set(power);
     }  
-    
-    else if (Math.abs(getEncoder()-startPosition) > RobotMap.TurretMap.turnLimit) {
-      if (getEncoder()-startPosition > 0) {
-        if (power < 1) {
-          turretMotor.set(power);
-        }
-        else {
-          turretMotor.set(0);
-        }
-        }
-      
-      else if (getEncoder()-startPosition < 0) {
-        if (power > 1) {
-          turretMotor.set(power);
-        }
-        else {
-          turretMotor.set(0);
-        }
-      }
+    //When the power is set to reverse, it should allow the motor to go in the opposite direction, going below the limit
+    else if (-Math.signum(getEncoder()-startPosition) == Math.signum(power) && Math.abs(getEncoder()-startPosition) > RobotMap.TurretMap.turnLimit) {
+      turretMotor.set(power);
     }
-    
+    //Sets up the condition to be used when the turret wants to return home
+    else if (Math.abs(getEncoder()-startPosition) > RobotMap.TurretMap.turnLimit) {
+      limitReached = true;
+    }
     else {
       turretMotor.set(0);
     }
-  }
-
-  public int getEncoderCountsPerRevolution(){
-    return turretEncoder.getCountsPerRevolution();
-  }
-
-
-  private boolean limitReached() {
-    limitReached = true;
-    return true;
   }
 
   @Override

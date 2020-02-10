@@ -13,42 +13,27 @@ public class RotateTurret extends CommandBase {
   private Turret turret;
   private double power;
   private boolean isDone = false;
-  /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
-   */
   public RotateTurret(Turret subsystem, double power) {
     turret = subsystem;
     addRequirements(turret);
     this.power = power;
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (!turret.limitReached) {
-      turret.rotateTurret(power);
-    // }
-
-    // else if (turret.limitReached) {
-    //   new returnTurretToStart(turret);
-    // }
+    turret.rotateTurret(power);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-  
+    turret.rotateTurret(0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return isDone;
