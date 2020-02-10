@@ -66,6 +66,10 @@ public class Loader implements Subsystem {
     }
   }
 
+  public void flushOut() {
+    topBeltMotor.set(-1);
+  }
+
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {

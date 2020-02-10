@@ -23,8 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc5124.robot2020.commands.driveTrain.*;
-import frc5124.robot2020.commands.LoaderAndIntakeGroup;
+import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.*;
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
@@ -66,6 +65,7 @@ public class RobotContainer {
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
+  public JoystickButton operatorStart = new JoystickButton(operator, 8);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -109,6 +109,7 @@ public class RobotContainer {
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     //operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
+    operatorStart.whileHeld(new FlushOut(loader, intake));    
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));

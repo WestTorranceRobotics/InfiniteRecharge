@@ -37,4 +37,9 @@ public class Intake implements Subsystem {
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
   }
+
+  public void flushOut(){
+    armSolenoid.set(true);
+    rollerSpeedController.set(-1);
+  }
 }
