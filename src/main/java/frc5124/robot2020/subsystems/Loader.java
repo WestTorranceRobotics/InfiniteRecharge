@@ -24,7 +24,7 @@ public class Loader implements Subsystem {
   private CANSparkMax bottomBeltMotor;
   AnalogInput sensor = new AnalogInput(1);
   private static final double fieldEmptyVoltage = 1.0;
-  double beltSpeed = 0.8;
+  //double beltSpeed = 0.8;
   
   public Loader() {
     topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
@@ -40,14 +40,12 @@ public class Loader implements Subsystem {
   public void setPower(double power){
     topBeltMotor.set(power);
   }
-  
-  public void runBelt() {
-    topBeltMotor.set(beltSpeed);
+  public void ejectBallsOut() throws InterruptedException {
+    setPower(-0.8);
+    wait(3500);
+    setPower(0);
   }
-  public void stopBelt() {    
-    topBeltMotor.set(0);
-  }
-
+  //3500 is just a placeholder, will be changed after testing for optimal time
   //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
   public double getVoltage() {
     return sensor.getVoltage();
@@ -59,10 +57,10 @@ public class Loader implements Subsystem {
 
   public void runLoader() {
     if(!seeBall()){
-      runBelt();
+      setPower(0.8);
     }
     else{
-      stopBelt();
+      setPower(0);
     }
   }
 
