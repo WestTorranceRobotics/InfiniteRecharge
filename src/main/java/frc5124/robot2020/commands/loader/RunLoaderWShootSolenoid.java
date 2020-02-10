@@ -35,7 +35,7 @@ public class RunLoaderWShootSolenoid extends CommandBase {
   public void execute() {
     if (m_Shooter.EntryHoleOpenedOrClose()){
       m_Loader.runBelt();
-    } 
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -49,5 +49,4 @@ public class RunLoaderWShootSolenoid extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

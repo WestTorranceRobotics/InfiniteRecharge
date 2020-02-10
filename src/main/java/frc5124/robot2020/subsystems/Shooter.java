@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
@@ -13,6 +14,8 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -21,8 +24,8 @@ public class Shooter implements Subsystem {
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
   private CANPIDController shootPID; 
   private double currentVelocity;
+  private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoidNum);
  
-  
   public Shooter() {
     shootMotorFollower.follow(shootMotorLeader, true);
     shootPID = shootMotorLeader.getPIDController();
@@ -31,7 +34,6 @@ public class Shooter implements Subsystem {
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
     shootPID.setOutputRange(-600, 600);
-    
   }
 
   /**
@@ -39,6 +41,7 @@ public class Shooter implements Subsystem {
    */
   public void setTargetVelocity(double targetRPM) {
     shootPID.setReference(targetRPM, ControlType.kVelocity);
+    openEntryHole();
   }
 
 
@@ -60,6 +63,22 @@ public class Shooter implements Subsystem {
     return true;
   }
 
+  public boolean EntryHoleOpenedOrClose(){
+    if (shootSolenoid.get()){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  public void openEntryHole(){
+    shootSolenoid.set(true);
+  }
+
+  public void closeEntryHole(){
+    shootSolenoid.set(false);
+  }
   
   @Override
   public void periodic() {

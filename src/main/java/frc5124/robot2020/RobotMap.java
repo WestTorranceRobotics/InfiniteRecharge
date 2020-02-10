@@ -30,6 +30,7 @@ public class RobotMap {
         public static double Kf = 0.000227;
         public static double lineRefRPM = 573;
         public static double reduction = .75;
+        public static int shootSolenoidNum = 0;
     }
 
     public static class PanelControlMap {
