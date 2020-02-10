@@ -53,7 +53,7 @@ public class RobotMap {
     }
 
     public static class PanelControlMap {
-        public static final int spinnerCanId = 10;
+        public static final int spinnerCanId = 11; //Change to 10
         public static final int deployerSolenoidChannel = 0;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
@@ -72,7 +72,7 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static int turretCanID = 11;
+        public static int turretCanID = 10; // Change to 11
         public static double turretSpeed = 1;
         public static double Kp = 0.04; 
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));

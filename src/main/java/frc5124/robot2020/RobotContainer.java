@@ -123,20 +123,20 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorRB.whileHeld(new RotateTurret(turret));
+    operatorLB.whileHeld(new RotateTurret(turret));
     operatorUp.whenPressed(new SetShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));
 
-    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10));
-    
+    operatorStart.whenPressed(new RotateTurret(turret));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    //turret.setDefaultCommand(new returnTurretToStart(turret));
   }
 
 

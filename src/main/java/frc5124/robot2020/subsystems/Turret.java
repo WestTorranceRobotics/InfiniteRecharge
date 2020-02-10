@@ -13,22 +13,28 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
   private CANSparkMax turretMotor;
   private CANPIDController turretPID;
+  private DigitalInput magneticSensor;
+  private DigitalOutput mDigitalOutput;
   
   public Turret() {
-    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
+    turretMotor = new CANSparkMax(7, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setReference(0, ControlType.kVelocity);
-    
+    magneticSensor = new DigitalInput(0);
+    turretMotor.setIdleMode(IdleMode.kBrake);
 
     
   }
@@ -37,6 +43,9 @@ public class Turret implements Subsystem {
 
   public double getRotations() {
     return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
+  public double getDegrees(){
+    return getRotations() * (1.0/(66.0 + (2/3))) * 360.0;
   }
 
   // public void rotateTurret(double power) {
@@ -63,6 +72,10 @@ public class Turret implements Subsystem {
   //   }
   // }
 
+  public void setPower(double power){
+    turretMotor.set(power);
+  }
+
   public int getEncoderCountsPerRevolution(){
     return turretMotor.getEncoder().getCountsPerRevolution();
   }
@@ -78,9 +91,17 @@ public class Turret implements Subsystem {
   private boolean limitReached() {
     return true;
   }
+  public DigitalInput getMagnetSensor(){
+    return magneticSensor;
+  }
 
   @Override
   public void periodic() {
+    boolean x = magneticSensor.get();
+    SmartDashboard.putBoolean("Is Magnet there?",x);
+    SmartDashboard.putNumber("Turret Degree", getDegrees());
+    SmartDashboard.updateValues();
+    
   }
 
 } 
