@@ -82,6 +82,8 @@ public class RobotContainer {
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
   public JoystickButton operatorStart = new JoystickButton(operator, 8);
+  public JoystickButton operatorLT = new JoystickButton(operator, 11);
+  public JoystickButton operatorRT = new JoystickButton(operator, 12);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -125,6 +127,7 @@ public class RobotContainer {
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorLT.whenPressed(new EjectBallsOut(loader, intake));
     operatorRight.whenPressed(new SetShootRPM(shooter));
     
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
