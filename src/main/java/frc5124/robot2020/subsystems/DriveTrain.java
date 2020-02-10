@@ -46,8 +46,6 @@ public class DriveTrain implements Subsystem {
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(0.1);
-        differentialDrive.setMaxOutput(1.0);
 
         kinematics = new DifferentialDriveKinematics(30);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
