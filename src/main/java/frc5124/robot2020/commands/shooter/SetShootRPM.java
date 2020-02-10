@@ -10,39 +10,37 @@ package frc5124.robot2020.commands.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class SetShootVelocity extends CommandBase {
-  private Shooter shooter;
-  private double targetVelocity;
+public class SetShootRPM extends CommandBase {
+  private Shooter m_shooter;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public SetShootVelocity(Shooter subsystem, double targetVelocity) {
-    shooter = subsystem;
-    addRequirements(shooter);
-    this.targetVelocity = targetVelocity;
+  public SetShootRPM (Shooter shooter) {
+    m_shooter = shooter;
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setTargetVelocity(targetVelocity);
+    m_shooter.startShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   }
+  // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setTargetVelocity(0);
+    m_shooter.stopShooter();
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  
 }

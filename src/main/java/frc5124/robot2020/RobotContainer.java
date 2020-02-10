@@ -8,24 +8,36 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+
+import java.util.List;
 import java.util.function.DoubleSupplier;
-//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+
+import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.LoaderAndIntakeGroup;
 import frc5124.robot2020.commands.auto.*;
+
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
@@ -36,6 +48,8 @@ import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
 
 //import frc5124.robot2020.subsystems.PanelController.OutputColor;
+
+
 
 
 /**
@@ -59,6 +73,7 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
+  
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorX = new JoystickButton(operator, 3);
@@ -66,17 +81,19 @@ public class RobotContainer {
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
+  public JoystickButton operatorStart = new JoystickButton(operator, 8);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-
+  
+ 
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
   public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
   
-  public ShuffleboardTab display;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
 
 
   /**
@@ -90,7 +107,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
+    // camera = new Camera();
     panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
@@ -108,8 +125,8 @@ public class RobotContainer {
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    //operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
-
+    operatorRight.whenPressed(new SetShootRPM(shooter));
+    
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));   
@@ -133,8 +150,7 @@ public class RobotContainer {
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-    
-    new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {

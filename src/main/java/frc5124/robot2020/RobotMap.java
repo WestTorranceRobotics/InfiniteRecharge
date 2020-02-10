@@ -5,34 +5,40 @@ import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
 
-    public static final int pcmCanId = 0;
-    public static final int turretCanId = 6;
+    public static int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
-    
+
     public static class DriveTrainMap {
+
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
+        
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
-        public static double P = 1;
+        public static double P = 0.000102;
         public static double I = 0.1;
-        public static double D = 0.01;
-        public static double F = 0.5;
+        public static double D = 4.14e-5;
+
+        public static double maxV = 12;
+        public static double maxA = 2;
+
+        public static double motorS = 1;
+        public static double motorV = 1;
+        public static double motorA = 0;
+        
+        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 19; 
-        public static int shootFollowerCanID = 9; 
-        public static double Kp = 0;
-        public static double Ki = 0;
-        public static double Kd = 0;
-        public static double Kf = .195;
-        public static double KiZone = 1;
-        public static double tolerance = 2;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
-        public static double maxVelocity = 99; //ft/s
-        public static double shootVelocity = 30;
+        public static int shootLeaderCanID = 8; 
+        public static int shootFollowerCanID = 6; 
+        public static double Kp = 0.000016;
+        public static double Ki = 0; //unused
+        public static double Kd = 0.000037;
+        public static double Kf = 0.000227;
+        public static double lineRefRPM = 573;
+        public static double reduction = .75;
     }
 
     public static class PanelControlMap {
@@ -59,8 +65,11 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static int turretCanID = 6;
+        public static int turretCanID = 11;
         public static double turretSpeed = 1;
+        public static double Kp = 0.04; 
+        public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
     }
 
     public static class HangerMap {
@@ -73,6 +82,4 @@ public class RobotMap {
     }
     
     public static class CameraMap {}
-
-    public static class LoaderMap{}
 }

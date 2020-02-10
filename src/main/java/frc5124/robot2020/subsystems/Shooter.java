@@ -15,67 +15,40 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * 
- * WARNING 
- * Untuned
- * 
- * 
- * 
- */
 public class Shooter implements Subsystem {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
-  private CANPIDController shootController; 
+  private CANPIDController shootPID; 
   private double currentVelocity;
  
-
-  
   public Shooter() {
-    shootMotorFollower.follow(shootMotorLeader);
-    shootController = shootMotorLeader.getPIDController();
-    shootController.setD(RobotMap.ShooterMap.Kd);
-    shootController.setFF(RobotMap.ShooterMap.Kf);
-    shootController.setP(RobotMap.ShooterMap.Kp);
-    shootController.setI(RobotMap.ShooterMap.Ki);
-    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
+    shootMotorFollower.follow(shootMotorLeader, true);
+    shootPID = shootMotorLeader.getPIDController();
+    shootPID.setD(RobotMap.ShooterMap.Kd);
+    shootPID.setP(RobotMap.ShooterMap.Kp);
+    shootPID.setFF(RobotMap.ShooterMap.Kf);
+    shootPID.setReference(0, ControlType.kVelocity);
+    shootPID.setOutputRange(-600, 600);
     
-
-        SmartDashboard.putNumber("P Gain", 0);
-        SmartDashboard.putNumber("I Gain", 0);
-        SmartDashboard.putNumber("D Gain", 0);
-        SmartDashboard.putNumber("I Zone", 0);
-        SmartDashboard.putNumber("Feed Forward", 0);
-        SmartDashboard.putNumber("Max Output", 0);
-        SmartDashboard.putNumber("Min Output", 0);
-        SmartDashboard.putNumber("SetPoint", 0);
   }
 
   /**
-   * @param targetVelocity desired ft/s [advise 30 or 0]
+   * @param targetRPM desired RPM of shooter
    */
-  public void setTargetVelocity(double targetVelocity) {
-    targetVelocity = (targetVelocity / RobotMap.ShooterMap.conversionConstant);
-    if (shootMotorLeader.getAppliedOutput() == 0 && targetVelocity == 0) {
-    
-    } else {
-        shootController.setReference(targetVelocity, ControlType.kVelocity);
-      }
-  }
+  public void startShooter() {
+    shootPID.setReference(RobotMap.ShooterMap.lineRefRPM, ControlType.kVelocity);
+    }
 
-  public void updatePID(){
-    shootController.setD(RobotMap.ShooterMap.Kd);
-    shootController.setFF(RobotMap.ShooterMap.Kf);
-    shootController.setP(RobotMap.ShooterMap.Kp);
-    shootController.setI(RobotMap.ShooterMap.Ki);
-    shootController.setOutputRange(-RobotMap.ShooterMap.maxVelocity, RobotMap.ShooterMap.maxVelocity);
-  }
+    public void stopShooter () {
+      shootPID.setReference(0, ControlType.kVelocity);
+    }
+  
 
 /**
  * Units of ft/s
  */
   public double getVelocity() {
-    return ((shootMotorLeader.getEncoder().getVelocity())  * RobotMap.ShooterMap.conversionConstant); 
+    return (shootMotorLeader.getEncoder().getVelocity()); 
    }
   
   /**
@@ -89,11 +62,7 @@ public class Shooter implements Subsystem {
     return true;
   }
 
-  
   @Override
   public void periodic() {
-    SmartDashboard.updateValues();
   }
-
 }
-

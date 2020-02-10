@@ -7,50 +7,61 @@
 
 package frc5124.robot2020.commands.turret;
 
+import com.revrobotics.CANPIDController;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
-public class RotateTurret extends CommandBase {
+public class returnTurretToStart extends CommandBase {
   private Turret turret;
-  private double power;
+  private CANPIDController turretPID;
+  private boolean isDone = false;
+
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new returnTurretToStart.
    */
-  public RotateTurret(Turret subsystem, double power) {
+  public returnTurretToStart(Turret subsystem) {
     turret = subsystem;
     addRequirements(turret);
-    this.power = power;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  
+    turretPID = turret.getMotor().getPIDController();
+    turretPID.setP(.0004);
+    turretPID.setI(0);
+    turretPID.setD(0);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-  
-    // if (1==1 && !turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = true;
-    // } 
-    // else if (!(1==1) && turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = false;
-    // }
+    if(turret.getEncoderCountsPerRevolution() < 0){
+      turret.getMotor().set(0.3);
+    }
+    if(turret.getEncoderCountsPerRevolution() > 0){
+      turret.getMotor().set(-0.3);
+    }
+    else{
+      isDone = true;
+    }
+    
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  
+    //sets turret motor and encoder to 0
+    turret.getMotor().set(0);
+   // turret.getEncoder().setPosition(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }
