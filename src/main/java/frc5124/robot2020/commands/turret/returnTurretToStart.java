@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
 public class returnTurretToStart extends CommandBase {
-  private Turret turret;
+  private Turret m_turret;
   private CANPIDController turretPID;
   private boolean isDone = false;
 
@@ -21,14 +21,14 @@ public class returnTurretToStart extends CommandBase {
    * Creates a new returnTurretToStart.
    */
   public returnTurretToStart(Turret subsystem) {
-    turret = subsystem;
-    addRequirements(turret);
+    m_turret = subsystem;
+    addRequirements(m_turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turretPID = turret.getMotor().getPIDController();
+    turretPID = m_turret.getMotor().getPIDController();
     turretPID.setP(.0004);
     turretPID.setI(0);
     turretPID.setD(0);
@@ -38,11 +38,11 @@ public class returnTurretToStart extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(turret.getEncoderCountsPerRevolution() < 0){
-      turret.getMotor().set(0.3);
+    if(m_turret.getEncoderCountsPerRevolution() < 0){
+      m_turret.getMotor().set(0.3);
     }
-    if(turret.getEncoderCountsPerRevolution() > 0){
-      turret.getMotor().set(-0.3);
+    if(m_turret.getEncoderCountsPerRevolution() > 0){
+      m_turret.getMotor().set(-0.3);
     }
     else{
       isDone = true;
@@ -55,7 +55,7 @@ public class returnTurretToStart extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //sets turret motor and encoder to 0
-    turret.getMotor().set(0);
+    m_turret.getMotor().set(0);
    // turret.getEncoder().setPosition(0);
   }
 

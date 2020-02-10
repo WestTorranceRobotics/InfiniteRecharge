@@ -11,21 +11,21 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
 public class setTurretDegrees extends CommandBase {
-  private Turret turret;
+  private Turret m_turret;
   private double degrees;
   /**
    * Creates a new setTurretDegrees.
    */
   public setTurretDegrees(Turret subsystem, double degrees) {
-    turret = subsystem;
-    addRequirements(turret);
+    m_turret = subsystem;
+    addRequirements(m_turret);
     this.degrees = degrees;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.setTurretDegrees(degrees);
+    m_turret.setTurretDegrees(degrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

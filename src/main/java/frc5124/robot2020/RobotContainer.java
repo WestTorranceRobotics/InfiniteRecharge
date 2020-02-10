@@ -73,7 +73,6 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
-  
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorX = new JoystickButton(operator, 3);
@@ -86,7 +85,6 @@ public class RobotContainer {
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-  
  
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
