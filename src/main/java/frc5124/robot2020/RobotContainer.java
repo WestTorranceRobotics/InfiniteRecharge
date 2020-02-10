@@ -70,9 +70,9 @@ public class RobotContainer {
   private Turret turret;
   private Loader loader;
 
-  public static final Joystick driverLeft = new Joystick(0);
+  public static final Joystick driverLeft = new Joystick(3);
   public static final Joystick driverRight = new Joystick(1);
-  public XboxController operator = new XboxController(2);
+  public XboxController operator = new XboxController(0);
   
   
   public JoystickButton operatorA = new JoystickButton(operator, 1);
@@ -107,8 +107,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    // camera = new Camera();
-     panelController = new PanelController();
+    panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
@@ -123,8 +122,8 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed)).whenReleased(new RotateTurret(turret, 0));
+    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed)).whenReleased(new RotateTurret(turret, 0));
     operatorUp.whenPressed(new SetShootRPM(shooter, RobotMap.ShooterMap.lineRefRPM));
 
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
@@ -137,6 +136,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    turret.register();
   }
 
 

@@ -9,10 +9,10 @@ package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
-
 public class RotateTurret extends CommandBase {
   private Turret turret;
   private double power;
+  private boolean isDone = false;
   /**
    * Creates a new RotateTurret.
    * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
@@ -30,27 +30,27 @@ public class RotateTurret extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-  
-    // if (1==1 && !turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = true;
-    // } 
-    // else if (!(1==1) && turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = false;
+    // if (!turret.limitReached) {
+      turret.rotateTurret(power);
+    // }
+
+    // else if (turret.limitReached) {
+    //   new returnTurretToStart(turret);
     // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

@@ -8,8 +8,10 @@
 package frc5124.robot2020.commands.turret;
 
 import com.revrobotics.CANPIDController;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Turret;
 
 public class returnTurretToStart extends CommandBase {
@@ -18,7 +20,7 @@ public class returnTurretToStart extends CommandBase {
   private boolean isDone = false;
 
   /**
-   * Creates a new returnTurretToStart.
+   * Creates a new returnTurretToStart
    */
   public returnTurretToStart(Turret subsystem) {
     turret = subsystem;
@@ -28,35 +30,27 @@ public class returnTurretToStart extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turretPID = turret.getMotor().getPIDController();
-    turretPID.setP(.0004);
+    turretPID = turret.turretPID;
+    turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setI(0);
     turretPID.setD(0);
-    
+    turretPID.setReference(turret.getEncoder(), ControlType.kPosition); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(turret.getEncoderCountsPerRevolution() < 0){
-      turret.getMotor().set(0.3);
-    }
-    if(turret.getEncoderCountsPerRevolution() > 0){
-      turret.getMotor().set(-0.3);
-    }
-    else{
+    turretPID.setReference(0, ControlType.kPosition);
+    if (turret.getEncoder() >= turret.startPosition){
       isDone = true;
     }
-    
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     //sets turret motor and encoder to 0
-    turret.getMotor().set(0);
-   // turret.getEncoder().setPosition(0);
+    turret.rotateTurret(0);
   }
 
   // Returns true when the command should end.

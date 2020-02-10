@@ -60,7 +60,7 @@ public class Shooter implements Subsystem {
    }
   
   /**
-   * @deprecated
+   * @Deprecated
    */
   public void directPower (double power) {
     shootMotorLeader.set(power);
@@ -76,4 +76,5 @@ public class Shooter implements Subsystem {
   }
 
 }
+
 

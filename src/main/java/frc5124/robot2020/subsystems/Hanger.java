@@ -25,7 +25,7 @@ public class Hanger implements Subsystem {
 
   public Hanger() {
     hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
-   //brake = new Solenoid(2);
+    brake = new Solenoid(2);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
   }
