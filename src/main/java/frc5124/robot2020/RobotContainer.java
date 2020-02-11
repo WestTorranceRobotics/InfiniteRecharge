@@ -24,8 +24,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -38,7 +36,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.LoaderAndIntakeGroup;
-import frc5124.robot2020.commands.auto.runpos.TurnToAngle;
+import frc5124.robot2020.commands.auto.*;
+
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
@@ -82,12 +81,13 @@ public class RobotContainer {
   public JoystickButton operatorLB = new JoystickButton(operator, 5);
   public JoystickButton operatorRB = new JoystickButton(operator, 6);
   public JoystickButton operatorBack = new JoystickButton(operator, 7);
-  public JoystickButton operatorStart = new JoystickButton(operator, XboxController.Button.kStart.value);
+  public JoystickButton operatorStart = new JoystickButton(operator, 8);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-
+  
+ 
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
   public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
@@ -108,36 +108,36 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     // camera = new Camera();
-     panelController = new PanelController();
+    panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-     turret = new Turret();
+    turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.8));
-    operatorY.whileHeld(new ToggleIntakePivot(intake));
+    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorUp.whenPressed(new SetShootVelocity(shooter, RobotMap.ShooterMap.shootVelocity));
-
+    operatorRB.whileHeld(new RotateTurret(turret));
+    operatorLB.whileHeld(new RotateTurret(turret));
+    operatorRight.whenPressed(new SetShootRPM(shooter));
+    
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));   
     rotationControl.whenPressed(new RotationControl(panelController));
 
-    operatorStart.whenPressed(new TurnToAngle(driveTrain,10,10));
-    
+    operatorStart.whenPressed(new RotateTurret(turret));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    //turret.setDefaultCommand(new returnTurretToStart(turret));
   }
 
 
@@ -191,11 +191,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new ZoomZoom(TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0, 1)),
-      List.of(),
-      new Pose2d(0, 12, new Rotation2d(0, 1)),
-      new TrajectoryConfig(RobotMap.DriveTrainMap.maxV, RobotMap.DriveTrainMap.maxA)
-    ), driveTrain);
+    return null;
   }
 }

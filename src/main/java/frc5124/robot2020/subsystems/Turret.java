@@ -6,50 +6,77 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+
 import frc5124.robot2020.RobotMap;
 
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class Turret implements Subsystem {
-  public boolean limitReached = false;
   private CANSparkMax turretMotor;
-  //private VictorSP turretMotor;
+  private CANPIDController turretPID;
+  private DigitalInput magneticSensor;
+  private DigitalOutput mDigitalOutput;
   
   public Turret() {
-    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
-   //turretMotor = new VictorSP(1);
+    turretMotor = new CANSparkMax(7, MotorType.kBrushless);
+    turretPID = turretMotor.getPIDController();
+    turretMotor.restoreFactoryDefaults();
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setReference(0, ControlType.kPosition);
   }
 
-  @Override
-  public void periodic() {
-    if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    limitReached();                                        //exists for instantCommand as opposed to looping command
-    }
+  public void setTurretDegrees(double degrees) {
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
 
-  public void rotateTurret(double power) {
-    if (limitReached && turretMotor.getAppliedOutput() == 0) {
-      
-    } else if (limitReached) {
-      turretMotor.set(0);
-      
-    } else if (!limitReached && turretMotor.getAppliedOutput() != power) {
-      turretMotor.set(power);
-      
-    }
-    else {
-      
-    }
+  public void disableTurretPID () {
+    turretPID.setP(0);
   }
 
-  public int getEncoder(){
+  public double getRotations() {
+    return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
+  public double getDegrees(){
+    return getRotations() * (1.0/(66.0 + (2/3))) * 360.0;
+  }
+
+  public int getEncoderCountsPerRevolution(){
     return turretMotor.getEncoder().getCountsPerRevolution();
   }
+
+  public CANSparkMax getMotor() {
+    return turretMotor;
+  }
+
+  // public CANEncoder getEncoder(){
+  //   return turretEncoder;
+  // }
 
   private boolean limitReached() {
     return true;
   }
+  public DigitalInput getMagnetSensor(){
+    return magneticSensor;
+  }
 
-}
+  @Override
+  public void periodic() {
+    boolean x = magneticSensor.get();
+    SmartDashboard.putBoolean("Is Magnet there?",x);
+    SmartDashboard.putNumber("Turret Degree", getDegrees());
+    SmartDashboard.updateValues();
+    
+  }
+
+} 

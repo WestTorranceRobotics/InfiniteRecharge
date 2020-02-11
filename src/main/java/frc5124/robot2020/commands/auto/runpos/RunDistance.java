@@ -55,7 +55,7 @@ public final int kSlot_Turning = SLOT_1;
 public final int kSlot_Velocit = SLOT_2;
 public final int kSlot_MotProf = SLOT_3;
 /*distance PIDF/ kGains_Distanc */
-private double distancekP = 0.1;
+private double distancekP = 0.00001;
 private double distancekI = 0.0;
 private double distancekD = 0.0;
 private double distancekF = 0.0;
@@ -229,9 +229,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
  targetDistance = Math.sqrt((transX*transX)+(transY*transY)) * driveTrain.getTICKS_PER_INCHES();
 
  leftLeader.setSelectedSensorPosition(0);
- rightLeader.setSelectedSensorPosition(0);
-
- rightLeader.setSelectedSensorPosition(0,kPIDLoopIdx, Constants.kTimeoutMs);
+  rightLeader.setSelectedSensorPosition(0);
 
  rightLeader.selectProfileSlot(kSlot_Distanc, PID_PRIMARY);
  rightLeader.selectProfileSlot(kSlot_Turning, PID_TURN);
@@ -245,7 +243,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
 
       rightLeader.set(ControlMode.Position, targetDistance, DemandType.AuxPID, targetAngle);
      
-      leftLeader.follow(rightLeader);
+      leftLeader.follow(rightLeader, FollowerType.AuxOutput1);
   }
 
   // Called once the command ends or is interrupted.

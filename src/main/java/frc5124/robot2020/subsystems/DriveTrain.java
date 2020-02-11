@@ -4,11 +4,12 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.InvertType;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
@@ -67,12 +68,10 @@ public class DriveTrain implements Subsystem {
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
-        differentialDrive.setExpiration(0.1);
-        differentialDrive.setMaxOutput(1.0);
 
         kinematics = new DifferentialDriveKinematics(30);
-        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, 100);
-        odometry = new DifferentialDriveOdometry(getGyro());
+        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxV);
+        odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
 
         gyro.reset();

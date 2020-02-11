@@ -5,43 +5,61 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.intake;
+package frc5124.robot2020.commands.turret;
 
+import com.revrobotics.CANPIDController;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Turret;
 
-public class SetIntakePower extends CommandBase {
-  private Intake intake;
-  private double power;
+public class returnTurretToStart extends CommandBase {
+  private Turret turret;
+  private CANPIDController turretPID;
+  private boolean isDone = false;
+  private DigitalInput x;
+
   /**
-   * Creates a new setIntakePower.
+   * Creates a new returnTurretToStart.
    */
-  public SetIntakePower(Intake subsystem, double power) {
-    intake = subsystem;
-    addRequirements(intake);
-    this.power = power;
+  public returnTurretToStart(Turret subsystem) {
+    turret = subsystem;
+    addRequirements(turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setIntakePower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    // if(turret.getMagnetSensor().get()){
+    //   turret.setPower(0.3);
+    // }
+    // else{
+    // }
+
+    // SmartDashboard.putBoolean("IS DONE", turret.getMagnetSensor().get());
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.setIntakePower(0);
+    //sets turret motor and encoder to 0
+    turret.getMotor().set(0);
+   // turret.getEncoder().setPosition(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }
