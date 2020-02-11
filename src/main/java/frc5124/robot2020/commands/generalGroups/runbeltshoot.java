@@ -17,17 +17,17 @@ import frc5124.robot2020.subsystems.Shooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class run_belt_shoot extends SequentialCommandGroup {
+public class runbeltshoot extends SequentialCommandGroup {
   private Shooter m_shooter;
   private Loader m_loader;
   /**
    * Creates a new run_belt_shoot.
    */
-  public run_belt_shoot(Loader subsystem1, Shooter subsystem2) {
+  public runbeltshoot(Loader subsystem1, Shooter subsystem2) {
     m_loader = subsystem1;
     m_shooter = subsystem2;
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new startShooter(m_shooter), new runIfReady(m_Loader, m_shooter));
+    //super(new startShooter(m_shooter), new runIfReady(m_Loader, m_shooter));
   }
 }
