@@ -21,27 +21,62 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class Turret implements Subsystem {
   private CANSparkMax turretMotor;
   private CANPIDController turretPID;
+  private double sweepPosition = 0;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
+    // SmartDashboard.putNumber("P", .04);
+    // SmartDashboard.putNumber("I", 0);
+    // SmartDashboard.putNumber("D", 0);
+    // SmartDashboard.putNumber("IZONE", 0);
     turretPID.setReference(0, ControlType.kPosition);
   }
 
+  // public void updateCoeffs() {
+  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
+  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  // }
+
   public void setTurretDegrees(double degrees) {
-    turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
 
   public void disableTurretPID () {
     turretPID.setP(0);
+    turretPID.setI(0);
+    turretPID.setD(0);
+  }
+
+  public void sweepUpdate(boolean clockwise) {
+    if (clockwise==true) {sweepPosition = sweepPosition - RobotMap.TurretMap.sweepConstant;} else { sweepPosition = sweepPosition + RobotMap.TurretMap.sweepConstant;}
+  }
+  public double getSweepPosition() {
+    return sweepPosition;
+  }
+
+  public void directPower(double power) {
+    turretMotor.set(power);
+  }
+  public void enableTurretPID () {
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
   }
 
 
   public double getRotations() {
     return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
+
+  public double getDegrees() {
+    return ((turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition()) / RobotMap.TurretMap.turretDegreeToRotations);
   }
 
   public int getEncoderCountsPerRevolution(){

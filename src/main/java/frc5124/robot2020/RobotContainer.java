@@ -43,6 +43,7 @@ import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
+import frc5124.robot2020.commands.turret.turretGroups.setTurretDegrees;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
@@ -121,9 +122,12 @@ public class RobotContainer {
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorRight.whenPressed(new SetShootRPM(shooter));
+    // operatorRB.whileHeld(new turretManualSweep(turret, true));
+    // operatorLB.whileHeld(new turretManualSweep(turret, false));
+    // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+    // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    
+   // operatorRB.whileHeld(new SetShootRPM(shooter));
     
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
@@ -133,6 +137,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+   // turret.setDefaultCommand(new setTurretDegrees(turret, 0));
   }
 
 

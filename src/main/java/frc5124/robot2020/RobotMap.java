@@ -31,8 +31,8 @@ public class RobotMap {
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 8; 
-        public static int shootFollowerCanID = 6; 
+        public static int shootLeaderCanID = 7; 
+        public static int shootFollowerCanID = 10; 
         public static double Kp = 0.000016;
         public static double Ki = 0; //unused
         public static double Kd = 0.000037;
@@ -43,7 +43,7 @@ public class RobotMap {
 
     public static class PanelControlMap {
         public static final int spinnerCanId = 10;
-        public static final int deployerSolenoidChannel = 0;
+        public static final int deployerSolenoidChannel = 4;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
         public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red
@@ -56,7 +56,7 @@ public class RobotMap {
     }
     public static class Intake {
         public static double motorPower = 0.5;
-        public static int rollerCanId = 7;
+        public static int rollerCanId = 8;
         public static int intakeSolenoid = 1;
     }
     public static class Loader {
@@ -67,9 +67,12 @@ public class RobotMap {
     public static class TurretMap{
         public static int turretCanID = 11;
         public static double turretSpeed = 1;
-        public static double Kp = 0.04; 
+        public static double Kp = 0.050000; 
+        public static double Ki = 0.000350;
+        public static double KiZone = 1.000000;
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
-        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
+        public static double sweepConstant = 2.5;
     }
 
     public static class HangerMap {

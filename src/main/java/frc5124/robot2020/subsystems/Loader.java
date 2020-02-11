@@ -69,7 +69,7 @@ public class Loader implements Subsystem {
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
-    SmartDashboard.updateValues();
+    //SmartDashboard.updateValues();
   }
   
 }
