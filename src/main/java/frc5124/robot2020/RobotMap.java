@@ -4,18 +4,30 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
+
     public static int pcmCanId = 0;
+    public static final int modNumSolenoid = 0;
 
     public static class DriveTrainMap {
+
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
+        
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
-        public static double P = 1;
+        public static double P = 0.000102;
         public static double I = 0.1;
-        public static double D = 0.01;
-        public static double F = 0.5;
+        public static double D = 4.14e-5;
+
+        public static double maxV = 12;
+        public static double maxA = 2;
+
+        public static double motorS = 1;
+        public static double motorV = 1;
+        public static double motorA = 0;
+        
+        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {
@@ -55,8 +67,15 @@ public class RobotMap {
         public static double hangerHalt = 0.0;
         public static int hangerCanID = 5;
         public static int hangerSolenoid = 2;
-        public static int topLimitChannelID = 1;             //DIO port 
-        public static int bottomLimitChannelID = 2;             //DIO port    
+        public static int topLimitChannelID = 1;                //DIO port
+        public static int bottomLimitChannelID = 2;             //DIO port
+        public static int shootFollowerCanID = 6;
+        public static double Kp = 0.000016;
+        public static double Ki = 0; //unused
+        public static double Kd = 0.000037;
+        public static double Kf = 0.000227;
+        public static double lineRefRPM = 573;
+        public static double reduction = .75;
     }
 
     public static class PanelControlMap {
@@ -73,13 +92,18 @@ public class RobotMap {
             (i) -> i > 8 ? 1 : i / 8;
     }
 
+    public static class Loader {
+        public static int topBeltCanId = 9;
+        public static int bottomBeltCanId = 10; 
+    }
+
     public static class TurretMap{
-        public static int turretCanID = 6;
+        public static int turretCanID = 11;
         public static double turretSpeed = 1;
-    
+        public static double Kp = 0.04; 
+        public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
     }
     
     public static class CameraMap {}
-
-    public static class LoaderMap{}
 }

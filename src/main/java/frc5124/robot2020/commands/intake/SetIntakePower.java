@@ -5,52 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.turret;
+package frc5124.robot2020.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.subsystems.Intake;
 
-public class RotateTurret extends CommandBase {
-  private Turret turret;
+public class SetIntakePower extends CommandBase {
+  private Intake intake;
   private double power;
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new setIntakePower.
    */
-  public RotateTurret(Turret subsystem, double power) {
-    turret = subsystem;
-    addRequirements(turret);
+  public SetIntakePower(Intake subsystem, double power) {
+    intake = subsystem;
+    addRequirements(intake);
     this.power = power;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  
+    intake.setIntakePower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-  
-    // if (1==1 && !turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = true;
-    // } 
-    // else if (!(1==1) && turret.limitReached) { //1==1 placeholder
-    //   turret.limitReached = false;
-    // }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
+    public boolean isFinished() {
+      return false;
+    }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    intake.setIntakePower(0);
   }
+
+  
 }

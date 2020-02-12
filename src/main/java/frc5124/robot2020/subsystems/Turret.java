@@ -6,14 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
@@ -28,13 +32,6 @@ public class Turret implements Subsystem {
     motor.restoreFactoryDefaults();
     motor.setInverted(true);
     getController().setIMaxAccum(RobotMap.Turret.percentSpeedLimit, 0);
-  }
-
-  @Override
-  public void periodic() {
-    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
-    // limitReached();                                        //exists for instantCommand as opposed to looping command
-    // }
   }
 
   public void rotateTurret(double power) {
@@ -52,4 +49,34 @@ public class Turret implements Subsystem {
   public CANPIDController getController() {
     return motor.getPIDController();
   }
+  
+  public void setTurretDegrees(double degrees) {
+    getController().setP(RobotMap.TurretMap.Kp);
+    getController().setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
+  }
+
+  public double getRotations() {
+    return motor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
+
+  public int getEncoderCountsPerRevolution(){
+    return motor.getEncoder().getCountsPerRevolution();
+  }
+
+  public CANSparkMax getMotor() {
+    return motor;
+  }
+
+  // public CANEncoder getEncoder(){
+  //   return turretEncoder;
+  // }
+
+  private boolean limitReached() {
+    return true;
+  }
+
+  @Override
+  public void periodic() {
+  }
+
 }

@@ -3,35 +3,32 @@ package frc5124.robot2020.commands.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Intake;
 
-public class IntakePivotUp extends CommandBase {
+public class ToggleIntakePivot extends CommandBase {
 
-    private final Intake m_intake;
+    private final Intake intake;
 
-    public IntakePivotUp(Intake subsystem) {
-        m_intake = subsystem;
-        addRequirements(m_intake);
+    public ToggleIntakePivot(Intake subsystem) {
+        intake = subsystem;
+        addRequirements(intake);
     }
-
-    // Called just before this Command runs the first time
+    
     @Override
-    public void initialize() {
+    public void initialize(){
+        intake.setDeployed(!intake.isDeployed());
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        m_intake.retract();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     @Override
     public void end(boolean interrupted) {
     }
-
 }

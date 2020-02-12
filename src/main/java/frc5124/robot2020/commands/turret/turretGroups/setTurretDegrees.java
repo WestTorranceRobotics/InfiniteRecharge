@@ -5,28 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.turret.turretGroups;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.Turret;
 
-public class setShootVelocity extends CommandBase {
-  private Shooter shooter;
-  private double targetVelocity;
-  
+public class setTurretDegrees extends CommandBase {
+  private Turret turret;
+  private double degrees;
   /**
-   * Creates a new setShootVelocity.
+   * Creates a new setTurretDegrees.
    */
-  public setShootVelocity(Shooter subsystem, double targetVelocity) {
-    shooter = subsystem;
-    addRequirements(shooter);
-    this.targetVelocity = targetVelocity;
+  public setTurretDegrees(Turret subsystem, double degrees) {
+    turret = subsystem;
+    addRequirements(turret);
+    this.degrees = degrees;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setTargetVelocity(targetVelocity);
+    turret.setTurretDegrees(degrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,7 +36,6 @@ public class setShootVelocity extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setTargetVelocity(0);
   }
 
   // Returns true when the command should end.

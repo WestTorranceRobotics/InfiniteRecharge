@@ -1,50 +1,45 @@
-
 package frc5124.robot2020.subsystems;
-// import frc5124.robot2020.Constants;
 import frc5124.robot2020.RobotMap;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-//import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 public class Intake implements Subsystem {
 
-  //private Solenoid armSolenoid;
-
-  private CANSparkMax rollerSpeedController;
+  private Solenoid armSolenoid;         //for pivot of the arm
+  private CANSparkMax rollerSpeedController;          //motor
+  private boolean deployed;         //need to create the toggle for the pivot 
 
   public Intake() {
-      
-      //armSolenoid = new Solenoid(0, 0);
-
-      rollerSpeedController = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);
+      armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.Intake.intakeSolenoid);         // mod num & channel num         
+      rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
+      rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
-      rollerSpeedController.set(0);
+      deployed = false;         // pivot is up 
   }
 
   @Override
   public void periodic() {
-      // Put code here to be run every loop
-
+    // Put code here to be run every loop
   }
 
-  public void setIntakePower(double power) {
+  public void setDeployed(boolean deployed) {
+    armSolenoid.set(deployed);
+    this.deployed = deployed;
+  }
+
+  public boolean isDeployed() {
+    return deployed;
+  }
+
+  public void setIntakePower(double power){
     rollerSpeedController.set(power);
-
   }
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
-
-
-  public void deploy() {
-  //        armSolenoid.set(true);
+  public void flushOut(){
+    armSolenoid.set(true);
+    rollerSpeedController.set(-1);
   }
-
-  public void retract() {
-  //        armSolenoid.set(false);
-  }
-
-}
+} 
