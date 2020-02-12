@@ -37,6 +37,7 @@ private double targetDistance;
 private double currentDistance;
 private WPI_TalonFX leftLeader;
 private WPI_TalonFX rightLeader;
+
 /* We allow either a 0 or 1 when selecting an ordinal for remote devices [You can have up to 2 devices assigned remotely to a talon/victor] */
 public final int REMOTE_0 = 0;
 public final int REMOTE_1 = 1;

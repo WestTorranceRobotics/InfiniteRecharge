@@ -35,6 +35,8 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
+    private double l;
+    private double r;
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
@@ -69,7 +71,7 @@ public class DriveTrain implements Subsystem {
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
 
-        kinematics = new DifferentialDriveKinematics(30);
+        kinematics = new DifferentialDriveKinematics(RobotMap.DriveTrainMap.kTrackwidthInches);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxV);
         odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
@@ -82,8 +84,8 @@ public class DriveTrain implements Subsystem {
     public void periodic() {
         //the following is test code**********************************the following is test code
 
-        double r = rightLeader.getSelectedSensorPosition();
-        double l = leftLeader.getSelectedSensorPosition();
+        r = rightLeader.getSelectedSensorPosition();
+        l = leftLeader.getSelectedSensorPosition();
         
         odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
         SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
@@ -118,6 +120,13 @@ public class DriveTrain implements Subsystem {
 
     public double getTICKS_PER_INCHES(){
         return TICK_PER_INCHES;
+    }
+
+
+    public void TankDriveVoltage(double leftVoltage, double rightVoltage){
+        leftLeader.setVoltage(leftVoltage);
+        rightLeader.setVoltage(rightVoltage);
+        differentialDrive.feed();
     }
 
     public void directPower(double power){

@@ -16,18 +16,29 @@ public class RobotMap {
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
-        public static double P = 0.000102;
-        public static double I = 0.1;
-        public static double D = 4.14e-5;
+        public static double P = 0.257;
+        public static double I = 0;
+        public static double D = 0;
 
         public static double maxV = 12;
         public static double maxA = 2;
 
-        public static double motorS = 1;
-        public static double motorV = 1;
-        public static double motorA = 0;
-        
-        public static double trackWidth = 35;
+        // public static double motorS = 1;
+        // public static double motorV = 1;
+        // public static double motorA = 0;
+
+        public static final double ksVolts = 0.361;
+        public static final double kvVoltSecondsPerInches = 0.0556;
+        public static final double kaVoltSecondsSquaredPerInches = 0.00569;
+
+        public static final double kPDriveVel = 0.257;
+
+        public static final double kTrackwidthInches = 26.5; // not real value please change
+
+
+        public static final double kMaxSpeedInchesPerSecond = 18;
+        public static final double kMaxAccelerationInchesPerSecondSquared = 18;
+
     }
   
     public static class ShooterMap {

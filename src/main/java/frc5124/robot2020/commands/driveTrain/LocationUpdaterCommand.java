@@ -7,14 +7,11 @@
 
 package frc5124.robot2020.commands.driveTrain;
 
-import java.util.Set;
-
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.*;
 
-public class LocationUpdaterCommand implements Command {
+public class LocationUpdaterCommand extends CommandBase {
   /**
    * Creates a new LocationUpdaterCommand.
    */
@@ -51,11 +48,5 @@ public class LocationUpdaterCommand implements Command {
   @Override
   public boolean isFinished() {
     return false;
-  }
-
-  @Override
-  public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
   }
 }
