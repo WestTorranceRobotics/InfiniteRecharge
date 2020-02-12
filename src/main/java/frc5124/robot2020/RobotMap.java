@@ -50,10 +50,13 @@ public class RobotMap {
         public static double turretGearing = ((18.0/120.0) * (1.0/10.0));
     }
 
-    public static class Hanger {
-        public static double hangerMotor = 0.5;   
-        public static double hangerHalt = 0;
-        public static int limitChannelID = 1;             //DIO port 
+    public static class HangerMap {
+        public static double hangerMotor = 0.8;   
+        public static double hangerHalt = 0.0;
+        public static int hangerCanID = 5;
+        public static int hangerSolenoid = 2;
+        public static int topLimitChannelID = 1;             //DIO port 
+        public static int bottomLimitChannelID = 2;             //DIO port    
     }
 
     public static class PanelControlMap {
