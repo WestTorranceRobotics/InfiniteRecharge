@@ -1,4 +1,4 @@
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
 import java.util.Set;
 
@@ -12,6 +12,7 @@ public class AutonomousCommand implements Command {
 
     public AutonomousCommand(DriveTrain subsystem) {
         driveTrain = subsystem;
+
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +23,6 @@ public class AutonomousCommand implements Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        driveTrain.driveToPos(60);
         // driveTrain.noDrive();
     }
 

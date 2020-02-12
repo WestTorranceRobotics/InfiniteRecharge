@@ -9,25 +9,25 @@ package frc5124.robot2020.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.revrobotics.CANDigitalInput.LimitSwitch;
+//import com.revrobotics.CANDigitalInput.LimitSwitch;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 
 public class Hanger implements Subsystem {
   private TalonFX hangerMotor;
   private Solenoid brake;
-  private DigitalInput heightLimit;
+  private DigitalInput topLimit;
+  private DigitalInput bottomLimit;
 
   public Hanger() {
-    hangerMotor = new TalonFX(5);
+    hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
     brake = new Solenoid(2);
-    heightLimit = new DigitalInput(RobotMap.Hanger.limitChannelID);
+    topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
+    bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
   }
 
   @Override
@@ -35,30 +35,33 @@ public class Hanger implements Subsystem {
   }
   
   public void liftUp(){
-    hangerMotor.set(ControlMode.PercentOutput, 1);
-    brake.set(false);
-  }
-
-  public void reachedLimit(){
-    if (heightLimit.get() == false){
-      hangerMotor.set(ControlMode.PercentOutput, 0);
-      brake.set(true);
+    if (!reachedTopLimit()) {
+      brake(false);
+      hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerMotor);
     }
   }
 
   public void liftDown(){
-    hangerMotor.set(ControlMode.PercentOutput, -RobotMap.Hanger.hangerMotor);
+    if (!reachedBottomLimit()) {
+      brake(false);
+      hangerMotor.set(ControlMode.PercentOutput, -RobotMap.HangerMap.hangerMotor);
+    }
+  }
+
+  public boolean reachedTopLimit(){
+    return topLimit.get();
+  }
+
+  public boolean reachedBottomLimit(){
+    return bottomLimit.get();
   }
 
   public void setNoPower(){
-    hangerMotor.set(ControlMode.PercentOutput, RobotMap.Hanger.hangerHalt);
+    hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerHalt);
+    brake(true);
   }
 
-  public void brake(){
-    brake.set(true);
-  }
-
-  public boolean limitSwitchPressed(){
-    return heightLimit.get();
+  private void brake(boolean brakeSet){
+    brake.set(brakeSet);
   }
 }

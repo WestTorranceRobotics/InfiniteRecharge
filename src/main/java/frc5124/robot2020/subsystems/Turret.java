@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -31,9 +32,14 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
+    // if (getEncoder() == 99999 || getEncoder() == -99999) { //temp
+    // limitReached();                                        //exists for instantCommand as opposed to looping command
+    // }
   }
 
-  // Control Methods
+  public void rotateTurret(double power) {
+    motor.set(power);
+  }
 
   public void setPower(double power) {
     motor.set(power);
