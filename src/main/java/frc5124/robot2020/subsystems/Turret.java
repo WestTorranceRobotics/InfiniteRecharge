@@ -15,41 +15,56 @@ import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc5124.robot2020.RobotMap;
 
 public class Turret implements Subsystem {
-  private CANSparkMax turretMotor;
-  private CANPIDController turretPID;
+
+  private final NetworkTable limelight;
+  private final CANSparkMax motor;
   
   public Turret() {
-    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
-    turretPID = turretMotor.getPIDController();
-    turretMotor.restoreFactoryDefaults();
-    turretPID.setP(RobotMap.TurretMap.Kp);
-    turretPID.setReference(0, ControlType.kPosition);
+    limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    motor = new CANSparkMax(RobotMap.Turret.spinnerCanId, MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
+    motor.setInverted(true);
+    getController().setIMaxAccum(RobotMap.Turret.percentSpeedLimit, 0);
   }
 
+  public void rotateTurret(double power) {
+    motor.set(power);
+  }
+
+  public void setPower(double power) {
+    motor.set(power);
+  }
+
+  public double getEncoder() {
+    return motor.getEncoder().getPosition()*RobotMap.Turret.turretGearing;
+  }
+
+  public CANPIDController getController() {
+    return motor.getPIDController();
+  }
+  
   public void setTurretDegrees(double degrees) {
-    turretPID.setP(RobotMap.TurretMap.Kp);
-    turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
+    getController().setP(RobotMap.TurretMap.Kp);
+    getController().setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
-
-  public void disableTurretPID () {
-    turretPID.setP(0);
-  }
-
 
   public double getRotations() {
-    return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+    return motor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
   }
 
   public int getEncoderCountsPerRevolution(){
-    return turretMotor.getEncoder().getCountsPerRevolution();
+    return motor.getEncoder().getCountsPerRevolution();
   }
 
   public CANSparkMax getMotor() {
-    return turretMotor;
+    return motor;
   }
 
   // public CANEncoder getEncoder(){
@@ -64,4 +79,4 @@ public class Turret implements Subsystem {
   public void periodic() {
   }
 
-} 
+}

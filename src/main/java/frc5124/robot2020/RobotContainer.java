@@ -58,6 +58,7 @@ import frc5124.robot2020.subsystems.*;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
 
   private Camera camera;
@@ -95,15 +96,12 @@ public class RobotContainer {
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
 
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     configureSubsystems();
+    configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    configureButtonBindings();    
+    
   }
 
   private void configureSubsystems() {
