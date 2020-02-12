@@ -54,7 +54,7 @@ public final int kSlot_Turning = SLOT_1;
 public final int kSlot_Velocit = SLOT_2;
 public final int kSlot_MotProf = SLOT_3;
 /*distance PIDF/ kGains_Distanc */
-private double distancekP = 0.1;
+private double distancekP = 0.00001;
 private double distancekI = 0.0;
 private double distancekD = 0.0;
 private double distancekF = 0.0;

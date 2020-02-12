@@ -18,11 +18,11 @@ import frc5124.robot2020.subsystems.*;
 public class LoaderAndIntakeGroup extends ParallelCommandGroup {
   /**
    * Creates a new LoaderAndIntakeGroup.
-   */
-  private Loader loader;
-  private Intake intake;
+  //  */
+  // private Loader loader;
+  // private Intake intake;
   
-  public LoaderAndIntakeGroup(Intake intake, Loader loader) {
-    super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader));   
-  }
+  // public LoaderAndIntakeGroup(Intake intake, Loader loader) {
+  //   super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader));   
+  // }
 }

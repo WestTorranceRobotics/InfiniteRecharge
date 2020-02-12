@@ -26,15 +26,15 @@ public class startShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter();
+    m_shooter.directPower(1);;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_shooter.getVelocity() == RobotMap.ShooterMap.lineRefRPM - 2 || m_shooter.getVelocity() == RobotMap.ShooterMap.lineRefRPM + 2) {
-      m_shooter.openHole();
-      m_shooter.atSpeed(true);
+      // m_shooter.openHole();
+      // m_shooter.atSpeed(true);
       finished = true;
     } 
   }

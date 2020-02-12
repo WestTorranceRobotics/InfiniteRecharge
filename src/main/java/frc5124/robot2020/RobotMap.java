@@ -32,7 +32,7 @@ public class RobotMap {
   
     public static class ShooterMap {
         public static int shootLeaderCanID = 7; 
-        public static int shootFollowerCanID = 10; 
+        public static int shootFollowerCanID = 9; 
         public static double Kp = 0.000016;
         public static double Ki = 0; //unused
         public static double Kd = 0.000037;
@@ -42,7 +42,7 @@ public class RobotMap {
     }
 
     public static class PanelControlMap {
-        public static final int spinnerCanId = 10;
+        public static final int spinnerCanId = 11; //Change to 10
         public static final int deployerSolenoidChannel = 4;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
@@ -60,12 +60,12 @@ public class RobotMap {
         public static int intakeSolenoid = 1;
     }
     public static class Loader {
-        public static int topBeltCanId = 9;
+        public static int topBeltCanId = 99;
         public static int bottomBeltCanId = 10; 
     }
 
     public static class TurretMap{
-        public static int turretCanID = 11;
+        public static int turretCanID = 10; // Change to 11
         public static double turretSpeed = 1;
         public static double Kp = 0.050000; 
         public static double Ki = 0.000350;

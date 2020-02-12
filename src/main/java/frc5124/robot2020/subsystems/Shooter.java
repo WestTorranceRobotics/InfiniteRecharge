@@ -23,11 +23,14 @@ public class Shooter implements Subsystem {
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
   private CANPIDController shootPID; 
   private double currentVelocity;
-  private boolean solenoidBoolean = true;
-  private Solenoid shootSolenoid = new Solenoid(0, 0);
+ // private boolean solenoidBoolean = true;
+ // private Solenoid shootSolenoid = new Solenoid(0, 0);
   private boolean atSpeed;
  
   public Shooter() {
+    // shootMotorLeader.restoreFactoryDefaults();
+    // shootMotorFollower.restoreFactoryDefaults();
+  
     shootMotorFollower.follow(shootMotorLeader, true);
     shootPID = shootMotorLeader.getPIDController();
     shootPID.setD(RobotMap.ShooterMap.Kd);
@@ -35,7 +38,7 @@ public class Shooter implements Subsystem {
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
     shootPID.setOutputRange(-600, 600);
-    closeHole();
+    //closeHole();
   }
 
   /**
@@ -47,7 +50,7 @@ public class Shooter implements Subsystem {
 
     public void stopShooter () {
      shootPID.setReference(0, ControlType.kVelocity);
-     closeHole();
+     //closeHole();
     }
   
 
@@ -66,7 +69,7 @@ public class Shooter implements Subsystem {
   }
 
 
-
+/*
   public void openHole(){
     shootSolenoid.set(true);
   }
@@ -103,6 +106,7 @@ public class Shooter implements Subsystem {
       return false;
     }
   }
+  */
 
   @Override
   public void periodic() {

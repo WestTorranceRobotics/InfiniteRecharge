@@ -63,8 +63,8 @@ public class RobotContainer {
 
   private Camera camera;
   private PanelController panelController;
-  private Intake intake;
-  private Hanger hanger;
+
+  private Hanger hanger;  // private Intake intake;
   private DriveTrain driveTrain;
   private Shooter shooter; 
   private Turret turret;
@@ -108,7 +108,7 @@ public class RobotContainer {
   private void configureSubsystems() {
     // camera = new Camera();
     panelController = new PanelController();
-    intake = new Intake();
+    // intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
@@ -117,27 +117,26 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
-    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
+    // operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+    // operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    // operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
-    // operatorRB.whileHeld(new turretManualSweep(turret, true));
-    // operatorLB.whileHeld(new turretManualSweep(turret, false));
-    // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    
-   // operatorRB.whileHeld(new SetShootRPM(shooter));
+    // operatorRB.whileHeld(new RotateTurret(turret));
+    // operatorLB.whileHeld(new RotateTurret(turret));
+    operatorRB.whileHeld(new SetShootRPM(shooter));
     
     panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
     positionControl.whenPressed(new PositionControl(panelController));
     rotationControl.whenPressed(new RotationControl(panelController));   
     rotationControl.whenPressed(new RotationControl(panelController));
+
+    //operatorStart.whenPressed(new RotateTurret(turret));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-   // turret.setDefaultCommand(new setTurretDegrees(turret, 0));
+    //turret.setDefaultCommand(new returnTurretToStart(turret));
   }
 
 

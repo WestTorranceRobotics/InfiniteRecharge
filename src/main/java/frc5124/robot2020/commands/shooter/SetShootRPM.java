@@ -25,19 +25,19 @@ public class SetShootRPM extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter();
+    m_shooter.directPower(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineRefRPM - 2 && m_shooter.getVelocity() < RobotMap.ShooterMap.lineRefRPM + 2) {
-      m_shooter.openHole();
-      m_shooter.atSpeed(true);
-    } else  {
-      m_shooter.closeHole();
-       m_shooter.atSpeed(false);
-    }
+    // if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineRefRPM - 2 && m_shooter.getVelocity() < RobotMap.ShooterMap.lineRefRPM + 2) {
+    //   m_shooter.openHole();
+    //   m_shooter.atSpeed(true);
+    // } else  {
+    //   m_shooter.closeHole();
+    //    m_shooter.atSpeed(false);
+    // }
   }
   // Returns true when the command should end.
     @Override
@@ -49,7 +49,7 @@ public class SetShootRPM extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooter.stopShooter();
-    m_shooter.closeHole();
+   // m_shooter.closeHole();
   }
   
 }
