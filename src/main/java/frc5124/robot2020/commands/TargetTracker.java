@@ -7,58 +7,44 @@
 
 package frc5124.robot2020.commands;
 
-import java.util.Set;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.ControlType;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.RobotMap;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
-public class TargetTracker implements Command {
+public class TargetTracker extends CommandBase {
 
     private final Turret turret;
-    private final PIDController turretPid;
+    private final CANPIDController turretPid;
+    private final NetworkTable limelight;
 
     public TargetTracker(Turret turret) {
+        limelight = NetworkTableInstance.getDefault().getTable("limelight");
+
         this.turret = turret;
-        turretPid = new PIDController(RobotMap.Turret.P, RobotMap.Turret.I, RobotMap.Turret.D);
-        turretPid.setIntegratorRange(-RobotMap.Turret.percentSpeedLimit, RobotMap.Turret.percentSpeedLimit);
-        turretPid.setTolerance(0.05);
+        turretPid = turret.getController();
     }
 
     @Override
     public void initialize() {
-        turretPid.reset();
+        turretPid.setReference(0, ControlType.kDutyCycle);
     }
 
     @Override
     public void execute() {
-        turret.setPower(safety(turretPid.calculate(0, turret.getTargetTx())));
+        turretPid.setReference(limelight.getEntry("tx").getDouble(0) + turret.getEncoder(), ControlType.kSmartMotion);
     }
 
     @Override
     public void end(boolean interrupted) {
-        turret.setPower(0);
+        turretPid.setReference(0, ControlType.kDutyCycle);
     }
 
     @Override
     public boolean isFinished() {
         return false;
-    }
-
-    @Override
-    public Set<Subsystem> getRequirements() {
-        return Set.of(turret);
-    }
-
-    private double safety(double value) {
-        if (value > RobotMap.Turret.percentSpeedLimit) {
-            value = RobotMap.Turret.percentSpeedLimit;
-        }
-        if (value < -RobotMap.Turret.percentSpeedLimit) {
-            value = -RobotMap.Turret.percentSpeedLimit;
-        }
-        return value;
     }
 }

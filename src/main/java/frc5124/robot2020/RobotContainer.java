@@ -72,10 +72,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
+    operatorA.toggleWhenPressed(new TargetTracker(turret));
   }
 
   private void configureDefaultCommands(){
-    turret.setDefaultCommand(new TargetTracker(turret));
   }
 
   private void configureShuffleboard() {

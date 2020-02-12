@@ -27,6 +27,7 @@ public class RobotMap {
         public static double D = 0.0006;
 
         public static double percentSpeedLimit = 0.4;
+        public static double turretGearing = ((18.0/120.0) * (1.0/10.0));
     }
 
     public static class Hanger {

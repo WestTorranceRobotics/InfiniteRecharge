@@ -24,7 +24,9 @@ public class Turret implements Subsystem {
   public Turret() {
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
     motor = new CANSparkMax(RobotMap.Turret.spinnerCanId, MotorType.kBrushless);
+    motor.restoreFactoryDefaults();
     motor.setInverted(true);
+    getController().setIMaxAccum(RobotMap.Turret.percentSpeedLimit, 0);
   }
 
   @Override
@@ -37,12 +39,8 @@ public class Turret implements Subsystem {
     motor.set(power);
   }
 
-  public double getTargetTx() {
-    return limelight.getEntry("tx").getDouble(0);
-  }
-
-  public double getTargetTy() {
-    return limelight.getEntry("ty").getDouble(0);
+  public double getEncoder() {
+    return motor.getEncoder().getPosition()*RobotMap.Turret.turretGearing;
   }
 
   public CANPIDController getController() {
