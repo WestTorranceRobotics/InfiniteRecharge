@@ -41,7 +41,7 @@ import frc5124.robot2020.commands.auto.*;
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
-import frc5124.robot2020.commands.Shooter.*;
+import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
