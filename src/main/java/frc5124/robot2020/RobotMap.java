@@ -48,7 +48,7 @@ public class RobotMap {
         public static double Ki = 0; //unused
         public static double Kd = 0.000037;
         public static double Kf = 0.000227;
-        public static double lineRefRPM = 573;
+        public static double lineRefRPM = 5730;
         public static double reduction = .75;
     }
 
@@ -67,16 +67,17 @@ public class RobotMap {
     }
     public static class Intake {
         public static double motorPower = 0.5;
-        public static int rollerCanId = 7;
+        public static int rollerCanId = 8;
         public static int intakeSolenoid = 1;
     }
+
     public static class Loader {
-        public static int topBeltCanId = 9;
-        public static int bottomBeltCanId = 10; 
+        public static int topBeltCanId = 7;
+        public static int bottomBeltCanId = 14; 
     }
 
     public static class TurretMap{
-        public static int turretCanID = 10; // Change to 11
+        public static int turretCanID = 11; // Change to 11
         public static double turretSpeed = 1;
         public static double Kp = 0.04; 
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));

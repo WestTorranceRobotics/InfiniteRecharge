@@ -13,9 +13,11 @@ import frc5124.robot2020.subsystems.Loader;
 public class SeeBallRunBelt extends CommandBase {
 
   private Loader m_Loader;
+  private boolean useBelt;
 
-  public SeeBallRunBelt(Loader subsystem) {
+  public SeeBallRunBelt(Loader subsystem, boolean run) {
     m_Loader = subsystem;
+    useBelt =run;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Loader);
@@ -29,11 +31,11 @@ public class SeeBallRunBelt extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
-    } else {
+    if(useBelt){
+    m_Loader.runBelt();
+    }
+    else{
       m_Loader.stopBelt();
-     // isDone = true;
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
