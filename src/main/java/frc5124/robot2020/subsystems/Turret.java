@@ -28,27 +28,52 @@ public class Turret implements Subsystem {
   private DigitalOutput mDigitalOutput;
   
   public Turret() {
-    turretMotor = new CANSparkMax(7, MotorType.kBrushless);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
+    // SmartDashboard.putNumber("P", .04);
+    // SmartDashboard.putNumber("I", 0);
+    // SmartDashboard.putNumber("D", 0);
+    // SmartDashboard.putNumber("IZONE", 0);
     turretPID.setReference(0, ControlType.kPosition);
   }
 
+  // public void updateCoeffs() {
+  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
+  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  // }
+
   public void setTurretDegrees(double degrees) {
-    turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
 
   public void disableTurretPID () {
     turretPID.setP(0);
+    turretPID.setI(0);
+    turretPID.setD(0);
+  }
+
+ 
+  public void directPower(double power) {
+    turretMotor.set(power);
+  }
+  public void enableTurretPID () {
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
   }
 
   public double getRotations() {
     return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
   }
-  public double getDegrees(){
-    return getRotations() * (1.0/(66.0 + (2/3))) * 360.0;
+
+  public double getDegrees() {
+    return ((turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition()) / RobotMap.TurretMap.turretDegreeToRotations);
   }
 
   public int getEncoderCountsPerRevolution(){
@@ -66,16 +91,16 @@ public class Turret implements Subsystem {
   private boolean limitReached() {
     return true;
   }
-  public DigitalInput getMagnetSensor(){
-    return magneticSensor;
-  }
+  // public DigitalInput getMagnetSensor(){
+  //   return magneticSensor;
+  // }
 
   @Override
   public void periodic() {
-    boolean x = magneticSensor.get();
-    SmartDashboard.putBoolean("Is Magnet there?",x);
-    SmartDashboard.putNumber("Turret Degree", getDegrees());
-    SmartDashboard.updateValues();
+    // boolean x = magneticSensor.get();
+    // SmartDashboard.putBoolean("Is Magnet there?",x);
+    // SmartDashboard.putNumber("Turret Degree", getDegrees());
+    // SmartDashboard.updateValues();
     
   }
 

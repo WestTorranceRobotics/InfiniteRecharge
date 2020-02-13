@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.RobotMap;  
 
-public class SetShootRPM extends CommandBase {
+public class startShooter extends CommandBase {
   private Shooter m_shooter;
+  private boolean finished = false;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public SetShootRPM (Shooter subsystem) {
+  public startShooter (Shooter subsystem) {
     this.m_shooter = subsystem;
     addRequirements(m_shooter);
   }
@@ -25,31 +26,27 @@ public class SetShootRPM extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.directPower(1);
+    m_shooter.directPower(1);;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineRefRPM - 2 && m_shooter.getVelocity() < RobotMap.ShooterMap.lineRefRPM + 2) {
-    //   m_shooter.openHole();
-    //   m_shooter.atSpeed(true);
-    // } else  {
-    //   m_shooter.closeHole();
-    //    m_shooter.atSpeed(false);
-    // }
+    if (m_shooter.getVelocity() == RobotMap.ShooterMap.lineRefRPM - 2 || m_shooter.getVelocity() == RobotMap.ShooterMap.lineRefRPM + 2) {
+      // m_shooter.openHole();
+      // m_shooter.atSpeed(true);
+      finished = true;
+    } 
   }
   // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return false;
+      return finished;
     }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
-   // m_shooter.closeHole();
   }
   
 }

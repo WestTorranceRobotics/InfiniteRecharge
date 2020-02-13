@@ -64,8 +64,8 @@ public class RobotContainer {
 
   private Camera camera;
   private PanelController panelController;
-  private Intake intake;
-  private Hanger hanger;
+
+  private Hanger hanger;  // private Intake intake;
   private DriveTrain driveTrain;
   private Shooter shooter; 
   private Turret turret;
@@ -74,7 +74,6 @@ public class RobotContainer {
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
-  
   
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
@@ -89,7 +88,6 @@ public class RobotContainer {
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-  
  
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
@@ -104,7 +102,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     configureSubsystems();
-   // configureShuffleboard();
+    configureShuffleboard();
     configureDefaultCommands();
     configureButtonBindings();    
   }
@@ -117,60 +115,55 @@ public class RobotContainer {
     loader = new Loader();
     // driveTrain = new DriveTrain();
     shooter = new Shooter();
-    //turret = new Turret();
+   turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    // operatorBack.whileHeld(new SetIntakePower(intake, -.6));
-    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader, 0.2, true)).whenReleased(new LoaderAndIntakeGroup(intake, loader, 0, false));
-    operatorY.whileHeld(new LoaderAndIntakeGroup(intake, loader, 0.8, true)).whenReleased(new LoaderAndIntakeGroup(intake, loader,0,false));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
-    // operatorUp.whileHeld(new LiftUp(hanger));
-    // operatorDown.whileHeld(new LiftDown(hanger));   
+  //   operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+  //   operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+  //  operatorA.whenPressed(new ToggleIntakePivot(intake));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));   
     // operatorRB.whileHeld(new RotateTurret(turret));
     // operatorLB.whileHeld(new RotateTurret(turret));
-    operatorRight.whenPressed(new SetShootRPM(shooter));
-    // operatorRightJoyeet.whenPressed(new setTurretDegrees(turret, 30));
-    
-    // panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
-    // positionControl.whenPressed(new PositionControl(panelController));
-    // rotationControl.whenPressed(new RotationControl(panelController));   
-    // rotationControl.whenPressed(new RotationControl(panelController));
-
-    // operatorStart.whenPressed(new RotateTurret(turret));
+    operatorRB.whileHeld(new SetShootRPM(shooter));
+     operatorStart.whileHeld(new TurretTargetByPid(turret));
+    panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
+    positionControl.whenPressed(new PositionControl(panelController));
+    rotationControl.whenPressed(new RotationControl(panelController));   
+    rotationControl.whenPressed(new RotationControl(panelController));
   }
 
   private void configureDefaultCommands(){
-   // driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    //turret.setDefaultCommand(new returnTurretToStart(turret));
+    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   }
 
 
-  // private void configureShuffleboard() {
-  //   display = Shuffleboard.getTab("Driving Display");
-  //   shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+  private void configureShuffleboard() {
+    display = Shuffleboard.getTab("Driving Display");
+    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
 
-  //   ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
-  //   ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
-  //   NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-  //   NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-  //   poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-  //     .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
+    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
+    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
+    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
+      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
       
-  //   display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-  //   //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
-  // }
+    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
+    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+  }
 
-  // private GyroBase shuffleboardGyro(DoubleSupplier d) {
-  //   return new GyroBase(){
-  //     @Override public void close() {}
-  //     @Override public void reset() {}
-  //     @Override public double getRate() {return 0;}
-  //     @Override public double getAngle() {return d.getAsDouble();}
-  //     @Override public void calibrate() {}
-  //   };
+  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+    return new GyroBase(){
+      @Override public void close() {}
+      @Override public void reset() {}
+      @Override public double getRate() {return 0;}
+      @Override public double getAngle() {return d.getAsDouble();}
+      @Override public void calibrate() {}
+    };
 
-  //}
+  }
 
   /**
    * Code to run when starting teleop mode.

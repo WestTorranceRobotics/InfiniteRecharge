@@ -10,19 +10,21 @@ package frc5124.robot2020.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc5124.robot2020.commands.intake.SetIntakePower;
 import frc5124.robot2020.commands.loader.SeeBallRunBelt;
+import frc5124.robot2020.commands.shooter.SetShootRPM;
 import frc5124.robot2020.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LoaderAndIntakeGroup extends ParallelCommandGroup {
+public class ShooterAndLoaderGroup extends ParallelCommandGroup {
   /**
    * Creates a new LoaderAndIntakeGroup.
-  //  */
-  // private Loader loader;
-  // private Intake intake;
+   */
+  private Loader loader;
+  private Shooter shooter;
+  private double solenoidActive;
   
-  public LoaderAndIntakeGroup(Intake intake, Loader loader, double power, boolean run) {
-    super(new SetIntakePower(intake, power), new SeeBallRunBelt(loader,run));   
+  public ShooterAndLoaderGroup(Shooter shooter, boolean solenoidActive, Loader loader) {
+    //super(new SetShootRPM(shooter, solenoidActive), new RunLoaderWShootSolenoid(loader, shooter));   
   }
 }

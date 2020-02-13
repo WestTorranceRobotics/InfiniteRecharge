@@ -17,7 +17,7 @@ import frc5124.robot2020.subsystems.DriveTrain;
 import frc5124.robot2020.subsystems.Turret;
 
 public class returnTurretToStart extends CommandBase {
-  private Turret turret;
+  private Turret m_turret;
   private CANPIDController turretPID;
   private boolean isDone = false;
   private DigitalInput x;
@@ -26,8 +26,8 @@ public class returnTurretToStart extends CommandBase {
    * Creates a new returnTurretToStart.
    */
   public returnTurretToStart(Turret subsystem) {
-    turret = subsystem;
-    addRequirements(turret);
+    m_turret = subsystem;
+    addRequirements(m_turret);
   }
 
   // Called when the command is initially scheduled.
@@ -53,7 +53,7 @@ public class returnTurretToStart extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //sets turret motor and encoder to 0
-    turret.getMotor().set(0);
+    m_turret.getMotor().set(0);
    // turret.getEncoder().setPosition(0);
   }
 

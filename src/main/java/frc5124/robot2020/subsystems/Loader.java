@@ -27,10 +27,10 @@ public class Loader implements Subsystem {
   double beltSpeed = 0.8;
   
   public Loader() {
-    topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
-    bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
-    bottomBeltMotor.follow(topBeltMotor);
-    bottomBeltMotor.setInverted(true);
+    topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
+    bottomBeltMotor = new CANSparkMax(RobotMap.LoaderMap.bottomBeltCanId, MotorType.kBrushless);
+    // bottomBeltMotor.follow(topBeltMotor);
+    // bottomBeltMotor.setInverted(true);
     topBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.restoreFactoryDefaults();
     // SmartDashboard.putNumber("Ultrasonic Sensor Voltage", getVoltage());
@@ -39,7 +39,10 @@ public class Loader implements Subsystem {
 
   public void setPower(double power){
     topBeltMotor.set(power);
+    bottomBeltMotor.set(power);
   }
+
+ 
   
   public void runBelt() {
     topBeltMotor.set(beltSpeed);
@@ -47,6 +50,7 @@ public class Loader implements Subsystem {
   public void stopBelt() {    
     topBeltMotor.set(0);
   }
+
 
   //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
   public double getVoltage() {
@@ -69,7 +73,7 @@ public class Loader implements Subsystem {
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
-    SmartDashboard.updateValues();
+    //SmartDashboard.updateValues();
   }
   
 }
