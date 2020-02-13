@@ -28,7 +28,7 @@ public class Turret implements Subsystem {
   private DigitalOutput mDigitalOutput;
   
   public Turret() {
-    turretMotor = new CANSparkMax(7, MotorType.kBrushless);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
     turretPID.setP(RobotMap.TurretMap.Kp);
@@ -91,16 +91,16 @@ public class Turret implements Subsystem {
   private boolean limitReached() {
     return true;
   }
-  public DigitalInput getMagnetSensor(){
-    return magneticSensor;
-  }
+  // public DigitalInput getMagnetSensor(){
+  //   return magneticSensor;
+  // }
 
   @Override
   public void periodic() {
-    boolean x = magneticSensor.get();
-    SmartDashboard.putBoolean("Is Magnet there?",x);
-    SmartDashboard.putNumber("Turret Degree", getDegrees());
-    SmartDashboard.updateValues();
+    // boolean x = magneticSensor.get();
+    // SmartDashboard.putBoolean("Is Magnet there?",x);
+    // SmartDashboard.putNumber("Turret Degree", getDegrees());
+    // SmartDashboard.updateValues();
     
   }
 

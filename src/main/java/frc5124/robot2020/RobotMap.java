@@ -70,13 +70,13 @@ public class RobotMap {
         public static int rollerCanId = 8;
         public static int intakeSolenoid = 1;
     }
-    public static class Loader {
-        public static int topBeltCanId = 99;
-        public static int bottomBeltCanId = 10; 
+    public static class LoaderMap {
+        public static int topBeltCanId = 9;
+        public static int bottomBeltCanId = 7; 
     }
 
     public static class TurretMap{
-        public static int turretCanID = 10; // Change to 11
+        public static int turretCanID = 11; // Change to 11
         public static double turretSpeed = 1;
         public static double Kp = 0.050000; 
         public static double Ki = 0.000350;

@@ -8,18 +8,31 @@
 package frc5124.robot2020.commands.turret.turretGroups;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
 /**
  * Add your docs here.
  */
-public class TurretTargetByPid extends setTurretDegrees {
+public class TurretTargetByPid extends CommandBase {
+
+    private Turret subsystem;
 
     public TurretTargetByPid(Turret subsystem) {
-        super(subsystem, subsystem.getDegrees() + 
+        this.subsystem = subsystem;
+        addRequirements(subsystem);
+    }
+
+    public void initialize() {
+        double target = subsystem.getDegrees() - 
             NetworkTableInstance.getDefault().getTable("limelight")
-            .getEntry("tx").getDouble(0)
-        );
+            .getEntry("tx").getDouble(0);
+        subsystem.setTurretDegrees(target);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 
 }
