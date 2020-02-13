@@ -5,8 +5,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-
+import com.ctre.phoenix.music.Orchestra;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.XboxController;
+import java.util.ArrayList;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -15,100 +17,55 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * the project.
  */
 public class Robot extends TimedRobot {
+    Orchestra _orchestra;
+    XboxController operator = new XboxController(0);
 
-    private RobotContainer m_robotContainer;
-    private Command m_autonomousCommand;
-
-    // Command autonomousCommand;
-    // SendableChooser<Command> chooser = new SendableChooser<>();
-
-    // public static OI oi;
-    // public static DriveTrain driveTrain;
+    TalonFX [] _fxes =  { new TalonFX(1), new TalonFX(2) };
+    int _lastPOV = 0;
 
     @Override
     public void robotInit() {
-
-        m_robotContainer = new RobotContainer();
-
-        // OI must be constructed after subsystems. If the OI creates Commands
-        //(which it very likely will), subsystems are not guaranteed to be
-        // constructed yet. Thus, their requires() statements may grab null
-        // pointers. Bad news. Don't move it.
-
-        /*
-        driveTrain = new DriveTrain();
-        oi = new OI();
-
-        driveTrain.setDefaultCommand(new RunCommand(() -> driveTrain.curvatureDrive(
-            -oi.getDriver().getY(),
-            oi.getDriver().getTwist(),
-            oi.getDriver().getRawButton(Constants.OI.Driver.quickTurnButton)),
-            driveTrain));
-        
-
-        // Add commands to Autonomous Sendable Chooser
-        chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-
-        SmartDashboard.putData("Run Chosen Auto", new InstantCommand(() -> chooser.getSelected().schedule()));
-
-        */
+        ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+        for (int i = 0; i < _fxes.length; ++i) {
+            _instruments.add(_fxes[i]);
+        }
+        _orchestra = new Orchestra(_instruments);
     }
-
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
-    @Override
-    public void disabledInit(){
-        m_robotContainer.disabledInit();
-    }
-
-    @Override
-    public void disabledPeriodic() {
-        CommandScheduler.getInstance().run();
-    }
-
-    @Override
-    public void autonomousInit() {
-        m_robotContainer.autonomousInit();
-       m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
-          }
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    @Override
-    public void autonomousPeriodic() {
-        CommandScheduler.getInstance().run();
-    }
-
+    
     @Override
     public void teleopInit() {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
-          }
-
-        m_robotContainer.teleopInit();
+        _orchestra.loadMusic("StarWars.chrp");
     }
 
-    /**
-     * This function is called periodically during operator control
-     */
     @Override
     public void teleopPeriodic() {
-        CommandScheduler.getInstance().run();
-    }
+        int currentPOV = operator.getPOV();
+        /* has a button been pressed? */
+        if (_lastPOV != currentPOV) {
+            _lastPOV = currentPOV;
 
-	public static void winMatch() {
-        RobotBase.startRobot(Robot::new);
-	}
+            switch (currentPOV) {
+                case 90: /* toggle play and paused */
+                    if (_orchestra.isPlaying()) {
+                        _orchestra.pause();
+                        System.out.println("Song paused");
+                    }  else {
+                        _orchestra.play();
+                        System.out.println("Playing song...");
+                    }
+                    break;
+                    
+                case 180: /* toggle play and stop */
+                    if (_orchestra.isPlaying()) {
+                        _orchestra.stop();
+                        System.out.println("Song stopped.");
+                    }  else {
+                        _orchestra.play();
+                        System.out.println("Playing song...");
+                    }
+                    break;
+            }
+        }
+
+    }
 }
