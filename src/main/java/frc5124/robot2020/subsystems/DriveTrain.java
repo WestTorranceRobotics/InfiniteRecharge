@@ -161,7 +161,7 @@ public class DriveTrain implements Subsystem {
     public AHRS getGyroScope(){
         return gyro;
     }
-    public double getGryoDegree() {
+    public double getGyroDegree() {
         return gyro.getAngle();
     }
 

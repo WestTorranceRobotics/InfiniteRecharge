@@ -52,7 +52,7 @@ public class TurnToAngle  extends CommandBase {
   public void execute() {
 
      if(isClockwise == 0){
-      if(m_driveTrain.getGryoDegree() < targetAngle){
+      if(m_driveTrain.getGyroDegree() < targetAngle) {
         m_driveTrain.arcadeDrive(0, 0.3);
     }
       else{
@@ -60,7 +60,7 @@ public class TurnToAngle  extends CommandBase {
       }
     }
     else if (isClockwise == 1){
-      if(m_driveTrain.getGryoDegree() > -targetAngle){
+      if(m_driveTrain.getGyroDegree() > -targetAngle){
         m_driveTrain.arcadeDrive(0, -0.3);
       }
       else{
