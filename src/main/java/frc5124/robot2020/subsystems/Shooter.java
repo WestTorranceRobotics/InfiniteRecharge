@@ -34,6 +34,7 @@ public class Shooter implements Subsystem {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
+    closeHole();
   }
 
   public void disablePID() {
@@ -96,6 +97,13 @@ public class Shooter implements Subsystem {
 
   public boolean atSpeed () {
     return true;
+  }
+
+  public void setPowerRunShooter(){
+    shootMotorFollower.set(.84210526);
+    // .84210526 ~~ 4800/5700 (mr.Heideman)
+    // .43636364 ~~ 4800/11000 (rev website)
+    openHole();
   }
 
   @Override

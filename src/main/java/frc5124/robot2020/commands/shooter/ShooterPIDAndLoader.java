@@ -8,18 +8,17 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class ShooterAndLoader extends CommandBase {
+public class ShooterPIDAndLoader extends CommandBase {
   private Shooter m_shooter;
   private Loader m_loader;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public ShooterAndLoader (Shooter shooter, Loader loader) {
+  public ShooterPIDAndLoader (Shooter shooter, Loader loader) {
     m_shooter = shooter;
     m_loader = loader;
 

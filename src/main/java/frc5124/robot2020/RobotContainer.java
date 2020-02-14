@@ -114,7 +114,7 @@ public class RobotContainer {
     operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
+    operatorB.whileHeld(new ShooterPIDAndLoader(shooter, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
