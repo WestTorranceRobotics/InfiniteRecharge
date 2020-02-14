@@ -33,7 +33,6 @@ public class SeeBallRunBelt extends CommandBase {
       m_Loader.runBelt();
     } else {
       m_Loader.stopBelt();
-     // isDone = true;
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }

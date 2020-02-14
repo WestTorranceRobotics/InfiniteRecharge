@@ -10,27 +10,25 @@ package frc5124.robot2020.commands.turret;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
-public class RotateTurret extends CommandBase {
+public class setTurretDegrees extends CommandBase {
   private Turret turret;
-  private double power;
+  private double degrees;
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new setTurretDegrees.
    */
-  public RotateTurret(Turret subsystem, double power) {
+  public setTurretDegrees(Turret subsystem, double degrees) {
     turret = subsystem;
     addRequirements(turret);
-    this.power = power;
+    this.degrees = degrees;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.directPower(power);
+    turret.setTurretDegrees(degrees);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
   }
@@ -38,7 +36,6 @@ public class RotateTurret extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.directPower(0);
   }
 
   // Returns true when the command should end.

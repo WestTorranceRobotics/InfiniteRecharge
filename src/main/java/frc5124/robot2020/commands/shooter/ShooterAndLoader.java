@@ -5,45 +5,53 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.turret;
+package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Shooter;
 
-public class RotateTurret extends CommandBase {
-  private Turret turret;
-  private double power;
+public class ShooterAndLoader extends CommandBase {
+  private Shooter m_shooter;
+  private Loader m_loader;
+  
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new setShootVelocity.
    */
-  public RotateTurret(Turret subsystem, double power) {
-    turret = subsystem;
-    addRequirements(turret);
-    this.power = power;
+  public ShooterAndLoader (Shooter shooter, Loader loader) {
+    m_shooter = shooter;
+    m_loader = loader;
+
+    addRequirements(m_loader);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.directPower(power);
+    m_shooter.startShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
+    if (m_shooter.holeOpenedOrClose()){
+      m_loader.runBelt();
+    }
   }
+
+  // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.directPower(0);
+    m_shooter.stopShooter();
+    m_loader.stopBelt();
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  
 }

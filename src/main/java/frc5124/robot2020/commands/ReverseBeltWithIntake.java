@@ -9,18 +9,20 @@ package frc5124.robot2020.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.SeeBallRunBelt;
-import frc5124.robot2020.subsystems.*;
+import frc5124.robot2020.commands.loader.ReverseBelt;
+import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.Loader;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LoaderAndIntakeGroup extends ParallelCommandGroup {
+public class ReverseBeltWithIntake extends ParallelCommandGroup {
   /**
-   * Creates a new LoaderAndIntakeGroup.
+   * Creates a new ReverseBeltWithIntake.
    */
-  
-  public LoaderAndIntakeGroup(Intake intake, Loader loader) {
-    super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader));   
+  public ReverseBeltWithIntake(Loader loader, Intake intake) {
+    // Add your commands in the super() call, e.g.
+    // super(new FooCommand(), new BarCommand());super();
+    super(new ReverseBelt(loader), new SetIntakePower(intake, -0.8));
   }
 }

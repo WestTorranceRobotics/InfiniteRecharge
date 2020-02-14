@@ -13,70 +13,119 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.EncoderType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.RobotMap;
 
 public class Turret implements Subsystem {
-
-  private final NetworkTable limelight;
-  private final CANSparkMax motor;
+  private CANSparkMax turretMotor;
+  private CANPIDController turretPID;
+  private double startDegrees = 0;
+  public Boolean limitReached = false;
+  // private DigitalInput magneticSensor;
+  // private DigitalOutput mDigitalOutput;
   
   public Turret() {
-    limelight = NetworkTableInstance.getDefault().getTable("limelight");
-    motor = new CANSparkMax(RobotMap.Turret.spinnerCanId, MotorType.kBrushless);
-    motor.restoreFactoryDefaults();
-    motor.setInverted(true);
-    getController().setIMaxAccum(RobotMap.Turret.percentSpeedLimit, 0);
+    turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
+    turretPID = turretMotor.getPIDController();
+    turretMotor.restoreFactoryDefaults();
+    setCoast();
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
+    turretPID.setReference(0, ControlType.kPosition);
+    startDegrees = getDegrees();
+    
+
+
+    //Code used for PID Tuning
+
+    // SmartDashboard.putNumber("P", .04);
+    // SmartDashboard.putNumber("I", 0);
+    // SmartDashboard.putNumber("D", 0);
+    // SmartDashboard.putNumber("IZONE", 0);
   }
 
-  public void rotateTurret(double power) {
-    motor.set(power);
-  }
+  //Code used for PID Tuning
 
-  public void setPower(double power) {
-    motor.set(power);
-  }
+  // public void updateCoeffs() {
+  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
+  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  // }
 
-  public double getEncoder() {
-    return motor.getEncoder().getPosition()*RobotMap.Turret.turretGearing;
-  }
-
-  public CANPIDController getController() {
-    return motor.getPIDController();
-  }
-  
   public void setTurretDegrees(double degrees) {
-    getController().setP(RobotMap.TurretMap.Kp);
-    getController().setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
+    turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
+  }
+  /**
+   * Disables turret PID for manual control
+   */
+  public void disableTurretPID () {
+    turretPID.setP(0);
+    turretPID.setI(0);
+    turretPID.setD(0);
   }
 
+  public void setCoast() {
+    turretMotor.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void setBrake() {
+    turretMotor.setIdleMode(IdleMode.kBrake);
+  }
+
+  /**
+   * Enables turret PID for automatic control
+   */
+  public void enableTurretPID () {
+    turretPID.setP(RobotMap.TurretMap.Kp);
+    turretPID.setI(RobotMap.TurretMap.Ki);
+    turretPID.setIZone(RobotMap.TurretMap.KiZone);
+  }
+ 
+  /**
+   * Used for testing
+   * @param power
+   */
+  public void directPower(double power) {
+    turretMotor.set(power);
+  }
+  /**
+   * Returns rotations of NEO 550 (NOT TURRET)
+   * @return
+   */
   public double getRotations() {
-    return motor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+    return turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
+  /**
+   * Returns current heading of turret based on zeroing
+   * @return
+   */
+  public double getDegrees() {
+    return ((turretMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition()) / RobotMap.TurretMap.turretDegreeToRotations);
   }
 
   public int getEncoderCountsPerRevolution(){
-    return motor.getEncoder().getCountsPerRevolution();
+    return turretMotor.getEncoder().getCountsPerRevolution();
   }
 
   public CANSparkMax getMotor() {
-    return motor;
+    return turretMotor;
   }
-
-  // public CANEncoder getEncoder(){
-  //   return turretEncoder;
-  // }
 
   private boolean limitReached() {
     return true;
   }
+  // public DigitalInput getMagnetSensor(){
+  //   return magneticSensor;
+  // }
 
   @Override
   public void periodic() {
   }
-
-}
+} 

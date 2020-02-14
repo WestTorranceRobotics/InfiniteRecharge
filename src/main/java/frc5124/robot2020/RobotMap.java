@@ -12,7 +12,6 @@ public class RobotMap {
 
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
-        
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
@@ -31,35 +30,23 @@ public class RobotMap {
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 8; 
-        public static int shootFollowerCanID = 9; 
-        public static double Kp = 0;
+        public static int shootLeaderCanID = 8; //8
+        public static int shootFollowerCanID = 6; //6
+        public static final int shootSolenoid = 0;
+        public static double Kp = .000005;
         public static double Ki = 0;
-        public static double Kd = 0;
-        public static double Kf = .195;
-        public static double conversionConstant = 2 * 3.141592654 * .33333 * .75 * (1.0/60.0); 
-        public static double maxVelocity = 99; //ft/s
-        public static double shootVelocity = 30;
+        public static double Kd = .000002;
+        public static double Kf = .000134;
+        public static double lineShootRPM = 4800;
+        public static double maxShootRPM = 7600;
+        public static int currentLimit = 20;
 
     }
 
     public static class IntakeMap {
         public static double motorPower = 0.5;
-        public static int rollerCanId = 5;
-
-    }
-
-    public static class Turret {
-        public static int spinnerCanId = 10;
-        public static String networkTableName = "limelight";
-        public static String horizontalTargetEntry = "tx";
-
-        public static double P = 0.02;
-        public static double I = 0.002;
-        public static double D = 0.0006;
-
-        public static double percentSpeedLimit = 0.4;
-        public static double turretGearing = ((18.0/120.0) * (1.0/10.0));
+        public static int rollerCanId = 14; //14
+        public static int intakeSolenoid = 1;
     }
 
     public static class HangerMap {
@@ -67,11 +54,11 @@ public class RobotMap {
         public static double hangerHalt = 0.0;
         public static int hangerCanID = 5;
         public static int hangerSolenoid = 2;
-        public static int topLimitChannelID = 1;                //DIO port
-        public static int bottomLimitChannelID = 2;             //DIO port
+        public static int topLimitChannelID = 1;                
+        public static int bottomLimitChannelID = 2;             
         public static int shootFollowerCanID = 6;
         public static double Kp = 0.000016;
-        public static double Ki = 0; //unused
+        public static double Ki = 0;
         public static double Kd = 0.000037;
         public static double Kf = 0.000227;
         public static double lineRefRPM = 573;
@@ -79,8 +66,8 @@ public class RobotMap {
     }
 
     public static class PanelControlMap {
-        public static final int spinnerCanId = 10;
-        public static final int deployerSolenoidChannel = 0;
+        public static final int spinnerCanId = 100; //10
+        public static final int deployerSolenoidChannel = 4;
 
         public static final RawColor yellowReading = new RawColor(35000, 60000, 11000, 400); // yellow
         public static final RawColor redReading = new RawColor(22000, 12000, 4400, 250); // red
@@ -92,18 +79,25 @@ public class RobotMap {
             (i) -> i > 8 ? 1 : i / 8;
     }
 
-    public static class Loader {
-        public static int topBeltCanId = 9;
-        public static int bottomBeltCanId = 10; 
+    public static class LoaderMap {
+        public static int topBeltCanId = 9; //9
+        public static int bottomBeltCanId = 7; //7 
+        public static double beltSpeed = .2;
+        public static double fieldEmptyVoltage = 1.0;
+        public static int motionSensorID = 1;
     }
 
     public static class TurretMap{
-        public static int turretCanID = 11;
-        public static double turretSpeed = 1;
-        public static double Kp = 0.04; 
+        public static int turretCanID = 10; 
+        public static double turretSpeed = .2;
+        public static double Kp = 0.050000; 
+        public static double Ki = 0.000350;
+        public static double Kd = 0;
+        public static double KiZone = 1.000000;
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
-        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0))); //multiply by desired degrees
+        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
+        public static double sweepConstant = 2.5;
     }
-    
+
     public static class CameraMap {}
 }

@@ -13,8 +13,8 @@ public class Intake implements Subsystem {
   private boolean deployed;         //need to create the toggle for the pivot 
 
   public Intake() {
-      armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.Intake.intakeSolenoid);         // mod num & channel num         
-      rollerSpeedController = new CANSparkMax(RobotMap.Intake.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
+      armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
+      rollerSpeedController = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up 

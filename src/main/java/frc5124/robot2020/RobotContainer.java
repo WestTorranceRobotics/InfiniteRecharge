@@ -35,9 +35,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
-import frc5124.robot2020.commands.LoaderAndIntakeGroup;
 import frc5124.robot2020.commands.auto.*;
-
 import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
@@ -47,10 +45,7 @@ import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
 
-//import frc5124.robot2020.subsystems.PanelController.OutputColor;
-
-
-
+import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -75,23 +70,22 @@ public class RobotContainer {
   public XboxController operator = new XboxController(2);
   
   
-  public JoystickButton operatorA = new JoystickButton(operator, 1);
-  public JoystickButton operatorB = new JoystickButton(operator, 2);
-  public JoystickButton operatorX = new JoystickButton(operator, 3);
-  public JoystickButton operatorY = new JoystickButton(operator, 4);
-  public JoystickButton operatorLB = new JoystickButton(operator, 5);
-  public JoystickButton operatorRB = new JoystickButton(operator, 6);
-  public JoystickButton operatorBack = new JoystickButton(operator, 7);
-  public JoystickButton operatorStart = new JoystickButton(operator, 8);
+  public JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
+  public JoystickButton operatorB = new JoystickButton(operator, XboxController.Button.kB.value);
+  public JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
+  public JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
+  public JoystickButton operatorLB = new JoystickButton(operator, XboxController.Button.kBumperLeft.value);
+  public JoystickButton operatorRB = new JoystickButton(operator, XboxController.Button.kBumperRight.value);
+  public JoystickButton operatorBack = new JoystickButton(operator, XboxController.Button.kBack.value);
+  public JoystickButton operatorStart = new JoystickButton(operator,XboxController.Button.kStart.value);
+  public JoystickButton operatorTest = new JoystickButton(operator, XboxController.Button.kBack.value);
+  public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
+  public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-  
- 
-  public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
-  public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
-  public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
+  public POVButton operatorLeft = new POVButton(operator, 270);
   
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
@@ -117,18 +111,16 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+    operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
+    operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));   
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorRight.whenPressed(new SetShootRPM(shooter));
+    //operatorRB.whileHeld(new SetShootRPM(shooter));
     
-    panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
-    positionControl.whenPressed(new PositionControl(panelController));
-    rotationControl.whenPressed(new RotationControl(panelController));   
-    rotationControl.whenPressed(new RotationControl(panelController));
   }
 
   private void configureDefaultCommands(){
