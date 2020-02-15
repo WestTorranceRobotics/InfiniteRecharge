@@ -41,16 +41,7 @@ public class Turret implements Subsystem {
     turretPID.setReference(0, ControlType.kPosition);
     startDegrees = getDegrees();
     turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,  (float) 31.5);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 31.5);
-
-    
-
-
-
-
-
-
-
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 31.5); // TODO should set soft limits during homing
 
     //Code used for PID Tuning
 

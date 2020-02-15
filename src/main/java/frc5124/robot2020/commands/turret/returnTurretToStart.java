@@ -37,7 +37,7 @@ public class returnTurretToStart extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() { // TODO should be getposition not getcpr
     if(turret.getEncoderCountsPerRevolution() < 0){
       turret.getMotor().set(0.3);
     }

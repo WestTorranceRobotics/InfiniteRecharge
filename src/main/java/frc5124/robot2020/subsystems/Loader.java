@@ -72,7 +72,10 @@ public class Loader implements Subsystem {
     topBeltMotor.set(-1);
   }
 
-  //This was here when I started so I left it that way.
+  public double getEncoder() {
+    return topBeltMotor.getEncoder().getPosition();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.updateValues();
