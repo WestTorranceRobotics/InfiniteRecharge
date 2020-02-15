@@ -9,10 +9,10 @@ package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
+
 public class RotateTurret extends CommandBase {
   private Turret turret;
   private double power;
-  private boolean isDone = false;
   public RotateTurret(Turret subsystem, double power) {
     turret = subsystem;
     addRequirements(turret);
@@ -21,12 +21,11 @@ public class RotateTurret extends CommandBase {
 
   @Override
   public void initialize() {
-  
+    turret.rotateTurret(power);
   }
 
   @Override
   public void execute() {
-    turret.rotateTurret(power);
   }
 
   @Override
@@ -36,6 +35,6 @@ public class RotateTurret extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }
