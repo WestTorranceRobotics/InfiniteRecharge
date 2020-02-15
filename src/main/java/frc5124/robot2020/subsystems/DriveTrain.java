@@ -171,4 +171,8 @@ public class DriveTrain implements Subsystem {
             rightLeader.getSelectedSensorVelocity() * 10 * INCHES_PER_TICK
         );
     }
+
+    public int getLeftEncoderVal(){
+        return leftLeader.getSelectedSensorPosition();
+    }
 }

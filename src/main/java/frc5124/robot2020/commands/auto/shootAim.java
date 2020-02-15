@@ -9,6 +9,11 @@ package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc5124.robot2020.commands.shooter.ShooterAndLoader;
+import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
+import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,8 +22,8 @@ public class shootAim extends ParallelDeadlineGroup {
   /**
    * Creates a new shootAim.
    */
-  public shootAim() {
+  public shootAim(Shooter shooter, Loader loader, Turret turret) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new InstantCommand());
+    super(new ShooterAndLoaderRev(shooter, loader, 5), new TurretTargetByPIDPerpetually(turret));
   }
 }

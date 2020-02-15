@@ -116,9 +116,9 @@ public class Shooter implements Subsystem {
    * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
    */
   public void currentWatch(double targetRPM) {
-    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent  && passedBallCurrent == false && getVelocity() >= targetRPM-75 ) {
+    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false && getVelocity() >= targetRPM-75 ) {
       passedBallCurrent = true;
-      ballsShot = ballsShot + 1;
+      ballsShot =+ 1;
     } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent) {
       passedBallCurrent = false;
     } 
