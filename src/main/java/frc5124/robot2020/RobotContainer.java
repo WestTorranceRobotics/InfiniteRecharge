@@ -106,20 +106,20 @@ public class RobotContainer {
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-    turret = new Turret();
+    // turret = new Turret();
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+    // operatorBack.whileHeld(new SetIntakePower(intake, -.6));
     operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    //operatorRB.whileHeld(new SetShootRPM(shooter));
+    // operatorUp.whileHeld(new LiftUp(hanger));
+    // operatorDown.whileHeld(new LiftDown(hanger));   
+    // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+    // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    // operatorRB.whileHeld(new SetShootRPM(shooter));
     
   }
 

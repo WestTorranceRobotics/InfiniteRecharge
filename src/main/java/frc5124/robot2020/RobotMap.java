@@ -41,6 +41,7 @@ public class RobotMap {
         public static double maxShootRPM = 7600;
         public static int smartCurrentLimit = 20;
         public static double ballCurrent = 20;
+        public static double gearRatio = .75;
 
     }
 
@@ -82,7 +83,7 @@ public class RobotMap {
 
     public static class LoaderMap {
         public static int topBeltCanId = 9; //9
-        public static int bottomBeltCanId = 7; //7 
+        public static int bottomBeltCanId = 12; 
         public static double beltSpeed = .2;
         public static double fieldEmptyVoltage = 1.0;
         public static int motionSensorID = 1;

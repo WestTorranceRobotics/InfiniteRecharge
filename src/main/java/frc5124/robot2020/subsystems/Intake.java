@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 
 public class Intake implements Subsystem {
@@ -18,6 +19,8 @@ public class Intake implements Subsystem {
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up 
+      rollerSpeedController.setIdleMode(IdleMode.kBrake);
+
   }
 
   @Override

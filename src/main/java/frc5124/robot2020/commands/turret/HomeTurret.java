@@ -5,54 +5,54 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.turret;
+
+import com.revrobotics.CANPIDController;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
-import frc5124.robot2020.RobotMap;
+import frc5124.robot2020.subsystems.Turret;
 
-public class ShooterAndLoader extends CommandBase {
-  private Shooter m_shooter;
-  private Loader m_loader;
-  
+public class HomeTurret extends CommandBase {
+  private Turret turret;
+  private double initDeg;
+  private boolean finished;
+
   /**
-   * Creates a new setShootVelocity.
+   * Creates a new returnTurretToStart.
    */
-  public ShooterAndLoader (Shooter shooter, Loader loader) {
-    m_shooter = shooter;
-    m_loader = loader;
-
-    addRequirements(m_loader);
-    addRequirements(m_shooter);
+  public HomeTurret(Turret subsystem) {
+    turret = subsystem;
+    addRequirements(turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter();
+    initDeg = turret.getDegrees();
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-50) {
-      m_loader.runBelt();
-    } 
+    // if (turret.isHome() || Math.abs(turret.getDegrees() - initDeg) > 30) {
+    //   turret.directPower(0);
+    //   finished = true;
+    //   turret.setLimits();
+    // } else {
+    //   turret.directPower(0.05);
+    // }
   }
-
-  // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
-    m_loader.stopBelt();
+    turret.getMotor().set(0);
   }
-  
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return finished;
+  }
 }

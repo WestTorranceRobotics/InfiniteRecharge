@@ -12,6 +12,7 @@ import frc5124.robot2020.RobotMap;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -29,6 +30,8 @@ public class Shooter implements Subsystem {
     shootMotorFollower.restoreFactoryDefaults();
     shootMotorLeader.restoreFactoryDefaults();
     shootMotorFollower.follow(shootMotorLeader, true);
+    shootMotorLeader.setIdleMode(IdleMode.kCoast);
+    shootMotorFollower.setIdleMode(IdleMode.kCoast);
     shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootPID = shootMotorLeader.getPIDController();
@@ -75,7 +78,7 @@ public class Shooter implements Subsystem {
  * Units of ft/s
  */
   public double getVelocity() {
-    return (shootMotorLeader.getEncoder().getVelocity()); 
+    return (shootMotorLeader.getEncoder().getVelocity() / RobotMap.ShooterMap.gearRatio); 
    }
   
    public void atSpeed(boolean atSpeed) {

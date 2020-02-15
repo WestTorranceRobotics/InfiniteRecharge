@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.I2C;
@@ -31,6 +32,8 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
+    topBeltMotor.setIdleMode(IdleMode.kBrake);
+    bottomBeltMotor.setIdleMode(IdleMode.kBrake);
   }
 
   public void setPower(double power){
