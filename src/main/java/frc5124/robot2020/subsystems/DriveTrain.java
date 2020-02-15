@@ -101,7 +101,7 @@ public class DriveTrain implements Subsystem {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right);   
+        differentialDrive.tankDrive(-left,right);   
      }
 
     public void arcadeDrive(double speed, double turn) {

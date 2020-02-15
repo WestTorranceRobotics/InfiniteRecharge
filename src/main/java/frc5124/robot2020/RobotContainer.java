@@ -57,12 +57,12 @@ import frc5124.robot2020.subsystems.PanelController.OutputColor;
 public class RobotContainer {
 
   private Camera camera;
-  private PanelController panelController;
+  //private PanelController panelController;
   private Intake intake;
-  private Hanger hanger;
+  //private Hanger hanger;
   private DriveTrain driveTrain;
   private Shooter shooter; 
-  private Turret turret;
+  //private Turret turret;
   private Loader loader;
 
   public static final Joystick driverLeft = new Joystick(0);
@@ -100,9 +100,9 @@ public class RobotContainer {
 
   private void configureSubsystems() {
     // camera = new Camera();
-    panelController = new PanelController();
+    //panelController = new PanelController();
     intake = new Intake();
-    hanger = new Hanger();
+    //hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
