@@ -161,6 +161,7 @@ public class DriveTrain implements Subsystem {
     public AHRS getGyroScope(){
         return gyro;
     }
+
     public double getGyroDegree() {
         return gyro.getAngle();
     }
@@ -171,4 +172,15 @@ public class DriveTrain implements Subsystem {
             rightLeader.getSelectedSensorVelocity() * 10 * INCHES_PER_TICK
         );
     }
+
+    public void setSeperatePower(double leftPower, double rightPower){
+        leftLeader.set(leftPower);
+        rightLeader.set(rightPower);
+    }
+
+    //IM NOT SURE IF THIS IS CORRECT:
+    public double leftEncoder(){ //In Position mode, output value is in encoder ticks or an analog value,
+        return leftLeader.getSelectedSensorPosition();
+    }
+
 }

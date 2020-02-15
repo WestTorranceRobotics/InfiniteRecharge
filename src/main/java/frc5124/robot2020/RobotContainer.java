@@ -115,8 +115,8 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.whileHeld(new ShooterPIDAndLoader(shooter, loader));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));   
+    operatorY.whileHeld(new GoToMiddleLevel(hanger));
+    operatorUp.whileHeld(new LiftUp(hanger)); 
     operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
     //operatorRB.whileHeld(new SetShootRPM(shooter));
