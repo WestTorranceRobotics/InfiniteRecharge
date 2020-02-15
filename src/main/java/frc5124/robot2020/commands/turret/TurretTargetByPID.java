@@ -22,14 +22,27 @@ public class TurretTargetByPID extends CommandBase {
   }
 
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(true);
     double target = subsystem.getDegrees() - 
         NetworkTableInstance.getDefault().getTable("limelight")
         .getEntry("tx").getDouble(0);
     subsystem.setTurretDegrees(target);
-}
+  }
 
-@Override
-public boolean isFinished() {
+  @Override
+  public void end(boolean interrupted) {
+    new Thread(() -> {
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException ex) {
+        return;
+      }
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(true);
+    }).start();
+  }
+
+  @Override
+  public boolean isFinished() {
     return true;
-}
+  }
 }
