@@ -37,7 +37,7 @@ public class TurretTargetByPID extends CommandBase {
       } catch (InterruptedException ex) {
         return;
       }
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(true);
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(false);
     }).start();
   }
 
