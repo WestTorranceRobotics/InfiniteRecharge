@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.auto.*;
@@ -130,17 +130,7 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
-
-    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
-    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
-    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-      
-    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
@@ -178,6 +168,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new SequentialCommandGroup();
   }
 }

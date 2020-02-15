@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -39,7 +40,16 @@ public class Turret implements Subsystem {
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
     turretPID.setReference(0, ControlType.kPosition);
     startDegrees = getDegrees();
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,  (float) 31.5);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 31.5);
+
     
+
+
+
+
+
+
 
 
     //Code used for PID Tuning

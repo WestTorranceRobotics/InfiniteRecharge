@@ -22,18 +22,28 @@ public class Shooter implements Subsystem {
   private CANPIDController shootPID; 
   private boolean atSpeed;
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
+  private int ballsShot;
+  private boolean passedBallCurrent = false;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
     shootMotorLeader.restoreFactoryDefaults();
     shootMotorFollower.follow(shootMotorLeader, true);
-    shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.currentLimit);
-    shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.currentLimit);
+    shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
+    shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootPID = shootMotorLeader.getPIDController();
     shootPID.setD(RobotMap.ShooterMap.Kd);
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
+  }
+
+  public int getBallsShot() {
+    return ballsShot;
+  }
+
+  public void resetBallCount() {
+    ballsShot = 0;
   }
 
   public void disablePID() {
@@ -98,7 +108,25 @@ public class Shooter implements Subsystem {
     return true;
   }
 
+  /**
+   * Checks output current to shooter to count balls that have passed
+   * 
+   * Call in command execute or periodic
+   * 
+   * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
+   */
+  public void currentWatch(double targetRPM) {
+    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent  && passedBallCurrent == false && getVelocity() >= targetRPM-75 ) {
+      passedBallCurrent = true;
+      ballsShot = ballsShot + 1;
+    } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent) {
+      passedBallCurrent = false;
+    } 
+  }
+  
+
   @Override
   public void periodic() {
   }
+    
 }

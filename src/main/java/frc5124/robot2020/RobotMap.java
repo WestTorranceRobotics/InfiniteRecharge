@@ -39,7 +39,8 @@ public class RobotMap {
         public static double Kf = .000134;
         public static double lineShootRPM = 4800;
         public static double maxShootRPM = 7600;
-        public static int currentLimit = 20;
+        public static int smartCurrentLimit = 20;
+        public static double ballCurrent = 20;
 
     }
 
@@ -97,6 +98,7 @@ public class RobotMap {
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
         public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
         public static double sweepConstant = 2.5;
+        public static double turnLimit = 170;
     }
 
     public static class CameraMap {}

@@ -7,7 +7,9 @@
 
 package frc5124.robot2020.commands.shooter;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
 
 public class SetShootRPM extends CommandBase {
@@ -30,6 +32,7 @@ public class SetShootRPM extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
   }
   // Returns true when the command should end.
     @Override
