@@ -16,7 +16,7 @@ import frc5124.robot2020.subsystems.Intake;
 public class SetIntakePower extends CommandBase {
   private Intake intake;
   private double power;
-  private TalonFX talon = new TalonFX(5);
+  // private TalonFX talon = new TalonFX(5);
   /**
    * Creates a new setIntakePower.
    */
@@ -29,8 +29,8 @@ public class SetIntakePower extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    talon.set(ControlMode.PercentOutput, .5);
-   // intake.setIntakePower(power);
+    // talon.set(ControlMode.PercentOutput, .5);
+   intake.setIntakePower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

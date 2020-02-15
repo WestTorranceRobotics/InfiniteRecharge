@@ -64,7 +64,12 @@ public class Shooter implements Subsystem {
   public void startShooter() {
     enablePID();
     shootPID.setReference(RobotMap.ShooterMap.lineShootRPM, ControlType.kVelocity);
-    }
+  }
+
+  public void startShooter(double rpm) {
+    enablePID();
+    shootPID.setReference(rpm, ControlType.kVelocity);
+  }
 
     public void stopShooter () {
       disablePID();

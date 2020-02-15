@@ -36,7 +36,7 @@ public class ShooterAndLoader extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.holeOpenedOrClose()){
+    if (m_shooter.holeOpenedOrClose()){ // TODO should we open it if it's closed?
       m_loader.runBelt();
     }
   }

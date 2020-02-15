@@ -13,21 +13,21 @@ import java.util.function.Consumer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.subsystems.PanelController;
-//import frc5124.robot2020.subsystems.PanelController.OutputColor;
+import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 public class ColorDisplayer implements Command {
 
-   //private final PanelController panelController;
-    // private final Consumer<OutputColor> displayer;
+    private final PanelController panelController;
+    private final Consumer<OutputColor> displayer;
 
-    // public ColorDisplayer(PanelController panelController, Consumer<OutputColor> displayer) {
-    //     this.panelController = panelController;
-    //     this.displayer = displayer;
-    // }
+    public ColorDisplayer(PanelController panelController, Consumer<OutputColor> displayer) {
+        this.panelController = panelController;
+        this.displayer = displayer;
+    }
 
-    // public void execute() {
-    //     displayer.accept(panelController.getColor());
-    // }
+    public void execute() {
+        displayer.accept(panelController.getColor());
+    }
 
     @Override
     public Set<Subsystem> getRequirements() {

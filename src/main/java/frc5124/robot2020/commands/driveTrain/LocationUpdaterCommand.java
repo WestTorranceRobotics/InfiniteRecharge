@@ -55,7 +55,6 @@ public class LocationUpdaterCommand implements Command {
 
   @Override
   public Set<Subsystem> getRequirements() {
-    // TODO Auto-generated method stub
-    return null;
+    return Set.of();
   }
 }

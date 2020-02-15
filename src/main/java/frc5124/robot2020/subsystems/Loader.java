@@ -69,6 +69,10 @@ public class Loader implements Subsystem {
     topBeltMotor.set(-1);
   }
 
+  public double getEncoder() {
+    return topBeltMotor.getEncoder().getPosition();
+  }
+
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {

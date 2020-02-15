@@ -41,7 +41,7 @@ public class RobotMap {
         public static double maxShootRPM = 7600;
         public static int smartCurrentLimit = 20;
         public static double ballCurrent = 20;
-
+        public static double[] regressionCoefficients = new double[]{1, 10, 100, 1000, 10000, 100000};
     }
 
     public static class IntakeMap {
@@ -86,6 +86,7 @@ public class RobotMap {
         public static double beltSpeed = .2;
         public static double fieldEmptyVoltage = 1.0;
         public static int motionSensorID = 1;
+        public static double motorRotationsPerBall = 10;
     }
 
     public static class TurretMap{
@@ -99,6 +100,9 @@ public class RobotMap {
         public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
         public static double sweepConstant = 2.5;
         public static double turnLimit = 170;
+        public static double limelightAngle = 20.5;
+        public static double limelightHeight = 24;
+        public static double targetHeight = 100;
     }
 
     public static class CameraMap {}
