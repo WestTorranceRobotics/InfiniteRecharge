@@ -12,7 +12,6 @@ public class AutonomousCommand implements Command {
 
     public AutonomousCommand(DriveTrain subsystem) {
         driveTrain = subsystem;
-
     }
 
     // Called just before this Command runs the first time
