@@ -37,7 +37,7 @@ public class RobotMap {
         public static double Ki = 0;
         public static double Kd = .000002;
         public static double Kf = .000134;
-        public static double lineShootRPM = 4800;
+        public static double lineShootRPM = 5600;
         public static double maxShootRPM = 7600;
         public static int smartCurrentLimit = 20;
         public static double ballCurrent = 20;

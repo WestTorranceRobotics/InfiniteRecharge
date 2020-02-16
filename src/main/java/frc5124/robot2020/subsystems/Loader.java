@@ -47,9 +47,15 @@ public class Loader implements Subsystem {
     topBeltMotor.set(0);
   }
 
+  public double getAppliedOutput() {
+    return topBeltMotor.getAppliedOutput();
+  }
+
   public void reverseBelt(){
     topBeltMotor.set(-1);
   }
+
+  
 
   public double getVoltage() {
     return motionSensor.getVoltage();

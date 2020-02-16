@@ -49,9 +49,9 @@ public class ShooterAndLoaderRev extends WaitCommand {
     m_loader.stopBelt();
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  // // Returns true when the command should end.
+  // @Override
+  // public boolean isFinished() {
+  //   return false;
+  // }
 }

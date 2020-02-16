@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
@@ -24,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class DriveTrain implements Subsystem {
     public WPI_TalonFX leftLeader;
@@ -49,6 +51,11 @@ public class DriveTrain implements Subsystem {
         leftFollower.follow(leftLeader);
         rightFollower = new WPI_TalonFX(RobotMap.DriveTrainMap.rightFollowerCanID);
         rightFollower.follow(rightLeader);
+
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
 
         leftLeader.setInverted(true);
         
@@ -101,7 +108,7 @@ public class DriveTrain implements Subsystem {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(-left,right);   
+        differentialDrive.tankDrive(left,-right);   
      }
 
     public void arcadeDrive(double speed, double turn) {

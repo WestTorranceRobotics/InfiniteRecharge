@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
@@ -110,17 +111,18 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    // operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
     operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
+    //operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
+    operatorB.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
     // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    // operatorRB.whileHeld(new SetShootRPM(shooter));
-    
+    operatorLB.whileHeld(new setShootPower(shooter));
+  //  operatorRB.whileHeld(new InstantCommand(() -> shooter.directPower(1), shooter));
   }
 
   private void configureDefaultCommands(){

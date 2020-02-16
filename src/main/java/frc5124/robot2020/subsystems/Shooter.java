@@ -34,6 +34,8 @@ public class Shooter implements Subsystem {
     shootMotorFollower.setIdleMode(IdleMode.kCoast);
     shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
+    shootMotorLeader.setInverted(true);
+    shootMotorFollower.setInverted(true);
     shootPID = shootMotorLeader.getPIDController();
     shootPID.setD(RobotMap.ShooterMap.Kd);
     shootPID.setP(RobotMap.ShooterMap.Kp);
@@ -78,7 +80,7 @@ public class Shooter implements Subsystem {
       disablePID();
      shootMotorLeader.set(0);
     }
-
+  
 /**
  * Units of ft/s
  */
