@@ -99,8 +99,12 @@ public class Shooter implements Subsystem {
     return true;
   }
 
+  public void setZeroPower(){
+    shootMotorLeader.set(0);
+  }
+
   public void setPowerRunShooter(){
-    shootMotorFollower.set(.84210526);
+    shootMotorFollower.set(.85);
     // .84210526 ~~ 4800/5700 (mr.Heideman)
     // .43636364 ~~ 4800/11000 (rev website)
     openHole();

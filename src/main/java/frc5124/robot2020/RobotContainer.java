@@ -80,7 +80,7 @@ public class RobotContainer {
   public JoystickButton operatorTest = new JoystickButton(operator, XboxController.Button.kBack.value);
   public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
   public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
-
+ 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
@@ -94,7 +94,6 @@ public class RobotContainer {
     configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    
   }
 
   private void configureSubsystems() {
@@ -114,18 +113,19 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.whileHeld(new ShooterPIDAndLoader(shooter, loader));
-    operatorY.whileHeld(new GoToMiddleLevel(hanger));
-    operatorUp.whileHeld(new LiftUp(hanger)); 
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    //operatorRB.whileHeld(new SetShootRPM(shooter));
-    
+    //operatorY.whileHeld(new GoToMiddleLevel(hanger));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    //operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+    //operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorRB.whenPressed(new setShootPower(shooter));
+    operatorLB.whenPressed(new noShootPower(shooter));
+    operatorY.whileHeld(new RunLoaderWSetPower(loader));
+    //driverLeftOne.whileHeld(new DriveStraightButton(.1, driveTrain));
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   }
-
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");

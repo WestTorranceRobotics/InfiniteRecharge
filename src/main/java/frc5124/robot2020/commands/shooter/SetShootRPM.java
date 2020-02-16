@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.Robot;
 import frc5124.robot2020.subsystems.Shooter;
 
 public class SetShootRPM extends CommandBase {
@@ -31,11 +32,12 @@ public class SetShootRPM extends CommandBase {
   @Override
   public void execute() {
   }
+
   // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 
   // Called once the command ends or is interrupted.
   @Override

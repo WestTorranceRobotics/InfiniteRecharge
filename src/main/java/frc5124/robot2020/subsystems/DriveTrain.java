@@ -183,4 +183,9 @@ public class DriveTrain implements Subsystem {
         return leftLeader.getSelectedSensorPosition();
     }
 
+    public void setPower(double power){
+        leftLeader.set(power);
+        rightLeader.set(power);
+    }
+
 }

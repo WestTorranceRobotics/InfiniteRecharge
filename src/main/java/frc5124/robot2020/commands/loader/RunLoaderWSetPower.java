@@ -5,52 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.loader;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
 
-public class ShooterPowerAndLoader extends CommandBase {
-  private Shooter m_shooter;
-  private Loader m_loader;
-  
-  /**
-   * Creates a new setShootVelocity.
-   */
-  public ShooterPowerAndLoader (Shooter shooter, Loader loader) {
-    m_shooter = shooter;
-    m_loader = loader;
+public class RunLoaderWSetPower extends CommandBase {
 
-    addRequirements(m_loader);
-    addRequirements(m_shooter);
+  private Loader m_Loader;
+
+  public RunLoaderWSetPower(Loader subsystem) {
+    m_Loader = subsystem;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_Loader);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.setPowerRunShooter();
+    m_Loader.setDirectPower(.8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.holeOpenedOrClose()){
-      m_loader.setDirectPower(1);
-    }
   }
-
-  // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
-    m_loader.stopBelt();
+    m_Loader.stopBelt();
   }
-  
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
 }

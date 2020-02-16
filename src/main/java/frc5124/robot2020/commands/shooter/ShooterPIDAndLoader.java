@@ -36,7 +36,7 @@ public class ShooterPIDAndLoader extends CommandBase {
   @Override
   public void execute() {
     if (m_shooter.holeOpenedOrClose()){
-      m_loader.runBelt();
+      m_loader.setDirectPower(1);
     }
   }
 

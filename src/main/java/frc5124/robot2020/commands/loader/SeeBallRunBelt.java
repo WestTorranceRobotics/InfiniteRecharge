@@ -30,11 +30,10 @@ public class SeeBallRunBelt extends CommandBase {
   @Override
   public void execute() {
     if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
+      m_Loader.setDirectPower(1);
     } else {
       m_Loader.stopBelt();
     }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.

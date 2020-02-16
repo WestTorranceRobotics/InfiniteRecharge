@@ -8,15 +8,16 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.Robot;
 import frc5124.robot2020.subsystems.Shooter;
 
-public class notPIDShooter extends CommandBase {
+public class setShootPower extends CommandBase {
   private Shooter m_shooter;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public notPIDShooter (Shooter shooter) {
+  public setShootPower (Shooter shooter) {
     m_shooter = shooter;
     addRequirements(m_shooter);
   }
@@ -24,23 +25,24 @@ public class notPIDShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.setPowerRunShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooter.directPower(-.8);
   }
+
   // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
-    }
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
+    m_shooter.directPower(0);
   }
   
 }

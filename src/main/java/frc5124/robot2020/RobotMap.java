@@ -11,7 +11,7 @@ public class RobotMap {
     public static class DriveTrainMap {
 
         public static int rightLeaderCanID = 1;
-        public static int rightFollowerCanID = 2;
+        public static int rightFollowerCanID = 2;        
         public static int leftLeaderCanID = 4;
         public static int leftFollowerCanID = 3;
       
@@ -79,7 +79,7 @@ public class RobotMap {
             (i) -> i > 8 ? 1 : i / 8;
     }
 
-    public static class LoaderMap {
+     public static class LoaderMap {
         public static int topBeltCanId = 9; //9
         public static int bottomBeltCanId = 7; //7 
         public static double beltSpeed = .2;
@@ -98,6 +98,6 @@ public class RobotMap {
         public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
         public static double sweepConstant = 2.5;
     }
-
+    
     public static class CameraMap {}
 }

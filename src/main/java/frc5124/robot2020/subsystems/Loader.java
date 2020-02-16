@@ -14,8 +14,6 @@ import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
@@ -33,13 +31,10 @@ public class Loader implements Subsystem {
     bottomBeltMotor.setInverted(true);
   }
 
-  public void setPower(double power){
+  public void setDirectPower(double power){
     topBeltMotor.set(power);
   }
-  
-  public void runBelt() {
-    topBeltMotor.set(1);
-  }
+
   public void stopBelt() {    
     topBeltMotor.set(0);
   }
@@ -58,7 +53,7 @@ public class Loader implements Subsystem {
 
   public void runLoader() {
     if(!seeBall()){
-      runBelt();
+      setDirectPower(1);
     }
     else{
       stopBelt();
@@ -69,7 +64,6 @@ public class Loader implements Subsystem {
     topBeltMotor.set(-1);
   }
 
-  //This was here when I started so I left it that way.
   @Override
   public void periodic() {
     SmartDashboard.updateValues();
