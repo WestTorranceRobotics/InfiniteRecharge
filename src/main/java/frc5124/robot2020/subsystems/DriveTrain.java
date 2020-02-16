@@ -103,7 +103,12 @@ public class DriveTrain implements Subsystem {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right);   
+        double velocityLeft = left * 2048 * (250/600);
+        double velocityRight = right * 2048 * (250/600);
+
+        rightLeader.set(ControlMode.Velocity, velocityRight);
+        leftLeader.set(ControlMode.Velocity, velocityLeft);
+
      }
 
     public void arcadeDrive(double speed, double turn) {
@@ -180,4 +185,9 @@ public class DriveTrain implements Subsystem {
             rightLeader.getSelectedSensorVelocity() * 10 * INCHES_PER_TICK
         );
     }
+
+	public DifferentialDriveKinematics getKinematics() {
+		return kinematics;
+    }
+    
 }

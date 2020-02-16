@@ -17,22 +17,27 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.AutonomousCommand;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.LoaderAndIntakeGroup;
@@ -49,14 +54,12 @@ import frc5124.robot2020.subsystems.*;
 
 //import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
-
-
-
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
-  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
 
@@ -65,15 +68,14 @@ public class RobotContainer {
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
-  private Shooter shooter; 
+  private Shooter shooter;
   private Turret turret;
   private Loader loader;
 
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
-  
-  
+
   public JoystickButton operatorA = new JoystickButton(operator, 1);
   public JoystickButton operatorB = new JoystickButton(operator, 2);
   public JoystickButton operatorX = new JoystickButton(operator, 3);
@@ -86,16 +88,20 @@ public class RobotContainer {
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
-  
- 
+
   public final JoystickButton panelControllerDeployer = new JoystickButton(operator, XboxController.Button.kA.value);
   public final JoystickButton rotationControl = new JoystickButton(operator, XboxController.Button.kB.value);
   public final JoystickButton positionControl = new JoystickButton(operator, XboxController.Button.kX.value);
-  
+
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
 
+  DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(RobotMap.DriveTrainMap.ksVolts, RobotMap.DriveTrainMap.kvVoltSecondsPerInches,RobotMap.DriveTrainMap.kaVoltSecondsSquaredPerInches
+  ), driveTrain.getKinematics(), 10);
 
+  TrajectoryConfig config = new TrajectoryConfig(RobotMap.DriveTrainMap.kMaxSpeedInchesPerSecond, RobotMap.DriveTrainMap.kMaxAccelerationInchesPerSecondSquared).setKinematics(driveTrain.getKinematics()).addConstraint(autoVoltageConstraint);
+
+  Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(10, 5), new Translation2d(10, 10)), new Pose2d(0, 10, new Rotation2d(0)), config);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -191,6 +197,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new ZoomZoom(path, driveTrain);
   }
 }
