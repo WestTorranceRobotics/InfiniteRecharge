@@ -32,6 +32,7 @@ public class SetShootRPM extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //m_shooter.startShooter();
    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
   }
   // Returns true when the command should end.

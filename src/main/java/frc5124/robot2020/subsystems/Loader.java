@@ -52,7 +52,7 @@ public class Loader implements Subsystem {
   }
 
   public void reverseBelt(){
-    topBeltMotor.set(-1);
+    topBeltMotor.set(-.6);
   }
 
   

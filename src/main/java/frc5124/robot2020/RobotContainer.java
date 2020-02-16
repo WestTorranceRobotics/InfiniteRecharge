@@ -70,7 +70,6 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
-  
   public JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
   public JoystickButton operatorB = new JoystickButton(operator, XboxController.Button.kB.value);
   public JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
@@ -116,13 +115,13 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     //operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
-    operatorB.whileHeld(new RunLoader(loader));
+    operatorY.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
     // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
     // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
+    operatorRB.whenPressed(new SetShootRPM(shooter));
     operatorLB.whileHeld(new setShootPower(shooter));
-  //  operatorRB.whileHeld(new InstantCommand(() -> shooter.directPower(1), shooter));
   }
 
   private void configureDefaultCommands(){
