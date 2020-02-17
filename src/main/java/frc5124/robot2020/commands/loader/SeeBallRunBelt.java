@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
 
 public class SeeBallRunBelt extends CommandBase {
-
+  double prevrotation = 0;
   private Loader m_Loader;
 
   public SeeBallRunBelt(Loader subsystem) {
@@ -31,9 +31,14 @@ public class SeeBallRunBelt extends CommandBase {
   public void execute() {
     if (m_Loader.seeBall()) {
       m_Loader.runBelt();
-    } else {
-      m_Loader.stopBelt();
-     // isDone = true;
+      if (prevrotation != m_Loader.returnRotations()){
+        prevrotation++;
+      }
+      if (prevrotation >= 26) {
+        m_Loader.stopBelt();
+        prevrotation = 0;
+        ;
+      }
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
