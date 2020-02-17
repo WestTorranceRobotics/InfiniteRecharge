@@ -118,10 +118,8 @@ public class RobotContainer {
     operatorY.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
-    // operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    // operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    operatorRB.whenPressed(new SetShootRPM(shooter));
-    operatorLB.whileHeld(new setShootPower(shooter));
+    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
+    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
   }
 
   private void configureDefaultCommands(){
@@ -169,6 +167,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup();
+    return new DriveForTime(driveTrain, 5);
   }
 }

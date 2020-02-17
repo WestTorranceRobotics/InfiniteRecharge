@@ -7,31 +7,45 @@
 
 package frc5124.robot2020.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.Loader;
 
-public class setShootPower extends CommandBase {
+public class ShootFromTrench extends CommandBase {
   private Shooter m_shooter;
+  //private Loader m_loader;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public setShootPower (Shooter shooter) {
+  public ShootFromTrench (Shooter shooter, Loader loader) {
     m_shooter = shooter;
+    //m_loader = loader;
+    //addRequirements(m_loader);
     addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.directPower(0);
+    m_shooter.startShooter(RobotMap.ShooterMap.trenchShootRPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+    //if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-50 && m_loader.getAppliedOutput() == 0) {
+    //   m_loader.runBelt();
+    // } 
+    SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
+    SmartDashboard.putNumber("SHOOTYCcurrent", m_shooter.getCurrent());
+    SmartDashboard.putNumber("SHOOTYVoltage", m_shooter.getVoltage());
+    SmartDashboard.updateValues();
+   
   }
   // Returns true when the command should end.
     @Override
@@ -42,7 +56,7 @@ public class setShootPower extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.directPower(0);
+    m_shooter.stopShooter();
   }
   
 }

@@ -41,13 +41,20 @@ public class Shooter implements Subsystem {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
+    SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
+    SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
+    SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
   }
 
   public int getBallsShot() {
     return ballsShot;
   }
 
-  public void resetBallCount() {
+  public double getCurrent() {
+    return shootMotorLeader.getOutputCurrent();
+  }
+
+  public void resetBallsShot() {
     ballsShot = 0;
   }
 
@@ -63,6 +70,12 @@ public class Shooter implements Subsystem {
     shootPID.setFF(RobotMap.ShooterMap.Kf);
   }
 
+  public void updatePID() {
+    shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
+    shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
+    shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
+  }
+
   /**
    * @param targetRPM desired RPM of shooter
    */
@@ -72,7 +85,8 @@ public class Shooter implements Subsystem {
   }
 
   public void startShooter(double rpm) {
-    enablePID();
+    //enablePID();
+    updatePID();
     shootPID.setReference(rpm, ControlType.kVelocity);
   }
 
@@ -86,6 +100,10 @@ public class Shooter implements Subsystem {
  */
   public double getVelocity() {
     return (shootMotorLeader.getEncoder().getVelocity() / RobotMap.ShooterMap.gearRatio); 
+   }
+
+   public double getVoltage() {
+     return shootMotorLeader.getBusVoltage();
    }
   
    public void atSpeed(boolean atSpeed) {
