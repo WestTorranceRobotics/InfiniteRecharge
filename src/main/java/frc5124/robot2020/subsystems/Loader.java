@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.I2C;
@@ -32,8 +31,7 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    topBeltMotor.setIdleMode(IdleMode.kBrake);
-    bottomBeltMotor.setIdleMode(IdleMode.kBrake);
+    
   }
 
   public void setPower(double power){
@@ -41,21 +39,15 @@ public class Loader implements Subsystem {
   }
   
   public void runBelt() {
-    topBeltMotor.set(RobotMap.LoaderMap.beltSpeed);
+    topBeltMotor.set(1);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
   }
 
-  public double getAppliedOutput() {
-    return topBeltMotor.getAppliedOutput();
-  }
-
   public void reverseBelt(){
-    topBeltMotor.set(-.6);
+    topBeltMotor.set(-1);
   }
-
-  
 
   public double getVoltage() {
     return motionSensor.getVoltage();
@@ -65,6 +57,9 @@ public class Loader implements Subsystem {
     return (getVoltage() < RobotMap.LoaderMap.fieldEmptyVoltage);
   }
 
+  public double returnRotations() {
+    return topBeltMotor.getEncoder().getPosition();
+  }
   public void runLoader() {
     if(!seeBall()){
       runBelt();
@@ -78,10 +73,7 @@ public class Loader implements Subsystem {
     topBeltMotor.set(-1);
   }
 
-  public double getEncoder() {
-    return topBeltMotor.getEncoder().getPosition();
-  }
-
+  //This was here when I started so I left it that way.
   @Override
   public void periodic() {
     SmartDashboard.updateValues();
