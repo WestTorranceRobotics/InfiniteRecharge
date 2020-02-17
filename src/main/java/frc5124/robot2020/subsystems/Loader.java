@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.I2C;
@@ -22,19 +23,16 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 public class Loader implements Subsystem {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
-  AnalogInput sensor = new AnalogInput(1);
-  private static final double fieldEmptyVoltage = 1.0;
-  double beltSpeed = 0.8;
+  AnalogInput motionSensor = new AnalogInput(RobotMap.LoaderMap.motionSensorID);
   
-  public Loader() {
-    topBeltMotor = new CANSparkMax(RobotMap.Loader.topBeltCanId, MotorType.kBrushless);
-    bottomBeltMotor = new CANSparkMax(RobotMap.Loader.bottomBeltCanId, MotorType.kBrushless);
-    bottomBeltMotor.follow(topBeltMotor);
-    bottomBeltMotor.setInverted(true);
+  public Loader() { 
+    topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
+    bottomBeltMotor = new CANSparkMax(RobotMap.LoaderMap.bottomBeltCanId, MotorType.kBrushless);
     topBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.restoreFactoryDefaults();
-    // SmartDashboard.putNumber("Ultrasonic Sensor Voltage", getVoltage());
-    // SmartDashboard.putBoolean("Ultrasonic Sensor sees ball", seeBall());
+    bottomBeltMotor.follow(topBeltMotor);
+    bottomBeltMotor.setInverted(true);
+    
   }
 
   public void setPower(double power){
@@ -42,21 +40,27 @@ public class Loader implements Subsystem {
   }
   
   public void runBelt() {
-    topBeltMotor.set(beltSpeed);
+    topBeltMotor.set(1);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
   }
 
-  //This is the hasBall function. It assumes that the ultrasonicsensor is placed level with the top belt and is facing down
+  public void reverseBelt(){
+    topBeltMotor.set(-1);
+  }
+
   public double getVoltage() {
-    return sensor.getVoltage();
+    return motionSensor.getVoltage();
   }
 
   public boolean seeBall() {
-    return (getVoltage() < fieldEmptyVoltage);
+    return (getVoltage() < RobotMap.LoaderMap.fieldEmptyVoltage);
   }
 
+  public double returnRotations() {
+    return topBeltMotor.getEncoder(EncoderType.kHallSensor, 42).getCountsPerRevolution();
+  }
   public void runLoader() {
     if(!seeBall()){
       runBelt();
@@ -66,10 +70,13 @@ public class Loader implements Subsystem {
     }
   }
 
+  public void flushOut() {
+    topBeltMotor.set(-1);
+  }
+
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
     SmartDashboard.updateValues();
   }
-  
 }
