@@ -8,6 +8,7 @@
 package frc5124.robot2020.subsystems;
 
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorSensorV3.RawColor;
 import com.revrobotics.CANSparkMax;
@@ -44,6 +45,18 @@ public class PanelController implements Subsystem {
     matcher.addColorMatch(PanelColor.YELLOW.color());
     matcher.addColorMatch(PanelColor.GREEN.color());
     matcher.addColorMatch(PanelColor.RED.color());
+  }
+
+  public double getMotorVoltage(){
+    return spinnerMotor.getBusVoltage();
+  }
+  
+  public double getMotorCurrent(){
+    return spinnerMotor.getOutputCurrent();
+  }
+
+  public double getMotorPosition(){
+    return spinnerMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
   }
 
   @Override

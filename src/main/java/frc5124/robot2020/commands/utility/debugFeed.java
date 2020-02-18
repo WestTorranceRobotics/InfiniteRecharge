@@ -24,6 +24,7 @@ public class debugFeed extends CommandBase {
   private Intake intake;
   private Hanger hanger;
   private Camera camera;
+  private Loader loader;
  
   public ShuffleboardTab turretDebug; 
   public ShuffleboardTab panelControllerDebug; 
@@ -35,8 +36,16 @@ public class debugFeed extends CommandBase {
   public ShuffleboardTab cameraDebug;
   public ShuffleboardTab limeLightDebug;
 
-  public debugFeed(int[] debugGet, Shooter shooter, Turret turret, PanelController panelController, DriveTrain driveTrain, Intake intake, Hanger hanger, Camera camera) {
+  public debugFeed(int[] debugGet, Shooter shooter, Turret turret, PanelController panelController, DriveTrain driveTrain, Intake intake, Hanger hanger, Camera camera, Loader loader) {
     this.debugGet = debugGet;
+    this.shooter = shooter;
+    this.turret = turret;
+    this.panelController = panelController;
+    this.driveTrain = driveTrain;
+    this.intake = intake;
+    this.hanger = hanger;
+    this.loader = loader;
+    this.camera = camera;
   }
 
   @Override
@@ -85,39 +94,26 @@ public class debugFeed extends CommandBase {
       shooterDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
     }
     if (debugGet[2] == 1) {
-      panelControllerDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      panelControllerDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      panelControllerDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      panelControllerDebug.addNumber("Null", () -> 0);
     }
     if (debugGet[3] == 1) {
-      loaderDebug.addNumber("Motor Rpm", () -> turret.getDegrees() );
-      loaderDebug.addNumber("Motor Current", () -> turret.getCurrent());
-      loaderDebug.addNumber("Motor Voltage", () -> turret.getVoltage() );
+      loaderDebug.addNumber("Top Motor Voltage", () -> loader.getVoltage() );
     }
     if (debugGet[4] == 1) {
-      intakeDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      intakeDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      intakeDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      intakeDebug.addNumber("Null", () -> 0);
     }
     if (debugGet[5] == 1) {
-      hangerDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      hangerDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      hangerDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      hangerDebug.addNumber("Null", () -> 0);
     }
     if (debugGet[6] == 1) {
-      driveTrainDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      driveTrainDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      driveTrainDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      driveTrainDebug.addNumber("Null", () -> 0);
     }
     if (debugGet[7] == 1) {
-      cameraDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      cameraDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      cameraDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      cameraDebug.addNumber("Null", () -> 0);
     }
     if (debugGet[8] == 1) {
-      limeLightDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
-      limeLightDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      limeLightDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      limeLightDebug.addNumber("null", () -> 0);
     }
+    Shuffleboard.update();
   }
 }
