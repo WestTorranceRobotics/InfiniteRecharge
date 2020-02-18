@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
 
 public class SeeBallRunBelt extends CommandBase {
-  double dylandummythicc = 0;
-  double no = 0;
+  private double timedelay = 0;
+  private double num = 0;
   private Loader m_Loader;
+  private boolean finished;
 
   public SeeBallRunBelt(Loader subsystem) {
     m_Loader = subsystem;
@@ -25,6 +26,7 @@ public class SeeBallRunBelt extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,13 +34,14 @@ public class SeeBallRunBelt extends CommandBase {
   public void execute() {
     if (m_Loader.seeBall()) {
       m_Loader.runBelt();
-      if (no < m_Loader.returnRotations()) {
-        dylandummythicc++;
-        no++;
+      if (num < m_Loader.returnRotations()) {
+        timedelay++;
+        num++;
       }
-      if (dylandummythicc >= 26) {
+      if (timedelay >= 26) {
         m_Loader.stopBelt();
-        dylandummythicc = 0;
+        timedelay = 0;
+        finished = true;
       }
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
@@ -53,7 +56,7 @@ public class SeeBallRunBelt extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 
 }
