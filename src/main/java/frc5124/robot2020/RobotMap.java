@@ -50,14 +50,14 @@ public class RobotMap {
     public static class IntakeMap {
         public static final double motorPower = 0.5;
         public static final int rollerCanId = 14; //14
-        public static final int intakeSolenoid = 1;
+        public static final int intakeSolenoid = 2;
     }
 
     public static class HangerMap {
         public static final double hangerMotor = 0.8;   
         public static final double hangerHalt = 0.0;
         public static final int hangerCanID = 5;
-        public static final int hangerSolenoid = 2;
+        public static final int hangerSolenoid = 1;
         public static final int topLimitChannelID = 1;                
         public static final int bottomLimitChannelID = 2;             
         public static final int shootFollowerCanID = 6;
@@ -86,7 +86,7 @@ public class RobotMap {
     public static class LoaderMap {
         public static final int topBeltCanId = 9; //9
         public static final int bottomBeltCanId = 12; 
-        public static final double beltSpeed = .5;
+        public static final double beltSpeed = .3;
         public static final double fieldEmptyVoltage = 1.0;
         public static final int motionSensorID = 1;
         public static final double motorRotationsPerBall = 10;

@@ -31,17 +31,8 @@ public class SeeBallRunBelt extends CommandBase {
   public void execute() {
     if (m_Loader.seeBall()) {
       m_Loader.runBelt();
-      if (m_Loader.returnRotations() % 26 == 0) {
-        m_Loader.stopBelt();
-        m_Loader.runBelt();
-        try {
-          wait(10);
-        } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        m_Loader.stopBelt();
-      }
+    } else {
+      m_Loader.stopBelt();
     }
     // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }

@@ -17,7 +17,7 @@ public class Intake implements Subsystem {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
       rollerSpeedController = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
-      rollerSpeedController.setInverted(false);
+      rollerSpeedController.setInverted(true);
       deployed = false;         // pivot is up 
       rollerSpeedController.setIdleMode(IdleMode.kBrake);
 

@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc5124.robot2020.commands.utility.debugFeed;
 
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.runpos.*;
@@ -45,6 +46,7 @@ import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
+import frc5124.robot2020.commands.utility.debugFeed;
 
 import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
@@ -58,12 +60,12 @@ import frc5124.robot2020.subsystems.PanelController.OutputColor;
 public class RobotContainer {
 
   private Camera camera;
-  //private PanelController panelController;
+  private PanelController panelController;
   private Intake intake;
-  //private Hanger hanger;
+  private Hanger hanger;
   private DriveTrain driveTrain;
   private Shooter shooter; 
-  //private Turret turret;
+  private Turret turret;
   private Loader loader;
 
   public static final Joystick driverLeft = new Joystick(0);
@@ -89,6 +91,18 @@ public class RobotContainer {
   
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
+  
+  private int[] debugGet = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  private boolean debugGetTurret = false;
+  private boolean debugGetCamera = false;
+  private boolean debugGetDriveTrain = false;
+  private boolean debugGetHanger = false;
+  private boolean debugGetIntake = false;
+  private boolean debugGetLoader = false;
+  private boolean debugGetPanelController = false;
+  private boolean debugGetShooter = false;
+  private boolean debugGetLimelight = false;
+  private boolean debugEnabled = true;
 
   public RobotContainer() {
     configureSubsystems();
@@ -99,20 +113,20 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    // camera = new Camera();
-    //panelController = new PanelController();
+    camera = new Camera();
+    panelController = new PanelController();
     intake = new Intake();
-    //hanger = new Hanger();
+    hanger = new Hanger();
     loader = new Loader();
     driveTrain = new DriveTrain();
     shooter = new Shooter();
-    // turret = new Turret();
+    turret = new Turret();
   }
 
   private void configureButtonBindings(){
     operatorBack.whileHeld(new SetIntakePower(intake, -.6));
     operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
-    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    operatorX.toggleWhenPressed(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     //operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
     operatorY.whileHeld(new RunLoader(loader));
@@ -129,7 +143,9 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    
+    new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera );
+
+ 
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
@@ -168,5 +184,21 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new DriveForTime(driveTrain, 5);
+  }
+
+  public int[] debugInit(boolean debug) {
+    if(debug) {
+    if (debugGetTurret) {debugGet[0] = 1;}
+    if (debugGetShooter) {debugGet[1] = 1;}
+    if (debugGetPanelController) {debugGet[2] = 1;}
+    if (debugGetLoader) {debugGet[3] = 1;}
+    if (debugGetIntake) {debugGet[4] = 1;}
+    if (debugGetHanger) {debugGet[5] = 1;}
+    if (debugGetDriveTrain) {debugGet[6] = 1;}
+    if (debugGetCamera) {debugGet[7] = 1;}
+    if (debugGetLimelight) {debugGet[8] = 1;}
+    if (debugGetDriveTrain) {debugGet[9] = 1;}
+    }
+    return debugGet;
   }
 }

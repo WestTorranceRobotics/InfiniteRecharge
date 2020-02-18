@@ -37,7 +37,7 @@ public class ShooterAndLoaderRev extends WaitCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-50) {
+    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-20) {
       m_loader.runBelt();
     }
   }

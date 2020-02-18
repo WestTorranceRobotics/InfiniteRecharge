@@ -9,7 +9,7 @@ package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc5124.robot2020.commands.shooter.ShooterAndLoader;
+import frc5124.robot2020.commands.shooter.ShootFromTrench;
 import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
 import frc5124.robot2020.subsystems.Turret;
 import frc5124.robot2020.subsystems.Loader;
