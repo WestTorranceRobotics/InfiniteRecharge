@@ -92,7 +92,10 @@ public class RobotContainer {
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
   
-  private int[] debugGet = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  /**
+   * send debug information to shuffleboard for given subsystems
+   */
+  private boolean debugEnabled = true;
   private boolean debugGetTurret = false;
   private boolean debugGetCamera = false;
   private boolean debugGetDriveTrain = false;
@@ -102,7 +105,8 @@ public class RobotContainer {
   private boolean debugGetPanelController = false;
   private boolean debugGetShooter = false;
   private boolean debugGetLimelight = false;
-  private boolean debugEnabled = true;
+  private int[] debugGet = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+ 
 
   public RobotContainer() {
     configureSubsystems();
@@ -197,7 +201,6 @@ public class RobotContainer {
     if (debugGetDriveTrain) {debugGet[6] = 1;}
     if (debugGetCamera) {debugGet[7] = 1;}
     if (debugGetLimelight) {debugGet[8] = 1;}
-    if (debugGetDriveTrain) {debugGet[9] = 1;}
     }
     return debugGet;
   }

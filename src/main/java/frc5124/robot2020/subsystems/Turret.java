@@ -80,6 +80,14 @@ public class Turret implements Subsystem {
     turretMotor.setIdleMode(IdleMode.kBrake);
   }
 
+  public double getVoltage(){
+    return turretMotor.getBusVoltage();
+  }
+
+  public double getCurrent() {
+    return turretMotor.getOutputCurrent();
+  }
+
   /**
    * Enables turret PID for automatic control
    */
