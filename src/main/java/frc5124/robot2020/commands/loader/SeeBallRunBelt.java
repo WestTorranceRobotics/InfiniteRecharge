@@ -44,7 +44,7 @@ public class SeeBallRunBelt extends CommandBase {
         finished = true;
       }
     }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
+    // 26 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.
