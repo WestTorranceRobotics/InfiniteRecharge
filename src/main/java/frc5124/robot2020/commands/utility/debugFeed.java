@@ -86,30 +86,56 @@ public class debugFeed extends CommandBase {
     if (debugGet[0] == 1) {
       turretDebug.addNumber("Motor Rpm", () -> turret.getDegrees() );
       turretDebug.addNumber("Motor Current", () -> turret.getCurrent());
-      turretDebug.addNumber("Motor Voltage", () -> turret.getVoltage() );
+      turretDebug.addNumber("P", () -> 0);
+      turretDebug.addNumber("I", () -> 0);
+      turretDebug.addNumber("D", () -> 0);
+      turretDebug.addNumber("F", () -> 0);
+      turretDebug.addNumber("Izone", () -> 0);
+      turretDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[1] == 1) {   
       shooterDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
       shooterDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
-      shooterDebug.addNumber("Motor Voltage", () -> shooter.getVoltage() );
+      shooterDebug.addNumber("Ball Count", () -> 0);
+      shooterDebug.addNumber("P", () -> 0);
+      shooterDebug.addNumber("I", () -> 0);
+      shooterDebug.addNumber("D", () -> 0);
+      shooterDebug.addNumber("F", () -> 0);
+      shooterDebug.addNumber("Izone", () -> 0);
+      shooterDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[2] == 1) {
-      panelControllerDebug.addNumber("Null", () -> 0);
+      panelControllerDebug.addBoolean("Deployed", () -> panelController.isDeployed());
     }
     if (debugGet[3] == 1) {
-      loaderDebug.addNumber("Top Motor Voltage", () -> loader.getVoltage() );
+      loaderDebug.addNumber("Sensor Voltage", () -> loader.getVoltage() );
+      loaderDebug.addNumber("Top Motor Current", () -> loader.topBeltCurrent() );
+      loaderDebug.addNumber("Bottom Motor Current", () -> loader.bottomBeltCurrent() );
     }
     if (debugGet[4] == 1) {
-      intakeDebug.addNumber("Null", () -> 0);
+      intakeDebug.addNumber("Intake Motor Current", () -> intake.getIntakeMotorCurrent() );
+      intakeDebug.addBoolean("Intake Deployed", () -> intake.isDeployed() );
     }
     if (debugGet[5] == 1) {
-      hangerDebug.addNumber("Null", () -> 0);
+      hangerDebug.addNumber("Hanger Motor Current", () -> hanger.getHangerMotorCurrent());
+      hangerDebug.addBoolean("Top Limit", () -> hanger.reachedTopLimit());
+      hangerDebug.addBoolean("Bottom Limit", () -> hanger.reachedBottomLimit());
     }
     if (debugGet[6] == 1) {
-      driveTrainDebug.addNumber("Null", () -> 0);
+      driveTrainDebug.addNumber("X - Feet", () -> driveTrain.getLocation().getTranslation().getX());
+      driveTrainDebug.addNumber("Y - Feet", () -> driveTrain.getLocation().getTranslation().getY());
+      driveTrainDebug.addNumber("Left Motor Current", () -> driveTrain.getLeftPower());
+      driveTrainDebug.addNumber("Right Motor Current", () -> driveTrain.getRightPower());
+      driveTrainDebug.addNumber("P", () -> 0);
+      driveTrainDebug.addNumber("I", () -> 0);
+      driveTrainDebug.addNumber("D", () -> 0);
+      driveTrainDebug.addNumber("F", () -> 0);
+      driveTrainDebug.addNumber("Izone", () -> 0);
+      driveTrainDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[7] == 1) {
       cameraDebug.addNumber("Null", () -> 0);
+      //cameraDebug.add(video)
     }
     if (debugGet[8] == 1) {
       limeLightDebug.addNumber("null", () -> 0);

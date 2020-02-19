@@ -33,6 +33,10 @@ public class Hanger implements Subsystem {
     SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
     SmartDashboard.updateValues();
   }
+
+  public double getHangerMotorCurrent() {
+    return hangerMotor.getStatorCurrent();
+  }
    
   public void liftUp() {
     if (reachedTopLimit()) {

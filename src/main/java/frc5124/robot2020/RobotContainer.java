@@ -96,15 +96,15 @@ public class RobotContainer {
    * send debug information to shuffleboard for given subsystems
    */
   private boolean debugEnabled = true;
-  private boolean debugGetTurret = false;
-  private boolean debugGetCamera = false;
-  private boolean debugGetDriveTrain = false;
-  private boolean debugGetHanger = false;
-  private boolean debugGetIntake = false;
-  private boolean debugGetLoader = false;
-  private boolean debugGetPanelController = false;
-  private boolean debugGetShooter = false;
-  private boolean debugGetLimelight = false;
+  private boolean debugGetTurret = true;
+  private boolean debugGetCamera = true;
+  private boolean debugGetDriveTrain = true;
+  private boolean debugGetHanger = true;
+  private boolean debugGetIntake = true;
+  private boolean debugGetLoader = true;
+  private boolean debugGetPanelController = true;
+  private boolean debugGetShooter = true;
+  private boolean debugGetLimelight = true;
   private int[] debugGet = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
  
 
@@ -136,6 +136,8 @@ public class RobotContainer {
     operatorY.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
+    operatorRight.whileHeld(new SweepTurretPID(turret, true));
+    operatorLeft.whileHeld(new SweepTurretPID(turret, true));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
   }
@@ -147,13 +149,14 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera );
+    new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera, loader);
 
  
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d) {
     return new GyroBase(){
+
       @Override public void close() {}
       @Override public void reset() {}
       @Override public double getRate() {return 0;}

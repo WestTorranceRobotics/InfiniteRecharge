@@ -93,8 +93,8 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static final int turretCanID = 10; 
-        public static final double turretSpeed = .2;
+        public static final int turretCanID = 13; 
+        public static final double turretSpeed = .1;
         public static final double Kp = 0.050000; 
         public static final double Ki = 0.000350;
         public static final double Kd = 0;

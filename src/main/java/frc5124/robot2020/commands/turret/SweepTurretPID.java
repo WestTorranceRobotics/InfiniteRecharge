@@ -9,40 +9,62 @@ package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class RotateTurret extends CommandBase {
+public class SweepTurretPID extends CommandBase {
   private Turret turret;
-  private double power;
+  private double currentDegrees;
+  private boolean clockwise;
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new setTurretDegrees.
    */
-  public RotateTurret(Turret subsystem, double power) {
+  public SweepTurretPID(Turret subsystem, boolean clockwise) {
     turret = subsystem;
     addRequirements(turret);
-    this.power = power;
+    this.clockwise = clockwise;
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.directPower(power);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    SmartDashboard.putNumber("Degrees", turret.getDegrees());
-    SmartDashboard.updateValues();
+    if(!turret.limitReached()) {
+    currentDegrees = turret.getDegrees();
+    if (clockwise) {
+      turret.setTurretDegrees(currentDegrees + 1);
+    } else if (!clockwise){
+      turret.setTurretDegrees(currentDegrees - 1);
+    }
+  }
+
+    if (!turret.limitReached()) {
+    if (turret.getDegrees() > 170) {
+      turret.limitReached(true);
+      turret.setTurretDegrees(-165);
+    } else if (turret.getDegrees() < -170) {
+      turret.limitReached(true);
+      turret.setTurretDegrees(165);
+    }
+
+    
+    if(turret.limitReached()){
+    if ((turret.getDegrees() > 160 && turret.getDegrees() < 166)|| (turret.getDegrees() < -160 && turret.getDegrees() > -166)) {
+      turret.limitReached(false);
+    }
+    }
+
+  }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.directPower(0);
-    //turret.enableTurretPID();
   }
 
   // Returns true when the command should end.

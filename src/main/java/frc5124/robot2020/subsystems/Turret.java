@@ -26,7 +26,8 @@ public class Turret implements Subsystem {
   private CANSparkMax turretMotor;
   private CANPIDController turretPID;
   private double startDegrees = 0;
-  public Boolean limitReached = false;
+  private boolean limitReached = false;
+  
   // private DigitalInput magneticSensor;
   // private DigitalOutput mDigitalOutput;
   
@@ -34,35 +35,28 @@ public class Turret implements Subsystem {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
-    setCoast();
-    turretPID.setP(RobotMap.TurretMap.Kp);
-    turretPID.setI(RobotMap.TurretMap.Ki);
-    turretPID.setIZone(RobotMap.TurretMap.KiZone);
-    turretPID.setReference(0, ControlType.kPosition);
     startDegrees = getDegrees();
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,  (float) 31.5);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) 31.5); // TODO should set soft limits during homing
-
-    //Code used for PID Tuning
-
-    // SmartDashboard.putNumber("P", .04);
-    // SmartDashboard.putNumber("I", 0);
-    // SmartDashboard.putNumber("D", 0);
-    // SmartDashboard.putNumber("IZONE", 0);
+    setBrake();
   }
 
-  //Code used for PID Tuning
+  public boolean limitReached() {
+    return this.limitReached;
+  }
 
-  // public void updateCoeffs() {
-  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
-  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
-  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
-  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
-  // }
+  public void limitReached(boolean limitReached) {
+    this.limitReached = limitReached;
+  } 
 
   public void setTurretDegrees(double degrees) {
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
+
+  public void kosherKontainer() {
+    
+
+    
+  }
+
   /**
    * Disables turret PID for manual control
    */
@@ -127,14 +121,12 @@ public class Turret implements Subsystem {
     return turretMotor;
   }
 
-  private boolean limitReached() {
-    return true;
-  }
   // public DigitalInput getMagnetSensor(){
   //   return magneticSensor;
   // }
 
   @Override
   public void periodic() {
+    
   }
 } 

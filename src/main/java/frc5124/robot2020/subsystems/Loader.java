@@ -59,6 +59,14 @@ public class Loader implements Subsystem {
     return motionSensor.getVoltage();
   }
 
+  public double topBeltCurrent() {
+    return topBeltMotor.getOutputCurrent();
+  }
+
+  public double bottomBeltCurrent() {
+    return bottomBeltMotor.getOutputCurrent();
+  }
+
   public boolean seeBall() {
     return (getVoltage() < RobotMap.LoaderMap.fieldEmptyVoltage);
   }

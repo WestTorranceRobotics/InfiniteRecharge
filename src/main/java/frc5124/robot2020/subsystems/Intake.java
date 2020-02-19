@@ -37,6 +37,10 @@ public class Intake implements Subsystem {
     return deployed;
   }
 
+  public double getIntakeMotorCurrent() {
+    return rollerSpeedController.getOutputCurrent();
+  }
+
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
   }

@@ -131,7 +131,15 @@ public class DriveTrain implements Subsystem {
         rightLeader.set(power);
         leftLeader.set(power);
     }
-     
+
+    public double getRightPower() {
+        return rightLeader.getStatorCurrent();
+    }
+
+    public double getLeftPower() {
+        return leftLeader.getStatorCurrent();
+    }
+    
     public WPI_TalonFX getLeftLeader(){
         return leftLeader;
     }
