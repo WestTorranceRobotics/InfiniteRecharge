@@ -7,6 +7,7 @@
 
 package frc5124.robot2020.commands.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
@@ -28,6 +29,7 @@ public class DriveToPoint extends CommandBase {
   double countsPerInch = 1082;
   double targetCounts = (countsPerInch * distanceToDrive);
 
+  /*
   public void turnToAngle(){
     if (angleToTurn < 0) { // if angle is neg (clockwise [think of unit circle] right? idk i think so)
       if (m_DriveTrain.getGyroDegree() <= Math.abs(angleToTurn)) { //if gyro angle has not been reached
@@ -41,6 +43,7 @@ public class DriveToPoint extends CommandBase {
     }
     m_DriveTrain.directPower(0);
   }
+  */
 
   public void driveStraightToPoint(){ // after it figures out the angle, it should just drive straight
     if (m_DriveTrain.leftEncoder() <= targetCounts){ // if the encoder counts dont match yet then run
@@ -53,6 +56,13 @@ public class DriveToPoint extends CommandBase {
     */
   }
 
+  public void updateSmartDashboard(){
+    SmartDashboard.putNumber("the angle", angleToTurn);
+    SmartDashboard.putNumber("target encoder val", targetCounts);
+    SmartDashboard.putNumber("encoder val now", m_DriveTrain.leftEncoder());
+    SmartDashboard.updateValues();
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -62,7 +72,7 @@ public class DriveToPoint extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turnToAngle();
+  //  turnToAngle();
     driveStraightToPoint();    
   }
 

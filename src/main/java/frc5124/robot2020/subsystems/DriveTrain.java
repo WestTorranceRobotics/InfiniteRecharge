@@ -35,7 +35,7 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
-    private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
+    private boolean calibrated = false;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
     private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
@@ -74,13 +74,16 @@ public class DriveTrain implements Subsystem {
         odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
 
-        gyro.reset();
-        gyro.zeroYaw();
-    }
+}
 
     @Override
     public void periodic() {
         //the following is test code**********************************the following is test code
+        if(!gyro.isCalibrating() && calibrated == false){
+            calibrated = true;
+            gyro.reset();
+            gyro.zeroYaw();
+        }
 
         double r = rightLeader.getSelectedSensorPosition();
         double l = leftLeader.getSelectedSensorPosition();
@@ -101,7 +104,7 @@ public class DriveTrain implements Subsystem {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,right);   
+        differentialDrive.tankDrive(left,right,false);   
      }
 
     public void arcadeDrive(double speed, double turn) {
@@ -120,8 +123,16 @@ public class DriveTrain implements Subsystem {
         return TICK_PER_INCHES;
     }
 
+    public DifferentialDriveKinematics getKinematics(){
+        return kinematics;
+    }
+
     public void directPower(double power){
         rightLeader.set(power);
+        leftLeader.set(power);
+    }
+
+    public void setLeftPower(double power){
         leftLeader.set(power);
     }
      
@@ -140,9 +151,6 @@ public class DriveTrain implements Subsystem {
 
     public Pose2d getLocation() {
         return odometry.getPoseMeters();
-    }
-    public PIDController getPID(){
-        return angleController;
     }
 
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
@@ -186,6 +194,10 @@ public class DriveTrain implements Subsystem {
     public void setPower(double power){
         leftLeader.set(power);
         rightLeader.set(power);
+    }
+
+    public void resetEncoder(){
+        leftLeader.setSelectedSensorPosition(0);
     }
 
 }
