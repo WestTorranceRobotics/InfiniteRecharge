@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.utility;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,9 +53,21 @@ public class debugFeed extends CommandBase {
   public void initialize() {   
     if (debugGet[0] == 1) {
       this.turretDebug = Shuffleboard.getTab("Turret Debug");
+      turretDebug.addNumber("P", () -> 0);
+      turretDebug.addNumber("I", () -> 0);
+      turretDebug.addNumber("D", () -> 0);
+      turretDebug.addNumber("F", () -> 0);
+      turretDebug.addNumber("Izone", () -> 0);
+      turretDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[1] == 1) {   
       this.shooterDebug = Shuffleboard.getTab("Shooter Debug");
+      shooterDebug.addNumber("P", () -> 0);
+      shooterDebug.addNumber("I", () -> 0);
+      shooterDebug.addNumber("D", () -> 0);
+      shooterDebug.addNumber("F", () -> 0);
+      shooterDebug.addNumber("Izone", () -> 0);
+      shooterDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[2] == 1) {
       this.panelControllerDebug = Shuffleboard.getTab("Panel Debug");
@@ -63,13 +76,19 @@ public class debugFeed extends CommandBase {
       this.loaderDebug = Shuffleboard.getTab("Loader Debug");
     }
     if (debugGet[4] == 1) {
-      this.intakeDebug = Shuffleboard.getTab("Intake Debug");
+      intakeDebug = Shuffleboard.getTab("Intake Debug");
     }
     if (debugGet[5] == 1) {
       this.hangerDebug = Shuffleboard.getTab("Hanger Debug");
     }
     if (debugGet[6] == 1) {
       this.driveTrainDebug = Shuffleboard.getTab("DriveTrain Debug");
+      driveTrainDebug.addNumber("P", () -> 0);
+      driveTrainDebug.addNumber("I", () -> 0);
+      driveTrainDebug.addNumber("D", () -> 0);
+      driveTrainDebug.addNumber("F", () -> 0);
+      driveTrainDebug.addNumber("Izone", () -> 0);
+      driveTrainDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[7] == 1) {
       this.cameraDebug = Shuffleboard.getTab("Camera Debug");
@@ -84,25 +103,14 @@ public class debugFeed extends CommandBase {
   @Override
   public void execute() {
     if (debugGet[0] == 1) {
-      turretDebug.addNumber("Motor Rpm", () -> turret.getDegrees() );
+      turretDebug.addNumber("Motor Rpm", () -> turret.getDegrees());
       turretDebug.addNumber("Motor Current", () -> turret.getCurrent());
-      turretDebug.addNumber("P", () -> 0);
-      turretDebug.addNumber("I", () -> 0);
-      turretDebug.addNumber("D", () -> 0);
-      turretDebug.addNumber("F", () -> 0);
-      turretDebug.addNumber("Izone", () -> 0);
-      turretDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[1] == 1) {   
       shooterDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
       shooterDebug.addNumber("Motor Current", () -> shooter.getCurrent() );
       shooterDebug.addNumber("Ball Count", () -> 0);
-      shooterDebug.addNumber("P", () -> 0);
-      shooterDebug.addNumber("I", () -> 0);
-      shooterDebug.addNumber("D", () -> 0);
-      shooterDebug.addNumber("F", () -> 0);
-      shooterDebug.addNumber("Izone", () -> 0);
-      shooterDebug.addNumber("Reference", () -> 0);
+  
     }
     if (debugGet[2] == 1) {
       panelControllerDebug.addBoolean("Deployed", () -> panelController.isDeployed());
@@ -113,8 +121,8 @@ public class debugFeed extends CommandBase {
       loaderDebug.addNumber("Bottom Motor Current", () -> loader.bottomBeltCurrent() );
     }
     if (debugGet[4] == 1) {
-      intakeDebug.addNumber("Intake Motor Current", () -> intake.getIntakeMotorCurrent() );
-      intakeDebug.addBoolean("Intake Deployed", () -> intake.isDeployed() );
+      intakeDebug.add("Intake Motor Current", intake.getIntakeMotorCurrent()).withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kTextView);
+      intakeDebug.addBoolean("Intake Deployed", () -> intake.isDeployed() ).withPosition(3, 0).withSize(1, 1).withWidget(BuiltInWidgets.kTextView);
     }
     if (debugGet[5] == 1) {
       hangerDebug.addNumber("Hanger Motor Current", () -> hanger.getHangerMotorCurrent());
@@ -126,12 +134,6 @@ public class debugFeed extends CommandBase {
       driveTrainDebug.addNumber("Y - Feet", () -> driveTrain.getLocation().getTranslation().getY());
       driveTrainDebug.addNumber("Left Motor Current", () -> driveTrain.getLeftPower());
       driveTrainDebug.addNumber("Right Motor Current", () -> driveTrain.getRightPower());
-      driveTrainDebug.addNumber("P", () -> 0);
-      driveTrainDebug.addNumber("I", () -> 0);
-      driveTrainDebug.addNumber("D", () -> 0);
-      driveTrainDebug.addNumber("F", () -> 0);
-      driveTrainDebug.addNumber("Izone", () -> 0);
-      driveTrainDebug.addNumber("Reference", () -> 0);
     }
     if (debugGet[7] == 1) {
       cameraDebug.addNumber("Null", () -> 0);

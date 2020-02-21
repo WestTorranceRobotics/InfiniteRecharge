@@ -56,6 +56,7 @@ public class DriveTrain implements Subsystem {
         rightFollower.setNeutralMode(NeutralMode.Brake);
         leftLeader.setNeutralMode(NeutralMode.Brake);
         leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightLeader.setSelectedSensorPosition(0);
 
         leftLeader.setInverted(true);
         

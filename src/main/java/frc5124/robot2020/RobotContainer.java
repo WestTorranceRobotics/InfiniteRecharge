@@ -35,6 +35,7 @@ import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.auto.*;
@@ -96,13 +97,13 @@ public class RobotContainer {
    * send debug information to shuffleboard for given subsystems
    */
   private boolean debugEnabled = true;
-  private boolean debugGetTurret = true;
-  private boolean debugGetCamera = true;
-  private boolean debugGetDriveTrain = true;
-  private boolean debugGetHanger = true;
+  private boolean debugGetTurret = false;
+  private boolean debugGetCamera = false;
+  private boolean debugGetDriveTrain = false;
+  private boolean debugGetHanger = false;
   private boolean debugGetIntake = true;
   private boolean debugGetLoader = true;
-  private boolean debugGetPanelController = true;
+  private boolean debugGetPanelController = false;
   private boolean debugGetShooter = true;
   private boolean debugGetLimelight = true;
   private int[] debugGet = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -128,22 +129,24 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
-    operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
-    operatorX.toggleWhenPressed(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
-    //operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
-    operatorY.whileHeld(new RunLoader(loader));
+    // operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+    // operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
+    // operatorX.toggleWhenPressed(new LoaderAndIntakeGroup(intake, loader));
+    //operatorA.whenPressed(new ToggleIntakePivot(intake));
+    // //operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
+    // operatorY.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRight.whileHeld(new SweepTurretPID(turret, true));
-    operatorLeft.whileHeld(new SweepTurretPID(turret, true));
-    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
+     operatorRB.whileHeld(new SweepTurretPID(turret, true));
+     operatorLB.whileHeld(new SweepTurretPID(turret, false));
+    //operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
+   // operatorRB.whenPressed(new ShootFromLine(shooter, loader));
+    //operatorUp.toggleWhenPressed
   }
 
   private void configureDefaultCommands(){
-    driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    //driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+  //  turret.setDefaultCommand(new TurretTargetByPIDPerpetually(turret));
   }
 
 
@@ -151,10 +154,12 @@ public class RobotContainer {
     display = Shuffleboard.getTab("Driving Display");
     new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera, loader);
 
- 
+    ShuffleboardTab x = Shuffleboard.getTab("test");
+    x.add("test", 1).withSize(2, 2).withWidget(BuiltInWidgets.kTextView).withPosition(1, 0);
   }
 
-  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+  private GyroBase shuffleboardGyro(DoubleSupplier d)
+   {
     return new GyroBase(){
 
       @Override public void close() {}
@@ -165,6 +170,7 @@ public class RobotContainer {
     };
 
   }
+
 
   /**
    * Code to run when starting teleop mode.

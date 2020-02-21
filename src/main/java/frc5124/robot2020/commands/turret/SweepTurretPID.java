@@ -7,6 +7,7 @@
 
 package frc5124.robot2020.commands.turret;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
@@ -14,6 +15,7 @@ public class SweepTurretPID extends CommandBase {
   private Turret turret;
   private double currentDegrees;
   private boolean clockwise;
+  private boolean switchAround = false;
   /**
    * Creates a new setTurretDegrees.
    */
@@ -27,38 +29,36 @@ public class SweepTurretPID extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!turret.limitReached()) {
-    currentDegrees = turret.getDegrees();
+      currentDegrees = turret.getDegrees();
+    if(!switchAround) {
     if (clockwise) {
-      turret.setTurretDegrees(currentDegrees + 1);
+      turret.setTurretDegrees(currentDegrees + 5);
     } else if (!clockwise){
-      turret.setTurretDegrees(currentDegrees - 1);
+      turret.setTurretDegrees(currentDegrees - 5);
     }
-  }
-
-    if (!turret.limitReached()) {
-    if (turret.getDegrees() > 170) {
-      turret.limitReached(true);
-      turret.setTurretDegrees(-165);
-    } else if (turret.getDegrees() < -170) {
-      turret.limitReached(true);
-      turret.setTurretDegrees(165);
     }
 
     
-    if(turret.limitReached()){
-    if ((turret.getDegrees() > 160 && turret.getDegrees() < 166)|| (turret.getDegrees() < -160 && turret.getDegrees() > -166)) {
-      turret.limitReached(false);
-    }
+
+    if (turret.leftLimitReached()) {
+      switchAround = true;
+      turret.setTurretDegrees(170);
+    } else if (turret.rightLimitReached()) {
+      switchAround = true;
+      turret.setTurretDegrees(-170);
+
     }
 
-  }
+
+    SmartDashboard.putNumber("degrees", turret.getDegrees());
+    SmartDashboard.updateValues();
+
+  
     
   }
 
