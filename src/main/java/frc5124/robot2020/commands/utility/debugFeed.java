@@ -17,7 +17,7 @@ import frc5124.robot2020.subsystems.*;
 import frc5124.robot2020.subsystems.Shooter;
 
 public class debugFeed extends CommandBase {
-  private int[] debugGet = new int[9];
+  private int[] debugGet;
   private Shooter shooter;
   private Turret turret;
   private PanelController panelController;
@@ -38,7 +38,6 @@ public class debugFeed extends CommandBase {
   public ShuffleboardTab limeLightDebug;
 
   public debugFeed(int[] debugGet, Shooter shooter, Turret turret, PanelController panelController, DriveTrain driveTrain, Intake intake, Hanger hanger, Camera camera, Loader loader) {
-    this.debugGet = debugGet;
     this.shooter = shooter;
     this.turret = turret;
     this.panelController = panelController;
@@ -47,6 +46,7 @@ public class debugFeed extends CommandBase {
     this.hanger = hanger;
     this.loader = loader;
     this.camera = camera;
+    this.debugGet = debugGet;
   }
 
   @Override
@@ -59,6 +59,7 @@ public class debugFeed extends CommandBase {
       turretDebug.addNumber("F", () -> 0);
       turretDebug.addNumber("Izone", () -> 0);
       turretDebug.addNumber("Reference", () -> 0);
+      
     }
     if (debugGet[1] == 1) {   
       this.shooterDebug = Shuffleboard.getTab("Shooter Debug");
@@ -104,7 +105,8 @@ public class debugFeed extends CommandBase {
   public void execute() {
     if (debugGet[0] == 1) {
       turretDebug.addNumber("Motor Rpm", () -> turret.getDegrees());
-      turretDebug.addNumber("Motor Current", () -> turret.getCurrent());
+      turretDebug.addNumber("Motor Current", () -> 0).withSize(2,2).withWidget(BuiltInWidgets.kTextView).withPosition(1, 0);
+     // .add("test", 1).withSize(2, 2).withWidget(BuiltInWidgets.kTextView).withPosition(1, 0);
     }
     if (debugGet[1] == 1) {   
       shooterDebug.addNumber("Motor Rpm", () -> shooter.getVelocity() );
@@ -142,6 +144,8 @@ public class debugFeed extends CommandBase {
     if (debugGet[8] == 1) {
       limeLightDebug.addNumber("null", () -> 0);
     }
-    Shuffleboard.update();
+    turretDebug.addNumber("Motor Current", () -> 0).withSize(2,2).withWidget(BuiltInWidgets.kTextView).withPosition(1, 0);
+    
+  
   }
 }

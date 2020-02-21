@@ -35,26 +35,36 @@ public class SweepTurretPID extends CommandBase {
   @Override
   public void execute() {
       currentDegrees = turret.getDegrees();
+      if (currentDegrees > 170) {
+        switchAround = true;
+        turret.rightLimitReached(true);
+        turret.setTurretDegrees(-170);
+      }
+      else if (currentDegrees < -170) {
+        switchAround = true;
+        turret.leftLimitReached(true);
+        turret.setTurretDegrees(170);
+      }
+      if (switchAround && turret.rightLimitReached()) {
+        if (currentDegrees < -160) {
+          switchAround = false;
+          turret.rightLimitReached(false);
+        }
+      } else if (switchAround && turret.leftLimitReached()) {
+        if (currentDegrees > 160) {
+          switchAround = false;
+          turret.leftLimitReached(false);
+        }
+      }
+
     if(!switchAround) {
-    if (clockwise) {
-      turret.setTurretDegrees(currentDegrees + 5);
-    } else if (!clockwise){
-      turret.setTurretDegrees(currentDegrees - 5);
+      if (clockwise) {
+        turret.setTurretDegrees(currentDegrees + 5);
+      } else if (!clockwise){
+        turret.setTurretDegrees(currentDegrees - 5);
+      }
     }
-    }
-
-    
-
-    if (turret.leftLimitReached()) {
-      switchAround = true;
-      turret.setTurretDegrees(170);
-    } else if (turret.rightLimitReached()) {
-      switchAround = true;
-      turret.setTurretDegrees(-170);
-
-    }
-
-
+    SmartDashboard.putNumber("IN CLASS DEGREES READ", currentDegrees);
     SmartDashboard.putNumber("degrees", turret.getDegrees());
     SmartDashboard.updateValues();
 

@@ -37,17 +37,17 @@ public class Turret implements Subsystem {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
-    setBrake();
+    setCoast();
     turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
-    turretPID.setReference(0, ControlType.kPosition);
-    resetTurretDegrees();
+  
+  //  resetTurretDegrees();
     startDegrees = getDegrees();
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -30);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 30);
-    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -32);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 32);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
  
    // TODO should set soft limits during homing
 
@@ -164,21 +164,7 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
-    currentDegrees = getDegrees();
-    if (getDegrees() > 170 && (!leftLimitReached() && !rightLimitReached())) {
-      rightLimitReached(true);
-      setTurretDegrees(-165);
-    } else if (getDegrees() < -170 && (!leftLimitReached() && !rightLimitReached())) {
-      leftLimitReached(true);
-      setTurretDegrees(165);
-    }
-      if (getDegrees() > 160 && getDegrees() < 170 && rightLimitReached()) { 
-        rightLimitReached(false);
-      }
-    
-      if (getDegrees() < -160 && getDegrees() > -170 && leftLimitReached()) { 
-        leftLimitReached(false);
-      }
+  
   
   }
 } 

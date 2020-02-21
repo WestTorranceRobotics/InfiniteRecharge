@@ -34,6 +34,7 @@ import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -97,7 +98,7 @@ public class RobotContainer {
    * send debug information to shuffleboard for given subsystems
    */
   private boolean debugEnabled = true;
-  private boolean debugGetTurret = false;
+  private boolean debugGetTurret = true;
   private boolean debugGetCamera = false;
   private boolean debugGetDriveTrain = false;
   private boolean debugGetHanger = false;
@@ -137,8 +138,8 @@ public class RobotContainer {
     // operatorY.whileHeld(new RunLoader(loader));
     // operatorUp.whileHeld(new LiftUp(hanger));
     // operatorDown.whileHeld(new LiftDown(hanger));   
-     operatorRB.whileHeld(new SweepTurretPID(turret, true));
-     operatorLB.whileHeld(new SweepTurretPID(turret, false));
+    //  operatorRB.whileHeld(new SweepTurretPID(turret, false));
+    //  operatorLB.whileHeld(new SweepTurretPID(turret, true));
     //operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
    // operatorRB.whenPressed(new ShootFromLine(shooter, loader));
     //operatorUp.toggleWhenPressed
@@ -147,15 +148,15 @@ public class RobotContainer {
   private void configureDefaultCommands(){
     //driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   //  turret.setDefaultCommand(new TurretTargetByPIDPerpetually(turret));
+    
   }
 
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera, loader);
+   // new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera, loader);
+    new PerpetualCommand(new debugFeed(debugInit(debugEnabled), shooter, turret, panelController, driveTrain, intake, hanger, camera, loader));
 
-    ShuffleboardTab x = Shuffleboard.getTab("test");
-    x.add("test", 1).withSize(2, 2).withWidget(BuiltInWidgets.kTextView).withPosition(1, 0);
   }
 
   private GyroBase shuffleboardGyro(DoubleSupplier d)
