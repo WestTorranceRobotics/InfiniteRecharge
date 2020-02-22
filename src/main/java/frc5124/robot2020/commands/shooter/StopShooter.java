@@ -5,43 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.loader;
+package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Shooter;
 
-public class ReverseBelt extends CommandBase {
+public class StopShooter extends CommandBase {
+  private Shooter m_shooter;
+ 
+  
   /**
-   * Creates a new ReverseBelt.
+   * Creates a new setShootVelocity.
    */
-  private Loader loader;
-
-  public ReverseBelt(Loader subsystem) {
-    loader = subsystem;
-    addRequirements(loader);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public StopShooter (Shooter shooter) {
+    m_shooter = shooter;
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    loader.reverseBelt();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooter.directPower(0);
   }
+
+  // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    loader.stopBelt();
+    m_shooter.directPower(0);
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  
 }

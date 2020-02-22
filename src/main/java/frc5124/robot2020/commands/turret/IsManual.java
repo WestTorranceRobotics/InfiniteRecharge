@@ -5,43 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.loader;
+package frc5124.robot2020.commands.turret;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Turret;
 
-public class ReverseBelt extends CommandBase {
+public class IsManual extends CommandBase {
+  private Turret subsystem;
   /**
-   * Creates a new ReverseBelt.
+   * Creates a new TurretTargetByPID.
    */
-  private Loader loader;
-
-  public ReverseBelt(Loader subsystem) {
-    loader = subsystem;
-    addRequirements(loader);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public IsManual (Turret subsystem) {
+  this.subsystem = subsystem;
   }
 
-  // Called when the command is initially scheduled.
-  @Override
   public void initialize() {
-    loader.reverseBelt();
+    subsystem.isManual(true);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // TODO Auto-generated method stub
+   // subsystem.isManual(true);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    loader.stopBelt();
+    subsystem.isManual(false);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

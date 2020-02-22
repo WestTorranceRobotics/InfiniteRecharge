@@ -8,50 +8,52 @@
 package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-public class RotateTurret extends CommandBase {
-  private Turret turret;
-  private POVButton operatorLeft;
-  private POVButton operatorRight;
-
+public class TurretTargetByPIDPerpetually extends CommandBase {
+  private Turret subsystem;
   /**
-   * Creates a new RotateTurret.
-   * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
+   * Creates a new TurretTargetByPIDPerpetually.
    */
-  public RotateTurret(Turret subsystem, POVButton operatorRight, POVButton operatorLeft) {
-    turret = subsystem;
-    addRequirements(turret);
-    this.operatorLeft = operatorLeft;
-    this.operatorRight = operatorRight;
+  public TurretTargetByPIDPerpetually(Turret subsystem) {
+  
+    this.subsystem = subsystem;
+    addRequirements(subsystem);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //turret.disableTurretPID();
+   // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(0.0);
+    subsystem.enableTurretPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    if (operatorRight.get()) {
-      turret.directPower(.2);
-    }else if (operatorLeft.get()) {
-      turret.directPower(-.2);
-    } else {
-      turret.directPower(0);
-    }
+      double target = subsystem.getDegrees() - 
+      NetworkTableInstance.getDefault().getTable("limelight")
+      .getEntry("tx").getDouble(0);
+  subsystem.setTurretDegrees(target);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.directPower(0);
+    //subsystem.setTurretDegrees(0);
+    new Thread(() -> {
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException ex) {
+        return;
+      }
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(false);
+    }).start();
+   // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
   }
 
   // Returns true when the command should end.
@@ -59,4 +61,5 @@ public class RotateTurret extends CommandBase {
   public boolean isFinished() {
     return false;
   }
+
 }

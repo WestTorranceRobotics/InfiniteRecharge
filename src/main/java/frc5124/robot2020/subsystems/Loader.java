@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
-//import frc5124.robot2020.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -15,8 +14,6 @@ import frc5124.robot2020.RobotMap;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
@@ -32,22 +29,25 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    
   }
 
   public void setPower(double power){
     topBeltMotor.set(power);
+   // bottomBeltMotor.set(power);
   }
   
   public void runBelt() {
-    topBeltMotor.set(1);
+    topBeltMotor.set(RobotMap.LoaderMap.beltSpeed);
+    //bottomBeltMotor.set(.2);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
+   // bottomBeltMotor.set(0);
   }
 
   public void reverseBelt(){
-    topBeltMotor.set(-1);
+    topBeltMotor.set(-.35);
+  //  bottomBeltMotor.set(-.5); 
   }
 
   public double getVoltage() {

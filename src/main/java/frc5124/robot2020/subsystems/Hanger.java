@@ -8,7 +8,9 @@
 package frc5124.robot2020.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,13 +18,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 
 public class Hanger implements Subsystem {
-  private TalonFX hangerMotor;
+  private CANSparkMax hangerMotor;
   private Solenoid brake;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
 
   public Hanger() {
-    hangerMotor = new TalonFX(RobotMap.HangerMap.hangerCanID);
+    hangerMotor = new CANSparkMax(RobotMap.HangerMap.hangerCanID, MotorType.kBrushless);
     brake = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
@@ -40,7 +42,7 @@ public class Hanger implements Subsystem {
     }
     else {
       brake.set(false);
-      hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerMotor);
+      hangerMotor.set(RobotMap.HangerMap.hangerMotor);
     }
   }
 
@@ -50,7 +52,7 @@ public class Hanger implements Subsystem {
     }
     else {
       brake.set(false);
-      hangerMotor.set(ControlMode.PercentOutput, -RobotMap.HangerMap.hangerMotor);
+      hangerMotor.set(-RobotMap.HangerMap.hangerMotor);
     }
   }
 
@@ -63,7 +65,7 @@ public class Hanger implements Subsystem {
   }
 
   public void setNoPower(){
-    hangerMotor.set(ControlMode.PercentOutput, RobotMap.HangerMap.hangerHalt);
+    hangerMotor.set(RobotMap.HangerMap.hangerHalt);
     brake.set(true);
   }
 }

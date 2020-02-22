@@ -21,6 +21,6 @@ public class LoaderAndIntakeGroup extends ParallelCommandGroup {
    */
   
   public LoaderAndIntakeGroup(Intake intake, Loader loader) {
-    super(new SetIntakePower(intake, .8), new SeeBallRunBelt(loader));   
+    super(new SetIntakePower(intake, .6), new SeeBallRunBelt(loader));   
   }
 }

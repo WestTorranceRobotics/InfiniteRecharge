@@ -30,17 +30,21 @@ public class RobotMap {
     }
   
     public static class ShooterMap {
-        public static int shootLeaderCanID = 8; //8
-        public static int shootFollowerCanID = 6; //6
+        public static final int shootLeaderCanID = 8; //8
+        public static final int shootFollowerCanID = 6; //6
         public static final int shootSolenoid = 0;
-        public static double Kp = .000005;
-        public static double Ki = 0;
-        public static double Kd = .000002;
-        public static double Kf = .000134;
-        public static double lineShootRPM = 4800;
-        public static double maxShootRPM = 7600;
-        public static int currentLimit = 20;
+        public static final double Kp = 0.00021;
+        public static final double Ki = 0;
+        public static final double Kd = 0.00002;
+        public static final double Kf = 0.00008;
+        public static final double lineShootRPM = 4350; 
+        public static final double trenchShootRPM = 5200;
+        public static final double maxShootRPM = 7600;
+        public static final int smartCurrentLimit = 20;
+        public static final double ballCurrent = 20;
+        public static final double gearRatio = .75;
 
+        public static final double[] regressionCoefficients = new double[]{1, 10, 100, 1000, 10000, 100000};
     }
 
     public static class IntakeMap {
@@ -55,8 +59,7 @@ public class RobotMap {
         public static int hangerCanID = 5;
         public static int hangerSolenoid = 2;
         public static int topLimitChannelID = 1;                
-        public static int bottomLimitChannelID = 2;             
-        public static int shootFollowerCanID = 6;
+        public static int bottomLimitChannelID = 2;  
         public static double Kp = 0.000016;
         public static double Ki = 0;
         public static double Kd = 0.000037;
@@ -81,14 +84,14 @@ public class RobotMap {
 
     public static class LoaderMap {
         public static int topBeltCanId = 9; //9
-        public static int bottomBeltCanId = 7; //7 
-        public static double beltSpeed = .2;
+        public static int bottomBeltCanId = 12; //7 
+        public static double beltSpeed = .3;
         public static double fieldEmptyVoltage = 1.0;
         public static int motionSensorID = 1;
     }
 
     public static class TurretMap{
-        public static int turretCanID = 10; 
+        public static int turretCanID = 13; 
         public static double turretSpeed = .2;
         public static double Kp = 0.050000; 
         public static double Ki = 0.000350;

@@ -10,13 +10,13 @@ package frc5124.robot2020.commands.loader;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Loader;
 
-public class ReverseBelt extends CommandBase {
+public class RunLoader extends CommandBase {
   /**
    * Creates a new ReverseBelt.
    */
   private Loader loader;
 
-  public ReverseBelt(Loader subsystem) {
+  public RunLoader(Loader subsystem) {
     loader = subsystem;
     addRequirements(loader);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,12 +25,12 @@ public class ReverseBelt extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    loader.reverseBelt();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    loader.setPower(.5);
   }
 
   // Called once the command ends or is interrupted.

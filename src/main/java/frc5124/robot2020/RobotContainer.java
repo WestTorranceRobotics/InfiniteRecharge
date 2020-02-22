@@ -14,35 +14,23 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
-import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.driveTrain.*;
-import frc5124.robot2020.commands.auto.*;
-import frc5124.robot2020.commands.hanger.*;
 import frc5124.robot2020.commands.intake.*;
-import frc5124.robot2020.commands.loader.*;
+import frc5124.robot2020.commands.loader.RunLoader;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
-import frc5124.robot2020.commands.driveTrain.*;
-import frc5124.robot2020.commands.panelcontrol.*;
 import frc5124.robot2020.subsystems.*;
 
 import frc5124.robot2020.subsystems.PanelController.OutputColor;
@@ -68,7 +56,6 @@ public class RobotContainer {
   public static final Joystick driverLeft = new Joystick(0);
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
-  
   
   public JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
   public JoystickButton operatorB = new JoystickButton(operator, XboxController.Button.kB.value);
@@ -99,7 +86,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    // camera = new Camera();
+    camera = new Camera();
     panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
@@ -110,21 +97,25 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorBack.whileHeld(new SetIntakePower(intake, -.6));
-    operatorStart.whileHeld(new ReverseBeltWithIntake(loader, intake));
+    operatorStart.whileHeld(new SetIntakePower(intake, -.6));
+    operatorBack.whileHeld(new ReverseBeltWithIntake(loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.whileHeld(new ShooterAndLoader(shooter, loader));
-    operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger));   
-    operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-    operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));
-    //operatorRB.whileHeld(new SetShootRPM(shooter));
+    operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
+    
+    //operatorDown.whileHeld(new LiftDown(hanger));
+    operatorY.whileHeld(new RunLoader(loader));
+    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
+    operatorLB.whenPressed(new ShootFromTrench(shooter, loader));
+
+    //operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
+   //operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));     
     
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    //turret.setDefaultCommand(new TurretTargetByPIDPerpetually(turret));
   }
 
 
@@ -151,7 +142,6 @@ public class RobotContainer {
       @Override public double getAngle() {return d.getAsDouble();}
       @Override public void calibrate() {}
     };
-
   }
 
   /**

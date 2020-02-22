@@ -10,6 +10,7 @@ package frc5124.robot2020.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc5124.robot2020.commands.intake.SetIntakePower;
 import frc5124.robot2020.commands.loader.ReverseBelt;
+import frc5124.robot2020.commands.loader.RunLoader;
 import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 
