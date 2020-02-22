@@ -38,16 +38,16 @@ public class Turret implements Subsystem {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
-    setCoast();
+    setBrake();
     turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
-    //resetTurretDegrees();
+    resetTurretDegrees();
     startDegrees = getDegrees();
-    // turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -32);
-    // turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 32);
-    // turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-    // turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -20);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 35);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
  
    // TODO should set soft limits during homing
 

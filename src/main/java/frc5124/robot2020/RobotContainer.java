@@ -106,7 +106,8 @@ public class RobotContainer {
     //operatorDown.whileHeld(new LiftDown(hanger));
     operatorY.whileHeld(new RunLoader(loader));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
-    operatorLB.whenPressed(new ShootFromTrench(shooter, loader));
+    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
+    operatorUp.toggleWhenPressed(new toggleLimeLight() );
 
     //operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
    //operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));     

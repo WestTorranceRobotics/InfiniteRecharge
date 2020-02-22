@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateTurret extends CommandBase {
   private Turret turret;
@@ -40,12 +41,14 @@ public class RotateTurret extends CommandBase {
   @Override
   public void execute() {
     if (operatorRight.get()) {
-      turret.directPower(.2);
-    }else if (operatorLeft.get()) {
       turret.directPower(-.2);
+    }else if (operatorLeft.get()) {
+      turret.directPower(.2);
     } else {
       turret.directPower(0);
     }
+
+    SmartDashboard.putNumber("Deg", turret.getDegrees());
   }
 
   // Called once the command ends or is interrupted.
