@@ -48,7 +48,9 @@ public class RotateTurret extends CommandBase {
       turret.directPower(0);
     }
 
-    SmartDashboard.putNumber("Deg", turret.getDegrees());
+    
+
+    SmartDashboard.putNumber("TurretDegrees", turret.getDegrees());
   }
 
   // Called once the command ends or is interrupted.

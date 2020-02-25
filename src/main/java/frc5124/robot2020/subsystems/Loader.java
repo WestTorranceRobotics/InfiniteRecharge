@@ -35,10 +35,13 @@ public class Loader implements Subsystem {
     topBeltMotor.set(power);
    // bottomBeltMotor.set(power);
   }
+
+  public double getAppliedOutput() {
+    return topBeltMotor.getAppliedOutput();
+  }
   
   public void runBelt() {
-    topBeltMotor.set(RobotMap.LoaderMap.beltSpeed);
-    //bottomBeltMotor.set(.2);
+    topBeltMotor.set(.175);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);

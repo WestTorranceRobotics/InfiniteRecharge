@@ -30,10 +30,11 @@ public class JoystickTankDrive extends CommandBase {
     public void execute() {
 
         if (leftHand.getY() > 0.1 || rightHand.getY() > 0.1 || rightHand.getY() < -0.1 || leftHand.getY() < -0.1){
-            leftHandIn = Math.pow(leftHand.getY(), 3);
-            rightHandIn = Math.pow(rightHand.getY(), 3);
-            m_driveTrain.tankDrive(leftHandIn, rightHandIn);
+            leftHandIn = Math.pow(-leftHand.getY(), 1);
+           
         }
+       rightHandIn = Math.pow(-rightHand.getY(), 1);
+       m_driveTrain.tankDrive(leftHandIn, rightHandIn);
     }
 
     // Make this return true when this Command no longer needs to run execute()

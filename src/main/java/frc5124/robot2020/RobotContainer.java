@@ -24,6 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.runpos.DriveForTime;
+import frc5124.robot2020.commands.auto.runpos.ShooterAndLoaderRev;
+import frc5124.robot2020.commands.auto.runpos.TargetShootAuto;
+import frc5124.robot2020.commands.auto.runpos.Turn180;
+import frc5124.robot2020.commands.auto.runpos.turretZero;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc5124.robot2020.commands.driveTrain.*;
@@ -102,21 +107,16 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
-    
     //operatorDown.whileHeld(new LiftDown(hanger));
-    operatorY.whileHeld(new RunLoader(loader));
-    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
+    //operatorY.whileHeld(new RunLoader(loader));
+    operatorRB.toggleWhenPressed(new ShootTuner(shooter));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    operatorUp.toggleWhenPressed(new toggleLimeLight() );
-
-    //operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-   //operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));     
-    
+    operatorUp.toggleWhenPressed(new toggleLimeLight()); 
+    operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader));   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    //turret.setDefaultCommand(new TurretTargetByPIDPerpetually(turret));
   }
 
 
@@ -169,6 +169,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new TargetShootAuto(shooter, loader, turret, driveTrain);
+    //TargetShootAuto(shooter, loader, turret, driveTrain);
   }
 }

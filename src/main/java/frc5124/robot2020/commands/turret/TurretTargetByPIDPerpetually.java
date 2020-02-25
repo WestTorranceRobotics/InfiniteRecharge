@@ -12,6 +12,7 @@ import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretTargetByPIDPerpetually extends CommandBase {
   private Turret subsystem;
@@ -38,6 +39,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
       NetworkTableInstance.getDefault().getTable("limelight")
       .getEntry("tx").getDouble(0);
   subsystem.setTurretDegrees(target);
+  SmartDashboard.putNumber("Deg", subsystem.getDegrees());
   }
 
   // Called once the command ends or is interrupted.

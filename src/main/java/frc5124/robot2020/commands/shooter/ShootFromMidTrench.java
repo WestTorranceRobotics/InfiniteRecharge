@@ -14,14 +14,14 @@ import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.subsystems.Loader;
 
-public class ShootFromTrench extends CommandBase {
+public class ShootFromMidTrench extends CommandBase {
   private Shooter m_shooter;
   private Loader m_loader;
   
   /**
    * Creates a new setShootVelocity.
    */
-  public ShootFromTrench (Shooter shooter, Loader loader) {
+  public ShootFromMidTrench (Shooter shooter, Loader loader) {
     m_shooter = shooter;
     m_loader = loader;
     addRequirements(m_loader);
@@ -31,7 +31,7 @@ public class ShootFromTrench extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter(RobotMap.ShooterMap.trenchShootRPM);
+    m_shooter.startShooter(RobotMap.ShooterMap.midTrenchShootRPM);
     SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
@@ -39,9 +39,10 @@ public class ShootFromTrench extends CommandBase {
   @Override
   public void execute() { 
     // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.trenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
       m_loader.runBelt();
-    }
+    }  
+    
     
     SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
     SmartDashboard.updateValues();

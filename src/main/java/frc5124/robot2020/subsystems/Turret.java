@@ -44,10 +44,14 @@ public class Turret implements Subsystem {
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
     resetTurretDegrees();
     startDegrees = getDegrees();
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -20);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 35);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -54);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    SmartDashboard.putBoolean("ShooterRunning", false);
+    SmartDashboard.putBoolean("LimeLightOn", false);
+    
+    resetTurretDegrees();
  
    // TODO should set soft limits during homing
 
@@ -80,6 +84,13 @@ public class Turret implements Subsystem {
     this.manual = manual;
   }
 
+  public void turretLimitSet() {
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -54);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 5);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    
+  }
 
 
   public void resetTurretDegrees() {
@@ -175,6 +186,8 @@ public class Turret implements Subsystem {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("TurretDegrees", getDegrees());
+    SmartDashboard.updateValues();
   
   
   }

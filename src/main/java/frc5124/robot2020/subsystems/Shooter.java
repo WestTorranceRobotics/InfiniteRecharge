@@ -44,6 +44,8 @@ public class Shooter implements Subsystem {
     SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
     SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
     SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
+    shootMotorFollower.setClosedLoopRampRate(.001);
+    shootMotorLeader.setClosedLoopRampRate(.001);
   }
 
   public int getBallsShot() {

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Intake implements Subsystem {
@@ -18,6 +19,7 @@ public class Intake implements Subsystem {
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up 
+      SmartDashboard.putBoolean("IntakeRunning", false);
   }
 
   @Override
@@ -27,6 +29,7 @@ public class Intake implements Subsystem {
 
   public void setDeployed(boolean deployed) {
     armSolenoid.set(deployed);
+  
     this.deployed = deployed;
   }
 
@@ -36,6 +39,11 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
+    if (power > 0 || power < 0) {
+      SmartDashboard.putBoolean("IntakeRunning", true);
+    } else {
+      SmartDashboard.putBoolean("IntakeRunning", false);
+    }
   }
 
   public void flushOut(){
