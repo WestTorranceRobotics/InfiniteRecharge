@@ -41,7 +41,7 @@ public class Loader implements Subsystem {
   }
   
   public void runBelt() {
-    topBeltMotor.set(.175);
+    topBeltMotor.set(.420);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
