@@ -24,21 +24,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
-import frc5124.robot2020.commands.auto.runpos.DriveForTime;
-import frc5124.robot2020.commands.auto.runpos.ShooterAndLoaderRev;
+import frc5124.robot2020.commands.auto.runpos.*;
 import frc5124.robot2020.commands.auto.runpos.TargetShootAuto;
-import frc5124.robot2020.commands.auto.runpos.Turn180;
-import frc5124.robot2020.commands.auto.runpos.turretZero;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc5124.robot2020.commands.driveTrain.*;
+import frc5124.robot2020.commands.hanger.LiftDown;
+import frc5124.robot2020.commands.hanger.LiftUp;
 import frc5124.robot2020.commands.intake.*;
-import frc5124.robot2020.commands.loader.RunLoader;
+import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.subsystems.*;
 
-import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -62,15 +60,17 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
-  public JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
-  public JoystickButton operatorB = new JoystickButton(operator, XboxController.Button.kB.value);
-  public JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
-  public JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
-  public JoystickButton operatorLB = new JoystickButton(operator, XboxController.Button.kBumperLeft.value);
-  public JoystickButton operatorRB = new JoystickButton(operator, XboxController.Button.kBumperRight.value);
-  public JoystickButton operatorBack = new JoystickButton(operator, XboxController.Button.kBack.value);
-  public JoystickButton operatorStart = new JoystickButton(operator,XboxController.Button.kStart.value);
-  public JoystickButton operatorTest = new JoystickButton(operator, XboxController.Button.kBack.value);
+  public JoystickButton operatorA = new JoystickButton(operator, 2);
+  public JoystickButton operatorB = new JoystickButton(operator, 3);
+  public JoystickButton operatorX = new JoystickButton(operator, 1);
+  public JoystickButton operatorY = new JoystickButton(operator, 4);
+  public JoystickButton operatorLB = new JoystickButton(operator, 5);
+  public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public JoystickButton operatorLT = new JoystickButton(operator, 7);
+  public JoystickButton operatorRT = new JoystickButton(operator, 8);
+  public JoystickButton operatorBack = new JoystickButton(operator, 9);
+  public JoystickButton operatorStart = new JoystickButton(operator,10);
+  public JoystickButton operatorTest = new JoystickButton(operator, 9);
   public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
   public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
 
@@ -107,12 +107,13 @@ public class RobotContainer {
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
-    //operatorDown.whileHeld(new LiftDown(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
+    operatorUp.whileHeld(new LiftUp(hanger));
     //operatorY.whileHeld(new RunLoader(loader));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    operatorUp.toggleWhenPressed(new toggleLimeLight()); 
-    operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader));   
+    //operatorUp.toggleWhenPressed(new toggleLimeLight()); 
+    //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader));   
   }
 
   private void configureDefaultCommands(){
