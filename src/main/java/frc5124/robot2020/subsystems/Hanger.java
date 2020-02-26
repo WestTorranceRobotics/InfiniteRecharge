@@ -19,15 +19,17 @@ import frc5124.robot2020.RobotMap;
 
 public class Hanger implements Subsystem {
   private CANSparkMax hangerMotor;
-  private Solenoid brake;
+  private Solenoid noBrake;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
 
   public Hanger() {
     hangerMotor = new CANSparkMax(RobotMap.HangerMap.hangerCanID, MotorType.kBrushless);
-    brake = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
+    noBrake = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
+    noBrake.set(false);
+    hangerMotor.setInverted(true);
   }
 
   @Override
@@ -37,23 +39,29 @@ public class Hanger implements Subsystem {
   }
    
   public void liftUp() {
-    if (reachedTopLimit()) {
-      setNoPower();
-    }
-    else {
-      brake.set(false);
-      hangerMotor.set(RobotMap.HangerMap.hangerMotor);
-    }
+    // if (reachedTopLimit()) {
+    //   setNoPower();
+    // }
+    // else {
+    //   brake.set(false);
+    //   hangerMotor.set(RobotMap.HangerMap.hangerMotor);
+    // }
+    hangerMotor.set(.1);
+    noBrake.set(true);
   }
 
+
+
   public void liftDown(){
-    if (reachedBottomLimit()) {
-      setNoPower();
-    }
-    else {
-      brake.set(false);
-      hangerMotor.set(-RobotMap.HangerMap.hangerMotor);
-    }
+    // if (reachedBottomLimit()) {
+    //   setNoPower();
+    // }
+    // else {
+    //   brake.set(false);
+    //   hangerMotor.set(-RobotMap.HangerMap.hangerMotor);
+    // }
+    hangerMotor.set(-.1);
+    noBrake.set(true);
   }
 
   public boolean reachedTopLimit(){
@@ -64,8 +72,9 @@ public class Hanger implements Subsystem {
     return bottomLimit.get();
   }
 
+
   public void setNoPower(){
     hangerMotor.set(RobotMap.HangerMap.hangerHalt);
-    brake.set(true);
+    noBrake.set(false);
   }
 }
