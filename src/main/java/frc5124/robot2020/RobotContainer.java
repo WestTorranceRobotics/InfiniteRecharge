@@ -103,7 +103,7 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntake(loader, intake));
+    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
