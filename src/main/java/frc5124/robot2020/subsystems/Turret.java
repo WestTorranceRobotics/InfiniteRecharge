@@ -52,25 +52,15 @@ public class Turret implements Subsystem {
     SmartDashboard.putBoolean("LimeLightOn", false);
     
     resetTurretDegrees();
- 
-   // TODO should set soft limits during homing
-
-    //Code used for PID Tuning
-
-    // SmartDashboard.putNumber("P", .04);
-    // SmartDashboard.putNumber("I", 0);
-    // SmartDashboard.putNumber("D", 0);
-    // SmartDashboard.putNumber("IZONE", 0);
   }
 
-  //Code used for PID Tuning
 
-  // public void updateCoeffs() {
-  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
-  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
-  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
-  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
-  // }
+  public void updateCoeffs() {
+    turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+    turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+    turretPID.setD(SmartDashboard.getNumber("D", 0));
+    turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  }
 
   public void setTurretDegrees(double degrees) {
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);

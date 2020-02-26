@@ -4,7 +4,6 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
-
     public static int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
 
