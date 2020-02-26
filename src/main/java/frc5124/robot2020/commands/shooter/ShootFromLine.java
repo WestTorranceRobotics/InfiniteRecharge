@@ -42,14 +42,14 @@ public class ShootFromLine extends CommandBase {
   @Override
   public void execute() {
   //  m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-  //  if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-20 && m_loader.getAppliedOutput() == 0) {
-  //   m_loader.runBelt();
-  // } 
+    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+      m_loader.runBelt();
+    } 
   // else if (!(m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20) && !(m_loader.getAppliedOutput() == 0)) {
   //   m_loader.stopBelt();
   // }
-  SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
-  SmartDashboard.updateValues();
+    SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
+    SmartDashboard.updateValues();
   }
   // Returns true when the command should end.
     @Override
