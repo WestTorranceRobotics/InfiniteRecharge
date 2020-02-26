@@ -32,7 +32,7 @@ public class ReverseShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.directPower(-.5);
+    m_shooter.directPower(-.3);
   }
 
   // Returns true when the command should end.
