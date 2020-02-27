@@ -50,6 +50,7 @@ public class DriveOffLine extends CommandBase {
   @Override
   public void initialize() {
     m_DriveTrain.resetEncoder();
+    m_DriveTrain.resetOdometry();
     //driveDistance();
     setPower();
   }

@@ -133,9 +133,9 @@ public class RobotContainer {
   //   driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
   // }
 
-  // private void configureShuffleboard() {
-  //   display = Shuffleboard.getTab("Driving Display");
-  //   shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+  private void configureShuffleboard() {
+    display = Shuffleboard.getTab("Driving Display");
+    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
 
   //   ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
   //   ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
@@ -146,7 +146,7 @@ public class RobotContainer {
       
   //   display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
   //   //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
-  // }
+  }
 
   // private GyroBase shuffleboardGyro(DoubleSupplier d) {
   //   return new GyroBase(){
@@ -183,6 +183,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new DriveOffLine(driveTrain, 14);
+    return new DriveToPoint(driveTrain, 0, 100f);
   }
 }

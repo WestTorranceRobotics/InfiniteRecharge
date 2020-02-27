@@ -18,16 +18,21 @@ public class DriveToPoint extends CommandBase {
   private DriveTrain m_DriveTrain;
   private int x;    //in inches
   private int y;    //in inches
+  private boolean yes = false;
+  private double targetCounts;
+  private double distanceToDrive;
+  private double countsPerInch = 1082.0;
 
-  public DriveToPoint(DriveTrain driveTrain, int x, int y) {
+  public DriveToPoint(DriveTrain driveTrain, double x, double y) {
     m_DriveTrain = driveTrain;
     addRequirements(m_DriveTrain);
+    // distanceToDrive = Math.sqrt((x*x) + (y*y)); //the hypotenuse (inches)
+    distanceToDrive = y;
+  //  double angleToTurn = Math.atan((y)/(x));
+    targetCounts = countsPerInch * distanceToDrive;
+    m_DriveTrain.setLeftPower(0.5);
+    m_DriveTrain.setRightPower(0.5);
   }
-
-  double distanceToDrive = Math.sqrt((x*x) + (y*y)); //the hypotenuse (inches)
-  double angleToTurn = Math.atan((y)/(x));
-  double countsPerInch = 1082;
-  double targetCounts = (countsPerInch * distanceToDrive);
 
   /*
   public void turnToAngle(){
@@ -46,28 +51,34 @@ public class DriveToPoint extends CommandBase {
   */
 
   public void driveStraightToPoint(){ // after it figures out the angle, it should just drive straight
-    if (m_DriveTrain.leftEncoder() <= targetCounts){ // if the encoder counts dont match yet then run
-      m_DriveTrain.directPower(1);
+    if (!(m_DriveTrain.leftEncoder() <= targetCounts)){ // if the encoder counts dont match yet then run
+      // m_DriveTrain.directPower(0);
+      m_DriveTrain.tankDrive(0, 0);
     }
-    /*
-    while (m_DriveTrain.leftEncoder()<= targetCounts){
-      m_DriveTrain.directPower(1);
+    
+    else if (m_DriveTrain.leftEncoder() <= targetCounts){
+      // m_DriveTrain.directPower(1);
+      m_DriveTrain.tankDrive(0.3, 0.3);
+      updateSmartDashboard();
     }
-    */
+    updateSmartDashboard();
+  
   }
 
   public void updateSmartDashboard(){
-    SmartDashboard.putNumber("the angle", angleToTurn);
-    SmartDashboard.putNumber("target encoder val", targetCounts);
-    SmartDashboard.putNumber("encoder val now", m_DriveTrain.leftEncoder());
+   // SmartDashboard.putNumber("the angle", angleToTurn);
+    SmartDashboard.putNumber("TARGETCOUNTS", targetCounts);
+    SmartDashboard.putNumber("ENCODERVAL", m_DriveTrain.leftEncoder());
     SmartDashboard.updateValues();
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+  
+  
+  public void setNoPower(){
+    m_DriveTrain.directPower(0);
   }
 
+  
   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -79,11 +90,12 @@ public class DriveToPoint extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    setNoPower();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return yes;
   }
 }

@@ -100,6 +100,13 @@ public class DriveTrain implements Subsystem {
         SmartDashboard.updateValues();
     }
 
+    // public void setBrake() {
+    //     rightLeader.
+    // }
+    public void setCoast() {
+
+    }
+
 
     // Control methods
 
@@ -134,6 +141,10 @@ public class DriveTrain implements Subsystem {
 
     public void setLeftPower(double power){
         leftLeader.set(power);
+    }
+
+    public void setRightPower(double power){
+        rightLeader.set(power); // ian added this
     }
      
     public WPI_TalonFX getLeftLeader(){
