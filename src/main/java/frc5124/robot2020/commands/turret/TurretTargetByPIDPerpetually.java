@@ -22,7 +22,6 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   public TurretTargetByPIDPerpetually(Turret subsystem) {
   
     this.subsystem = subsystem;
-    addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

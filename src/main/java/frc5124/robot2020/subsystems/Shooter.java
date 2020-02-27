@@ -16,8 +16,12 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-public class Shooter implements Subsystem {
+public class Shooter extends SubsystemBase {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
   private CANPIDController shootPID; 
@@ -25,6 +29,8 @@ public class Shooter implements Subsystem {
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot;
   private boolean passedBallCurrent = false;
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -46,6 +52,8 @@ public class Shooter implements Subsystem {
     SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
     shootMotorFollower.setClosedLoopRampRate(.001);
     shootMotorLeader.setClosedLoopRampRate(.001);
+    display = Shuffleboard.getTab("Shooter Display");
+    Shuffleboard.update();
   }
 
   public int getBallsShot() {
@@ -158,5 +166,7 @@ public class Shooter implements Subsystem {
 
   @Override
   public void periodic() {
+    if (RobotMap.debugEnabled) {}
+    SmartDashboard.putNumber("BallsShot", ballsShot);
   }
 }

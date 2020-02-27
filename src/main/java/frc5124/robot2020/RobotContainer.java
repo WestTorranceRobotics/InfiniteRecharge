@@ -109,12 +109,14 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    operatorY.toggleWhenPressed(new toggleLimeLight()); 
-    operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader));   
+    //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
+    operatorUp.whileHeld(new LiftUp(hanger) );  
+    operatorDown.whileHeld(new LiftDown(hanger) );  
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    turret.setDefaultCommand(new TurretFindHome(turret));
   }
 
 

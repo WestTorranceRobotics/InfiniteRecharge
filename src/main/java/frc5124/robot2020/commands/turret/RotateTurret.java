@@ -33,6 +33,8 @@ public class RotateTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
+    SmartDashboard.putBoolean("LimeLightOn", false);
     //turret.disableTurretPID();
   }
 
@@ -57,6 +59,8 @@ public class RotateTurret extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     turret.directPower(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(0.0);
+    SmartDashboard.putBoolean("LimeLightOn", true);
   }
 
   // Returns true when the command should end.

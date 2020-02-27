@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsCo
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class DriveTrain implements Subsystem {
     public WPI_TalonFX leftLeader;
@@ -38,6 +40,8 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
+    private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
     private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
@@ -77,7 +81,7 @@ public class DriveTrain implements Subsystem {
         differentialDrive.setSafetyEnabled(true);
 
         kinematics = new DifferentialDriveKinematics(30);
-        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.maxV);
+        trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.kMaxVelocity);
         odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
         resetOdometry();
 
@@ -87,6 +91,7 @@ public class DriveTrain implements Subsystem {
 
     @Override
     public void periodic() {
+        if (RobotMap.debugEnabled) {}
         //the following is test code**********************************the following is test code
 
         double r = rightLeader.getSelectedSensorPosition();

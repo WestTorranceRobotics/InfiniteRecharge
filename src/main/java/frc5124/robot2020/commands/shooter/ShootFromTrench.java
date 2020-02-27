@@ -38,7 +38,7 @@ public class ShootFromTrench extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+     m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     if (m_shooter.getVelocity() >= RobotMap.ShooterMap.trenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
       m_loader.runBelt();
     }

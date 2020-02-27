@@ -4,11 +4,11 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
-    public static int pcmCanId = 0;
+    public static final  boolean debugEnabled = true;
+    public static final  int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
 
     public static class DriveTrainMap {
-
         public static int rightLeaderCanID = 1;
         public static int rightFollowerCanID = 2;
         public static int leftLeaderCanID = 4;
@@ -17,6 +17,16 @@ public class RobotMap {
         public static double P = 0.000102;
         public static double I = 0.1;
         public static double D = 4.14e-5;
+
+        public static final double kS = 0.438;
+        public static final double kV = .0551;
+        public static final double kA = 0.00977;
+        public static final double kP = .0035;
+        public static final double kTrackwidthMeters = 0.59055;
+        public static final double kMaxVelocity = 10;
+        public static final double kMaxAcceleration = 2;
+        public static final double kRamseteB = 2;
+        public static final double kRamseteZeta = 0.7;
 
         public static double maxV = 12;
         public static double maxA = 2;
