@@ -71,8 +71,8 @@ public class RobotContainer {
   public JoystickButton operatorBack = new JoystickButton(operator, 9);
   public JoystickButton operatorStart = new JoystickButton(operator,10);
   public JoystickButton operatorTest = new JoystickButton(operator, 9);
-  public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
-  public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
+  public JoystickButton operatorStickLeft = new JoystickButton(operator, 11);
+  public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -87,7 +87,6 @@ public class RobotContainer {
     configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    
   }
 
   private void configureSubsystems() {
