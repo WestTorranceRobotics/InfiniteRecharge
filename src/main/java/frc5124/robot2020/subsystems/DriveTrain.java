@@ -1,5 +1,6 @@
 package frc5124.robot2020.subsystems;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,12 +25,15 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class DriveTrain implements Subsystem {
+public class DriveTrain extends SubsystemBase {
     public WPI_TalonFX leftLeader;
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
@@ -41,7 +45,7 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveOdometry odometry;
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
     private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
+    private ShuffleboardTab debuggingTab;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
     private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
@@ -87,11 +91,24 @@ public class DriveTrain implements Subsystem {
 
         gyro.reset();
         gyro.zeroYaw();
+        
+        if (RobotMap.debugEnabled) {
+            debuggingTab = Shuffleboard.getTab("Drive Train Debug");
+        }
     }
 
     @Override
     public void periodic() {
-        if (RobotMap.debugEnabled) {}
+        if (RobotMap.debugEnabled) {
+            debuggingTab.addNumber("Left Leader Current", () -> leftLeader.getStatorCurrent())
+            .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+            debuggingTab.addNumber("Right Leader Current", () -> rightLeader.getStatorCurrent())
+            .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+            debuggingTab.addNumber("X position", () -> odometry.getPoseMeters().getTranslation().getX())
+            .withPosition(3, 0).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
+            debuggingTab.addNumber("Y position", () -> odometry.getPoseMeters().getTranslation().getY())
+            .withPosition(3, 1).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
+        }
         //the following is test code**********************************the following is test code
 
         double r = rightLeader.getSelectedSensorPosition();
@@ -135,6 +152,9 @@ public class DriveTrain implements Subsystem {
     public void directPower(double power){
         rightLeader.set(power);
         leftLeader.set(power);
+    }
+    public DifferentialDriveKinematics getKinematics(){
+        return kinematics;
     }
      
     public WPI_TalonFX getLeftLeader(){

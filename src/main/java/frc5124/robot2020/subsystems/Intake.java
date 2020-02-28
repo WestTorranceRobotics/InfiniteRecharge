@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 
@@ -16,7 +17,7 @@ public class Intake implements Subsystem {
   private CANSparkMax rollerSpeedController;          //motor
   private boolean deployed;    
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;    
+  private ShuffleboardTab debuggingTab;
 
   public Intake() {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
@@ -25,13 +26,18 @@ public class Intake implements Subsystem {
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up 
       SmartDashboard.putBoolean("IntakeRunning", false);
-      display = Shuffleboard.getTab("Intake Display");
       Shuffleboard.update();
+      if (RobotMap.debugEnabled) {
+        debuggingTab = Shuffleboard.getTab("Intake Debug");
+      }
   }
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
+    if (RobotMap.debugEnabled) {
+      debuggingTab.addNumber("Intake Motor Current", () -> rollerSpeedController.getOutputCurrent())
+      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    }
     // Put code here to be run every loop
   }
 
