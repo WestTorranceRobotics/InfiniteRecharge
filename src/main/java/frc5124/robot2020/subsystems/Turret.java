@@ -36,8 +36,6 @@ public class Turret extends SubsystemBase {
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
   private boolean isHome = false;
-  // private DigitalInput magneticSensor;
-  // private DigitalOutput mDigitalOutput;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
@@ -52,9 +50,6 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("LimeLightOn", false);
     display = Shuffleboard.getTab("Turret Display");
     Shuffleboard.update();
-
-    
-    resetTurretDegrees();
   }
 
 
@@ -70,8 +65,8 @@ public class Turret extends SubsystemBase {
   }
 
   public void turretLimitSet() {
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -54);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 3);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ((int) (RobotMap.TurretMap.reverseRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     
