@@ -31,11 +31,11 @@ public class Turret extends SubsystemBase {
   private CANPIDController turretPID;
   private boolean leftLimitReached = false;
   private boolean rightLimitReached = false;
-  private boolean manual = false;
-  private double startDegrees = 0;
+  private boolean automatic = false;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
   private boolean isHome = false;
+  private double startDegrees = 0;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
@@ -58,6 +58,14 @@ public class Turret extends SubsystemBase {
     turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
     turretPID.setD(SmartDashboard.getNumber("D", 0));
     turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  }
+
+  public void isAutomatic(boolean automatic) {
+    this.automatic = automatic;
+  }
+
+  public boolean isAutomatic() {
+    return automatic;
   }
 
   public void setTurretDegrees(double degrees) {

@@ -95,7 +95,7 @@ public class RobotMap {
     public static class LoaderMap {
         public static int topBeltCanId = 9; //9
         public static int bottomBeltCanId = 12; //7 
-        public static double beltSpeed = .3;
+        public static double beltSpeed = .420;
         public static double fieldEmptyVoltage = 1.0;
         public static int motionSensorID = 1;
     }

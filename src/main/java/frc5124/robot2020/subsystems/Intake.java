@@ -47,7 +47,7 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
-    if (power > 0 || power < 0) {
+    if (power != 0) {
       SmartDashboard.putBoolean("IntakeRunning", true);
     } else {
       SmartDashboard.putBoolean("IntakeRunning", false);

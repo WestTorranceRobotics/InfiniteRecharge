@@ -29,6 +29,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   @Override
   public void initialize() {
     subsystem.enableTurretPID();
+    subsystem.isAutomatic(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,6 +45,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subsystem.isAutomatic(false);
     //subsystem.setTurretDegrees(0);
     new Thread(() -> {
       try {
