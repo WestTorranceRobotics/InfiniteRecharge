@@ -28,7 +28,6 @@ public class ShooterAndLoaderRev extends WaitCommand {
     addRequirements(m_loader);
     addRequirements(m_shooter);
   }
-   
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
