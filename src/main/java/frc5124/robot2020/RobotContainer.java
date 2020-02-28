@@ -15,11 +15,20 @@ import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -169,7 +178,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TargetShootAuto(shooter, loader, turret, driveTrain);
+    DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(RobotMap.DriveTrainMap.kS, RobotMap.DriveTrainMap.kV,RobotMap.DriveTrainMap.kA
+  ), driveTrain.getKinematics(), 10);
+
+  TrajectoryConfig config = new TrajectoryConfig(RobotMap.DriveTrainMap.kMaxSpeedInchesPerSecond, RobotMap.DriveTrainMap.kMaxAccelerationInchesPerSecondSquared).setKinematics(driveTrain.getKinematics()).addConstraint(autoVoltageConstraint);
+
+  Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(5, 5)), new Pose2d(0, 10, new Rotation2d(0)), config);
+
+  return new ZoomZoom(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
+   // return new TargetShootAuto(shooter, loader, turret, driveTrain);
     //TargetShootAuto(shooter, loader, turret, driveTrain);
   }
 }

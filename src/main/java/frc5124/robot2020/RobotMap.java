@@ -22,7 +22,9 @@ public class RobotMap {
         public static final double kV = .0551;
         public static final double kA = 0.00977;
         public static final double kP = .0035;
-        public static final double kTrackwidthMeters = 0.59055;
+        public static final double kTrackwidthMeters = 26.5;
+        public static final double kMaxSpeedInchesPerSecond = 10;
+        public static final double kMaxAccelerationInchesPerSecondSquared  = 2;
         public static final double kMaxVelocity = 10;
         public static final double kMaxAcceleration = 2;
         public static final double kRamseteB = 2;

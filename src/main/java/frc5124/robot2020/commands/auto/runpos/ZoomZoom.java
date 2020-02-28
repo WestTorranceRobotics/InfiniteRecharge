@@ -26,7 +26,7 @@ public class ZoomZoom extends RamseteCommand {
       path,
       drivebase::getLocation,
       new RamseteController(),
-      new SimpleMotorFeedforward(DriveTrainMap.motorS, DriveTrainMap.motorV, DriveTrainMap.motorA),
+      new SimpleMotorFeedforward(DriveTrainMap.kS, DriveTrainMap.kV, DriveTrainMap.kA),
       new DifferentialDriveKinematics(DriveTrainMap.trackWidth),
       drivebase::wheelSpeeds,
       new PIDController(DriveTrainMap.P, DriveTrainMap.I, DriveTrainMap.D),
