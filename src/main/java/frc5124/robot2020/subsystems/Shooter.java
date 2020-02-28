@@ -27,10 +27,11 @@ public class Shooter extends SubsystemBase {
   private CANPIDController shootPID; 
   private boolean atSpeed;
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
-  private int ballsShot;
+  private int ballsShot = 0;
   private boolean passedBallCurrent = false;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
+  private boolean initialSpeed = false;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -119,11 +120,8 @@ public class Shooter extends SubsystemBase {
    public void atSpeed(boolean atSpeed) {
     this.atSpeed= atSpeed;
   }
-
-  public class atSpeed extends Shooter{
-    public boolean atSpeed() {
-      return atSpeed;
-    }
+  public boolean atSpeed() {
+    return this.atSpeed;
   }
   
   public boolean holeOpenedOrClose(){
@@ -142,11 +140,6 @@ public class Shooter extends SubsystemBase {
     shootMotorLeader.set(power);
   }
 
-  public boolean atSpeed () {
-    return true;
-  }
-
-
   /**
    * Checks output current to shooter to count balls that have passed
    * 
@@ -155,10 +148,10 @@ public class Shooter extends SubsystemBase {
    * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
    */
   public void currentWatch(double targetRPM) {
-    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false && getVelocity() >= targetRPM-75 ) {
+    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false) {
       passedBallCurrent = true;
-      ballsShot =+ 1;
-    } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent) {
+      ballsShot = ballsShot + 1;
+    } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent-7) {
       passedBallCurrent = false;
     } 
   }
@@ -168,5 +161,6 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     if (RobotMap.debugEnabled) {}
     SmartDashboard.putNumber("BallsShot", ballsShot);
+    SmartDashboard.putNumber("BALLVEL", getVelocity());
   }
 }

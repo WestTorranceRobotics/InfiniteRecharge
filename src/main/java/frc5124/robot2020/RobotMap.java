@@ -22,7 +22,7 @@ public class RobotMap {
         public static final double kV = .0551;
         public static final double kA = 0.00977;
         public static final double kP = .0035;
-        public static final double kTrackwidthMeters = 26.5;
+        public static final double kTrackwidth = 26.5;
         public static final double kMaxSpeedInchesPerSecond = 10;
         public static final double kMaxAccelerationInchesPerSecondSquared  = 2;
         public static final double kMaxVelocity = 10;
@@ -32,12 +32,6 @@ public class RobotMap {
 
         public static double maxV = 12;
         public static double maxA = 2;
-
-        public static double motorS = 1;
-        public static double motorV = 1;
-        public static double motorA = 0;
-        
-        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {

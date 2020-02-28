@@ -72,29 +72,21 @@ public class DriveTrain extends SubsystemBase {
         leftFollower.setInverted(InvertType.FollowMaster);
         rightFollower.setInverted(InvertType.FollowMaster); 
 
-        //  /*
-        //  * [4] adjust sensor phase so sensor moves positive when Talon LEDs are green
-        //  */
-        // rightLeader.setSensorPhase(true);
-        // leftLeader.setSensorPhase(true);
-
-
         gyro = new AHRS(SPI.Port.kMXP);
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
 
-        kinematics = new DifferentialDriveKinematics(30);
+        kinematics = new DifferentialDriveKinematics(RobotMap.DriveTrainMap.kTrackwidth);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.kMaxVelocity);
-        odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
-        resetOdometry();
-
         gyro.reset();
         gyro.zeroYaw();
         
         if (RobotMap.debugEnabled) {
             debuggingTab = Shuffleboard.getTab("Drive Train Debug");
         }
+        odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
+        resetOdometry();
     }
 
     @Override
