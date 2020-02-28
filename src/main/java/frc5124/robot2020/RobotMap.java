@@ -101,8 +101,8 @@ public class RobotMap {
     }
 
     public static class TurretMap{
-        public static double reverseRotationLimit = -291.6; //54
-        public static double forwardRotationLimit = 16.2; //3
+        public static double reverseRotationLimit = -291.6; 
+        public static double forwardRotationLimit = 13.2; 
         public static int turretCanID = 13; 
         public static double turretSpeed = .2;
         public static double Kp = 0.050000; 

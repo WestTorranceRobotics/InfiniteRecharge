@@ -28,6 +28,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0.0);
     subsystem.enableTurretPID();
     subsystem.isAutomatic(true);
   }
@@ -46,6 +47,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     subsystem.isAutomatic(false);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
     //subsystem.setTurretDegrees(0);
     new Thread(() -> {
       try {
