@@ -30,12 +30,6 @@ public class RobotMap {
 
         public static double maxV = 12;
         public static double maxA = 2;
-
-        public static double motorS = 1;
-        public static double motorV = 1;
-        public static double motorA = 0;
-        
-        public static double trackWidth = 35;
     }
   
     public static class ShooterMap {

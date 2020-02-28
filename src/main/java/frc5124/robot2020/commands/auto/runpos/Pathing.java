@@ -16,21 +16,21 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc5124.robot2020.RobotMap.DriveTrainMap;
 import frc5124.robot2020.subsystems.DriveTrain;
 
-public class ZoomZoom extends RamseteCommand {
+public class Pathing extends RamseteCommand {
 
   /**
    * Creates a new ZoomZoom.
    */
-  public ZoomZoom(Trajectory path, DriveTrain drivebase) {
+  public Pathing(Trajectory path, DriveTrain drivebase) {
     super(
       path,
       drivebase::getLocation,
       new RamseteController(),
-      new SimpleMotorFeedforward(DriveTrainMap.motorS, DriveTrainMap.motorV, DriveTrainMap.motorA),
-      new DifferentialDriveKinematics(DriveTrainMap.trackWidth),
+      new SimpleMotorFeedforward(DriveTrainMap.kS, DriveTrainMap.kV, DriveTrainMap.kA),
+      new DifferentialDriveKinematics(DriveTrainMap.kTrackwidthMeters),
       drivebase::wheelSpeeds,
-      new PIDController(DriveTrainMap.P, DriveTrainMap.I, DriveTrainMap.D),
-      new PIDController(DriveTrainMap.P, DriveTrainMap.I, DriveTrainMap.D),
+      new PIDController(DriveTrainMap.kP, 0, 0),
+      new PIDController(DriveTrainMap.kP, 0, 0),
       drivebase::tankDrive,
       drivebase
     );
