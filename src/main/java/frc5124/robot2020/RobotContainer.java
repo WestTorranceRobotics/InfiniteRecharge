@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.runpos.*;
-import frc5124.robot2020.commands.auto.runpos.TargetShootAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc5124.robot2020.commands.driveTrain.*;
@@ -183,9 +182,9 @@ public class RobotContainer {
 
   TrajectoryConfig config = new TrajectoryConfig(RobotMap.DriveTrainMap.kMaxSpeedInchesPerSecond, RobotMap.DriveTrainMap.kMaxAccelerationInchesPerSecondSquared).setKinematics(driveTrain.getKinematics()).addConstraint(autoVoltageConstraint);
 
-  Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(5, 5)), new Pose2d(0, 10, new Rotation2d(0)), config);
+  Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(0, 10)), new Pose2d(0, 0, new Rotation2d(0)), config);
 
-  return new ZoomZoom(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
+  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
    // return new TargetShootAuto(shooter, loader, turret, driveTrain);
     //TargetShootAuto(shooter, loader, turret, driveTrain);
   }
