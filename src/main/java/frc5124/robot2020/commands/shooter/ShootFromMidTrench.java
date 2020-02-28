@@ -38,15 +38,13 @@ public class ShootFromMidTrench extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
-      m_loader.runBelt();
-    }  
-    
-    
-    SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
-    SmartDashboard.updateValues();
-   
+    if (m_shooter.atSpeed()) {
+      m_shooter.currentWatch(RobotMap.ShooterMap.midTrenchShootRPM);
+      }
+      if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+        m_loader.runBelt();
+        m_shooter.atSpeed(true);
+      } 
   }
   // Returns true when the command should end.
     @Override
@@ -60,6 +58,7 @@ public class ShootFromMidTrench extends CommandBase {
     SmartDashboard.putBoolean("ShooterRunning", false);
     m_shooter.stopShooter();
     m_loader.stopBelt();
+    m_shooter.atSpeed(false);
   }
   
 }
