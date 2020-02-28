@@ -21,20 +21,25 @@ public class DriveToPoint extends CommandBase {
   private boolean yes = false;
   private double targetCounts;
   private double distanceToDrive;
+  private double angleToTurn;
   private double countsPerInch = 1082.0;
 
   public DriveToPoint(DriveTrain driveTrain, double x, double y) {
     m_DriveTrain = driveTrain;
     addRequirements(m_DriveTrain);
-    // distanceToDrive = Math.sqrt((x*x) + (y*y)); //the hypotenuse (inches)
-    distanceToDrive = y;
-  //  double angleToTurn = Math.atan((y)/(x));
+    distanceToDrive = Math.sqrt((x*x) + (y*y)); //the hypotenuse (inches)
+    // distanceToDrive = y;
+    if (x != 0) {
+      double angleToTurn = Math.atan((y)/(x));
+    }
+    else{
+      double angleToTurn = 0;
+    }
     targetCounts = countsPerInch * distanceToDrive;
     m_DriveTrain.setLeftPower(0.5);
     m_DriveTrain.setRightPower(0.5);
   }
 
-  /*
   public void turnToAngle(){
     if (angleToTurn < 0) { // if angle is neg (clockwise [think of unit circle] right? idk i think so)
       if (m_DriveTrain.getGyroDegree() <= Math.abs(angleToTurn)) { //if gyro angle has not been reached
@@ -48,43 +53,39 @@ public class DriveToPoint extends CommandBase {
     }
     m_DriveTrain.directPower(0);
   }
-  */
+
+
 
   public void driveStraightToPoint(){ // after it figures out the angle, it should just drive straight
     if (!(m_DriveTrain.leftEncoder() <= targetCounts)){ // if the encoder counts dont match yet then run
-      // m_DriveTrain.directPower(0);
       m_DriveTrain.tankDrive(0, 0);
     }
-    
     else if (m_DriveTrain.leftEncoder() <= targetCounts){
-      // m_DriveTrain.directPower(1);
       m_DriveTrain.tankDrive(0.3, 0.3);
       updateSmartDashboard();
     }
     updateSmartDashboard();
-  
   }
 
   public void updateSmartDashboard(){
-   // SmartDashboard.putNumber("the angle", angleToTurn);
+    SmartDashboard.putNumber("the angle", angleToTurn);
+    SmartDashboard.putNumber("current angle", m_DriveTrain.getAngle());
     SmartDashboard.putNumber("TARGETCOUNTS", targetCounts);
     SmartDashboard.putNumber("ENCODERVAL", m_DriveTrain.leftEncoder());
     SmartDashboard.updateValues();
   }
 
-  
-  
   public void setNoPower(){
     m_DriveTrain.directPower(0);
   }
 
-  
-  
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  //  turnToAngle();
-    driveStraightToPoint();    
+    // turnToAngle();
+    // driveStraightToPoint();
+    updateSmartDashboard();
   }
 
   // Called once the command ends or is interrupted.

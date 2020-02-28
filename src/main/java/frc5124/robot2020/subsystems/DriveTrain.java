@@ -100,9 +100,6 @@ public class DriveTrain implements Subsystem {
         SmartDashboard.updateValues();
     }
 
-    // public void setBrake() {
-    //     rightLeader.
-    // }
     public void setCoast() {
 
     }
@@ -209,6 +206,10 @@ public class DriveTrain implements Subsystem {
 
     public void resetEncoder(){
         leftLeader.setSelectedSensorPosition(0);
+    }
+
+    public double getAngle(){
+        return gyro.getAngle();
     }
 
 }
