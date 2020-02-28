@@ -120,7 +120,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    turret.setDefaultCommand(new TurretFindHome(turret));
+    turret.setDefaultCommand(new TurretFindHomeDefault(turret));
     
   }
 
