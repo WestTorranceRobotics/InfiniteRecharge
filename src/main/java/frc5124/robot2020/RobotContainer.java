@@ -105,7 +105,7 @@ public class RobotContainer {
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
+    //AAA???
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
@@ -114,11 +114,14 @@ public class RobotContainer {
     //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
     operatorUp.whileHeld(new LiftUp(hanger) );  
     operatorDown.whileHeld(new LiftDown(hanger) );  
+
+   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     turret.setDefaultCommand(new TurretFindHome(turret));
+    
   }
 
 

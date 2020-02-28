@@ -36,6 +36,7 @@ public class Turret extends SubsystemBase {
   private ShuffleboardTab display;
   private boolean isHome = false;
   private double startDegrees = 0;
+  private boolean initialHome = false;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
@@ -100,6 +101,14 @@ public class Turret extends SubsystemBase {
 
   public boolean setHome () {
     return isHome;
+  }
+
+  public void initialHome(boolean initialHome) {
+    this.initialHome = initialHome;
+  }
+
+  public boolean initialHome () {
+    return initialHome;
   }
 
   public void setCoast() {
