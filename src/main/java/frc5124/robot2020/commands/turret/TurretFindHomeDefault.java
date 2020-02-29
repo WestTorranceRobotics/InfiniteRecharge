@@ -13,16 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
-public class TurretFindHome extends CommandBase {
+public class TurretFindHomeDefault extends CommandBase {
   private Turret turret;
+  private boolean isDone = false;
   private AnalogInput mag = new AnalogInput(3);
-  private boolean isDone;
+  private double currentDegrees = 0;
+  private boolean switchAround = false;
 
 
   /**
    * Creates a new TurretFindHome.
    */
-  public TurretFindHome(Turret subsystem) {
+  public TurretFindHomeDefault(Turret subsystem) {
     turret = subsystem;
     addRequirements(turret);
   }
@@ -30,8 +32,6 @@ public class TurretFindHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.setHome(false);
-    turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {
      turret.directPower(.1);
      SmartDashboard.putNumber("yeet", 0);
@@ -60,29 +60,9 @@ public class TurretFindHome extends CommandBase {
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
       turret.setHome(true);
-      isDone = true;
     }
   } 
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-
-    }
-  
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      if (isDone) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-  
-
-
+}
   
     
 

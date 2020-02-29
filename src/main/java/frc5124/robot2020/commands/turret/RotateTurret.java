@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RotateTurret extends CommandBase {
   private Turret turret;
   private Boolean clockwise = false;
+  private double lastDegrees = 0;
   /**
    * Creates a new RotateTurret.
    * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
@@ -38,8 +39,14 @@ public class RotateTurret extends CommandBase {
   public void execute() {
     if (clockwise && !turret.isAutomatic()) {
       turret.directPower(-.2);
-    }else if (!clockwise && !turret.isAutomatic()) {
+      lastDegrees = lastDegrees + .02 * 10;
+      lastDegrees = (lastDegrees + 33) % 360 - 33;
+      turret.setTurretDegrees(lastDegrees);
+    } else if (!clockwise && !turret.isAutomatic()) {
       turret.directPower(.2);
+      lastDegrees = lastDegrees + .2 * 10;
+      lastDegrees = (lastDegrees + 33) % 360 - 33;
+      turret.setTurretDegrees(lastDegrees);
     } 
 
     
