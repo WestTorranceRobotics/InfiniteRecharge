@@ -9,10 +9,6 @@ package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 
-import java.util.List;
-import java.util.function.DoubleSupplier;
-import edu.wpi.first.wpilibj.GyroBase;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj.XboxController;
@@ -127,6 +123,7 @@ public class RobotContainer {
     // positionControl.whenPressed(new PositionControl(panelController));
     // rotationControl.whenPressed(new RotationControl(panelController));   
     // rotationControl.whenPressed(new RotationControl(panelController));
+    operatorA.whenHeld(new FindingAngle(driveTrain));
   }
 
   // private void configureDefaultCommands(){
@@ -183,6 +180,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new DriveToPoint(driveTrain, 0, 100f);
+    return new DriveToPoint(driveTrain, 0, 0);
   }
 }
