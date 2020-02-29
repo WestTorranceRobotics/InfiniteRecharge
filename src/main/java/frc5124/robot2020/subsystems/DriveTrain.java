@@ -61,9 +61,9 @@ public class DriveTrain extends SubsystemBase {
         rightFollower.follow(rightLeader);
 
         rightLeader.setNeutralMode(NeutralMode.Brake);
-        rightFollower.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Coast);
         leftLeader.setNeutralMode(NeutralMode.Brake);
-        leftFollower.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Coast);
 
         leftLeader.setInverted(true);
         
@@ -120,8 +120,8 @@ public class DriveTrain extends SubsystemBase {
     // Control methods
 
     public void tankDrive(double left, double right) {
-        differentialDrive.tankDrive(left,-right);   
-    }
+        differentialDrive.tankDrive(left, -right);   
+     }
 
     public void arcadeDrive(double speed, double turn) {
         differentialDrive.arcadeDrive(speed, turn);

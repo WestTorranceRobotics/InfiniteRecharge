@@ -80,8 +80,8 @@ public class RobotContainer {
   public JoystickButton operatorBack = new JoystickButton(operator, 9);
   public JoystickButton operatorStart = new JoystickButton(operator,10);
   public JoystickButton operatorTest = new JoystickButton(operator, 9);
-  public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
-  public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
+  public JoystickButton operatorStickLeft = new JoystickButton(operator, 11);
+  public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -96,7 +96,6 @@ public class RobotContainer {
     configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    
   }
 
   private void configureSubsystems() {
@@ -114,18 +113,23 @@ public class RobotContainer {
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
+    //AAA???
+    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
+    operatorRight.whileHeld(new RotateTurret(turret, false));
+    operatorLeft.whileHeld(new RotateTurret(turret, true));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
     //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
     operatorUp.whileHeld(new LiftUp(hanger) );  
     operatorDown.whileHeld(new LiftDown(hanger) );  
+
+   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     turret.setDefaultCommand(new TurretFindHome(turret));
+    
   }
 
 

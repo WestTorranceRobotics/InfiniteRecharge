@@ -31,13 +31,12 @@ public class Turret extends SubsystemBase {
   private CANPIDController turretPID;
   private boolean leftLimitReached = false;
   private boolean rightLimitReached = false;
-  private boolean manual = false;
-  private double startDegrees = 0;
+  private boolean automatic = false;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab debuggingTab;
   private boolean isHome = false;
-  // private DigitalInput magneticSensor;
-  // private DigitalOutput mDigitalOutput;
+  private double startDegrees = 0;
+  private boolean initialHome = false;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
@@ -50,11 +49,8 @@ public class Turret extends SubsystemBase {
     startDegrees = getDegrees();
     SmartDashboard.putBoolean("ShooterRunning", false);
     SmartDashboard.putBoolean("LimeLightOn", false);
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Turret Debug");
-      debuggingTab.addNumber("Degree Position", this::getDegrees);
-    }
-    resetTurretDegrees();
+    debuggingTab = Shuffleboard.getTab("Turret Display");
+    Shuffleboard.update();
   }
 
 
@@ -65,13 +61,21 @@ public class Turret extends SubsystemBase {
     turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
   }
 
+  public void isAutomatic(boolean automatic) {
+    this.automatic = automatic;
+  }
+
+  public boolean isAutomatic() {
+    return automatic;
+  }
+
   public void setTurretDegrees(double degrees) {
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
 
   public void turretLimitSet() {
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -54);
-    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 3);
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ((int) (RobotMap.TurretMap.reverseRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
     
@@ -97,6 +101,14 @@ public class Turret extends SubsystemBase {
 
   public boolean setHome () {
     return isHome;
+  }
+
+  public void initialHome(boolean initialHome) {
+    this.initialHome = initialHome;
+  }
+
+  public boolean initialHome () {
+    return initialHome;
   }
 
   public void setCoast() {

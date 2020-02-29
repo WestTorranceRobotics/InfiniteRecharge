@@ -28,15 +28,19 @@ public class ShooterAndLoaderRev extends WaitCommand {
     addRequirements(m_loader);
     addRequirements(m_shooter);
   }
-   
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+ @Override
+  public void initialize() {
     if (!startedShooter) {
       m_shooter.startShooter();
       startedShooter = true;
     }
+  }
+   
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    
    
     super.execute();
     if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-20) {

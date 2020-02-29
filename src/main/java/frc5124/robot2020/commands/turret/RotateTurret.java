@@ -16,39 +16,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateTurret extends CommandBase {
   private Turret turret;
-  private POVButton operatorLeft;
-  private POVButton operatorRight;
-
+  private Boolean clockwise = false;
   /**
    * Creates a new RotateTurret.
    * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
    */
-  public RotateTurret(Turret subsystem, POVButton operatorRight, POVButton operatorLeft) {
+  public RotateTurret(Turret subsystem, Boolean clockwise) {
     turret = subsystem;
     addRequirements(turret);
-    this.operatorLeft = operatorLeft;
-    this.operatorRight = operatorRight;
+    this.clockwise = clockwise;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
-    SmartDashboard.putBoolean("LimeLightOn", false);
-    //turret.disableTurretPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    if (operatorRight.get()) {
+    if (clockwise && !turret.isAutomatic()) {
       turret.directPower(-.2);
-    }else if (operatorLeft.get()) {
+    }else if (!clockwise && !turret.isAutomatic()) {
       turret.directPower(.2);
-    } else {
-      turret.directPower(0);
-    }
+    } 
 
     
 
@@ -59,8 +51,6 @@ public class RotateTurret extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     turret.directPower(0);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(0.0);
-    SmartDashboard.putBoolean("LimeLightOn", true);
   }
 
   // Returns true when the command should end.
