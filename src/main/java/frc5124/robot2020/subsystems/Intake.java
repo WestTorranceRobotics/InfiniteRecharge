@@ -16,7 +16,6 @@ public class Intake implements Subsystem {
   private Solenoid armSolenoid;         //for pivot of the arm
   private CANSparkMax rollerSpeedController;          //motor
   private boolean deployed;    
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab debuggingTab;
 
   public Intake() {
@@ -24,20 +23,17 @@ public class Intake implements Subsystem {
       rollerSpeedController = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
-      deployed = false;         // pivot is up 
-      SmartDashboard.putBoolean("IntakeRunning", false);
+      deployed = false;         // pivot is up
       Shuffleboard.update();
       if (RobotMap.debugEnabled) {
         debuggingTab = Shuffleboard.getTab("Intake Debug");
+        debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
+        .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
       }
   }
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {
-      debuggingTab.addNumber("Intake Motor Current", () -> rollerSpeedController.getOutputCurrent())
-      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    }
     // Put code here to be run every loop
   }
 
@@ -53,15 +49,19 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
-    if (power > 0 || power < 0) {
-      SmartDashboard.putBoolean("IntakeRunning", true);
-    } else {
-      SmartDashboard.putBoolean("IntakeRunning", false);
-    }
+    // if (power > 0 || power < 0) {
+    //   SmartDashboard.putBoolean("IntakeRunning", true);
+    // } else {
+    //   SmartDashboard.putBoolean("IntakeRunning", false);
+    // }
+  }
+
+  public boolean isRunning() {
+    return rollerSpeedController.getAppliedOutput() != 0;
   }
 
   public void flushOut(){
     armSolenoid.set(true);
     rollerSpeedController.set(-1);
   }
-} 
+}

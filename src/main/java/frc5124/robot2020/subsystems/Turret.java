@@ -34,7 +34,7 @@ public class Turret extends SubsystemBase {
   private boolean manual = false;
   private double startDegrees = 0;
   private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
+  private ShuffleboardTab debuggingTab;
   private boolean isHome = false;
   // private DigitalInput magneticSensor;
   // private DigitalOutput mDigitalOutput;
@@ -50,10 +50,9 @@ public class Turret extends SubsystemBase {
     startDegrees = getDegrees();
     SmartDashboard.putBoolean("ShooterRunning", false);
     SmartDashboard.putBoolean("LimeLightOn", false);
-    display = Shuffleboard.getTab("Turret Display");
-    Shuffleboard.update();
-
-    
+    if (RobotMap.debugEnabled) {
+      debuggingTab.addNumber("Degree Position", this::getDegrees);
+    }
     resetTurretDegrees();
   }
 
@@ -179,8 +178,5 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
-    SmartDashboard.putNumber("TurretDegrees", getDegrees());
-    SmartDashboard.updateValues();
   }
 } 

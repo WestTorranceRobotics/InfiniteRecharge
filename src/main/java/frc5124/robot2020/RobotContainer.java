@@ -8,6 +8,7 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.util.List;
 import java.util.function.DoubleSupplier;
@@ -130,20 +131,25 @@ public class RobotContainer {
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
+    Shuffleboard.selectTab(display.getTitle());
 
-    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
-    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
-    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-      
-    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
+    display.addBoolean("Intake Running?", intake::isRunning)
+    .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Limelight On?",
+    () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").getDouble(-1) == 0
+    ).withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Target Acquired?",
+    () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1
+    ).withPosition(0, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Shooter On?", shooter::active)
+    .withPosition(0, 3).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addNumber("Number of Balls in Loader (Stub)", () -> 0)
+    .withPosition(0, 4).withSize(1, 1);
+
     //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
 
-  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+  public static GyroBase shuffleboardGyro(DoubleSupplier d) {
     return new GyroBase(){
       @Override public void close() {}
       @Override public void reset() {}

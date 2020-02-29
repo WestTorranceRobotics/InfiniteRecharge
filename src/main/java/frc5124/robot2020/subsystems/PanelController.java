@@ -36,8 +36,7 @@ public class PanelController implements Subsystem {
   private PanelColor color;
   private int colorEncoderCount;
   private boolean deployed;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
+  private ShuffleboardTab debuggingTab;
   
   public PanelController() {
     deployer = new Solenoid(RobotMap.pcmCanId, RobotMap.PanelControlMap.deployerSolenoidChannel);
@@ -49,13 +48,18 @@ public class PanelController implements Subsystem {
     matcher.addColorMatch(PanelColor.YELLOW.color());
     matcher.addColorMatch(PanelColor.GREEN.color());
     matcher.addColorMatch(PanelColor.RED.color());
-    display = Shuffleboard.getTab("Panel Display");
-    Shuffleboard.update();
+    if (RobotMap.debugEnabled) {
+      debuggingTab = Shuffleboard.getTab("Panel Debugger");
+      debuggingTab.addString("Status", () -> "Imagine Having a Panel Controller");
+      // Color encoder
+      // Motor encoder
+      // Motor current
+      // Color view with numbers
+    }
   }
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
     if (!deployed) {
       color = null;
     }

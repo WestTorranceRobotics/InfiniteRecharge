@@ -25,7 +25,7 @@ public class Pathing extends RamseteCommand {
     super(
       path,
       drivebase::getLocation,
-      new RamseteController(),
+      new RamseteController(1,0.5),
       new SimpleMotorFeedforward(DriveTrainMap.kS, DriveTrainMap.kV, DriveTrainMap.kA),
       new DifferentialDriveKinematics(DriveTrainMap.kTrackwidth),
       drivebase::wheelSpeeds,

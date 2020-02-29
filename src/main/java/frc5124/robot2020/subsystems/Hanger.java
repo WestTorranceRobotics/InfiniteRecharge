@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Hanger implements Subsystem {
@@ -25,8 +26,7 @@ public class Hanger implements Subsystem {
   private Solenoid noBrake;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
+  private ShuffleboardTab debuggingTab;
 
   public Hanger() {
     hangerMotor = new CANSparkMax(RobotMap.HangerMap.hangerCanID, MotorType.kBrushless);
@@ -35,8 +35,15 @@ public class Hanger implements Subsystem {
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
     noBrake.set(false);
     hangerMotor.setInverted(true);
-    display = Shuffleboard.getTab("Hanger Display");
-    Shuffleboard.update();
+    if (RobotMap.debugEnabled) {
+      debuggingTab = Shuffleboard.getTab("Hanger Debug");
+      debuggingTab.addBoolean("Top Limit Switch", this::reachedTopLimit)
+      .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+      debuggingTab.addBoolean("Bottom Limit Switch", this::reachedBottomLimit)
+      .withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+      debuggingTab.addNumber("Lift Current", hangerMotor::getOutputCurrent)
+      .withPosition(1, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    }
   }
 
   @Override

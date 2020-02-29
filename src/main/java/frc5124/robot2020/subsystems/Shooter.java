@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Shooter extends SubsystemBase {
@@ -29,9 +31,7 @@ public class Shooter extends SubsystemBase {
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot = 0;
   private boolean passedBallCurrent = false;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
-  private boolean initialSpeed = false;
+  private ShuffleboardTab debuggingTab;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -53,8 +53,19 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
     shootMotorFollower.setClosedLoopRampRate(.001);
     shootMotorLeader.setClosedLoopRampRate(.001);
-    display = Shuffleboard.getTab("Shooter Display");
-    Shuffleboard.update();
+    if (RobotMap.debugEnabled) {
+      debuggingTab = Shuffleboard.getTab("Shooter Debug");
+      debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
+      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      debuggingTab.addNumber("Shooter RPM", this::getVelocity)
+      .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      debuggingTab.addNumber("Balls Shot", this::getBallsShot)
+      .withPosition(0, 3).withSize(1, 1);
+    }
+  }
+
+  public boolean active() {
+    return shootMotorLeader.getAppliedOutput() != 0;
   }
 
   public int getBallsShot() {
@@ -159,8 +170,5 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
-    SmartDashboard.putNumber("BallsShot", ballsShot);
-    SmartDashboard.putNumber("BALLVEL", getVelocity());
   }
 }

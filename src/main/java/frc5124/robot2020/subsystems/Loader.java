@@ -16,6 +16,7 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -23,9 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 public class Loader implements Subsystem {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
   AnalogInput motionSensor = new AnalogInput(1);
+  private ShuffleboardTab debuggingTab;
   
   public Loader() { 
     topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
@@ -34,8 +34,19 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    display = Shuffleboard.getTab("Loader Display");
-    Shuffleboard.update();
+    if (RobotMap.debugEnabled) {
+      debuggingTab = Shuffleboard.getTab("Loader Debug");
+      debuggingTab.addNumber("Top Motor Current", topBeltMotor::getOutputCurrent)
+      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      debuggingTab.addNumber("Bottom Motor Current", bottomBeltMotor::getOutputCurrent)
+      .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      debuggingTab.addBoolean("Sees Ball", this::seeBall)
+      .withPosition(3, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+      debuggingTab.addNumber("Number Balls In (Stub)", () -> 0)
+      .withPosition(3, 1).withSize(1, 1);
+      debuggingTab.addNumber("Number Balls Out (Stub)", () -> 0)
+      .withPosition(3, 2).withSize(1, 1);
+    }
   }
 
   public void setPower(double power){
@@ -71,6 +82,7 @@ public class Loader implements Subsystem {
   public double returnRotations() {
     return topBeltMotor.getEncoder(EncoderType.kHallSensor, 42).getCountsPerRevolution();
   }
+
   public void runLoader() {
     if(!seeBall()){
       runBelt();
@@ -80,11 +92,8 @@ public class Loader implements Subsystem {
     }
   }
 
-
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
-    SmartDashboard.updateValues();
   }
 }
