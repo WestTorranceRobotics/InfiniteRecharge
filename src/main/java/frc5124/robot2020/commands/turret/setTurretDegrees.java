@@ -18,7 +18,6 @@ public class setTurretDegrees extends CommandBase {
    */
   public setTurretDegrees(Turret subsystem, double degrees) {
     turret = subsystem;
-    addRequirements(turret);
     this.degrees = degrees;
   }
 

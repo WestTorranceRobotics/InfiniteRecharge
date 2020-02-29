@@ -4,13 +4,19 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 
 public class Intake implements Subsystem {
 
   private Solenoid armSolenoid;         //for pivot of the arm
   private CANSparkMax rollerSpeedController;          //motor
-  private boolean deployed;         //need to create the toggle for the pivot 
+  private boolean deployed;    
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;    
 
   public Intake() {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
@@ -18,15 +24,20 @@ public class Intake implements Subsystem {
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up 
+      SmartDashboard.putBoolean("IntakeRunning", false);
+      display = Shuffleboard.getTab("Intake Display");
+      Shuffleboard.update();
   }
 
   @Override
   public void periodic() {
+    if (RobotMap.debugEnabled) {}
     // Put code here to be run every loop
   }
 
   public void setDeployed(boolean deployed) {
     armSolenoid.set(deployed);
+  
     this.deployed = deployed;
   }
 
@@ -36,6 +47,11 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
+    if (power != 0) {
+      SmartDashboard.putBoolean("IntakeRunning", true);
+    } else {
+      SmartDashboard.putBoolean("IntakeRunning", false);
+    }
   }
 
   public void flushOut(){

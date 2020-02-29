@@ -16,15 +16,15 @@ import frc5124.robot2020.subsystems.Loader;
 
 public class ShootFromTrench extends CommandBase {
   private Shooter m_shooter;
-  //private Loader m_loader;
+  private Loader m_loader;
   
   /**
    * Creates a new setShootVelocity.
    */
   public ShootFromTrench (Shooter shooter, Loader loader) {
     m_shooter = shooter;
-    //m_loader = loader;
-    //addRequirements(m_loader);
+    m_loader = loader;
+    addRequirements(m_loader);
     addRequirements(m_shooter);
   }
 
@@ -32,18 +32,18 @@ public class ShootFromTrench extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.startShooter(RobotMap.ShooterMap.trenchShootRPM);
+    SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    //if (m_shooter.getVelocity() >= RobotMap.ShooterMap.trenchShootRPM-15 && m_loader.getAppliedOutput() == 0) {
-    //   m_loader.runBelt();
-    // } 
+     m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.trenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+      m_loader.runBelt();
+    }
+    
     SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
-    SmartDashboard.putNumber("SHOOTYCcurrent", m_shooter.getCurrent());
-    SmartDashboard.putNumber("SHOOTYVoltage", m_shooter.getVoltage());
     SmartDashboard.updateValues();
    
   }
@@ -56,7 +56,9 @@ public class ShootFromTrench extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    SmartDashboard.putBoolean("ShooterRunning", false);
     m_shooter.stopShooter();
+    m_loader.stopBelt();
   }
   
 }

@@ -21,74 +21,70 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-public class Turret implements Subsystem {
+public class Turret extends SubsystemBase {
   private CANSparkMax turretMotor;
   private CANPIDController turretPID;
-  private double startDegrees = 0;
   private boolean leftLimitReached = false;
   private boolean rightLimitReached = false;
-  private boolean clockwise = false;
-  private double currentDegrees = 0;
-  private boolean manual = false;
-  // private DigitalInput magneticSensor;
-  // private DigitalOutput mDigitalOutput;
+  private boolean automatic = false;
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
+  private boolean isHome = false;
+  private double startDegrees = 0;
+  private boolean initialHome = false;
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);
     turretPID = turretMotor.getPIDController();
     turretMotor.restoreFactoryDefaults();
-    setCoast();
+    setBrake();
     turretPID.setP(RobotMap.TurretMap.Kp);
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
-    //resetTurretDegrees();
     startDegrees = getDegrees();
-    // turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, -32);
-    // turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 32);
-    // turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-    // turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
- 
-   // TODO should set soft limits during homing
-
-    //Code used for PID Tuning
-
-    // SmartDashboard.putNumber("P", .04);
-    // SmartDashboard.putNumber("I", 0);
-    // SmartDashboard.putNumber("D", 0);
-    // SmartDashboard.putNumber("IZONE", 0);
+    SmartDashboard.putBoolean("ShooterRunning", false);
+    SmartDashboard.putBoolean("LimeLightOn", false);
+    display = Shuffleboard.getTab("Turret Display");
+    Shuffleboard.update();
   }
 
-  //Code used for PID Tuning
 
-  // public void updateCoeffs() {
-  //   turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
-  //   turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
-  //   turretPID.setD(SmartDashboard.getNumber("D", 0));
-  //   turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
-  // }
+  public void updateCoeffs() {
+    turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+    turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+    turretPID.setD(SmartDashboard.getNumber("D", 0));
+    turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+  }
+
+  public void isAutomatic(boolean automatic) {
+    this.automatic = automatic;
+  }
+
+  public boolean isAutomatic() {
+    return automatic;
+  }
 
   public void setTurretDegrees(double degrees) {
     turretPID.setReference(((degrees) * (RobotMap.TurretMap.turretDegreeToRotations)), ControlType.kPosition);
   }
 
-  public boolean isManual() {
-    return manual;
+  public void turretLimitSet() {
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ((int) (RobotMap.TurretMap.reverseRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
+    turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+    
   }
-
-  public void isManual(boolean manual) {
-    this.manual = manual;
-  }
-
-
 
   public void resetTurretDegrees() {
     turretMotor.getEncoder().setPosition(0);
   }
 
-  public void setClockwise(boolean clockwise){
-    this.clockwise = clockwise;
-  }
   /**
    * Disables turret PID for manual control
    */
@@ -97,6 +93,22 @@ public class Turret implements Subsystem {
     turretPID.setI(0);
     turretPID.setIZone(0);
     turretPID.setD(0);
+  }
+
+  public void setHome(boolean isHome) {
+    this.isHome = isHome;
+  }
+
+  public boolean setHome () {
+    return isHome;
+  }
+
+  public void initialHome(boolean initialHome) {
+    this.initialHome = initialHome;
+  }
+
+  public boolean initialHome () {
+    return initialHome;
   }
 
   public void setCoast() {
@@ -169,13 +181,18 @@ public class Turret implements Subsystem {
   public CANSparkMax getMotor() {
     return turretMotor;
   }
+
+  public double getAppliedOutput() {
+    return turretMotor.getAppliedOutput();
+  }
   // public DigitalInput getMagnetSensor(){
   //   return magneticSensor;
   // }
 
   @Override
   public void periodic() {
-  
-  
+    if (RobotMap.debugEnabled) {}
+    SmartDashboard.putNumber("TurretDegrees", getDegrees());
+    SmartDashboard.updateValues();
   }
 } 

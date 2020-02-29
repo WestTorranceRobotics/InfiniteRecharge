@@ -16,18 +16,18 @@ import frc5124.robot2020.subsystems.Loader;
 
 
 
-public class ShootFromLine extends CommandBase {
+public class ShootTuner extends CommandBase {
   private Shooter m_shooter;
-  private Loader m_loader;
+  //private Loader m_loader;
 
 
   /**
    * Creates a new setShootVelocity.
    */
-  public ShootFromLine (Shooter shooter, Loader loader) {
+  public ShootTuner (Shooter shooter) {
     m_shooter = shooter;
-    m_loader = loader;
-    addRequirements(m_loader);
+    // m_loader = loader;
+    // addRequirements(m_loader);
     addRequirements(m_shooter);
   }
 
@@ -35,21 +35,15 @@ public class ShootFromLine extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.startShooter(RobotMap.ShooterMap.lineShootRPM);
-    SmartDashboard.putBoolean("ShooterRunning", true);
+    //SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-20 && m_loader.getAppliedOutput() == 0) {
-      m_loader.runBelt();
-    } 
-  // else if (!(m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20) && !(m_loader.getAppliedOutput() == 0)) {
-  //   m_loader.stopBelt();
-  // }
-    SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
-    SmartDashboard.updateValues();
+  m_shooter.updatePID();
+  SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
+  SmartDashboard.updateValues();
   }
   // Returns true when the command should end.
     @Override
@@ -62,7 +56,7 @@ public class ShootFromLine extends CommandBase {
   public void end(boolean interrupted) {
     SmartDashboard.putBoolean("ShooterRunning", false);
     m_shooter.stopShooter();
-    m_loader.stopBelt();
+   // m_loader.stopBelt();
   }
   
 }

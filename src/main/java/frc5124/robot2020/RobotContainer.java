@@ -24,16 +24,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.runpos.*;
+import frc5124.robot2020.commands.auto.runpos.TargetShootAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc5124.robot2020.commands.driveTrain.*;
+import frc5124.robot2020.commands.hanger.LiftDown;
+import frc5124.robot2020.commands.hanger.LiftUp;
 import frc5124.robot2020.commands.intake.*;
-import frc5124.robot2020.commands.loader.RunLoader;
+import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.subsystems.*;
 
-import frc5124.robot2020.subsystems.PanelController.OutputColor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -57,17 +60,19 @@ public class RobotContainer {
   public static final Joystick driverRight = new Joystick(1);
   public XboxController operator = new XboxController(2);
   
-  public JoystickButton operatorA = new JoystickButton(operator, XboxController.Button.kA.value);
-  public JoystickButton operatorB = new JoystickButton(operator, XboxController.Button.kB.value);
-  public JoystickButton operatorX = new JoystickButton(operator, XboxController.Button.kX.value);
-  public JoystickButton operatorY = new JoystickButton(operator, XboxController.Button.kY.value);
-  public JoystickButton operatorLB = new JoystickButton(operator, XboxController.Button.kBumperLeft.value);
-  public JoystickButton operatorRB = new JoystickButton(operator, XboxController.Button.kBumperRight.value);
-  public JoystickButton operatorBack = new JoystickButton(operator, XboxController.Button.kBack.value);
-  public JoystickButton operatorStart = new JoystickButton(operator,XboxController.Button.kStart.value);
-  public JoystickButton operatorTest = new JoystickButton(operator, XboxController.Button.kBack.value);
-  public JoystickButton operatorStickLeft = new JoystickButton(operator, XboxController.Button.kStickLeft.value);
-  public JoystickButton operatorStickRight = new JoystickButton(operator, XboxController.Button.kStickRight.value);
+  public JoystickButton operatorA = new JoystickButton(operator, 2);
+  public JoystickButton operatorB = new JoystickButton(operator, 3);
+  public JoystickButton operatorX = new JoystickButton(operator, 1);
+  public JoystickButton operatorY = new JoystickButton(operator, 4);
+  public JoystickButton operatorLB = new JoystickButton(operator, 5);
+  public JoystickButton operatorRB = new JoystickButton(operator, 6);
+  public JoystickButton operatorLT = new JoystickButton(operator, 7);
+  public JoystickButton operatorRT = new JoystickButton(operator, 8);
+  public JoystickButton operatorBack = new JoystickButton(operator, 9);
+  public JoystickButton operatorStart = new JoystickButton(operator,10);
+  public JoystickButton operatorTest = new JoystickButton(operator, 9);
+  public JoystickButton operatorStickLeft = new JoystickButton(operator, 11);
+  public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -82,7 +87,6 @@ public class RobotContainer {
     configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
-    
   }
 
   private void configureSubsystems() {
@@ -98,24 +102,25 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntake(loader, intake));
+    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.toggleWhenPressed(new RotateTurret(turret, operatorRight, operatorLeft)).whenInactive(new TurretTargetByPIDPerpetually(turret));
-    
-    //operatorDown.whileHeld(new LiftDown(hanger));
-    operatorY.whileHeld(new RunLoader(loader));
+    //AAA???
+    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
+    operatorRight.whileHeld(new RotateTurret(turret, false));
+    operatorLeft.whileHeld(new RotateTurret(turret, true));
     operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
-    operatorLB.whenPressed(new ShootFromTrench(shooter, loader));
+    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
+    //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
+    operatorUp.whileHeld(new LiftUp(hanger) );  
+    operatorDown.whileHeld(new LiftDown(hanger) );  
 
-    //operatorRB.whileHeld(new RotateTurret(turret, RobotMap.TurretMap.turretSpeed));
-   //operatorLB.whileHeld(new RotateTurret(turret, -RobotMap.TurretMap.turretSpeed));     
-    
+   
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    //turret.setDefaultCommand(new TurretTargetByPIDPerpetually(turret));
+    turret.setDefaultCommand(new TurretFindHome(turret));
+    
   }
 
 
@@ -168,6 +173,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null;
+    return new TargetShootAuto(shooter, loader, turret, driveTrain);
+    //TargetShootAuto(shooter, loader, turret, driveTrain);
   }
 }

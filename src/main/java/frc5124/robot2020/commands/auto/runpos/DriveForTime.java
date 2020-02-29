@@ -5,38 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.turret;
+package frc5124.robot2020.commands.auto.runpos;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Turret;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc5124.robot2020.subsystems.DriveTrain;
 
-public class IsManual extends CommandBase {
-  private Turret subsystem;
+public class DriveForTime extends WaitCommand {
+  DriveTrain driveTrain;
   /**
-   * Creates a new TurretTargetByPID.
+   * Creates a new DriveForTime.
    */
-  public IsManual (Turret subsystem) {
-  this.subsystem = subsystem;
-  }
-
-  public void initialize() {
-    subsystem.isManual(true);
+  public DriveForTime(DriveTrain subsystem, double time) {
+    super(time);
+    driveTrain = subsystem;
+    addRequirements(subsystem);
   }
 
   @Override
   public void execute() {
-    // TODO Auto-generated method stub
-   // subsystem.isManual(true);
+    super.execute();
+    driveTrain.tankDrive(.4, .4);
   }
 
   @Override
   public void end(boolean interrupted) {
-    subsystem.isManual(false);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return true;
+    super.end(interrupted);
+    driveTrain.tankDrive(0, 0);
   }
 }

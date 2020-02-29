@@ -18,7 +18,6 @@ public class TurretTargetByPID extends CommandBase {
    */
   public TurretTargetByPID(Turret subsystem) {
     this.subsystem = subsystem;
-    addRequirements(subsystem);
   }
 
   public void initialize() {

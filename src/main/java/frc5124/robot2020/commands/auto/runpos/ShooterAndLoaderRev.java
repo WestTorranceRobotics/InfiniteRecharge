@@ -5,64 +5,63 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.auto.runpos;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-
-
-public class ShootFromLine extends CommandBase {
+public class ShooterAndLoaderRev extends WaitCommand {
   private Shooter m_shooter;
   private Loader m_loader;
-
-
+  private boolean startedShooter = false;
   /**
-   * Creates a new setShootVelocity.
+   * Creates a new ShooterAndLoaderRev.
    */
-  public ShootFromLine (Shooter shooter, Loader loader) {
+  public ShooterAndLoaderRev(Shooter shooter, Loader loader, double time) {
+    super(time);
     m_shooter = shooter;
     m_loader = loader;
+
     addRequirements(m_loader);
     addRequirements(m_shooter);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
+ @Override
   public void initialize() {
-    m_shooter.startShooter(RobotMap.ShooterMap.lineShootRPM);
-    SmartDashboard.putBoolean("ShooterRunning", true);
+    if (!startedShooter) {
+      m_shooter.startShooter();
+      startedShooter = true;
+    }
   }
-
+   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+    
+   
+    super.execute();
+    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-20) {
       m_loader.runBelt();
-    } 
-  // else if (!(m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20) && !(m_loader.getAppliedOutput() == 0)) {
-  //   m_loader.stopBelt();
-  // }
-    SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
-    SmartDashboard.updateValues();
-  }
-  // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
     }
+    
+   
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("ShooterRunning", false);
+    super.end(interrupted);
     m_shooter.stopShooter();
     m_loader.stopBelt();
+   
   }
-  
+
+  // // Returns true when the command should end.
+  // @Override
+  // public boolean isFinished() {
+  //   return false;
+  // }
 }

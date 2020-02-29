@@ -5,42 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.loader;
+package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Loader;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SeeBallRunBelt extends CommandBase {
-
-  private Loader m_Loader;
-
-  public  SeeBallRunBelt(Loader subsystem) {
-    m_Loader = subsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_Loader);
+public class toggleLimeLight extends CommandBase {
+  /**
+   * Creates a new toggleLimeLight.
+   */
+  public toggleLimeLight() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(0.0);
+    SmartDashboard.putBoolean("LimeLightOn", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
-    } else {
-      m_Loader.stopBelt();
-    }
-    // 1000 is just a placeholder, after we test for optimal time we'll replace it
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Loader.stopBelt();
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
+    SmartDashboard.putBoolean("LimeLightOn", false);
   }
 
   // Returns true when the command should end.
@@ -48,5 +42,4 @@ public class SeeBallRunBelt extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

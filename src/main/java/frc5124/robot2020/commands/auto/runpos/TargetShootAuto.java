@@ -5,25 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto.runpos;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.ReverseBelt;
-import frc5124.robot2020.commands.loader.RunLoader;
-import frc5124.robot2020.subsystems.Intake;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2020.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ReverseBeltWithIntake extends ParallelCommandGroup {
+public class TargetShootAuto extends SequentialCommandGroup {
   /**
-   * Creates a new ReverseBeltWithIntake.
+   * Creates a new TargetShootAuto.
    */
-  public ReverseBeltWithIntake(Loader loader, Intake intake) {
+  public TargetShootAuto(Shooter shooter, Loader loader, Turret turret, DriveTrain driveTrain) {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
-    super(new ReverseBelt(loader), new SetIntakePower(intake, -0.8));
+    // super(new FooCommand(), new BarCommand());
+    super(new Turn180(turret), new ShootAim(shooter, loader, turret), new DriveForTime(driveTrain, 2));
+    //super(new shootAim(shooter, loader, turret), new DriveWEncoders(driveTrain, 5));
   }
 }

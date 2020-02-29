@@ -12,40 +12,39 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateTurret extends CommandBase {
   private Turret turret;
-  private POVButton operatorLeft;
-  private POVButton operatorRight;
-
+  private Boolean clockwise = false;
   /**
    * Creates a new RotateTurret.
    * @param power Useable if limit not reached. Suggest moving by units (not coded yet)
    */
-  public RotateTurret(Turret subsystem, POVButton operatorRight, POVButton operatorLeft) {
+  public RotateTurret(Turret subsystem, Boolean clockwise) {
     turret = subsystem;
     addRequirements(turret);
-    this.operatorLeft = operatorLeft;
-    this.operatorRight = operatorRight;
+    this.clockwise = clockwise;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //turret.disableTurretPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   // Need encoder position limits to finish coding
   @Override
   public void execute() {
-    if (operatorRight.get()) {
-      turret.directPower(.2);
-    }else if (operatorLeft.get()) {
+    if (clockwise && !turret.isAutomatic()) {
       turret.directPower(-.2);
-    } else {
-      turret.directPower(0);
-    }
+    }else if (!clockwise && !turret.isAutomatic()) {
+      turret.directPower(.2);
+    } 
+
+    
+
+    SmartDashboard.putNumber("TurretDegrees", turret.getDegrees());
   }
 
   // Called once the command ends or is interrupted.

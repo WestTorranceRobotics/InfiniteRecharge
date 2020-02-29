@@ -7,24 +7,21 @@
 
 package frc5124.robot2020.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc5124.robot2020.subsystems.Loader;
 
-
-
-public class ShootFromLine extends CommandBase {
+public class ShootFromMidTrench extends CommandBase {
   private Shooter m_shooter;
   private Loader m_loader;
-
-
+  
   /**
    * Creates a new setShootVelocity.
    */
-  public ShootFromLine (Shooter shooter, Loader loader) {
+  public ShootFromMidTrench (Shooter shooter, Loader loader) {
     m_shooter = shooter;
     m_loader = loader;
     addRequirements(m_loader);
@@ -34,22 +31,22 @@ public class ShootFromLine extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter(RobotMap.ShooterMap.lineShootRPM);
+    m_shooter.startShooter(RobotMap.ShooterMap.midTrenchShootRPM);
     SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+  public void execute() { 
+    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
       m_loader.runBelt();
-    } 
-  // else if (!(m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20) && !(m_loader.getAppliedOutput() == 0)) {
-  //   m_loader.stopBelt();
-  // }
-    SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
+    }  
+    
+    
+    SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
     SmartDashboard.updateValues();
+   
   }
   // Returns true when the command should end.
     @Override

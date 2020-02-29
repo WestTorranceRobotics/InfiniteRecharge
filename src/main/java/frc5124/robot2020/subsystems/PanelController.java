@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.ColorShim;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import frc5124.robot2020.RobotMap;
 
@@ -33,6 +36,8 @@ public class PanelController implements Subsystem {
   private PanelColor color;
   private int colorEncoderCount;
   private boolean deployed;
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
   
   public PanelController() {
     deployer = new Solenoid(RobotMap.pcmCanId, RobotMap.PanelControlMap.deployerSolenoidChannel);
@@ -44,10 +49,13 @@ public class PanelController implements Subsystem {
     matcher.addColorMatch(PanelColor.YELLOW.color());
     matcher.addColorMatch(PanelColor.GREEN.color());
     matcher.addColorMatch(PanelColor.RED.color());
+    display = Shuffleboard.getTab("Panel Display");
+    Shuffleboard.update();
   }
 
   @Override
   public void periodic() {
+    if (RobotMap.debugEnabled) {}
     if (!deployed) {
       color = null;
     }

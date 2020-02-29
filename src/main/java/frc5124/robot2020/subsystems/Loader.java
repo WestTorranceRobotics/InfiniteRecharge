@@ -14,12 +14,17 @@ import frc5124.robot2020.RobotMap;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Loader implements Subsystem {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
+  private NetworkTableEntry shuffleboardButtonBooleanEntry;
+  private ShuffleboardTab display;
   AnalogInput motionSensor = new AnalogInput(1);
   
   public Loader() { 
@@ -29,16 +34,21 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
+    display = Shuffleboard.getTab("Loader Display");
+    Shuffleboard.update();
   }
 
   public void setPower(double power){
     topBeltMotor.set(power);
    // bottomBeltMotor.set(power);
   }
+
+  public double getAppliedOutput() {
+    return topBeltMotor.getAppliedOutput();
+  }
   
   public void runBelt() {
     topBeltMotor.set(RobotMap.LoaderMap.beltSpeed);
-    //bottomBeltMotor.set(.2);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
@@ -74,6 +84,7 @@ public class Loader implements Subsystem {
   //This was here when I started so I left it that way.
   @Override
   public void periodic() {
+    if (RobotMap.debugEnabled) {}
     SmartDashboard.updateValues();
   }
 }
