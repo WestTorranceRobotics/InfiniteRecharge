@@ -39,14 +39,14 @@ public class RotateTurret extends CommandBase {
   public void execute() {
     if (clockwise && !turret.isAutomatic()) {
       turret.directPower(-.2);
-      lastDegrees = lastDegrees + .02 * 10;
-      lastDegrees = (lastDegrees + 33) % 360 - 33;
-      turret.setTurretDegrees(lastDegrees);
+      // lastDegrees = lastDegrees + .02 * 10;
+      // lastDegrees = (lastDegrees + 33) % 360 - 33;
+     // turret.setTurretDegrees(lastDegrees);
     } else if (!clockwise && !turret.isAutomatic()) {
       turret.directPower(.2);
-      lastDegrees = lastDegrees + .2 * 10;
-      lastDegrees = (lastDegrees + 33) % 360 - 33;
-      turret.setTurretDegrees(lastDegrees);
+      // lastDegrees = lastDegrees + .2 * 10;
+      // lastDegrees = (lastDegrees + 33) % 360 - 33;
+      //turret.setTurretDegrees(lastDegrees);
     } 
 
     

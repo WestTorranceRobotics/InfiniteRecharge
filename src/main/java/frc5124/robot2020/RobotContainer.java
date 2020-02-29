@@ -137,8 +137,8 @@ public class RobotContainer {
     display = Shuffleboard.getTab("Driving Display");
     Shuffleboard.selectTab(display.getTitle());
 
-    display.addBoolean("Intake Running?", intake::isRunning)
-    .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    // display.addBoolean("Intake Running?", intake::isRunning)
+    // .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
     display.addBoolean("Limelight On?",
     () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").getDouble(-1) == 0
     ).withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);

@@ -15,10 +15,8 @@ import frc5124.robot2020.subsystems.Turret;
 
 public class TurretFindHomeDefault extends CommandBase {
   private Turret turret;
-  private boolean isDone = false;
   private AnalogInput mag = new AnalogInput(3);
-  private double currentDegrees = 0;
-  private boolean switchAround = false;
+  
 
 
   /**
