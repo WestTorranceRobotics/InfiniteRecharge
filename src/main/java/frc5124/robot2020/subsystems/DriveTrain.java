@@ -46,7 +46,6 @@ public class DriveTrain extends SubsystemBase {
     private DifferentialDriveOdometry odometry;
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
     private ShuffleboardTab debuggingTab;
-    private ADXRS450_Gyro newGyro;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
     private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
@@ -74,7 +73,6 @@ public class DriveTrain extends SubsystemBase {
         rightFollower.setInverted(InvertType.FollowMaster); 
 
         gyro = new AHRS(SPI.Port.kMXP);
-        newGyro = new ADXRS450_Gyro(SPI.Port.kMXP);
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
@@ -102,12 +100,9 @@ public class DriveTrain extends SubsystemBase {
                 () -> 90 - getLocation().getRotation().getDegrees())
             ).withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
         }
-        odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+        last = gyro.getPitch();
+        odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
-    }
-
-    private double getHeading() {
-        return Math.IEEEremainder(newGyro.getAngle(), 360 * -1);
     }
 
     @Override
@@ -117,6 +112,7 @@ public class DriveTrain extends SubsystemBase {
         
         odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
 
+        preventWrapping(gyro.getPitch());
         //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
     }
 
@@ -137,10 +133,6 @@ public class DriveTrain extends SubsystemBase {
 
     public void resetOdometry() {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
-    }
-
-    public double getTICKS_PER_INCHES(){
-        return TICK_PER_INCHES;
     }
 
     public void directPower(double power){
@@ -174,19 +166,28 @@ public class DriveTrain extends SubsystemBase {
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
     }
+
     public DifferentialDriveOdometry getOdometry(){
         return odometry;
     }
 
+    private static double last;
+    private static double preventWrapping(double x) {
+        while (last - 180 > x) {
+            x += 360;
+        }
+        while (last + 360 < x) {
+            x -= 360;
+        }
+        last = x;
+        return x;
+    }
+
     private Rotation2d getGyro() {
-        gyro.getAngle();
-        double radians = Math.toRadians(90 - gyro.getAngle());
+        double radians = Math.toRadians(preventWrapping(90 - last));
         return new Rotation2d(radians);
     }
 
-    public AHRS getGyroScope(){
-        return gyro;
-    }
     public double getGryoDegree() {
         return gyro.getAngle();
     }
