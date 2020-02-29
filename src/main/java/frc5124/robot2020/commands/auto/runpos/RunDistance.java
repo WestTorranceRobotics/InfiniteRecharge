@@ -225,7 +225,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
 
   targetAngle = rightLeader.getSelectedSensorPosition(1);
 
- targetDistance = Math.sqrt((transX*transX)+(transY*transY)) * driveTrain.getTICKS_PER_INCHES();
+ targetDistance = Math.sqrt((transX*transX)+(transY*transY)) * driveTrain.TICKS_PER_INCH;
 
  leftLeader.setSelectedSensorPosition(0);
   rightLeader.setSelectedSensorPosition(0);

@@ -48,7 +48,7 @@ public class DriveTrain extends SubsystemBase {
     private ShuffleboardTab debuggingTab;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
-    private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
+    public double TICKS_PER_INCH = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
 
     public DriveTrain() {
 
@@ -94,7 +94,7 @@ public class DriveTrain extends SubsystemBase {
             .withPosition(3, 1).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
             debuggingTab.addNumber("Left Encoder Position", () -> leftLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
             .withPosition(3, 2).withSize(1, 1);
-            debuggingTab.addNumber("Left Encoder Position", () -> leftLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
+            debuggingTab.addNumber("Right Encoder Position", () -> rightLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
             .withPosition(4, 2).withSize(1, 1);
             debuggingTab.add("Rotation", RobotContainer.shuffleboardGyro(
                 () -> 90 - getLocation().getRotation().getDegrees())

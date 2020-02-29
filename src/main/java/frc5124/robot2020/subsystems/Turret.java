@@ -51,6 +51,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("ShooterRunning", false);
     SmartDashboard.putBoolean("LimeLightOn", false);
     if (RobotMap.debugEnabled) {
+      debuggingTab = Shuffleboard.getTab("Turret Debug");
       debuggingTab.addNumber("Degree Position", this::getDegrees);
     }
     resetTurretDegrees();
