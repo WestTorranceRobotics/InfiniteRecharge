@@ -45,7 +45,7 @@ public class ShootFromLine extends CommandBase {
       m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     }
     if (m_shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM + 5 && m_loader.getAppliedOutput() == 0) {
-      m_loader.runBelt(1);
+      m_loader.runBelt(.75);
       m_shooter.atSpeed(true);
     } 
   }

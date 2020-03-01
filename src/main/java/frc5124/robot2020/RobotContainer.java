@@ -121,9 +121,9 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
+    operatorRB.toggleWhenPressed(new ShootTuner(shooter));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    operatorY.whileHeld(new ReverseShooter(shooter));
+    operatorY.whileHeld(new RunLoader(loader));
     //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
     operatorUp.whileHeld(new LiftUp(hanger) );  
     operatorDown.whileHeld(new LiftDown(hanger) );  
