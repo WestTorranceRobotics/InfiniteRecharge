@@ -28,8 +28,10 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("aimbot").setDouble(1);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0.0);
     subsystem.enableTurretPID();
+    subsystem.setCoast();
     subsystem.isAutomatic(true);
   }
 
@@ -47,16 +49,10 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     subsystem.isAutomatic(false);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
+    subsystem.setBrake();
     //subsystem.setTurretDegrees(0);
-    new Thread(() -> {
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException ex) {
-        return;
-      }
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("trackNow").setBoolean(false);
-    }).start();
    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
   }
 

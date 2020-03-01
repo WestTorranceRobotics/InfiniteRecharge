@@ -5,26 +5,30 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runpos;
+package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc5124.robot2020.commands.auto.ShootThreeBalls;
-import frc5124.robot2020.commands.shooter.ShootFromTrench;
-import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
-import frc5124.robot2020.subsystems.Turret;
+import frc5124.robot2020.RobotMap;
+import frc5124.robot2020.commands.intake.SetIntakePower;
+import frc5124.robot2020.commands.loader.SeeBallRunBelt;
+import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootAim extends ParallelDeadlineGroup {
+public class DriveAndIntake extends ParallelDeadlineGroup {
   /**
-   * Creates a new shootAim.
+   * Creates a new DriveAndIntake.
    */
-  public ShootAim(Shooter shooter, Loader loader, Turret turret) {
+  public DriveAndIntake(Double inchesDriven, DriveTrain driveTrain, Intake intake, Loader loader) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeBalls(shooter, loader), new TurretTargetByPIDPerpetually(turret));
+    super(
+        new RunDistanceForward(driveTrain, inchesDriven),
+        new SetIntakePower(intake, 1),
+        new SeeBallRunBelt(loader)
+    );
   }
 }

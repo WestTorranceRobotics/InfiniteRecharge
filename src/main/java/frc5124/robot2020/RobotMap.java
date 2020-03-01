@@ -54,7 +54,7 @@ public class RobotMap {
     }
 
     public static class IntakeMap {
-        public static double motorPower = 0.5;
+        public static double motorPower = 1;
         public static int rollerCanId = 14; //14
         public static int intakeSolenoid = 1;
     }

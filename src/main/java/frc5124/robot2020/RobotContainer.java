@@ -34,6 +34,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.ShootDriveTrench;
+import frc5124.robot2020.commands.auto.RunDistanceForward;
+
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -128,7 +131,7 @@ public class RobotContainer {
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    turret.setDefaultCommand(new TurretFindHomeDefault(turret));
+    //turret.setDefaultCommand(new TurretFindHomeDefault(turret));
     
   }
 
@@ -194,8 +197,7 @@ public class RobotContainer {
 
   Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(0, 10)), new Pose2d(0, 0, new Rotation2d(0)), config);
 
-  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
-   // return new TargetShootAuto(shooter, loader, turret, driveTrain);
-    //TargetShootAuto(shooter, loader, turret, driveTrain);
+//  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
+    return new ShootDriveTrench(turret, loader, shooter, driveTrain, intake);
   }
 }

@@ -115,7 +115,13 @@ public class DriveTrain extends SubsystemBase {
         preventWrapping(gyro.getPitch());
         //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
     }
-
+    
+    public void resetEncoders() {
+        leftLeader.setSelectedSensorPosition(0);
+        rightLeader.setSelectedSensorPosition(0);
+        leftFollower.setSelectedSensorPosition(0);
+        rightFollower.setSelectedSensorPosition(0);
+    }
 
     // Control methods
 

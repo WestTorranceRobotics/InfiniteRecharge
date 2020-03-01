@@ -64,6 +64,7 @@ public class Turret extends SubsystemBase {
   public void isAutomatic(boolean automatic) {
     this.automatic = automatic;
   }
+  
 
   public boolean isAutomatic() {
     return automatic;
@@ -191,5 +192,7 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("turretDeggsss", getDegrees());
+    SmartDashboard.updateValues();
   }
 } 
