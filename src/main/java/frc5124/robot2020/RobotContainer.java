@@ -40,7 +40,7 @@ import frc5124.robot2020.commands.auto.RunDistanceForward;
 
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -121,7 +121,7 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new ShootTuner(shooter));
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, 4120));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
     operatorY.whileHeld(new RunLoader(loader));
     //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 

@@ -164,6 +164,10 @@ public class Shooter extends SubsystemBase {
       passedBallCurrent = false;
     } 
   }
+
+  public void directVolts(double volts) {
+    shootMotorLeader.setVoltage(volts);
+  }
   
 
   @Override
