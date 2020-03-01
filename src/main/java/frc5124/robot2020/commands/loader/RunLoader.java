@@ -25,12 +25,12 @@ public class RunLoader extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    loader.runBelt(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    loader.setPower(.5);
   }
 
   // Called once the command ends or is interrupted.

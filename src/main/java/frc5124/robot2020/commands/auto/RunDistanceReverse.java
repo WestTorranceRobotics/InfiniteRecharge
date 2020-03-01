@@ -27,10 +27,17 @@ public class RunDistanceReverse extends CommandBase {
     addRequirements(m_DriveTrain);
     distanceToDrive = x; 
     targetCounts = countsPerInch * distanceToDrive;
-    startingEncoderVal = Math.abs(m_DriveTrain.getLeftEncoderVal());
+    SmartDashboard.putNumber("ended", 0);
   }
 
-  public void driveStraightToPoint(){ // after it figures out the angle, it should just drive straight
+  @Override
+  public void initialize() {
+    startingEncoderVal = m_DriveTrain.getLeftEncoderVal();
+    isDone = false;
+  }
+
+  public void driveStraightToPoint(){ 
+    m_DriveTrain.tankDrive(-.5, -.5);
     if (Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) >= Math.abs(targetCounts)){
       m_DriveTrain.tankDrive(0, 0);
       isDone = true;
@@ -46,7 +53,7 @@ public class RunDistanceReverse extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    SmartDashboard.putNumber("ended", 1);
   }
 
   // Returns true when the command should end.

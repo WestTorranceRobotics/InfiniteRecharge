@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc5124.robot2020.commands.auto.runpos.ShootAim;
 import frc5124.robot2020.commands.auto.runpos.Turn180;
 import frc5124.robot2020.commands.intake.ToggleIntakePivot;
 import frc5124.robot2020.commands.turret.TurretFindHome;
@@ -28,12 +29,13 @@ public class ShootDriveTrench extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-        new ToggleIntakePivot(intake),
+      new ToggleIntakePivot(intake),
       new TurretFindHome(turret), 
       new Turn180(turret), 
-     // new ShootAim(shooter, loader, turret),
+      new ShootAim(shooter, loader, turret),
       new DriveAndIntake(((double)195), driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 108)
+      new RunDistanceReverse(driveTrain, 108),
+      new ShootAimTrench(shooter, loader, turret)
       );
   }
 }

@@ -32,17 +32,19 @@ public class ShootThreeBalls extends CommandBase {
  @Override
   public void initialize() {
     m_shooter.startShooter();
+    m_shooter.resetBallsShot();
   }
    
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     super.execute();
-    if (Math.abs(targetVelocity) - Math.abs(m_shooter.getVelocity()) <= 20) {
+    if (Math.abs(targetVelocity) - Math.abs(m_shooter.getVelocity()) < 15) {
       m_loader.runBelt();
       m_shooter.atSpeed(true);
     } 
-    if(m_shooter.atSpeed()) {
+
+    if(m_shooter.atSpeed() && m_loader.getAppliedOutput() > 0) {
     m_shooter.currentWatch(targetVelocity);
   }
 

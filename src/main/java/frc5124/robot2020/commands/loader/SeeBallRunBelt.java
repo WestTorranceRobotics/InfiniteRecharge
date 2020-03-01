@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.loader;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
 
 public class SeeBallRunBelt extends CommandBase {
@@ -30,7 +31,7 @@ public class SeeBallRunBelt extends CommandBase {
   @Override
   public void execute() {
     if (m_Loader.seeBall()) {
-      m_Loader.runBelt();
+      m_Loader.runBelt(RobotMap.LoaderMap.beltSpeed);
     } else {
       m_Loader.stopBelt();
     }

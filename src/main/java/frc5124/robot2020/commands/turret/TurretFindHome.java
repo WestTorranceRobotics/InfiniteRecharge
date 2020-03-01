@@ -34,8 +34,8 @@ public class TurretFindHome extends CommandBase {
     turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {
      turret.directPower(.1);
-     SmartDashboard.putNumber("yeet", 0);
      SmartDashboard.updateValues();
+     turret.setCoast();
   }
   }
 
@@ -51,7 +51,7 @@ public class TurretFindHome extends CommandBase {
   }
 
   if (turret.setHome() && !turret.initialHome()) {
-    turret.setTurretDegrees(-10);
+    turret.setTurretDegrees(-16);
     turret.initialHome(true);
     turret.setHome(false);
   }
@@ -67,7 +67,7 @@ public class TurretFindHome extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-
+      turret.setCoast();
     }
   
     // Returns true when the command should end.
@@ -80,13 +80,3 @@ public class TurretFindHome extends CommandBase {
       }
     }
   }
-  
-
-
-  
-    
-
-
-    
-
-

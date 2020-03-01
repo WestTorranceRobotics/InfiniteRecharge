@@ -39,8 +39,6 @@ public class Shooter extends SubsystemBase {
     shootMotorFollower.follow(shootMotorLeader, true);
     shootMotorLeader.setIdleMode(IdleMode.kCoast);
     shootMotorFollower.setIdleMode(IdleMode.kCoast);
-    shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
-    shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootMotorLeader.setInverted(true);
     shootMotorFollower.setInverted(true);
     shootPID = shootMotorLeader.getPIDController();
@@ -51,8 +49,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
     SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
     SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
-    shootMotorFollower.setClosedLoopRampRate(.001);
-    shootMotorLeader.setClosedLoopRampRate(.001);
+    // shootMotorFollower.setClosedLoopRampRate(.00001);
+    // shootMotorLeader.setClosedLoopRampRate(.00001);
     if (RobotMap.debugEnabled) {
       debuggingTab = Shuffleboard.getTab("Shooter Debug");
       debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
@@ -170,5 +168,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("shoot V", getVelocity());
+    SmartDashboard.updateValues();
   }
 }
