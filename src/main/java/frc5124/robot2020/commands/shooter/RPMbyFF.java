@@ -27,17 +27,30 @@ public class RPMbyFF extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    iAccum = 0;
   }
+
+  // regression-calculated static friction overcome voltage
+  private final double S = 0.147;
+  // regression-calculated voltage per rpm of velocity added
+  private final double V = 0.0015538;
+  // tuned constant to determine coarse target rpm approach rate
+  private final double A = 0.01;
+  // tuned constants to determine aggression of rpm error compensation
+  private final double I = 0.001;
+  private final double I_RANGE = 75;
+
+  private double iAccum;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double error = shooter.getVelocity() - rpm;
-    double comp = -1.2e-5 * Math.pow(error,3);
-    if (Math.abs(comp) > 0.2) {
-      comp = Math.signum(comp) * 2;
+    double value = shooter.getVelocity();
+    double error = rpm - value;
+    if (Math.abs(error) < I_RANGE) {
+      iAccum += I * error;
     }
-    shooter.directVolts(0.147 + 0.0015538 * rpm );
+    shooter.directVolts(S + V * value + A * error + iAccum);
   }
 
   // Called once the command ends or is interrupted.
