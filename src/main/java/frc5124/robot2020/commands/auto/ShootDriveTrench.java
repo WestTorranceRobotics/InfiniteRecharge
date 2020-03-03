@@ -34,9 +34,9 @@ public class ShootDriveTrench extends SequentialCommandGroup {
       new TurretZeroPosition(turret),
       new Turn180(turret), 
       new ShootAim(shooter, loader, turret),
-      new DriveAndIntake(((double)156), driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 69),
+      new DriveAndIntake(156, .5, driveTrain, intake, loader),
+      new RunDistanceForward(driveTrain, 69, -.5),
       new ShootAimTrench(shooter, loader, turret)
-      );
+    );
   }
 }

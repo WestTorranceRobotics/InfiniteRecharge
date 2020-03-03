@@ -36,6 +36,7 @@ public class ShootThreeByFF extends CommandBase {
   public void initialize() {
     super.initialize();
     shooter.resetBallsShot();
+    withTimeout(3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,8 +53,8 @@ public class ShootThreeByFF extends CommandBase {
     if (shooter.atSpeed()) {
       shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     }
-    if (shooter.getVelocity() >= 4365  && loader.getAppliedOutput() == 0) {
-      loader.runBelt(.75);
+    if (shooter.getVelocity() >= rpm-20  && loader.getAppliedOutput() == 0) {
+      loader.runBelt(1);
       shooter.atSpeed(true);
     } 
 

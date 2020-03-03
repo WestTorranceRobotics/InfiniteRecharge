@@ -14,16 +14,12 @@ import frc5124.robot2020.subsystems.Turret;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurretZeroPosition extends InstantCommand {
-  private Turret turret;
+
   public TurretZeroPosition(Turret turret) {
-    this.turret = turret;
-    // Use addRequirements() here to declare subsystem dependencies.
+    super(() -> {
+      turret.resetTurretDegrees();
+      turret.turretLimitSet();
+    }, turret);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    turret.resetTurretDegrees();
-    turret.turretLimitSet();
-  }
 }

@@ -6,7 +6,6 @@ import frc5124.robot2020.subsystems.Intake;
 public class ToggleIntakePivot extends CommandBase {
 
     private final Intake intake;
-    private boolean isDone = false;
 
     public ToggleIntakePivot(Intake subsystem) {
         intake = subsystem;
@@ -16,13 +15,12 @@ public class ToggleIntakePivot extends CommandBase {
     @Override
     public void initialize(){
         intake.setDeployed(!intake.isDeployed());
-        isDone = true;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return isDone;
+        return true;
     }
 
     // Called once after isFinished returns true

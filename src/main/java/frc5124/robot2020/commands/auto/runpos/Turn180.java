@@ -28,7 +28,6 @@ public class Turn180 extends CommandBase {
     super.initialize();
     turret.setCoast();
     turret.setTurretDegrees(-200);
-
   }
 
   @Override
@@ -36,6 +35,7 @@ public class Turn180 extends CommandBase {
     super.execute();
     if ( 200 - Math.abs(turret.getDegrees()) < 1) {
       isDone = true;
+
     }
    
   }
