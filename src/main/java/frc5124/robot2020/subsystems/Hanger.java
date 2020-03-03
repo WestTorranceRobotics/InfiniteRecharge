@@ -58,8 +58,6 @@ public class Hanger implements Subsystem {
     noBrake.set(true);
   }
 
-
-
   public void liftDown(){
     // if (reachedBottomLimit()) {
     //   setNoPower();
@@ -79,7 +77,6 @@ public class Hanger implements Subsystem {
   public boolean reachedBottomLimit(){
     return bottomLimit.get();
   }
-
 
   public void setNoPower(){
     hangerMotor.set(RobotMap.HangerMap.hangerHalt);

@@ -24,8 +24,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.ReverseBeltAndShooter;
 import frc5124.robot2020.commands.auto.runpos.*;
-import frc5124.robot2020.commands.auto.runpos.TargetShootAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc5124.robot2020.commands.driveTrain.*;
@@ -102,7 +102,7 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
+    operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     //AAA???
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
@@ -127,14 +127,12 @@ public class RobotContainer {
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
     shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
-
     ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
     ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
     NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
     poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
       .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-      
     display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
     //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
   }
@@ -174,6 +172,5 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return new TargetShootAuto(shooter, loader, turret, driveTrain);
-    //TargetShootAuto(shooter, loader, turret, driveTrain);
   }
 }
