@@ -173,6 +173,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shoot V", getVelocity());
+    SmartDashboard.putNumber("balls shot", getBallsShot());
+    SmartDashboard.putNumber("shoot current", getCurrent());
     SmartDashboard.updateValues();
   }
 }

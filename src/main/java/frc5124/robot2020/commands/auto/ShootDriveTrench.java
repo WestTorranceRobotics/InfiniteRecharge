@@ -12,6 +12,7 @@ import frc5124.robot2020.commands.auto.runpos.ShootAim;
 import frc5124.robot2020.commands.auto.runpos.Turn180;
 import frc5124.robot2020.commands.intake.ToggleIntakePivot;
 import frc5124.robot2020.commands.turret.TurretFindHome;
+import frc5124.robot2020.commands.turret.TurretZeroPosition;
 import frc5124.robot2020.subsystems.Turret;
 import frc5124.robot2020.subsystems.DriveTrain;
 import frc5124.robot2020.subsystems.Loader;
@@ -30,11 +31,11 @@ public class ShootDriveTrench extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(
       new ToggleIntakePivot(intake),
-      new TurretFindHome(turret), 
+      new TurretZeroPosition(turret),
       new Turn180(turret), 
       new ShootAim(shooter, loader, turret),
-      new DriveAndIntake(((double)195), driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 108),
+      new DriveAndIntake(((double)156), driveTrain, intake, loader),
+      new RunDistanceReverse(driveTrain, 69),
       new ShootAimTrench(shooter, loader, turret)
       );
   }

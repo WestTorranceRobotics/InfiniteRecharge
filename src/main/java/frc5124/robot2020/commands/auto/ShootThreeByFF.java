@@ -5,23 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
 
-public class RPMbyFF extends CommandBase {
+public class ShootThreeByFF extends CommandBase {
 
   private Shooter shooter;
   private double rpm;
   private Loader loader;
+  private boolean isDone = false;
 
   /**
-   * Creates a new RPMbyFF.
+   * Creates a new ShootThreeByFF.
    */
-  public RPMbyFF(Shooter shooter, Loader loader, double rpm) {
+  public ShootThreeByFF(Shooter shooter, Loader loader, double rpm) {
     this.shooter = shooter;
     this.rpm = rpm;
     this.loader = loader;
@@ -33,11 +34,14 @@ public class RPMbyFF extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
+    shooter.resetBallsShot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    super.execute();
     double error = shooter.getVelocity() - rpm;
     double comp = -1.2e-5 * Math.pow(error,3);
     if (Math.abs(comp) > 0.2) {
@@ -52,18 +56,24 @@ public class RPMbyFF extends CommandBase {
       loader.runBelt(.75);
       shooter.atSpeed(true);
     } 
+
+    if (shooter.getBallsShot() == 3) {
+      isDone = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     shooter.directPower(0);
     shooter.atSpeed(false);
+    loader.stopBelt();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }

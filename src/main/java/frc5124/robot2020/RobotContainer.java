@@ -34,13 +34,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
-import frc5124.robot2020.commands.auto.ShootDriveTrench;
+
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
-
+import frc5124.robot2020.commands.auto.ShootDriveTrench;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -121,10 +122,9 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, 4120));
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4890));
     operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
     operatorY.whileHeld(new RunLoader(loader));
-    //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
     operatorUp.whileHeld(new LiftUp(hanger) );  
     operatorDown.whileHeld(new LiftDown(hanger) );  
 
@@ -200,6 +200,6 @@ public class RobotContainer {
   Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(0, 10)), new Pose2d(0, 0, new Rotation2d(0)), config);
 
 //  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
-    return new TurretFindHome(turret);
+    return new ShootDriveTrench(turret, loader, shooter, driveTrain, intake);
   }
 }

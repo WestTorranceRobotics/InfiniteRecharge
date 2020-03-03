@@ -5,27 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runpos;
+package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc5124.robot2020.commands.auto.ShootThreeBalls;
-import frc5124.robot2020.commands.auto.ShootThreeByFF;
-import frc5124.robot2020.commands.shooter.ShootFromTrench;
-import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
 import frc5124.robot2020.subsystems.Turret;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootAim extends ParallelDeadlineGroup {
-  /**
-   * Creates a new shootAim.
-   */
-  public ShootAim(Shooter shooter, Loader loader, Turret turret) {
-    // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeByFF(shooter, loader, 4400), new TurretTargetByPIDPerpetually(turret));
+public class TurretZeroPosition extends InstantCommand {
+  private Turret turret;
+  public TurretZeroPosition(Turret turret) {
+    this.turret = turret;
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    turret.resetTurretDegrees();
+    turret.turretLimitSet();
   }
 }
