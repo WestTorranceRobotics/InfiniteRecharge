@@ -35,15 +35,15 @@ public class Hanger implements Subsystem {
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
     noBrake.set(false);
     hangerMotor.setInverted(true);
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Hanger Debug");
-      debuggingTab.addBoolean("Top Limit Switch", this::reachedTopLimit)
-      .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-      debuggingTab.addBoolean("Bottom Limit Switch", this::reachedBottomLimit)
-      .withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-      debuggingTab.addNumber("Lift Current", hangerMotor::getOutputCurrent)
-      .withPosition(1, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    }
+    // if (RobotMap.debugEnabled) {
+    //   debuggingTab = Shuffleboard.getTab("Hanger Debug");
+    //   debuggingTab.addBoolean("Top Limit Switch", this::reachedTopLimit)
+    //   .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    //   debuggingTab.addBoolean("Bottom Limit Switch", this::reachedBottomLimit)
+    //   .withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    //   debuggingTab.addNumber("Lift Current", hangerMotor::getOutputCurrent)
+    //   .withPosition(1, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    // }
   }
 
   @Override

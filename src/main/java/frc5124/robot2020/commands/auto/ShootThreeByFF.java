@@ -52,7 +52,7 @@ public class ShootThreeByFF extends CommandBase {
     if (shooter.atSpeed()) {
       shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     }
-    if (shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM   && loader.getAppliedOutput() == 0) {
+    if (shooter.getVelocity() >= 4365  && loader.getAppliedOutput() == 0) {
       loader.runBelt(.75);
       shooter.atSpeed(true);
     } 

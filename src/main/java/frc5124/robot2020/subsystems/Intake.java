@@ -25,11 +25,11 @@ public class Intake implements Subsystem {
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up
       Shuffleboard.update();
-      if (RobotMap.debugEnabled) {
-        debuggingTab = Shuffleboard.getTab("Intake Debug");
-        debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
-        .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      }
+      // if (RobotMap.debugEnabled) {
+      //   debuggingTab = Shuffleboard.getTab("Intake Debug");
+      //   debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
+      //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      // }
   }
 
   @Override

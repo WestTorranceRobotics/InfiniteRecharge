@@ -51,15 +51,15 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
     // shootMotorFollower.setClosedLoopRampRate(.00001);
     // shootMotorLeader.setClosedLoopRampRate(.00001);
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Shooter Debug");
-      debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
-      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addNumber("Shooter RPM", this::getVelocity)
-      .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addNumber("Balls Shot", this::getBallsShot)
-      .withPosition(0, 3).withSize(1, 1);
-    }
+    // if (RobotMap.debugEnabled) {
+    //   debuggingTab = Shuffleboard.getTab("Shooter Debug");
+    //   debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
+    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addNumber("Shooter RPM", this::getVelocity)
+    //   .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addNumber("Balls Shot", this::getBallsShot)
+    //   .withPosition(0, 3).withSize(1, 1);
+    // }
   }
 
   public boolean active() {

@@ -34,19 +34,19 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Loader Debug");
-      debuggingTab.addNumber("Top Motor Current", topBeltMotor::getOutputCurrent)
-      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addNumber("Bottom Motor Current", bottomBeltMotor::getOutputCurrent)
-      .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addBoolean("Sees Ball", this::seeBall)
-      .withPosition(3, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-      debuggingTab.addNumber("Number Balls In (Stub)", () -> 0)
-      .withPosition(3, 1).withSize(1, 1);
-      debuggingTab.addNumber("Number Balls Out (Stub)", () -> 0)
-      .withPosition(3, 2).withSize(1, 1);
-    }
+    // if (RobotMap.debugEnabled) {
+    //   debuggingTab = Shuffleboard.getTab("Loader Debug");
+    //   debuggingTab.addNumber("Top Motor Current", topBeltMotor::getOutputCurrent)
+    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addNumber("Bottom Motor Current", bottomBeltMotor::getOutputCurrent)
+    //   .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addBoolean("Sees Ball", this::seeBall)
+    //   .withPosition(3, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    //   debuggingTab.addNumber("Number Balls In (Stub)", () -> 0)
+    //   .withPosition(3, 1).withSize(1, 1);
+    //   debuggingTab.addNumber("Number Balls Out (Stub)", () -> 0)
+    //   .withPosition(3, 2).withSize(1, 1);
+    // }
   }
 
   public void setPower(double power){
