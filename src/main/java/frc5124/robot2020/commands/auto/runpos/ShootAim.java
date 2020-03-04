@@ -26,6 +26,6 @@ public class ShootAim extends ParallelDeadlineGroup {
    */
   public ShootAim(Shooter shooter, Loader loader, Turret turret) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeByFF(shooter, loader, 4400), new TurretTargetByPIDPerpetually(turret));
+    super(new ShootThreeByFF(shooter, loader, 4350, 2), new TurretTargetByPIDPerpetually(turret));
   }
 }

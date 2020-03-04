@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.auto.runpos;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.commands.turret.TurretZeroPosition;
 import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -27,15 +28,16 @@ public class Turn180 extends CommandBase {
   public void initialize() {
     super.initialize();
     turret.setCoast();
-    turret.setTurretDegrees(-200);
+    turret.resetTurretDegrees();
+    turret.turretLimitSet();
+    turret.setTurretDegrees(-180);
   }
 
   @Override
   public void execute() {
     super.execute();
-    if ( 200 - Math.abs(turret.getDegrees()) < 1) {
+    if ( 190 - Math.abs(turret.getDegrees()) < 1) {
       isDone = true;
-
     }
    
   }

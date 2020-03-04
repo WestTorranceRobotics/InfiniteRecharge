@@ -32,6 +32,7 @@ public class SeeBallRunBelt extends CommandBase {
   public void execute() {
     if (m_Loader.seeBall()) {
       m_Loader.runBelt(RobotMap.LoaderMap.beltSpeed);
+      m_Loader.ballIntaked();
     } else {
       m_Loader.stopBelt();
     }

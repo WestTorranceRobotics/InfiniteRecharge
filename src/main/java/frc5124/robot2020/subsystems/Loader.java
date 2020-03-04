@@ -9,6 +9,7 @@ package frc5124.robot2020.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
@@ -21,11 +22,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
-public class Loader implements Subsystem {
+public class Loader extends SubsystemBase {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
   AnalogInput motionSensor = new AnalogInput(1);
-  private ShuffleboardTab debuggingTab;
+  private ShuffleboardTab display;
+  private int ballIntaked;
   
   public Loader() { 
     topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
@@ -34,6 +36,10 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
+    display = Shuffleboard.getTab("Driving Display");
+
+    display.addNumber("Balls Intaked", () -> ballIntaked);
+  
     // if (RobotMap.debugEnabled) {
     //   debuggingTab = Shuffleboard.getTab("Loader Debug");
     //   debuggingTab.addNumber("Top Motor Current", topBeltMotor::getOutputCurrent)
@@ -96,8 +102,12 @@ public class Loader implements Subsystem {
     }
   }
 
+  public void ballIntaked(){
+    ballIntaked =+ 1;
+  }
+
   //This was here when I started so I left it that way.
   @Override
-  public void periodic() {
+  public void periodic() {    
   }
 }

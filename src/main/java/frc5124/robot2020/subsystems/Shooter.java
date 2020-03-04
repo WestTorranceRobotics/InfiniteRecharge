@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -169,12 +170,21 @@ public class Shooter extends SubsystemBase {
     shootMotorLeader.setVoltage(volts);
   }
   
+  private static final double limelightAngle = 20.5;
+  private static final double limelightHeight = 21;
+  private static final double targetHeight = 89;
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("shoot V", getVelocity());
     SmartDashboard.putNumber("balls shot", getBallsShot());
     SmartDashboard.putNumber("shoot current", getCurrent());
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    SmartDashboard.putNumber("ty", ty);
+    double angle = ty + limelightAngle;
+    double tan = Math.tan(Math.toRadians(angle));
+    double dx = (targetHeight - limelightHeight) / tan;
+    SmartDashboard.putNumber("Distance to Target", dx);
     SmartDashboard.updateValues();
   }
 }

@@ -50,8 +50,8 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putBoolean("ShooterRunning", false);
     SmartDashboard.putBoolean("LimeLightOn", false);
     // /debuggingTab = Shuffleboard.getTab("Turret Display");
-    resetTurretDegrees();
-    turretLimitSet();
+    // resetTurretDegrees();
+    // turretLimitSet();
     Shuffleboard.update();
   }
 

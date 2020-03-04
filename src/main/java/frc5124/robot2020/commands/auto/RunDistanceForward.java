@@ -22,15 +22,24 @@ public class RunDistanceForward extends CommandBase {
   private double countsPerInch = 1082.0;
   private double startingEncoderVal;
   private double dtPower;
+  private double x;
+  private double power;
 
   public RunDistanceForward(DriveTrain driveTrain, double x, double power) {
     m_DriveTrain = driveTrain;
     addRequirements(m_DriveTrain);
+    this.x = x;
+    this.power = power;
+  }
+
+  @Override 
+  public void initialize() {
+    super.initialize();
+    m_DriveTrain.resetEncoders();
     distanceToDrive = x; 
     targetCounts = countsPerInch * distanceToDrive;
     startingEncoderVal = m_DriveTrain.getLeftEncoderVal();
     dtPower = power;
-    
   }
 
   public void driveStraightToPoint(){  // after it figures out the angle, it should just drive straight

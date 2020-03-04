@@ -16,7 +16,7 @@ public class Intake implements Subsystem {
   private Solenoid armSolenoid;         //for pivot of the arm
   private CANSparkMax rollerSpeedController;          //motor
   private boolean deployed;    
-  private ShuffleboardTab debuggingTab;
+  private ShuffleboardTab display;
 
   public Intake() {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
