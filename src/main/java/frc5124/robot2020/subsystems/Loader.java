@@ -103,7 +103,11 @@ public class Loader extends SubsystemBase {
   }
 
   public void ballIntaked(){
-    ballIntaked =+ 1;
+    ballIntaked += 1;
+  }
+
+  public void ballIntaked(int balls) {
+    ballIntaked = balls;
   }
 
   public int getBallsIntaked() {
