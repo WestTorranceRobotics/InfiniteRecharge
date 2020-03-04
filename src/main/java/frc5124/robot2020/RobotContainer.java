@@ -37,7 +37,8 @@ import frc5124.robot2020.commands.*;
 
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
-import frc5124.robot2020.commands.auto.ShootDriveTrench;
+import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.SixBallAuto;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -202,6 +203,6 @@ public class RobotContainer {
   Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(0, 10)), new Pose2d(0, 0, new Rotation2d(0)), config);
 
 //  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
-    return new ShootDriveTrench(turret, loader, shooter, driveTrain, intake);
+    return new SixBallAuto(turret, loader, shooter, driveTrain, intake);
   }
 }
