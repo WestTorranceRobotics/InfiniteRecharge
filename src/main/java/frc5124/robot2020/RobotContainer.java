@@ -129,7 +129,7 @@ public class RobotContainer {
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
     // TODO fill in
-    autonomies.put("Trench Primary", new InstantCommand());
+    autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Trench Secondary", new InstantCommand());
     autonomies.put("Middle Primary", new InstantCommand());
     autonomies.put("Middle Secondary", new InstantCommand());
@@ -143,11 +143,11 @@ public class RobotContainer {
 
     NetworkTableEntry pipeEntry = NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline");
 
-    display.addNumber("Number of Balls in Loader (Stub)", () -> 0) // TODO fill in
+    display.addNumber("Balls Intaked", loader::getBallsIntaked)
     .withPosition(3, 1).withSize(1, 1);
     display.addBoolean("Limelight On?",() -> (int) pipeEntry.getDouble(-1) == 0)
     .withPosition(4, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    display.addBoolean("Intake Running?", () -> Math.abs(intake.getOutput()) < 0.0001)
+    display.addBoolean("Intake Running?", () -> Math.abs(intake.getOutput()) > 0.0001)
     .withPosition(3, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
     display.addBoolean("Shooter On?", shooter::active)
     .withPosition(4, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);

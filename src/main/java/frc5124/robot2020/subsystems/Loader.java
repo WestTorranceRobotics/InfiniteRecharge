@@ -38,7 +38,7 @@ public class Loader extends SubsystemBase {
     bottomBeltMotor.setInverted(true);
     display = Shuffleboard.getTab("Driving Display");
 
-    display.addNumber("Balls Intaked", () -> ballIntaked);
+    display.addNumber("Balls Intaked Old", () -> ballIntaked);
   
     // if (RobotMap.debugEnabled) {
     //   debuggingTab = Shuffleboard.getTab("Loader Debug");
@@ -104,6 +104,10 @@ public class Loader extends SubsystemBase {
 
   public void ballIntaked(){
     ballIntaked =+ 1;
+  }
+
+  public int getBallsIntaked() {
+    return ballIntaked;
   }
 
   //This was here when I started so I left it that way.
