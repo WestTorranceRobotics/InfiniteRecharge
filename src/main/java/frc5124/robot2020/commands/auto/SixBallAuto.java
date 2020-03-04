@@ -7,6 +7,7 @@
 
 package frc5124.robot2020.commands.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc5124.robot2020.commands.auto.runpos.ShootAim;
 import frc5124.robot2020.commands.auto.runpos.Turn180;
@@ -30,7 +31,7 @@ public class SixBallAuto extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new ToggleIntakePivot(intake),
+      new InstantCommand(() -> intake.setDeployed(true), intake),
       new TurretFindHome(turret),
       new Turn180(turret),
       new ShootAim(shooter, loader, turret),
