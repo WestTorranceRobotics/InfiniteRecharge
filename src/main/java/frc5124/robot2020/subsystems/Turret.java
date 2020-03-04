@@ -81,6 +81,12 @@ public class Turret extends SubsystemBase {
     turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+  
+  }
+
+  public void disableTurretLimit() {
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
     
   }
 

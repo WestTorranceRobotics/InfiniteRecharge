@@ -37,7 +37,6 @@ public class ShootThreeByFF extends WaitCommand {
   @Override
   public void initialize() {
     super.initialize();
-    super.initialize();
     shooter.resetBallsShot();
   }
 
@@ -56,7 +55,7 @@ public class ShootThreeByFF extends WaitCommand {
       shooter.currentWatch(rpm);
     }
 
-    if (shooter.getVelocity() >= rpm-30 && loader.getAppliedOutput() == 0) {
+    if (shooter.getVelocity() >= rpm-50 && loader.getAppliedOutput() == 0) {
       loader.runBelt(1);
       shooter.atSpeed(true);
     } 

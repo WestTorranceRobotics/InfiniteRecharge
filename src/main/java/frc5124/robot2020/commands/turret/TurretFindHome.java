@@ -30,6 +30,7 @@ public class TurretFindHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turret.disableTurretLimit();
     turret.setHome(false);
     turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {

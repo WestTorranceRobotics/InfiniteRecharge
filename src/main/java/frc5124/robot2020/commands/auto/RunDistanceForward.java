@@ -25,7 +25,8 @@ public class RunDistanceForward extends CommandBase {
   private double x;
   private double power;
 
-  public RunDistanceForward(DriveTrain driveTrain, double x, double power) {
+  public 
+  RunDistanceForward(DriveTrain driveTrain, double x, double power) {
     m_DriveTrain = driveTrain;
     addRequirements(m_DriveTrain);
     this.x = x;

@@ -36,7 +36,7 @@ public class Turn180 extends CommandBase {
   @Override
   public void execute() {
     super.execute();
-    if ( 190 - Math.abs(turret.getDegrees()) < 1) {
+    if ( 180 - Math.abs(turret.getDegrees()) < 1) {
       isDone = true;
     }
    

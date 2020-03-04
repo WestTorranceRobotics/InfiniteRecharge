@@ -34,8 +34,8 @@ public class SixBallAuto extends SequentialCommandGroup {
       new TurretFindHome(turret),
       new Turn180(turret),
       new ShootAim(shooter, loader, turret),
-      new DriveAndIntake(161, .5, driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 76),
+      new DriveAndIntake(165, .5, driveTrain, intake, loader),
+      new RunDistanceReverse(driveTrain, 80),
       new ShootAimTrench(shooter, loader, turret)
     );
   }
