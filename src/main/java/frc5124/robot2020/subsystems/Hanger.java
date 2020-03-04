@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;  
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -49,8 +49,8 @@ public class Hanger implements Subsystem {
   @Override
   public void periodic() {
     if (RobotMap.debugEnabled) {}
-    SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
-    SmartDashboard.updateValues();
+    // SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
+    // SmartDashboard.updateValues();
   }
    
   public void liftUp() {

@@ -19,7 +19,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -47,8 +47,8 @@ public class Turret extends SubsystemBase {
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
     startDegrees = getDegrees();
-    SmartDashboard.putBoolean("ShooterRunning", false);
-    SmartDashboard.putBoolean("LimeLightOn", false);
+    // SmartDashboard.putBoolean("ShooterRunning", false);
+    // SmartDashboard.putBoolean("LimeLightOn", false);
     debuggingTab = Shuffleboard.getTab("Turret Display");
     resetTurretDegrees();
     turretLimitSet();
@@ -57,10 +57,10 @@ public class Turret extends SubsystemBase {
 
 
   public void updateCoeffs() {
-    turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
-    turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
-    turretPID.setD(SmartDashboard.getNumber("D", 0));
-    turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+    // turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+    // turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+    // turretPID.setD(SmartDashboard.getNumber("D", 0));
+    // turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
   }
 
   public void isAutomatic(boolean automatic) {
@@ -194,7 +194,7 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("turretDeggsss", getDegrees());
-    SmartDashboard.updateValues();
+    // SmartDashboard.putNumber("turretDeggsss", getDegrees());
+    // SmartDashboard.updateValues();
   }
 } 

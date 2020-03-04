@@ -9,7 +9,7 @@ package frc5124.robot2020.commands.turret;
 
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
@@ -34,7 +34,7 @@ public class TurretFindHome extends CommandBase {
     turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {
      turret.directPower(.1);
-     SmartDashboard.updateValues();
+    //  SmartDashboard.updateValues();
      turret.setCoast();
   }
   }
@@ -42,7 +42,7 @@ public class TurretFindHome extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("voltage", mag.getVoltage());
+    // SmartDashboard.putNumber("voltage", mag.getVoltage());
     if (!turret.setHome() && !turret.initialHome()) {
     if (mag.getVoltage() < .1) {
       turret.directPower(0);

@@ -9,7 +9,7 @@ package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class toggleLimeLight extends CommandBase {
   /**
@@ -22,7 +22,7 @@ public class toggleLimeLight extends CommandBase {
   @Override
   public void initialize() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(0.0);
-    SmartDashboard.putBoolean("LimeLightOn", true);
+    // SmartDashboard.putBoolean("LimeLightOn", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,7 +34,7 @@ public class toggleLimeLight extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
-    SmartDashboard.putBoolean("LimeLightOn", false);
+    // SmartDashboard.putBoolean("LimeLightOn", false);
   }
 
   // Returns true when the command should end.

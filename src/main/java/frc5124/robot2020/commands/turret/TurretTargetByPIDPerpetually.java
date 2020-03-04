@@ -12,7 +12,7 @@ import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretTargetByPIDPerpetually extends CommandBase {
   private Turret subsystem;
@@ -28,7 +28,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("aimbot").setDouble(1);
+    NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(1);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0.0);
     subsystem.enableTurretPID();
     subsystem.setCoast();
@@ -41,15 +41,15 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
       double target = subsystem.getDegrees() - 
       NetworkTableInstance.getDefault().getTable("limelight")
       .getEntry("tx").getDouble(0);
-  subsystem.setTurretDegrees(target);
-  SmartDashboard.putNumber("Deg", subsystem.getDegrees());
+      subsystem.setTurretDegrees(target);
+  // SmartDashboard.putNumber("Deg", subsystem.getDegrees());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     subsystem.isAutomatic(false);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("aimbot").setDouble(0);
+    NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
     subsystem.setBrake();
     //subsystem.setTurretDegrees(0);

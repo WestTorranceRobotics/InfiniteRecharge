@@ -8,11 +8,11 @@
 package frc5124.robot2020.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
+// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.subsystems.Turret;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.networktables.NetworkTableInstance;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateTurret extends CommandBase {
   private Turret turret;
@@ -51,7 +51,7 @@ public class RotateTurret extends CommandBase {
 
     
 
-    SmartDashboard.putNumber("TurretDegrees", turret.getDegrees());
+    // SmartDashboard.putNumber("TurretDegrees", turret.getDegrees());
   }
 
   // Called once the command ends or is interrupted.
