@@ -9,7 +9,7 @@ package frc5124.robot2020.commands.turret;
 
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Turret;
 
@@ -32,8 +32,8 @@ public class TurretFindHomeDefault extends CommandBase {
   public void initialize() {
     if (!(turret.setHome()) && !turret.initialHome()) {
      turret.directPower(.1);
-     SmartDashboard.putNumber("yeet", 0);
-     SmartDashboard.updateValues();
+    //  SmartDashboard.putNumber("yeet", 0);
+    //  SmartDashboard.updateValues();
   }
   }
 
@@ -61,10 +61,3 @@ public class TurretFindHomeDefault extends CommandBase {
     }
   } 
 }
-  
-    
-
-
-    
-
-

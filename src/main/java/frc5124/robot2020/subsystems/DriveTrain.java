@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotContainer;
@@ -113,8 +113,8 @@ public class DriveTrain extends SubsystemBase {
         odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
 
         preventWrapping(gyro.getPitch());
-        SmartDashboard.putNumber("ENC LEFT VAL", getLeftEncoderVal());
-        SmartDashboard.updateValues();
+        // SmartDashboard.putNumber("ENC LEFT VAL", getLeftEncoderVal());
+        // SmartDashboard.updateValues();
         //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
     }
     

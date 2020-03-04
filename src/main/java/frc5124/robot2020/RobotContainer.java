@@ -10,30 +10,23 @@ package frc5124.robot2020;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+import frc5124.robot2020.commands.auto.ChangeCamera;
 
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
@@ -41,8 +34,7 @@ import frc5124.robot2020.commands.auto.SixBallAuto;
 import frc5124.robot2020.commands.auto.SixBallAuto;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -51,7 +43,6 @@ import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.subsystems.*;
-
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -62,8 +53,7 @@ import frc5124.robot2020.subsystems.*;
 
 public class RobotContainer {
 
-  private Camera camera;
-  private PanelController panelController;
+  // private PanelController panelController;
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
@@ -89,13 +79,17 @@ public class RobotContainer {
   public JoystickButton operatorStickLeft = new JoystickButton(operator, 11);
   public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
+  public JoystickButton driverRightTrigger = new JoystickButton(driverRight, 1);
+  public JoystickButton driverLeftTrigger  = new JoystickButton(driverLeft, 1);
+
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
   public POVButton operatorLeft = new POVButton(operator, 270);
   
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
+  private Supplier<String> autoNameSupplier;
+  private HashMap<String, Command> autonomies = new HashMap<>();
 
   public RobotContainer() {
     configureSubsystems();
@@ -105,8 +99,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    panelController = new PanelController();
+    // panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
@@ -126,35 +119,53 @@ public class RobotContainer {
     operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400));
     operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950));
     operatorY.whileHeld(new RunLoader(loader));
-    operatorUp.whileHeld(new LiftUp(hanger) );  
-    operatorDown.whileHeld(new LiftDown(hanger) );  
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger));
 
-   
+    driverRightTrigger.whenPressed(new ChangeCamera(ChangeCamera.NEXT));
+    driverLeftTrigger.whenPressed(new ChangeCamera(ChangeCamera.LAST));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
+    // TODO fill in
+    autonomies.put("Trench Primary", new InstantCommand());
+    autonomies.put("Trench Secondary", new InstantCommand());
+    autonomies.put("Middle Primary", new InstantCommand());
+    autonomies.put("Middle Secondary", new InstantCommand());
+    autonomies.put("Opposing Trench Primary", new InstantCommand());
+    autonomies.put("Opposing Trench Secondary", new InstantCommand());
   }
-
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
     Shuffleboard.selectTab(display.getTitle());
 
-    // display.addBoolean("Intake Running?", intake::isRunning)
-    // .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    display.addBoolean("Limelight On?",
-    () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").getDouble(-1) == 0
-    ).withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    display.addBoolean("Target Acquired?",
-    () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1
-    ).withPosition(0, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    display.addBoolean("Shooter On?", shooter::active)
-    .withPosition(0, 3).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    display.addNumber("Number of Balls in Loader (Stub)", () -> 0)
-    .withPosition(0, 4).withSize(1, 1);
+    NetworkTableEntry pipeEntry = NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline");
 
-    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    display.addNumber("Number of Balls in Loader (Stub)", () -> 0) // TODO fill in
+    .withPosition(3, 1).withSize(1, 1);
+    display.addBoolean("Limelight On?",() -> (int) pipeEntry.getDouble(-1) == 0)
+    .withPosition(4, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Intake Running?", () -> Math.abs(intake.getOutput()) < 0.0001)
+    .withPosition(3, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Shooter On?", shooter::active)
+    .withPosition(4, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+
+    SendableChooser<String> selectionsA = new SendableChooser<>();
+    selectionsA.addOption("Trench", "Trench");
+    selectionsA.addOption("Middle", "Middle");
+    selectionsA.addOption("Opposing Trench", "Opposing Trench");
+    display.add("Start Position Selector", selectionsA)
+    .withPosition(5, 1).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+    
+    SendableChooser<String> selectionsB = new SendableChooser<>();
+    selectionsB.addOption("Primary", "Primary");
+    selectionsB.addOption("Secondary", "Secondary");
+    display.add("Mode Selector", selectionsB)
+    .withPosition(5, 2).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+    autoNameSupplier = () -> selectionsA.getSelected() + " " + selectionsB.getSelected();
   }
 
   public static GyroBase shuffleboardGyro(DoubleSupplier d) {
@@ -191,14 +202,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(RobotMap.DriveTrainMap.kS, RobotMap.DriveTrainMap.kV,RobotMap.DriveTrainMap.kA
-  ), driveTrain.getKinematics(), 10);
-
-  TrajectoryConfig config = new TrajectoryConfig(RobotMap.DriveTrainMap.kMaxSpeedInchesPerSecond, RobotMap.DriveTrainMap.kMaxAccelerationInchesPerSecondSquared).setKinematics(driveTrain.getKinematics()).addConstraint(autoVoltageConstraint);
-
-  Trajectory path = TrajectoryGenerator.generateTrajectory(new Pose2d(0,0, new Rotation2d(0)), List.of(new Translation2d(0, 10)), new Pose2d(0, 0, new Rotation2d(0)), config);
-
-//  return new Pathing(path, driveTrain).andThen(() -> driveTrain.tankDrive(0, 0));
-    return new SixBallAuto(turret, loader, shooter, driveTrain, intake);
+    return autonomies.get(autoNameSupplier.get());
   }
 }

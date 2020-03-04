@@ -15,12 +15,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -47,9 +48,9 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
-    SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
-    SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
-    SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
+    // SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
+    // SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
+    // SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
     // shootMotorFollower.setClosedLoopRampRate(.00001);
     // shootMotorLeader.setClosedLoopRampRate(.00001);
     // if (RobotMap.debugEnabled) {
@@ -92,9 +93,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void updatePID() {
-    shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
-    shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
-    shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
+    // shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
+    // shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
+    // shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
   }
 
   /**

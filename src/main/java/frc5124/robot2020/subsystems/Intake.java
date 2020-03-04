@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -49,15 +49,19 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     rollerSpeedController.set(power);
-    if (power != 0) {
-      SmartDashboard.putBoolean("IntakeRunning", true);
-    } else {
-      SmartDashboard.putBoolean("IntakeRunning", false);
-    }
+    // if (power != 0) {
+      // SmartDashboard.putBoolean("IntakeRunning", true);
+    // } else {
+      // SmartDashboard.putBoolean("IntakeRunning", false);
+    // }
   }
 
   public void flushOut(){
     armSolenoid.set(true);
     rollerSpeedController.set(-1);
+  }
+
+  public double getOutput() {
+    return rollerSpeedController.getAppliedOutput();
   }
 }

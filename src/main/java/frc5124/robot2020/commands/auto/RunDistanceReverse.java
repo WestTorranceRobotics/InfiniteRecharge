@@ -7,7 +7,7 @@
 
 package frc5124.robot2020.commands.auto;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
@@ -27,7 +27,7 @@ public class RunDistanceReverse extends CommandBase {
     addRequirements(m_DriveTrain);
     distanceToDrive = x; 
     targetCounts = countsPerInch * distanceToDrive;
-    SmartDashboard.putNumber("ended", 0);
+    // SmartDashboard.putNumber("ended", 0);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class RunDistanceReverse extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putNumber("ended", 1);
+    // SmartDashboard.putNumber("ended", 1);
   }
 
   // Returns true when the command should end.
