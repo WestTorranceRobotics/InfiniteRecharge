@@ -23,9 +23,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;
 
-public class DriveTrain implements Subsystem {
+public class DriveTrain extends SubsystemBase {
     public WPI_TalonFX leftLeader;
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
@@ -84,6 +85,10 @@ public class DriveTrain implements Subsystem {
             gyro.reset();
             gyro.zeroYaw();
         }
+        SmartDashboard.putNumber("yaw angle", getYawAngle());
+        SmartDashboard.putNumber("pitch angle", getPitchAngle());
+        SmartDashboard.putNumber("roll angle", getRollAngle());
+        SmartDashboard.updateValues();
 
         double r = rightLeader.getSelectedSensorPosition();
         double l = leftLeader.getSelectedSensorPosition();
@@ -208,8 +213,14 @@ public class DriveTrain implements Subsystem {
         leftLeader.setSelectedSensorPosition(0);
     }
 
-    public double getAngle(){
-        return gyro.getAngle();
+    public double getYawAngle(){
+        return gyro.getYaw();
+    }
+    public double getPitchAngle(){
+        return gyro.getPitch();
+    }
+    public double getRollAngle(){
+        return gyro.getRoll();
     }
 
 }

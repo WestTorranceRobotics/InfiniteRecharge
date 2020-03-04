@@ -69,7 +69,7 @@ public class DriveToPoint extends CommandBase {
 
   public void updateSmartDashboard(){
     SmartDashboard.putNumber("the angle", angleToTurn);
-    SmartDashboard.putNumber("current angle", m_DriveTrain.getAngle());
+    SmartDashboard.putNumber("current angle", m_DriveTrain.getYawAngle());
     SmartDashboard.putNumber("TARGETCOUNTS", targetCounts);
     SmartDashboard.putNumber("ENCODERVAL", m_DriveTrain.leftEncoder());
     SmartDashboard.updateValues();

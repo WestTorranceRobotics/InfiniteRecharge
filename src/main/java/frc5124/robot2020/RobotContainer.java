@@ -61,7 +61,8 @@ public class RobotContainer {
   private Camera camera;
   private PanelController panelController;
 
-  private Hanger hanger;  // private Intake intake;
+  private Hanger hanger; 
+  private Intake intake;   
   private DriveTrain driveTrain;
   private Shooter shooter; 
   private Turret turret;
@@ -100,30 +101,30 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    panelController = new PanelController();
-    hanger = new Hanger();
-    loader = new Loader();
-    driveTrain = new DriveTrain();
-    shooter = new Shooter();
-    turret = new Turret();
+      camera = new Camera();
+       panelController = new PanelController();
+       hanger = new Hanger();
+       loader = new Loader();
+       driveTrain = new DriveTrain();
+       shooter = new Shooter();
+       turret = new Turret();
   }
 
   private void configureButtonBindings(){
-  //   operatorBack.whileHeld(new SetIntakePower(intake, -.6));
-  //   operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-  //  operatorA.whenPressed(new ToggleIntakePivot(intake));
-    // operatorUp.whileHeld(new LiftUp(hanger));
-    // operatorDown.whileHeld(new LiftDown(hanger));   
-    // operatorRB.whileHeld(new RotateTurret(turret));
-    // operatorLB.whileHeld(new RotateTurret(turret));
-    //operatorRB.whileHeld(new SetShootRPM(shooter));
-  //  operatorStart.whileHeld(new TurretTargetByPID(turret));
-    // panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
-    // positionControl.whenPressed(new PositionControl(panelController));
-    // rotationControl.whenPressed(new RotationControl(panelController));   
-    // rotationControl.whenPressed(new RotationControl(panelController));
-    operatorA.whenHeld(new FindingAngle(driveTrain));
+  //operatorBack.whileHeld(new SetIntakePower(intake, -.6));
+  //operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+  //operatorA.whenPressed(new ToggleIntakePivot(intake));
+  //operatorUp.whileHeld(new LiftUp(hanger));
+  //operatorDown.whileHeld(new LiftDown(hanger));
+  //operatorRB.whileHeld(new RotateTurret(turret));
+  //operatorLB.whileHeld(new RotateTurret(turret));
+  //operatorRB.whileHeld(new SetShootRPM(shooter));
+  //operatorStart.whileHeld(new TurretTargetByPID(turret));
+  //panelControllerDeployer.whenPressed(new PanelControllerToggleDeployed(panelController));
+  //positionControl.whenPressed(new PositionControl(panelController));
+  //rotationControl.whenPressed(new RotationControl(panelController));
+  //rotationControl.whenPressed(new RotationControl(panelController));
+     operatorA.toggleWhenPressed(new FindingAngle(driveTrain));
   }
 
   // private void configureDefaultCommands(){
@@ -180,6 +181,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new DriveToPoint(driveTrain, 0, 0);
+  //  return new DriveToPoint(driveTrain, 0, 0);
+  return null;
   }
 }

@@ -24,15 +24,16 @@ public class FindingAngle extends CommandBase {
   }
 
   public void updateSmartDashboard(){
-    SmartDashboard.putNumber("the angle", angleToTurn);
-    SmartDashboard.putNumber("current angle", m_DriveTrain.getAngle());
-    SmartDashboard.putNumber("ENCODERVAL", m_DriveTrain.leftEncoder());
+    SmartDashboard.putNumber("yaw angle", m_DriveTrain.getYawAngle());
+    SmartDashboard.putNumber("pitch angle", m_DriveTrain.getPitchAngle());
+    SmartDashboard.putNumber("roll angle", m_DriveTrain.getRollAngle());
     SmartDashboard.updateValues();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+      
     updateSmartDashboard();
   }
 

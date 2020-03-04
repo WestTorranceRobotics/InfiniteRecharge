@@ -31,6 +31,7 @@ public class SeeBallRunBelt extends CommandBase {
   public void execute() {
     if (m_Loader.seeBall()) {
       m_Loader.setDirectPower(1);
+      m_Loader.intakedBall();
     } else {
       m_Loader.stopBelt();
     }

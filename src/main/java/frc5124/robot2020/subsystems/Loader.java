@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 public class Loader implements Subsystem {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
+  private int ballIntaked;
   AnalogInput motionSensor = new AnalogInput(RobotMap.LoaderMap.motionSensorID);
   
   public Loader() { 
@@ -63,6 +64,12 @@ public class Loader implements Subsystem {
   public void flushOut() {
     topBeltMotor.set(-1);
   }
+
+  public void intakedBall(){
+    int bellIntaked =+ 1;
+  }
+
+  
 
   @Override
   public void periodic() {
