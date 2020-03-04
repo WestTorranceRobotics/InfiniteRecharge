@@ -22,21 +22,22 @@ import frc5124.robot2020.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootDriveTrench extends SequentialCommandGroup {
+public class SixBallAuto extends SequentialCommandGroup {
   /**
-   * Creates a new ShootDriveTrench.
+   * Creates a new SixBallAuto.
    */
-  public ShootDriveTrench(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
+  public SixBallAuto(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new ToggleIntakePivot(intake),
-      new TurretZeroPosition(turret),
-      new Turn180(turret), 
+      new TurretFindHome(turret),
+      new Turn180(turret),
       new ShootAim(shooter, loader, turret),
-      new DriveAndIntake(((double)156), driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 69),
+      new DriveAndIntake(165, .5, driveTrain, intake, loader),
+      new RunDistanceReverse(driveTrain, 80),
       new ShootAimTrench(shooter, loader, turret)
-      );
+    );
   }
+
 }

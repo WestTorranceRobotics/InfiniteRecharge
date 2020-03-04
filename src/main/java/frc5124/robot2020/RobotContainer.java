@@ -27,6 +27,12 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
 import frc5124.robot2020.commands.auto.ChangeCamera;
+
+import frc5124.robot2020.commands.auto.ShootThreeBalls;
+import frc5124.robot2020.commands.auto.RunDistanceForward;
+import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc5124.robot2020.commands.driveTrain.*;
@@ -110,8 +116,8 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4890));
-    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400));
+    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950));
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));

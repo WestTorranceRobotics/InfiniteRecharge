@@ -16,7 +16,7 @@ public class Intake implements Subsystem {
   private Solenoid armSolenoid;         //for pivot of the arm
   private CANSparkMax rollerSpeedController;          //motor
   private boolean deployed;    
-  private ShuffleboardTab debuggingTab;
+  private ShuffleboardTab display;
 
   public Intake() {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
@@ -25,11 +25,11 @@ public class Intake implements Subsystem {
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up
       Shuffleboard.update();
-      if (RobotMap.debugEnabled) {
-        debuggingTab = Shuffleboard.getTab("Intake Debug");
-        debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
-        .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      }
+      // if (RobotMap.debugEnabled) {
+      //   debuggingTab = Shuffleboard.getTab("Intake Debug");
+      //   debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
+      //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+      // }
   }
 
   @Override

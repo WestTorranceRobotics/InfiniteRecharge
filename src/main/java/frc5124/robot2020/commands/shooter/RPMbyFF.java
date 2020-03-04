@@ -48,8 +48,8 @@ public class RPMbyFF extends CommandBase {
     if (shooter.atSpeed()) {
       shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     }
-    if (shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM   && loader.getAppliedOutput() == 0) {
-      loader.runBelt(.75);
+    if (shooter.getVelocity() >= rpm-50 && loader.getAppliedOutput() == 0) {
+      loader.runBelt(1);
       shooter.atSpeed(true);
     } 
   }
@@ -59,6 +59,7 @@ public class RPMbyFF extends CommandBase {
   public void end(boolean interrupted) {
     shooter.directPower(0);
     shooter.atSpeed(false);
+    loader.stopBelt();
   }
 
   // Returns true when the command should end.

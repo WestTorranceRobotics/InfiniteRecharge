@@ -48,14 +48,14 @@ public class PanelController implements Subsystem {
     matcher.addColorMatch(PanelColor.YELLOW.color());
     matcher.addColorMatch(PanelColor.GREEN.color());
     matcher.addColorMatch(PanelColor.RED.color());
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Panel Debugger");
-      debuggingTab.addString("Status", () -> "Imagine Having a Panel Controller");
-      // Color encoder
-      // Motor encoder
-      // Motor current
-      // Color view with numbers
-    }
+    // if (RobotMap.debugEnabled) {
+    //   debuggingTab = Shuffleboard.getTab("Panel Debugger");
+    //   debuggingTab.addString("Status", () -> "Imagine Having a Panel Controller");
+    //   // Color encoder
+    //   // Motor encoder
+    //   // Motor current
+    //   // Color view with numbers
+    // }
   }
 
   @Override

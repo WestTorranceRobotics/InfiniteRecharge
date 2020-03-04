@@ -8,11 +8,12 @@
 package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
 
-public class ShootThreeByFF extends CommandBase {
+public class ShootThreeByFF extends WaitCommand {
 
   private Shooter shooter;
   private double rpm;
@@ -22,7 +23,8 @@ public class ShootThreeByFF extends CommandBase {
   /**
    * Creates a new ShootThreeByFF.
    */
-  public ShootThreeByFF(Shooter shooter, Loader loader, double rpm) {
+  public ShootThreeByFF(Shooter shooter, Loader loader, double rpm, double time) {
+    super(time);
     this.shooter = shooter;
     this.rpm = rpm;
     this.loader = loader;
@@ -50,16 +52,17 @@ public class ShootThreeByFF extends CommandBase {
     shooter.directVolts(0.147 + 0.0015538 * rpm );
     
     if (shooter.atSpeed()) {
-      shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+      shooter.currentWatch(rpm);
     }
-    if (shooter.getVelocity() >= RobotMap.ShooterMap.lineShootRPM   && loader.getAppliedOutput() == 0) {
-      loader.runBelt(.75);
+
+    if (shooter.getVelocity() >= rpm-50 && loader.getAppliedOutput() == 0) {
+      loader.runBelt(1);
       shooter.atSpeed(true);
     } 
 
-    if (shooter.getBallsShot() == 3) {
-      isDone = true;
-    }
+    // if (shooter.getBallsShot() == 3) {
+    //   isDone = true;
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -71,9 +74,9 @@ public class ShootThreeByFF extends CommandBase {
     loader.stopBelt();
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return isDone;
-  }
+  // // Returns true when the command should end.
+  // @Override
+  // public boolean isFinished() {
+  //   return isDone;
+  // }
 }

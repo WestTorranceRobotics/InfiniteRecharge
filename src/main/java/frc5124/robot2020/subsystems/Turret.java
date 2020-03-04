@@ -49,10 +49,15 @@ public class Turret extends SubsystemBase {
     startDegrees = getDegrees();
     // SmartDashboard.putBoolean("ShooterRunning", false);
     // SmartDashboard.putBoolean("LimeLightOn", false);
-    debuggingTab = Shuffleboard.getTab("Turret Display");
+    // debuggingTab = Shuffleboard.getTab("Turret Display");
     resetTurretDegrees();
     turretLimitSet();
-    Shuffleboard.update();
+    // SmartDashboard.putBoolean("ShooterRunning", false);
+    // SmartDashboard.putBoolean("LimeLightOn", false);
+    // /debuggingTab = Shuffleboard.getTab("Turret Display");
+    // resetTurretDegrees();
+    // turretLimitSet();
+    // Shuffleboard.update();
   }
 
 
@@ -81,6 +86,12 @@ public class Turret extends SubsystemBase {
     turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+  
+  }
+
+  public void disableTurretLimit() {
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
+    turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
     
   }
 

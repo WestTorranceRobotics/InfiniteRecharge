@@ -20,17 +20,30 @@ public class RunDistanceForward extends CommandBase {
   private double distanceToDrive;
   private double countsPerInch = 1082.0;
   private double startingEncoderVal;
+  private double dtPower;
+  private double x;
+  private double power;
 
-  public RunDistanceForward(DriveTrain driveTrain, double x) {
+  public 
+  RunDistanceForward(DriveTrain driveTrain, double x, double power) {
     m_DriveTrain = driveTrain;
     addRequirements(m_DriveTrain);
+    this.x = x;
+    this.power = power;
+  }
+
+  @Override 
+  public void initialize() {
+    super.initialize();
+    m_DriveTrain.resetEncoders();
     distanceToDrive = x; 
     targetCounts = countsPerInch * distanceToDrive;
     startingEncoderVal = m_DriveTrain.getLeftEncoderVal();
+    dtPower = power;
   }
 
-  public void driveStraightToPoint(){ // after it figures out the angle, it should just drive straight
-      m_DriveTrain.tankDrive(.5, .5);
+  public void driveStraightToPoint(){  // after it figures out the angle, it should just drive straight
+      m_DriveTrain.tankDrive(dtPower, dtPower);
     if (Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) >= Math.abs(targetCounts)){
       m_DriveTrain.tankDrive(0, 0);
       isDone = true;
@@ -46,7 +59,6 @@ public class RunDistanceForward extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.

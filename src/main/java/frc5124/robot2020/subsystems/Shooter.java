@@ -19,7 +19,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -51,15 +53,15 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
     // shootMotorFollower.setClosedLoopRampRate(.00001);
     // shootMotorLeader.setClosedLoopRampRate(.00001);
-    if (RobotMap.debugEnabled) {
-      debuggingTab = Shuffleboard.getTab("Shooter Debug");
-      debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
-      .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addNumber("Shooter RPM", this::getVelocity)
-      .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      debuggingTab.addNumber("Balls Shot", this::getBallsShot)
-      .withPosition(0, 3).withSize(1, 1);
-    }
+    // if (RobotMap.debugEnabled) {
+    //   debuggingTab = Shuffleboard.getTab("Shooter Debug");
+    //   debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
+    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addNumber("Shooter RPM", this::getVelocity)
+    //   .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+    //   debuggingTab.addNumber("Balls Shot", this::getBallsShot)
+    //   .withPosition(0, 3).withSize(1, 1);
+    // }
   }
 
   public boolean active() {
@@ -169,12 +171,21 @@ public class Shooter extends SubsystemBase {
     shootMotorLeader.setVoltage(volts);
   }
   
+  private static final double limelightAngle = 20.5;
+  private static final double limelightHeight = 21;
+  private static final double targetHeight = 89;
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("shoot V", getVelocity());
-    // SmartDashboard.putNumber("balls shot", getBallsShot());
-    // SmartDashboard.putNumber("shoot current", getCurrent());
-    // SmartDashboard.updateValues();
+    SmartDashboard.putNumber("shoot V", getVelocity());
+    SmartDashboard.putNumber("balls shot", getBallsShot());
+    SmartDashboard.putNumber("shoot current", getCurrent());
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    SmartDashboard.putNumber("ty", ty);
+    double angle = ty + limelightAngle;
+    double tan = Math.tan(Math.toRadians(angle));
+    double dx = (targetHeight - limelightHeight) / tan;
+    SmartDashboard.putNumber("Distance to Target", dx);
+    SmartDashboard.updateValues();
   }
 }

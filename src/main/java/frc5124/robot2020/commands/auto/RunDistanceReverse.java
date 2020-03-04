@@ -37,7 +37,7 @@ public class RunDistanceReverse extends CommandBase {
   }
 
   public void driveStraightToPoint(){ 
-    m_DriveTrain.tankDrive(-.5, -.5);
+    m_DriveTrain.tankDrive(-.75, -.75);
     if (Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) >= Math.abs(targetCounts)){
       m_DriveTrain.tankDrive(0, 0);
       isDone = true;

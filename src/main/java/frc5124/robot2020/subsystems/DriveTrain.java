@@ -82,24 +82,24 @@ public class DriveTrain extends SubsystemBase {
         gyro.reset();
         gyro.zeroYaw();
         
-        if (RobotMap.debugEnabled) {
-            debuggingTab = Shuffleboard.getTab("Drive Train Debug");
-            debuggingTab.addNumber("Left Leader Current", () -> leftLeader.getStatorCurrent())
-            .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-            debuggingTab.addNumber("Right Leader Current", () -> rightLeader.getStatorCurrent())
-            .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-            debuggingTab.addNumber("X position", () -> odometry.getPoseMeters().getTranslation().getX())
-            .withPosition(3, 0).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
-            debuggingTab.addNumber("Y position", () -> odometry.getPoseMeters().getTranslation().getY())
-            .withPosition(3, 1).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
-            debuggingTab.addNumber("Left Encoder Position", () -> leftLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
-            .withPosition(3, 2).withSize(1, 1);
-            debuggingTab.addNumber("Right Encoder Position", () -> rightLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
-            .withPosition(4, 2).withSize(1, 1);
-            debuggingTab.add("Rotation", RobotContainer.shuffleboardGyro(
-                () -> 90 - getLocation().getRotation().getDegrees())
-            ).withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-        }
+        // if (RobotMap.debugEnabled) {
+        //     debuggingTab = Shuffleboard.getTab("Drive Train Debug");
+        //     debuggingTab.addNumber("Left Leader Current", () -> leftLeader.getStatorCurrent())
+        //     .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+        //     debuggingTab.addNumber("Right Leader Current", () -> rightLeader.getStatorCurrent())
+        //     .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
+        //     debuggingTab.addNumber("X position", () -> odometry.getPoseMeters().getTranslation().getX())
+        //     .withPosition(3, 0).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
+        //     debuggingTab.addNumber("Y position", () -> odometry.getPoseMeters().getTranslation().getY())
+        //     .withPosition(3, 1).withSize(2, 1).withWidget(BuiltInWidgets.kNumberBar);
+        //     debuggingTab.addNumber("Left Encoder Position", () -> leftLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
+        //     .withPosition(3, 2).withSize(1, 1);
+        //     debuggingTab.addNumber("Right Encoder Position", () -> rightLeader.getSelectedSensorPosition() * INCHES_PER_TICK)
+        //     .withPosition(4, 2).withSize(1, 1);
+        //     debuggingTab.add("Rotation", RobotContainer.shuffleboardGyro(
+        //         () -> 90 - getLocation().getRotation().getDegrees())
+        //     ).withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
+        // }
         last = gyro.getPitch();
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();

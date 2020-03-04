@@ -30,11 +30,11 @@ public class TurretFindHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    turret.disableTurretLimit();
     turret.setHome(false);
     turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {
-     turret.directPower(.1);
-    //  SmartDashboard.updateValues();
+     turret.directPower(.25);
      turret.setCoast();
   }
   }
@@ -51,12 +51,13 @@ public class TurretFindHome extends CommandBase {
     } 
   }
 
+
   if (turret.setHome() && !turret.initialHome()) {
-    turret.setTurretDegrees(-16);
+    turret.setTurretDegrees(-17);
     turret.initialHome(true);
     turret.setHome(false);
   }
-    if (turret.getDegrees() <= -9.9 && turret.initialHome() && !turret.setHome()) {
+    if (turret.getDegrees() <= -17 && turret.initialHome() && !turret.setHome()) {
       turret.resetTurretDegrees();
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
@@ -68,7 +69,7 @@ public class TurretFindHome extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-      turret.setCoast();
+      turret.setBrake();
     }
   
     // Returns true when the command should end.
