@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     public Robot() {
-        super(1.0/200);
+        super();
     }
 
     @Override
