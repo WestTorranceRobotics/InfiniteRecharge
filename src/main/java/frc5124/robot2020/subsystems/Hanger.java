@@ -39,15 +39,6 @@ public class Hanger extends SubsystemBase {
     brakeOff.set(false);
     hangerMotor.setInverted(true);
     hangerMotor.getEncoder().setPosition(0);
-    // if (RobotMap.debugEnabled) {
-    //   debuggingTab = Shuffleboard.getTab("Hanger Debug");
-    //   debuggingTab.addBoolean("Top Limit Switch", this::reachedTopLimit)
-    //   .withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    //   debuggingTab.addBoolean("Bottom Limit Switch", this::reachedBottomLimit)
-    //   .withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    //   debuggingTab.addNumber("Lift Current", hangerMotor::getOutputCurrent)
-    //   .withPosition(1, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    // }
   }
 
   @Override
@@ -55,8 +46,6 @@ public class Hanger extends SubsystemBase {
     if (RobotMap.debugEnabled) {}
     SmartDashboard.putNumber("encoder Hanger", hangerMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition());
     SmartDashboard.updateValues();
-    // SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
-    // SmartDashboard.updateValues();
   }
 
   public double getPosition() {

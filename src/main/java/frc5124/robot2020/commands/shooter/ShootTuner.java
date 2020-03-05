@@ -18,16 +18,12 @@ import frc5124.robot2020.subsystems.Shooter;
 
 public class ShootTuner extends CommandBase {
   private Shooter m_shooter;
-  //private Loader m_loader;
-
 
   /**
    * Creates a new setShootVelocity.
    */
   public ShootTuner (Shooter shooter) {
     m_shooter = shooter;
-    // m_loader = loader;
-    // addRequirements(m_loader);
     addRequirements(m_shooter);
   }
 
@@ -35,15 +31,12 @@ public class ShootTuner extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.startShooter(RobotMap.ShooterMap.lineShootRPM);
-    //SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   m_shooter.updatePID();
-  // SmartDashboard.putNumber("SHOOTVelocity", m_shooter.getVelocity());
-  // SmartDashboard.updateValues();
   }
   // Returns true when the command should end.
     @Override
@@ -54,9 +47,7 @@ public class ShootTuner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // SmartDashboard.putBoolean("ShooterRunning", false);
     m_shooter.stopShooter();
-   // m_loader.stopBelt();
   }
   
 }

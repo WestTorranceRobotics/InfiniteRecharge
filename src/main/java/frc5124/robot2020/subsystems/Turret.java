@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Turret extends SubsystemBase {
@@ -37,7 +38,7 @@ public class Turret extends SubsystemBase {
   private ShuffleboardTab debuggingTab;
   private boolean isHome = false;
   private double startDegrees = 0;
-  private boolean initialHome = false;
+  private boolean isInitialHome = false;
 
   public static AnalogInput mag = new AnalogInput(3);
   
@@ -50,32 +51,22 @@ public class Turret extends SubsystemBase {
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
     startDegrees = getDegrees();
-    // SmartDashboard.putBoolean("ShooterRunning", false);
-    // SmartDashboard.putBoolean("LimeLightOn", false);
-    // debuggingTab = Shuffleboard.getTab("Turret Display");
     resetTurretDegrees();
     turretLimitSet();
-    // SmartDashboard.putBoolean("ShooterRunning", false);
-    // SmartDashboard.putBoolean("LimeLightOn", false);
-    // /debuggingTab = Shuffleboard.getTab("Turret Display");
-    // resetTurretDegrees();
-    // turretLimitSet();
-    // Shuffleboard.update();
   }
 
 
   public void updateCoeffs() {
-    // turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
-    // turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
-    // turretPID.setD(SmartDashboard.getNumber("D", 0));
-    // turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
+    turretPID.setP(SmartDashboard.getNumber("P", RobotMap.TurretMap.Kp));
+    turretPID.setI(SmartDashboard.getNumber("I", RobotMap.TurretMap.Ki));
+    turretPID.setD(SmartDashboard.getNumber("D", 0));
+    turretPID.setIZone(SmartDashboard.getNumber("IZONE", RobotMap.TurretMap.KiZone));
   }
 
   public void isAutomatic(boolean automatic) {
     this.automatic = automatic;
   }
   
-
   public boolean isAutomatic() {
     return automatic;
   }
@@ -89,13 +80,11 @@ public class Turret extends SubsystemBase {
     turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-  
   }
 
   public void disableTurretLimit() {
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-    
   }
 
   public void resetTurretDegrees() {
@@ -112,20 +101,20 @@ public class Turret extends SubsystemBase {
     turretPID.setD(0);
   }
 
-  public void setHome(boolean isHome) {
+  public void isHome(boolean isHome) {
     this.isHome = isHome;
   }
 
-  public boolean setHome () {
+  public boolean isHome () {
     return isHome;
   }
 
-  public void initialHome(boolean initialHome) {
-    this.initialHome = initialHome;
+  public void isInitialHome(boolean isInitialHome) {
+    this.isInitialHome = isInitialHome;
   }
 
-  public boolean initialHome () {
-    return initialHome;
+  public boolean isInitialHome () {
+    return isInitialHome;
   }
 
   public void setCoast() {
@@ -202,13 +191,8 @@ public class Turret extends SubsystemBase {
   public double getAppliedOutput() {
     return turretMotor.getAppliedOutput();
   }
-  // public DigitalInput getMagnetSensor(){
-  //   return magneticSensor;
-  // }
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("turretDeggsss", getDegrees());
-    // SmartDashboard.updateValues();
   }
 } 

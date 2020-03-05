@@ -79,9 +79,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void updatePID() {
-    // shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
-    // shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
-    // shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
+    shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
+    shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
+    shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
   }
 
   /**
@@ -93,8 +93,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void startShooter(double rpm) {
-    //enablePID();
-    updatePID();
     shootPID.setReference(rpm, ControlType.kVelocity);
   }
 

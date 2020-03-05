@@ -63,7 +63,7 @@ public class RobotMap {
 
     public static class HangerMap {
         public static double hangerMotorUp = 0.5;   
-        public static double hangerMotorDown = -0.2;
+        public static double hangerMotorDown = -0.5;
         public static double hangerHalt = 0.0;
         public static int hangerCanID = 10;
         public static int hangerSolenoid = 2;

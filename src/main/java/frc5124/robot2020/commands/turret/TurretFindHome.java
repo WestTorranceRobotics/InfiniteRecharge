@@ -34,9 +34,9 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void initialize() {
     turret.disableTurretLimit();
-    turret.setHome(false);
-    turret.initialHome(false);
-    if (!(turret.setHome()) && !turret.initialHome()) {
+    turret.isHome(false);
+    turret.isInitialHome(false);
+    if (!(turret.isHome()) && !turret.isInitialHome()) {
      turret.directPower(.25);
      turret.setCoast();
   }
@@ -46,25 +46,25 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void execute() {
     // SmartDashboard.putNumber("voltage", mag.getVoltage());
-    if (!turret.setHome() && !turret.initialHome()) {
+    if (!turret.isHome() && !turret.isInitialHome()) {
     if (mag.getVoltage() < .1) {
       turret.directPower(0);
       turret.resetTurretDegrees();
-      turret.setHome(true);
+      turret.isHome(true);
     } 
   }
 
 
-  if (turret.setHome() && !turret.initialHome()) {
+  if (turret.isHome() && !turret.isInitialHome()) {
     turret.setTurretDegrees(-17);
-    turret.initialHome(true);
-    turret.setHome(false);
+    turret.isInitialHome(true);
+    turret.isHome(false);
   }
-    if (turret.getDegrees() <= -17 && turret.initialHome() && !turret.setHome()) {
+    if (turret.getDegrees() <= -17 && turret.isInitialHome() && !turret.isHome()) {
       turret.resetTurretDegrees();
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
-      turret.setHome(true);
+      turret.isHome(true);
       isDone = true;
     }
   } 

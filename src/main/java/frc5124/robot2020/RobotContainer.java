@@ -55,8 +55,7 @@ import frc5124.robot2020.subsystems.*;
  */
 
 public class RobotContainer {
-
-  // private PanelController panelController;
+  
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
@@ -102,7 +101,6 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    // panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();

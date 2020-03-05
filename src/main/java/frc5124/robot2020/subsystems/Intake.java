@@ -23,18 +23,11 @@ public class Intake implements Subsystem {
       intakeMotor = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
       intakeMotor.restoreFactoryDefaults();         //resets things like follwers and such.
       intakeMotor.setInverted(false);
-      deployed = false;         // pivot is up
-      // Shuffleboard.update();
-      // if (RobotMap.debugEnabled) {
-      //   debuggingTab = Shuffleboard.getTab("Intake Debug");
-      //   debuggingTab.addNumber("Intake Motor Current", intakeMotor::getOutputCurrent)
-      //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-      // }
+      deployed = false;    
   }
 
   @Override
   public void periodic() {
-    // Put code here to be run every loop
   }
 
   public void setDeployed(boolean deployed) {
@@ -49,11 +42,6 @@ public class Intake implements Subsystem {
 
   public void setIntakePower(double power){
     intakeMotor.set(power);
-    // if (power != 0) {
-      // SmartDashboard.putBoolean("IntakeRunning", true);
-    // } else {
-      // SmartDashboard.putBoolean("IntakeRunning", false);
-    // }
   }
 
   public void flushOut(){
