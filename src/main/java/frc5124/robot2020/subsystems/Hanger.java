@@ -9,32 +9,36 @@ package frc5124.robot2020.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;  
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-public class Hanger implements Subsystem {
+public class Hanger extends SubsystemBase {
   private CANSparkMax hangerMotor;
-  private Solenoid noBrake;
+  private Solenoid brakeOff;
   private DigitalInput topLimit;
   private DigitalInput bottomLimit;
   private ShuffleboardTab debuggingTab;
 
   public Hanger() {
     hangerMotor = new CANSparkMax(RobotMap.HangerMap.hangerCanID, MotorType.kBrushless);
-    noBrake = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
+    brakeOff = new Solenoid(RobotMap.modNumSolenoid, RobotMap.HangerMap.hangerSolenoid);
     topLimit = new DigitalInput(RobotMap.HangerMap.topLimitChannelID);
     bottomLimit = new DigitalInput(RobotMap.HangerMap.bottomLimitChannelID);
-    noBrake.set(false);
+    brakeOff.set(false);
     hangerMotor.setInverted(true);
+    hangerMotor.getEncoder().setPosition(0);
     // if (RobotMap.debugEnabled) {
     //   debuggingTab = Shuffleboard.getTab("Hanger Debug");
     //   debuggingTab.addBoolean("Top Limit Switch", this::reachedTopLimit)
@@ -49,34 +53,26 @@ public class Hanger implements Subsystem {
   @Override
   public void periodic() {
     if (RobotMap.debugEnabled) {}
+    SmartDashboard.putNumber("encoder Hanger", hangerMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition());
+    SmartDashboard.updateValues();
     // SmartDashboard.putBoolean("limitSwitchPressed?", reachedTopLimit());
     // SmartDashboard.updateValues();
   }
+
+  public double getPosition() {
+    return hangerMotor.getEncoder(EncoderType.kHallSensor, 42).getPosition();
+  }
    
-  public void liftUp() {
-    // if (reachedTopLimit()) {
-    //   setNoPower();
-    // }
-    // else {
-    //   brake.set(false);
-    //   hangerMotor.set(RobotMap.HangerMap.hangerMotor);
-    // }
-    hangerMotor.set(.2);
-    noBrake.set(true);
+  public void liftUp() {  
+      hangerMotor.set(RobotMap.HangerMap.hangerMotorUp);
+      brakeOff.set(true);
   }
 
 
 
   public void liftDown(){
-    // if (reachedBottomLimit()) {
-    //   setNoPower();
-    // }
-    // else {
-    //   brake.set(false);
-    //   hangerMotor.set(-RobotMap.HangerMap.hangerMotor);
-    // }
-    hangerMotor.set(-.1);
-    noBrake.set(true);
+      hangerMotor.set(RobotMap.HangerMap.hangerMotorDown);
+      brakeOff.set(true);
   }
 
   public boolean reachedTopLimit(){
@@ -90,6 +86,6 @@ public class Hanger implements Subsystem {
 
   public void setNoPower(){
     hangerMotor.set(RobotMap.HangerMap.hangerHalt);
-    noBrake.set(false);
+    brakeOff.set(false);
   }
 }

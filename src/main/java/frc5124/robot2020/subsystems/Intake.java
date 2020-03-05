@@ -14,20 +14,20 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class Intake implements Subsystem {
 
   private Solenoid armSolenoid;         //for pivot of the arm
-  private CANSparkMax rollerSpeedController;          //motor
+  private CANSparkMax intakeMotor;          //motor
   private boolean deployed;    
   private ShuffleboardTab display;
 
   public Intake() {
       armSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.IntakeMap.intakeSolenoid);         // mod num & channel num         
-      rollerSpeedController = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
-      rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
-      rollerSpeedController.setInverted(false);
+      intakeMotor = new CANSparkMax(RobotMap.IntakeMap.rollerCanId, MotorType.kBrushless);         //establish can id and controller type
+      intakeMotor.restoreFactoryDefaults();         //resets things like follwers and such.
+      intakeMotor.setInverted(false);
       deployed = false;         // pivot is up
       // Shuffleboard.update();
       // if (RobotMap.debugEnabled) {
       //   debuggingTab = Shuffleboard.getTab("Intake Debug");
-      //   debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)
+      //   debuggingTab.addNumber("Intake Motor Current", intakeMotor::getOutputCurrent)
       //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
       // }
   }
@@ -48,7 +48,7 @@ public class Intake implements Subsystem {
   }
 
   public void setIntakePower(double power){
-    rollerSpeedController.set(power);
+    intakeMotor.set(power);
     // if (power != 0) {
       // SmartDashboard.putBoolean("IntakeRunning", true);
     // } else {
@@ -58,10 +58,10 @@ public class Intake implements Subsystem {
 
   public void flushOut(){
     armSolenoid.set(true);
-    rollerSpeedController.set(-1);
+    intakeMotor.set(RobotMap.IntakeMap.flushOutSpeed);
   }
 
   public double getOutput() {
-    return rollerSpeedController.getAppliedOutput();
+    return intakeMotor.getAppliedOutput();
   }
 }

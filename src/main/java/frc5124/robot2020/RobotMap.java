@@ -4,6 +4,7 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
+    public static final int neoCounts = 42;
     public static final  boolean debugEnabled = false;
     public static final  int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
@@ -55,12 +56,14 @@ public class RobotMap {
 
     public static class IntakeMap {
         public static double motorPower = 1;
+        public static double flushOutSpeed = -1;
         public static int rollerCanId = 14; //14
         public static int intakeSolenoid = 1;
     }
 
     public static class HangerMap {
-        public static double hangerMotor = 0.8;   
+        public static double hangerMotorUp = 0.5;   
+        public static double hangerMotorDown = -0.2;
         public static double hangerHalt = 0.0;
         public static int hangerCanID = 10;
         public static int hangerSolenoid = 2;
@@ -89,6 +92,8 @@ public class RobotMap {
     }
 
     public static class LoaderMap {
+        public static double reverseBeltSpeed = -.35;
+        public static double seeBallVoltage = 1.0;
         public static int topBeltCanId = 9; //9
         public static int bottomBeltCanId = 12; //7 
         public static double beltSpeed = .420;

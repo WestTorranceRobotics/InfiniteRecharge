@@ -21,7 +21,9 @@ public class LiftDown extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() { 
-       
+        if ((m_hanger.getPosition() <= 2)) {
+            m_hanger.setNoPower();
+          } 
     }
 
     // Make this return true when this Command no longer needs to run execute()

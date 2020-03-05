@@ -18,6 +18,10 @@ public class TurretFindHome extends CommandBase {
   private AnalogInput mag = Turret.mag;
   private boolean isDone;
 
+
+  //in class
+
+
   /**
    * Creates a new TurretFindHome.
    */

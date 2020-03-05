@@ -48,20 +48,6 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
-    // SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
-    // SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
-    // SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
-    // shootMotorFollower.setClosedLoopRampRate(.00001);
-    // shootMotorLeader.setClosedLoopRampRate(.00001);
-    // if (RobotMap.debugEnabled) {
-    //   debuggingTab = Shuffleboard.getTab("Shooter Debug");
-    //   debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
-    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addNumber("Shooter RPM", this::getVelocity)
-    //   .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addNumber("Balls Shot", this::getBallsShot)
-    //   .withPosition(0, 3).withSize(1, 1);
-    // }
   }
 
   public boolean active() {
@@ -117,9 +103,6 @@ public class Shooter extends SubsystemBase {
      shootMotorLeader.set(0);
     }
   
-/**
- * Units of ft/s
- */
   public double getVelocity() {
     return (shootMotorLeader.getEncoder().getVelocity() / RobotMap.ShooterMap.gearRatio); 
    }
@@ -157,6 +140,7 @@ public class Shooter extends SubsystemBase {
    * Call in command execute or periodic
    * 
    * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
+   * @deprecated Unreliable with higher loader speeds at the present
    */
   public void currentWatch(double targetRPM) {
     if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false) {
