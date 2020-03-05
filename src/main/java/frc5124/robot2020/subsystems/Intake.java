@@ -24,7 +24,7 @@ public class Intake implements Subsystem {
       rollerSpeedController.restoreFactoryDefaults();         //resets things like follwers and such.
       rollerSpeedController.setInverted(false);
       deployed = false;         // pivot is up
-      Shuffleboard.update();
+      // Shuffleboard.update();
       // if (RobotMap.debugEnabled) {
       //   debuggingTab = Shuffleboard.getTab("Intake Debug");
       //   debuggingTab.addNumber("Intake Motor Current", rollerSpeedController::getOutputCurrent)

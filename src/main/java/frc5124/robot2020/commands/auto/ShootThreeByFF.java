@@ -37,6 +37,7 @@ public class ShootThreeByFF extends WaitCommand {
   @Override
   public void initialize() {
     super.initialize();
+    loader.ballIntaked(0);
     shooter.resetBallsShot();
   }
 

@@ -16,6 +16,7 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Relay.Direction;
@@ -37,6 +38,8 @@ public class Turret extends SubsystemBase {
   private boolean isHome = false;
   private double startDegrees = 0;
   private boolean initialHome = false;
+
+  public static AnalogInput mag = new AnalogInput(3);
   
   public Turret() {
     turretMotor = new CANSparkMax(RobotMap.TurretMap.turretCanID, MotorType.kBrushless);

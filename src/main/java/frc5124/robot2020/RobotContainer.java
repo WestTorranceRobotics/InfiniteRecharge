@@ -18,10 +18,12 @@ import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -31,7 +33,8 @@ import frc5124.robot2020.commands.auto.ChangeCamera;
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
 import frc5124.robot2020.commands.auto.SixBallAuto;
-import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.ThreeBallAuto;
+import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -80,7 +83,7 @@ public class RobotContainer {
   public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
   public JoystickButton driverRightTrigger = new JoystickButton(driverRight, 1);
-  public JoystickButton driverLeftTrigger  = new JoystickButton(driverLeft, 1);
+  public JoystickButton driverRightThumb  = new JoystickButton(driverRight, 2);
 
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
@@ -122,19 +125,25 @@ public class RobotContainer {
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorDown.whileHeld(new LiftDown(hanger));
 
-    driverRightTrigger.whenPressed(new ChangeCamera(ChangeCamera.NEXT));
-    driverLeftTrigger.whenPressed(new ChangeCamera(ChangeCamera.LAST));
+    driverRightTrigger.whenPressed(new ChangeCamera(
+      () -> ChangeCamera.lastSelection == ChangeCamera.INTAKE_CAM ? ChangeCamera.CLIMB_CAM : ChangeCamera.INTAKE_CAM)
+    );
+    driverRightThumb.whenPressed(new ChangeCamera(ChangeCamera.LIMELIGHT));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    // TODO fill in
+
     autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Trench Secondary", new InstantCommand());
-    autonomies.put("Middle Primary", new InstantCommand());
-    autonomies.put("Middle Secondary", new InstantCommand());
-    autonomies.put("Opposing Trench Primary", new InstantCommand());
-    autonomies.put("Opposing Trench Secondary", new InstantCommand());
+    autonomies.put("Trench Secondary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
+    Command zeroTurret = new TurretZeroAndTurn(turret);
+    autonomies.put("Trench Zero Turret", zeroTurret);
+    autonomies.put("Middle Zero Turret", zeroTurret);
+    autonomies.put("Opposing Trench Zero Turret", zeroTurret);
   }
 
   private void configureShuffleboard() {
@@ -162,10 +171,17 @@ public class RobotContainer {
     SendableChooser<String> selectionsB = new SendableChooser<>();
     selectionsB.addOption("Primary", "Primary");
     selectionsB.addOption("Secondary", "Secondary");
+    selectionsB.addOption("Zero Turret", "Zero Turret");
     display.add("Mode Selector", selectionsB)
     .withPosition(5, 2).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     autoNameSupplier = () -> selectionsA.getSelected() + " " + selectionsB.getSelected();
+
+    LiveWindow.disableAllTelemetry();
+    SmartDashboard.delete("limelight_Interface");
+    SmartDashboard.delete("limelight_Stream");
+    SmartDashboard.delete("limelight_PipelineName");
+    SmartDashboard.delete("Heartbeat");
   }
 
   public static GyroBase shuffleboardGyro(DoubleSupplier d) {

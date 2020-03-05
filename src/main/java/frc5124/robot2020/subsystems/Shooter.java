@@ -177,15 +177,15 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("shoot V", getVelocity());
-    SmartDashboard.putNumber("balls shot", getBallsShot());
-    SmartDashboard.putNumber("shoot current", getCurrent());
+    // SmartDashboard.putNumber("shoot V", getVelocity());
+    // SmartDashboard.putNumber("balls shot", getBallsShot());
+    // SmartDashboard.putNumber("shoot current", getCurrent());
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    SmartDashboard.putNumber("ty", ty);
+    // SmartDashboard.putNumber("ty", ty);
     double angle = ty + limelightAngle;
     double tan = Math.tan(Math.toRadians(angle));
     double dx = (targetHeight - limelightHeight) / tan;
     SmartDashboard.putNumber("Distance to Target", dx);
-    SmartDashboard.updateValues();
+    // SmartDashboard.updateValues();
   }
 }

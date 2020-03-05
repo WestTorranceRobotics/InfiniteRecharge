@@ -36,9 +36,9 @@ public class Loader extends SubsystemBase {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    display = Shuffleboard.getTab("Driving Display");
+    // display = Shuffleboard.getTab("Driving Display");
 
-    display.addNumber("Balls Intaked Old", () -> ballIntaked);
+    // display.addNumber("Balls Intaked Old", () -> ballIntaked);
   
     // if (RobotMap.debugEnabled) {
     //   debuggingTab = Shuffleboard.getTab("Loader Debug");

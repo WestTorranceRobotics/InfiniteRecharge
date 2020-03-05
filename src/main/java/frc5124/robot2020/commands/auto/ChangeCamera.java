@@ -7,40 +7,35 @@
 
 package frc5124.robot2020.commands.auto;
 
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class ChangeCamera extends InstantCommand {
 
+  public static int lastSelection = 0;
+
   private static final NetworkTableEntry cameraSelection = 
       NetworkTableInstance.getDefault().getTable("rpi").getEntry("camera");
-  
-  // including the limelight, so this is one more than the number of usb cameras
-  private static final int NUMBER_CAMERAS = 4;
 
-  public static final ChangeDirection NEXT = ChangeDirection.NEXT;
-  public static final ChangeDirection LAST = ChangeDirection.LAST;
-
-  public enum ChangeDirection {
-    NEXT(+1),
-    LAST(-1);
-    private final int change;
-    private ChangeDirection(int change) {
-      this.change = change;
-    }
-    public int getChange() {
-      return change;
-    }
-  }
+  public static final int CLIMB_CAM = 0;
+  public static final int INTAKE_CAM = 2;
+  public static final int LIMELIGHT = 3;
 
   /**
    * Creates a new ChangeCamera.
    */
-  public ChangeCamera(ChangeDirection change) {
+  public ChangeCamera(IntSupplier value) {
     super(() -> {
-      int choice = (int) cameraSelection.getDouble(0) + change.getChange();
-      cameraSelection.setDouble(choice % NUMBER_CAMERAS + NUMBER_CAMERAS % NUMBER_CAMERAS);
+      int choice = value.getAsInt();
+      cameraSelection.setDouble(choice);
+      lastSelection = choice;
     });
+  }
+
+  public ChangeCamera(int value) {
+    this(() -> value);
   }
 }

@@ -15,9 +15,8 @@ import frc5124.robot2020.subsystems.Turret;
 
 public class TurretFindHome extends CommandBase {
   private Turret turret;
-  private AnalogInput mag = new AnalogInput(3);
+  private AnalogInput mag = Turret.mag;
   private boolean isDone;
-
 
   /**
    * Creates a new TurretFindHome.
