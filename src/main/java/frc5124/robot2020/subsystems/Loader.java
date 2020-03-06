@@ -59,7 +59,7 @@ public class Loader extends SubsystemBase {
   }
 
   public void reverseBelt(){
-    topBeltMotor.set(RobotMap.LoaderMap.reverseBeltSpeed);
+    topBeltMotor.set(-RobotMap.LoaderMap.beltSpeed);
   }
 
   public double getVoltage() {

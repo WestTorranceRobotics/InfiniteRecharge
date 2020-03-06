@@ -43,6 +43,7 @@ import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -128,8 +129,8 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))); //line distance
-    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 5050).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))); //trench distance
+    operatorRB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .2).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 4400).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
+    operatorLB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .2).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 5050).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorUp.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.orange));
