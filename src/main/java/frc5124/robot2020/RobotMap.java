@@ -8,6 +8,10 @@ public class RobotMap {
     public static final  boolean debugEnabled = false;
     public static final  int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
+      
+        public static final double limelightAngle = 20.5;
+        public static final double limelightHeight = 21;
+        public static final double targetHeight = 89;
 
     public static class DriveTrainMap {
         public static final int rightLeaderCanID = 1;
@@ -100,7 +104,7 @@ public class RobotMap {
         public static final double seeBallVoltage = 1.0;
         public static final int topBeltCanId = 9; //9
         public static final int bottomBeltCanId = 12; //7 
-        public static final double beltSpeed = .420;
+        public static final double beltSpeed = .5;
         public static final double fieldEmptyVoltage = 1.0;
         public static final int motionSensorID = 1;
     }

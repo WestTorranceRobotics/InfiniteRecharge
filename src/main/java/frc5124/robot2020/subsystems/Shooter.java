@@ -33,7 +33,6 @@ public class Shooter extends SubsystemBase {
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot = 0;
   private boolean passedBallCurrent = false;
-  private ShuffleboardTab debuggingTab;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -115,29 +114,12 @@ public class Shooter extends SubsystemBase {
   public boolean atSpeed() {
     return this.atSpeed;
   }
-  
-  public boolean holeOpenedOrClose(){
-    return shootSolenoid.get();
-  }
-
-  public void openHole(){
-    shootSolenoid.set(true);
-  }
-
-  public void closeHole(){
-    shootSolenoid.set(false);
-  }
 
   public void directPower (double power) {
     shootMotorLeader.set(power);
   }
 
   /**
-   * Checks output current to shooter to count balls that have passed
-   * 
-   * Call in command execute or periodic
-   * 
-   * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
    * @deprecated Unreliable with higher loader speeds at the present
    */
   public void currentWatch(double targetRPM) {
@@ -152,17 +134,13 @@ public class Shooter extends SubsystemBase {
   public void directVolts(double volts) {
     shootMotorLeader.setVoltage(volts);
   }
-  
-  private static final double limelightAngle = 20.5;
-  private static final double limelightHeight = 21;
-  private static final double targetHeight = 89;
 
   @Override
   public void periodic() {
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    double angle = ty + limelightAngle;
+    double angle = ty + RobotMap.limelightAngle;
     double tan = Math.tan(Math.toRadians(angle));
-    double dx = (targetHeight - limelightHeight) / tan;
+    double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
     SmartDashboard.putNumber("Distance to Target", dx);
     SmartDashboard.putNumber("SHOOOOOT SPEEED", getVelocity());
     SmartDashboard.updateValues();
