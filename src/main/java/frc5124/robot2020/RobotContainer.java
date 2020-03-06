@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.DoubleAdder;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -169,8 +170,8 @@ public class RobotContainer {
     SendableChooser<Double> teamSelect = new SendableChooser<>();
     teamSelect.addOption("Red", LED.Color.red);
     teamSelect.addOption("Blue", LED.Color.blue);
-    display.add("Team Select", teamSelect)
-    .withPosition(5, 3).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+    Shuffleboard.getTab("SmartDashboard").add("Team Select", teamSelect)
+    .withPosition(0, 1).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     colorSupplier = () -> teamSelect.getSelected();
 
@@ -211,7 +212,18 @@ public class RobotContainer {
    * Code to run when starting teleop mode.
    */
   public void teleopInit() {
-    led.setDefaultColor(colorSupplier.get());
+    switch (DriverStation.getInstance().getAlliance()) {
+      case Red:
+        led.setDefaultColor(LED.Color.red);
+        break;
+      case Blue:
+        led.setDefaultColor(LED.Color.blue);
+        break;
+      case Invalid:
+      default:
+        led.setDefaultColor(colorSupplier.get());
+        break;
+    }
   }
 
   /**
