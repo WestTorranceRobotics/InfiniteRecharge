@@ -94,6 +94,7 @@ public class RobotMap {
     }
 
     public static class LoaderMap {
+        public static double runLoaderSpeed = .75;
         public static double reverseBeltSpeed = -.35;
         public static double seeBallVoltage = 1.0;
         public static int topBeltCanId = 9; //9
