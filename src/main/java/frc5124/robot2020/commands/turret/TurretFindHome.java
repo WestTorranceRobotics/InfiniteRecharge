@@ -11,6 +11,7 @@ package frc5124.robot2020.commands.turret;
 import edu.wpi.first.wpilibj.AnalogInput;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Turret;
 
 public class TurretFindHome extends CommandBase {
@@ -37,7 +38,7 @@ public class TurretFindHome extends CommandBase {
     turret.isHome(false);
     turret.isInitialHome(false);
     if (!(turret.isHome()) && !turret.isInitialHome()) {
-     turret.directPower(.25);
+     turret.directPower(RobotMap.TurretMap.zeroSpeed);
      turret.setCoast();
   }
   }

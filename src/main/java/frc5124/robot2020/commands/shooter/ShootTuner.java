@@ -7,13 +7,9 @@
 
 package frc5124.robot2020.commands.shooter;
 
-// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import frc5124.robot2020.subsystems.Loader;
-
 
 
 public class ShootTuner extends CommandBase {
