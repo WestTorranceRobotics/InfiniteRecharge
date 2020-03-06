@@ -18,13 +18,10 @@ public class TurretFindHome extends CommandBase {
   private Turret turret;
   private AnalogInput mag = Turret.mag;
   private boolean isDone;
-<<<<<<< HEAD
-=======
 
 
   //in class
 
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 
   /**
    * Creates a new TurretFindHome.
@@ -38,17 +35,10 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void initialize() {
     turret.disableTurretLimit();
-<<<<<<< HEAD
-    turret.setHome(false);
-    turret.initialHome(false);
-    if (!(turret.setHome()) && !turret.initialHome()) {
-     turret.directPower(.25);
-=======
     turret.isHome(false);
     turret.isInitialHome(false);
     if (!(turret.isHome()) && !turret.isInitialHome()) {
      turret.directPower(RobotMap.TurretMap.zeroSpeed);
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
      turret.setCoast();
   }
   }
@@ -57,31 +47,12 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void execute() {
     // SmartDashboard.putNumber("voltage", mag.getVoltage());
-<<<<<<< HEAD
-    if (!turret.setHome() && !turret.initialHome()) {
-=======
     if (!turret.isHome() && !turret.isInitialHome()) {
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     if (mag.getVoltage() < .1) {
       turret.directPower(0);
       turret.resetTurretDegrees();
       turret.isHome(true);
     } 
-<<<<<<< HEAD
-  }
-
-
-  if (turret.setHome() && !turret.initialHome()) {
-    turret.setTurretDegrees(-17);
-    turret.initialHome(true);
-    turret.setHome(false);
-  }
-    if (turret.getDegrees() <= -17 && turret.initialHome() && !turret.setHome()) {
-      turret.resetTurretDegrees();
-      turret.turretLimitSet();
-      turret.setTurretDegrees(0);
-      turret.setHome(true);
-=======
   }
 
 
@@ -95,7 +66,6 @@ public class TurretFindHome extends CommandBase {
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
       turret.isHome(true);
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
       isDone = true;
     }
   } 

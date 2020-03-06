@@ -26,11 +26,7 @@ public class RunLoader extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-<<<<<<< HEAD
-    loader.runBelt(.75);
-=======
     loader.runBelt(RobotMap.LoaderMap.runLoaderSpeed);
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   // Called every time the scheduler runs while the command is scheduled.

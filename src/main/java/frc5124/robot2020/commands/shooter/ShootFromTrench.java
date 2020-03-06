@@ -32,10 +32,6 @@ public class ShootFromTrench extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.startShooter(RobotMap.ShooterMap.trenchShootRPM);
-<<<<<<< HEAD
-    // SmartDashboard.putBoolean("ShooterRunning", true);
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -58,10 +54,6 @@ public class ShootFromTrench extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-<<<<<<< HEAD
-    // SmartDashboard.putBoolean("ShooterRunning", false);
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     m_shooter.stopShooter();
     m_loader.stopBelt();
     m_shooter.atSpeed(false);

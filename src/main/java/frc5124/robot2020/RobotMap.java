@@ -4,10 +4,7 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
-<<<<<<< HEAD
-=======
     public static final int neoCounts = 42;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     public static final  boolean debugEnabled = false;
     public static final  int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
@@ -38,13 +35,8 @@ public class RobotMap {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-<<<<<<< HEAD
-        public static double maxV = 12;
-        public static double maxA = 2;
-=======
         public static final double maxV = 12;
         public static final double maxA = 2;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
   
     public static class ShooterMap {
@@ -68,16 +60,10 @@ public class RobotMap {
     }
 
     public static class IntakeMap {
-<<<<<<< HEAD
-        public static double motorPower = 1;
-        public static int rollerCanId = 14; //14
-        public static int intakeSolenoid = 1;
-=======
         public static final double motorPower = 1;
         public static final double flushOutSpeed = -1;
         public static final int rollerCanId = 14; //14
         public static final int intakeSolenoid = 1;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
 
     public static class HangerMap {
@@ -124,19 +110,6 @@ public class RobotMap {
     }
 
     public static class TurretMap {
-<<<<<<< HEAD
-        public static double reverseRotationLimit = -291.6; 
-        public static double forwardRotationLimit = 25.2; 
-        public static int turretCanID = 13; 
-        public static double turretSpeed = .2;
-        public static double Kp = 0.050000; 
-        public static double Ki = 0.000350;
-        public static double Kd = 0;
-        public static double KiZone = 1.000000;
-        public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
-        public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
-        public static double sweepConstant = 2.5;
-=======
         public static final double reverseRotationLimit = -291.6; 
         public static final double forwardRotationLimit = 25.2; 
         public static final int turretCanID = 13; 
@@ -149,7 +122,6 @@ public class RobotMap {
         public static final double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
         public static final double sweepConstant = 2.5;
         public static final double zeroSpeed = .25;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
 
     public static class CameraMap {}

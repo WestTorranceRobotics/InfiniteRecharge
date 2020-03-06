@@ -38,11 +38,7 @@ public class Turret extends SubsystemBase {
   private ShuffleboardTab debuggingTab;
   private boolean isHome = false;
   private double startDegrees = 0;
-<<<<<<< HEAD
-  private boolean initialHome = false;
-=======
   private boolean isInitialHome = false;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 
   public static AnalogInput mag = new AnalogInput(3);
   
@@ -55,22 +51,8 @@ public class Turret extends SubsystemBase {
     turretPID.setI(RobotMap.TurretMap.Ki);
     turretPID.setIZone(RobotMap.TurretMap.KiZone);
     startDegrees = getDegrees();
-<<<<<<< HEAD
-    // SmartDashboard.putBoolean("ShooterRunning", false);
-    // SmartDashboard.putBoolean("LimeLightOn", false);
-    // debuggingTab = Shuffleboard.getTab("Turret Display");
     resetTurretDegrees();
     turretLimitSet();
-    // SmartDashboard.putBoolean("ShooterRunning", false);
-    // SmartDashboard.putBoolean("LimeLightOn", false);
-    // /debuggingTab = Shuffleboard.getTab("Turret Display");
-    // resetTurretDegrees();
-    // turretLimitSet();
-    // Shuffleboard.update();
-=======
-    resetTurretDegrees();
-    turretLimitSet();
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
 
@@ -85,10 +67,6 @@ public class Turret extends SubsystemBase {
     this.automatic = automatic;
   }
   
-<<<<<<< HEAD
-
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   public boolean isAutomatic() {
     return automatic;
   }
@@ -102,19 +80,11 @@ public class Turret extends SubsystemBase {
     turretMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ((int) (RobotMap.TurretMap.forwardRotationLimit * RobotMap.TurretMap.turretDegreeToRotations)));
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-<<<<<<< HEAD
-  
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void disableTurretLimit() {
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, false);
     turretMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, false);
-<<<<<<< HEAD
-    
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void resetTurretDegrees() {
@@ -224,10 +194,5 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-<<<<<<< HEAD
-    // SmartDashboard.putNumber("turretDeggsss", getDegrees());
-    // SmartDashboard.updateValues();
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 } 

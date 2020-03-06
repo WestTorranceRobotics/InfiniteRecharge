@@ -18,11 +18,7 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     public Robot() {
-<<<<<<< HEAD
-        super(1.0/200);
-=======
         super();
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
 
     @Override

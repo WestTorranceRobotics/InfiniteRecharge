@@ -33,10 +33,6 @@ public class Shooter extends SubsystemBase {
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot = 0;
   private boolean passedBallCurrent = false;
-<<<<<<< HEAD
-  private ShuffleboardTab debuggingTab;
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -51,23 +47,6 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
-<<<<<<< HEAD
-    // SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
-    // SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
-    // SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
-    // shootMotorFollower.setClosedLoopRampRate(.00001);
-    // shootMotorLeader.setClosedLoopRampRate(.00001);
-    // if (RobotMap.debugEnabled) {
-    //   debuggingTab = Shuffleboard.getTab("Shooter Debug");
-    //   debuggingTab.addNumber("Lead Shooter Current", shootMotorLeader::getOutputCurrent)
-    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addNumber("Shooter RPM", this::getVelocity)
-    //   .withPosition(2, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addNumber("Balls Shot", this::getBallsShot)
-    //   .withPosition(0, 3).withSize(1, 1);
-    // }
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public boolean active() {
@@ -134,21 +113,6 @@ public class Shooter extends SubsystemBase {
   }
   public boolean atSpeed() {
     return this.atSpeed;
-<<<<<<< HEAD
-  }
-  
-  public boolean holeOpenedOrClose(){
-    return shootSolenoid.get();
-  }
-
-  public void openHole(){
-    shootSolenoid.set(true);
-  }
-
-  public void closeHole(){
-    shootSolenoid.set(false);
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void directPower (double power) {
@@ -170,29 +134,6 @@ public class Shooter extends SubsystemBase {
   public void directVolts(double volts) {
     shootMotorLeader.setVoltage(volts);
   }
-<<<<<<< HEAD
-
-  public void directVolts(double volts) {
-    shootMotorLeader.setVoltage(volts);
-  }
-  
-  private static final double limelightAngle = 20.5;
-  private static final double limelightHeight = 21;
-  private static final double targetHeight = 89;
-
-  @Override
-  public void periodic() {
-    // SmartDashboard.putNumber("shoot V", getVelocity());
-    // SmartDashboard.putNumber("balls shot", getBallsShot());
-    // SmartDashboard.putNumber("shoot current", getCurrent());
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    // SmartDashboard.putNumber("ty", ty);
-    double angle = ty + limelightAngle;
-    double tan = Math.tan(Math.toRadians(angle));
-    double dx = (targetHeight - limelightHeight) / tan;
-    SmartDashboard.putNumber("Distance to Target", dx);
-    // SmartDashboard.updateValues();
-=======
 
   @Override
   public void periodic() {
@@ -200,6 +141,5 @@ public class Shooter extends SubsystemBase {
     double angle = ty + RobotMap.limelightAngle;
     double tan = Math.tan(Math.toRadians(angle));
     double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 }

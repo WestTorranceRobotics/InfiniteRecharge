@@ -21,15 +21,7 @@ public class ReverseBeltAndShooter extends ParallelCommandGroup {
   /**
    * Creates a new ReverseBeltWithIntake.
    */
-<<<<<<< HEAD:src/main/java/frc5124/robot2020/commands/ReverseBeltWithIntakeAndShooter.java
-  public ReverseBeltWithIntakeAndShooter(Shooter shooter, Loader loader, Intake intake) {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
-    
-    super(new ReverseShooter(shooter), new ReverseBelt(loader), new SetIntakePower(intake, -0.5));
-=======
   public ReverseBeltAndShooter(Shooter shooter, Loader loader) {
     super(new ReverseShooter(shooter), new ReverseBelt(loader));
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9:src/main/java/frc5124/robot2020/commands/ReverseBeltAndShooter.java
   }
 }

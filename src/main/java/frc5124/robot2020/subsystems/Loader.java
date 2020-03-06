@@ -28,10 +28,7 @@ public class Loader extends SubsystemBase {
   AnalogInput motionSensor = new AnalogInput(1);
   private ShuffleboardTab display;
   private int ballIntaked;
-<<<<<<< HEAD
-=======
   private int newBall = 1;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   
   public Loader() { 
     topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
@@ -40,26 +37,6 @@ public class Loader extends SubsystemBase {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-<<<<<<< HEAD
-    // display = Shuffleboard.getTab("Driving Display");
-
-    // display.addNumber("Balls Intaked Old", () -> ballIntaked);
-  
-    // if (RobotMap.debugEnabled) {
-    //   debuggingTab = Shuffleboard.getTab("Loader Debug");
-    //   debuggingTab.addNumber("Top Motor Current", topBeltMotor::getOutputCurrent)
-    //   .withPosition(0, 0).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addNumber("Bottom Motor Current", bottomBeltMotor::getOutputCurrent)
-    //   .withPosition(0, 2).withSize(3, 2).withWidget(BuiltInWidgets.kGraph);
-    //   debuggingTab.addBoolean("Sees Ball", this::seeBall)
-    //   .withPosition(3, 0).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
-    //   debuggingTab.addNumber("Number Balls In (Stub)", () -> 0)
-    //   .withPosition(3, 1).withSize(1, 1);
-    //   debuggingTab.addNumber("Number Balls Out (Stub)", () -> 0)
-    //   .withPosition(3, 2).withSize(1, 1);
-    // }
-=======
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void setPower(double power){
@@ -107,11 +84,7 @@ public class Loader extends SubsystemBase {
   }
 
   public void ballIntaked(){
-<<<<<<< HEAD
-    ballIntaked += 1;
-=======
     ballIntaked += newBall;
->>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void ballIntaked(int balls) {
