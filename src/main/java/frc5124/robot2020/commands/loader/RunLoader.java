@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.loader;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
 
 public class RunLoader extends CommandBase {
@@ -25,7 +26,11 @@ public class RunLoader extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+<<<<<<< HEAD
     loader.runBelt(.75);
+=======
+    loader.runBelt(RobotMap.LoaderMap.runLoaderSpeed);
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -28,11 +28,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 import frc5124.robot2020.commands.auto.ChangeCamera;
 
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
 import frc5124.robot2020.commands.auto.SixBallAuto;
+<<<<<<< HEAD
+=======
+import frc5124.robot2020.commands.auto.SixBallAutoNoShoot;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 import frc5124.robot2020.commands.auto.ThreeBallAuto;
 import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
 import frc5124.robot2020.commands.auto.runpos.*;
@@ -55,8 +63,12 @@ import frc5124.robot2020.subsystems.*;
  */
 
 public class RobotContainer {
+<<<<<<< HEAD
 
   // private PanelController panelController;
+=======
+  
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
@@ -102,7 +114,10 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
+<<<<<<< HEAD
     // panelController = new PanelController();
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
@@ -113,16 +128,24 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
+    operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
+<<<<<<< HEAD
     operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400));
     operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950));
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
+=======
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
+    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
+    operatorY.whileHeld(new RunLoader(loader));
+    operatorUp.whileHeld(new LiftUp(hanger));
+
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     operatorDown.whileHeld(new LiftDown(hanger));
 
     driverRightTrigger.whenPressed(new ChangeCamera(
@@ -135,7 +158,11 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
 
     autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
+<<<<<<< HEAD
     autonomies.put("Trench Secondary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
+=======
+    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake));
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));

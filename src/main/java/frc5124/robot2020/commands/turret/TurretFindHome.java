@@ -11,12 +11,20 @@ package frc5124.robot2020.commands.turret;
 import edu.wpi.first.wpilibj.AnalogInput;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Turret;
 
 public class TurretFindHome extends CommandBase {
   private Turret turret;
   private AnalogInput mag = Turret.mag;
   private boolean isDone;
+<<<<<<< HEAD
+=======
+
+
+  //in class
+
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 
   /**
    * Creates a new TurretFindHome.
@@ -30,10 +38,17 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void initialize() {
     turret.disableTurretLimit();
+<<<<<<< HEAD
     turret.setHome(false);
     turret.initialHome(false);
     if (!(turret.setHome()) && !turret.initialHome()) {
      turret.directPower(.25);
+=======
+    turret.isHome(false);
+    turret.isInitialHome(false);
+    if (!(turret.isHome()) && !turret.isInitialHome()) {
+     turret.directPower(RobotMap.TurretMap.zeroSpeed);
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
      turret.setCoast();
   }
   }
@@ -42,12 +57,17 @@ public class TurretFindHome extends CommandBase {
   @Override
   public void execute() {
     // SmartDashboard.putNumber("voltage", mag.getVoltage());
+<<<<<<< HEAD
     if (!turret.setHome() && !turret.initialHome()) {
+=======
+    if (!turret.isHome() && !turret.isInitialHome()) {
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     if (mag.getVoltage() < .1) {
       turret.directPower(0);
       turret.resetTurretDegrees();
-      turret.setHome(true);
+      turret.isHome(true);
     } 
+<<<<<<< HEAD
   }
 
 
@@ -61,6 +81,21 @@ public class TurretFindHome extends CommandBase {
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
       turret.setHome(true);
+=======
+  }
+
+
+  if (turret.isHome() && !turret.isInitialHome()) {
+    turret.setTurretDegrees(-17);
+    turret.isInitialHome(true);
+    turret.isHome(false);
+  }
+    if (turret.getDegrees() <= -17 && turret.isInitialHome() && !turret.isHome()) {
+      turret.resetTurretDegrees();
+      turret.turretLimitSet();
+      turret.setTurretDegrees(0);
+      turret.isHome(true);
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
       isDone = true;
     }
   } 

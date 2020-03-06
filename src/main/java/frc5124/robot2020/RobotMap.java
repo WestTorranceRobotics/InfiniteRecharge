@@ -4,19 +4,27 @@ import java.util.function.IntToDoubleFunction;
 import com.revrobotics.ColorSensorV3.RawColor;
 
 public class RobotMap {
+<<<<<<< HEAD
+=======
+    public static final int neoCounts = 42;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     public static final  boolean debugEnabled = false;
     public static final  int pcmCanId = 0;
     public static final int modNumSolenoid = 0;
+      
+        public static final double limelightAngle = 20.5;
+        public static final double limelightHeight = 21;
+        public static final double targetHeight = 89;
 
     public static class DriveTrainMap {
-        public static int rightLeaderCanID = 1;
-        public static int rightFollowerCanID = 2;
-        public static int leftLeaderCanID = 4;
-        public static int leftFollowerCanID = 3;
+        public static final int rightLeaderCanID = 1;
+        public static final int rightFollowerCanID = 2;
+        public static final int leftLeaderCanID = 4;
+        public static final int leftFollowerCanID = 3;
       
-        public static double P = 0.000102;
-        public static double I = 0.1;
-        public static double D = 4.14e-5;
+        public static final double P = 0.000102;
+        public static final double I = 0.1;
+        public static final double D = 4.14e-5;
 
         public static final double kS = 0.438;
         public static final double kV = .0551;
@@ -30,11 +38,17 @@ public class RobotMap {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
+<<<<<<< HEAD
         public static double maxV = 12;
         public static double maxA = 2;
+=======
+        public static final double maxV = 12;
+        public static final double maxA = 2;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
   
     public static class ShooterMap {
+        public static final double reverseShooter = -.1;
         public static final int shootLeaderCanID = 8; //8
         public static final int shootFollowerCanID = 6; //6
         public static final int shootSolenoid = 0;
@@ -54,24 +68,34 @@ public class RobotMap {
     }
 
     public static class IntakeMap {
+<<<<<<< HEAD
         public static double motorPower = 1;
         public static int rollerCanId = 14; //14
         public static int intakeSolenoid = 1;
+=======
+        public static final double motorPower = 1;
+        public static final double flushOutSpeed = -1;
+        public static final int rollerCanId = 14; //14
+        public static final int intakeSolenoid = 1;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
 
     public static class HangerMap {
-        public static double hangerMotor = 0.8;   
-        public static double hangerHalt = 0.0;
-        public static int hangerCanID = 10;
-        public static int hangerSolenoid = 2;
-        public static int topLimitChannelID = 1;                
-        public static int bottomLimitChannelID = 2;  
-        public static double Kp = 0.000016;
-        public static double Ki = 0;
-        public static double Kd = 0.000037;
-        public static double Kf = 0.000227;
-        public static double lineRefRPM = 573;
-        public static double reduction = .75;
+        public static final double hangerMotorUp = 0.5;   
+        public static final double hangerMotorDown = -0.5;
+        public static final double hangerHalt = 0.0;
+        public static final int hangerCanID = 10;
+        public static final int hangerSolenoid = 2;
+        public static final int topLimitChannelID = 1;                
+        public static final int bottomLimitChannelID = 2;  
+        public static final double Kp = 0.000016;
+        public static final double Ki = 0;
+        public static final double Kd = 0.000037;
+        public static final double Kf = 0.000227;
+        public static final double lineRefRPM = 573;
+        public static final double reduction = .75;
+        public static final int upperLimit = 193;
+        public static final int lowerLimit = 2;
     }
 
     public static class PanelControlMap {
@@ -89,14 +113,18 @@ public class RobotMap {
     }
 
     public static class LoaderMap {
-        public static int topBeltCanId = 9; //9
-        public static int bottomBeltCanId = 12; //7 
-        public static double beltSpeed = .420;
-        public static double fieldEmptyVoltage = 1.0;
-        public static int motionSensorID = 1;
+        public static final double runLoaderSpeed = .75;
+        public static final double reverseBeltSpeed = -.35;
+        public static final double seeBallVoltage = 1.0;
+        public static final int topBeltCanId = 9; //9
+        public static final int bottomBeltCanId = 12; //7 
+        public static final double beltSpeed = .5;
+        public static final double fieldEmptyVoltage = 1.0;
+        public static final int motionSensorID = 1;
     }
 
     public static class TurretMap {
+<<<<<<< HEAD
         public static double reverseRotationLimit = -291.6; 
         public static double forwardRotationLimit = 25.2; 
         public static int turretCanID = 13; 
@@ -108,6 +136,20 @@ public class RobotMap {
         public static double turretGearing = ((18.0/230.0) * (1.0/10.0));
         public static double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
         public static double sweepConstant = 2.5;
+=======
+        public static final double reverseRotationLimit = -291.6; 
+        public static final double forwardRotationLimit = 25.2; 
+        public static final int turretCanID = 13; 
+        public static final double turretSpeed = .2;
+        public static final double Kp = 0.050000; 
+        public static final double Ki = 0.000350;
+        public static final double Kd = 0;
+        public static final double KiZone = 1.000000;
+        public static final double turretGearing = ((18.0/230.0) * (1.0/10.0));
+        public static final double turretDegreeToRotations = ((66.0 + (2.0/3.0)) / 360); //multiply by desired degrees
+        public static final double sweepConstant = 2.5;
+        public static final double zeroSpeed = .25;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
     }
 
     public static class CameraMap {}

@@ -28,6 +28,10 @@ public class Loader extends SubsystemBase {
   AnalogInput motionSensor = new AnalogInput(1);
   private ShuffleboardTab display;
   private int ballIntaked;
+<<<<<<< HEAD
+=======
+  private int newBall = 1;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   
   public Loader() { 
     topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
@@ -36,6 +40,7 @@ public class Loader extends SubsystemBase {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
+<<<<<<< HEAD
     // display = Shuffleboard.getTab("Driving Display");
 
     // display.addNumber("Balls Intaked Old", () -> ballIntaked);
@@ -53,11 +58,12 @@ public class Loader extends SubsystemBase {
     //   debuggingTab.addNumber("Number Balls Out (Stub)", () -> 0)
     //   .withPosition(3, 2).withSize(1, 1);
     // }
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void setPower(double power){
     topBeltMotor.set(power);
-   // bottomBeltMotor.set(power);
   }
 
   public double getAppliedOutput() {
@@ -73,12 +79,10 @@ public class Loader extends SubsystemBase {
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
-   // bottomBeltMotor.set(0);
   }
 
   public void reverseBelt(){
-    topBeltMotor.set(-.35);
-  //  bottomBeltMotor.set(-.5); 
+    topBeltMotor.set(RobotMap.LoaderMap.reverseBeltSpeed);
   }
 
   public double getVoltage() {
@@ -86,11 +90,11 @@ public class Loader extends SubsystemBase {
   }
 
   public boolean seeBall() {
-    return (getVoltage() < 1.0);
+    return (getVoltage() < RobotMap.LoaderMap.seeBallVoltage);
   }
 
   public double returnRotations() {
-    return topBeltMotor.getEncoder(EncoderType.kHallSensor, 42).getCountsPerRevolution();
+    return topBeltMotor.getEncoder(EncoderType.kHallSensor, RobotMap.neoCounts).getCountsPerRevolution();
   }
 
   public void runLoader() {
@@ -103,7 +107,11 @@ public class Loader extends SubsystemBase {
   }
 
   public void ballIntaked(){
+<<<<<<< HEAD
     ballIntaked += 1;
+=======
+    ballIntaked += newBall;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void ballIntaked(int balls) {

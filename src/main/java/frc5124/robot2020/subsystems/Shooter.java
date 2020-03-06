@@ -28,12 +28,15 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class Shooter extends SubsystemBase {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
-  private CANPIDController shootPID; 
+  private CANPIDController shootPID;
   private boolean atSpeed;
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot = 0;
   private boolean passedBallCurrent = false;
+<<<<<<< HEAD
   private ShuffleboardTab debuggingTab;
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -48,6 +51,7 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
+<<<<<<< HEAD
     // SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
     // SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
     // SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
@@ -62,6 +66,8 @@ public class Shooter extends SubsystemBase {
     //   debuggingTab.addNumber("Balls Shot", this::getBallsShot)
     //   .withPosition(0, 3).withSize(1, 1);
     // }
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public boolean active() {
@@ -107,8 +113,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void startShooter(double rpm) {
-    //enablePID();
-    updatePID();
     shootPID.setReference(rpm, ControlType.kVelocity);
   }
 
@@ -117,9 +121,6 @@ public class Shooter extends SubsystemBase {
      shootMotorLeader.set(0);
     }
   
-/**
- * Units of ft/s
- */
   public double getVelocity() {
     return (shootMotorLeader.getEncoder().getVelocity() / RobotMap.ShooterMap.gearRatio); 
    }
@@ -133,6 +134,7 @@ public class Shooter extends SubsystemBase {
   }
   public boolean atSpeed() {
     return this.atSpeed;
+<<<<<<< HEAD
   }
   
   public boolean holeOpenedOrClose(){
@@ -145,6 +147,8 @@ public class Shooter extends SubsystemBase {
 
   public void closeHole(){
     shootSolenoid.set(false);
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 
   public void directPower (double power) {
@@ -152,11 +156,7 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * Checks output current to shooter to count balls that have passed
-   * 
-   * Call in command execute or periodic
-   * 
-   * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
+   * @deprecated Unreliable with higher loader speeds at the present
    */
   public void currentWatch(double targetRPM) {
     if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false) {
@@ -164,8 +164,13 @@ public class Shooter extends SubsystemBase {
       ballsShot = ballsShot + 1;
     } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent-7) {
       passedBallCurrent = false;
-    } 
+    }
   }
+
+  public void directVolts(double volts) {
+    shootMotorLeader.setVoltage(volts);
+  }
+<<<<<<< HEAD
 
   public void directVolts(double volts) {
     shootMotorLeader.setVoltage(volts);
@@ -187,5 +192,14 @@ public class Shooter extends SubsystemBase {
     double dx = (targetHeight - limelightHeight) / tan;
     SmartDashboard.putNumber("Distance to Target", dx);
     // SmartDashboard.updateValues();
+=======
+
+  @Override
+  public void periodic() {
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    double angle = ty + RobotMap.limelightAngle;
+    double tan = Math.tan(Math.toRadians(angle));
+    double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   }
 }

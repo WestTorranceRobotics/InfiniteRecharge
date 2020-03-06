@@ -81,6 +81,7 @@ public class DriveTrain extends SubsystemBase {
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.kMaxVelocity);
         gyro.reset();
         gyro.zeroYaw();
+<<<<<<< HEAD
         
         // if (RobotMap.debugEnabled) {
         //     debuggingTab = Shuffleboard.getTab("Drive Train Debug");
@@ -100,6 +101,8 @@ public class DriveTrain extends SubsystemBase {
         //         () -> 90 - getLocation().getRotation().getDegrees())
         //     ).withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
         // }
+=======
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
         last = gyro.getPitch();
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
@@ -109,8 +112,8 @@ public class DriveTrain extends SubsystemBase {
     public void periodic() {
         double r = rightLeader.getSelectedSensorPosition();
         double l = leftLeader.getSelectedSensorPosition();
-        
         odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
+<<<<<<< HEAD
 
         preventWrapping(gyro.getPitch());
         // SmartDashboard.putNumber("ENC LEFT VAL", getLeftEncoderVal());
@@ -124,6 +127,17 @@ public class DriveTrain extends SubsystemBase {
         leftFollower.setSelectedSensorPosition(0);
         rightFollower.setSelectedSensorPosition(0);
     }
+=======
+        preventWrapping(gyro.getPitch());
+    }
+    
+    public void resetEncoders() {
+        leftLeader.setSelectedSensorPosition(0);
+        rightLeader.setSelectedSensorPosition(0);
+        leftFollower.setSelectedSensorPosition(0);
+        rightFollower.setSelectedSensorPosition(0);
+    }
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
 
     // Control methods
 

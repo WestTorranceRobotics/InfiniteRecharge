@@ -21,7 +21,11 @@ public class ChangeCamera extends InstantCommand {
       NetworkTableInstance.getDefault().getTable("rpi").getEntry("camera");
 
   public static final int CLIMB_CAM = 0;
+<<<<<<< HEAD
   public static final int INTAKE_CAM = 2;
+=======
+  public static final int INTAKE_CAM = 1;
+>>>>>>> 07b78e911f1a03d3ff04daa0d0e90fa06b6875b9
   public static final int LIMELIGHT = 3;
 
   /**
