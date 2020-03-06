@@ -128,8 +128,8 @@ public class RobotContainer {
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
-    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))); //line distance
+    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 5050).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))); //trench distance
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
     operatorUp.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.orange));

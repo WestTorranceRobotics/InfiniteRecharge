@@ -60,7 +60,7 @@ public class RobotMap {
     }
 
     public static class IntakeMap {
-        public static final double motorPower = 1;
+        public static final double motorPower = .75;
         public static final double flushOutSpeed = -1;
         public static final int rollerCanId = 14; //14
         public static final int intakeSolenoid = 1;
@@ -99,12 +99,12 @@ public class RobotMap {
     }
 
     public static class LoaderMap {
-        public static final double runLoaderSpeed = .75;
+        public static final double runLoaderSpeed = 1;
         public static final double reverseBeltSpeed = -.35;
         public static final double seeBallVoltage = 1.0;
         public static final int topBeltCanId = 9; //9
         public static final int bottomBeltCanId = 12; //7 
-        public static final double beltSpeed = .5;
+        public static final double beltSpeed = .5; //.42
         public static final double fieldEmptyVoltage = 1.0;
         public static final int motionSensorID = 1;
     }

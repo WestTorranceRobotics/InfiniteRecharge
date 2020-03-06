@@ -50,7 +50,7 @@ public class RPMbyFF extends CommandBase {
       shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
     }
     if (shooter.getVelocity() >= rpm-50 && loader.getAppliedOutput() == 0) {
-      loader.runBelt(1);
+      loader.runBelt(RobotMap.LoaderMap.runLoaderSpeed);
       shooter.atSpeed(true);
     } 
   }
