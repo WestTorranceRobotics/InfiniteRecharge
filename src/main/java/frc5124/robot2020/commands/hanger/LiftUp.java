@@ -1,6 +1,7 @@
 package frc5124.robot2020.commands.hanger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Hanger;
 
 public class LiftUp extends CommandBase {
@@ -21,7 +22,7 @@ public class LiftUp extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        if ((m_hanger.getPosition() >= 193)) {
+        if ((m_hanger.getPosition() >= RobotMap.HangerMap.upperLimit)) {
             m_hanger.setNoPower();
           } 
     }
