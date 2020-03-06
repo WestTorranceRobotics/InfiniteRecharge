@@ -8,10 +8,8 @@ import frc5124.robot2020.subsystems.LED;
 public class LiftDown extends CommandBase {
 
     private final Hanger m_hanger;
-    private LED led;
 
     public LiftDown(Hanger subsystem) {
-        this.led = led;
         m_hanger = subsystem;
         addRequirements(m_hanger);
     }

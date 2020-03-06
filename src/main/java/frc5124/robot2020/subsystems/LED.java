@@ -7,10 +7,13 @@
 
 package frc5124.robot2020.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /**
  * Add your docs here.
@@ -19,8 +22,18 @@ public class LED extends SubsystemBase {
   private Spark LED = new Spark(0);
   public double defaultColor = 0;
   private boolean isTiming = false;
+  private double lastSwitch = 0;
+  private Timer colorTimer = new Timer();
+  private double delaySeconds = RobotMap.LEDMap.delaySeconds;
+  private boolean isColor1 = false;
+  private boolean isColor2 = false;
+  private double color1;
+  private double color2;
+  private int lastBalls = 0;
  
   public LED () {
+    colorTimer.reset();
+    colorTimer.start();
   }
 
   public boolean isTiming() {
@@ -40,6 +53,22 @@ public class LED extends SubsystemBase {
     LED.set(power);
   }
 
+  public double getTime() {
+    return colorTimer.get();
+  }
+
+  public double lastSwitch() {
+    return lastSwitch;
+  }
+
+  public void lastSwitch(double lastSwitch) {
+    this.lastSwitch = lastSwitch;
+  }
+
+  NetworkTableEntry ballsEntry = NetworkTableInstance.getDefault()
+    .getTable("Shuffleboard").getSubTable("Driving Display").getEntry("Balls Intaked");
+  private long changeMillis = -1;
+
   @Override
   public void periodic() {
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
@@ -55,6 +84,21 @@ public class LED extends SubsystemBase {
         setLED(defaultColor);
       }
     }
+    int balls = (int) ballsEntry.getDouble(0);
+    if (balls > lastBalls) {
+      setLED(Color.violet);
+      changeMillis = System.currentTimeMillis();
+    }
+    if (changeMillis != -1) {
+      if (System.currentTimeMillis() - changeMillis > 250) {
+        setLED(Color.yellow);
+        changeMillis = -1;
+      } else {
+        setLED(Color.violet);
+      }
+    }
+    lastBalls = balls;
+
   }
 
   public class Color extends LED {

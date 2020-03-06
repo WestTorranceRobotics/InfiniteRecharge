@@ -52,10 +52,11 @@ import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.commands.utility.LEDTimer;
 import frc5124.robot2020.subsystems.*;
+import frc5124.robot2020.subsystems.LED.Color;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
-  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
@@ -121,7 +122,8 @@ public class RobotContainer {
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
-    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader).deadlineWith(new LEDTimer(led, LED.Color.yellow, LED.Color.noColor)));
+    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    operatorX.whileHeld(new InstantCommand(() -> led.setLED(Color.yellow)));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
     operatorRight.whileHeld(new RotateTurret(turret, false));
@@ -130,7 +132,9 @@ public class RobotContainer {
     operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
-    operatorDown.whileHeld(new LiftDown(hanger).deadlineWith(new LEDTimer(led, LED.Color.hotPink, LED.Color.violet)));
+    operatorUp.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.orange));
+    operatorDown.whileHeld(new LiftDown(hanger));
+    operatorDown.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.violet));
 
     driverRightTrigger.whenPressed(new ChangeCamera(
       () -> ChangeCamera.lastSelection == ChangeCamera.INTAKE_CAM ? ChangeCamera.CLIMB_CAM : ChangeCamera.INTAKE_CAM)
@@ -171,7 +175,7 @@ public class RobotContainer {
     SendableChooser<Double> teamSelect = new SendableChooser<>();
     teamSelect.addOption("Red", LED.Color.red);
     teamSelect.addOption("Blue", LED.Color.blue);
-    Shuffleboard.getTab("SmartDashboard").add("Team Select", teamSelect)
+    Shuffleboard.getTab("Utility").add("Team Select", teamSelect)
     .withPosition(0, 1).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
 
     colorSupplier = () -> teamSelect.getSelected();
@@ -218,7 +222,6 @@ public class RobotContainer {
         led.setDefaultColor(LED.Color.red);
         break;
       case Blue:
-      
         led.setDefaultColor(LED.Color.blue);
         break;
       case Invalid:

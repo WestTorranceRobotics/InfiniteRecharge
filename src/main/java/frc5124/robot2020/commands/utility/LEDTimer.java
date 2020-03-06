@@ -15,8 +15,6 @@ import frc5124.robot2020.RobotMap;
 
 public class LEDTimer extends CommandBase {
   private LED led;
-  private double lastSwitch = 0;
-  private Timer colorTimer = new Timer();
   private double delaySeconds = RobotMap.LEDMap.delaySeconds;
   private boolean isColor1 = false;
   private boolean isColor2 = false;
@@ -35,32 +33,31 @@ public class LEDTimer extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    colorTimer.reset();
-    colorTimer.start();
+    isColor1=true;
     led.isTiming(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((colorTimer.get() - lastSwitch) >= delaySeconds && isColor2) {
+    if ((led.getTime() - led.lastSwitch()) >= delaySeconds && isColor2) {
       led.setLED(color1);
       isColor2 = false;
       isColor1 = true;
-      lastSwitch = colorTimer.get();
-    } else if ((colorTimer.get() - lastSwitch) >= delaySeconds && isColor1) {
+      led.lastSwitch(led.getTime());
+    } else if ((led.getTime() - led.lastSwitch()) >= delaySeconds && isColor1) {
       led.setLED(color2);
       isColor2 = true;
-      isColor1 = true;
-      lastSwitch = colorTimer.get();
+      isColor1 = false;
+      led.lastSwitch(led.getTime());
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    led.setLED(led.defaultColor);
     led.isTiming(false);
+    led.setLED(led.defaultColor);
   }
 
   // Returns true when the command should end.
