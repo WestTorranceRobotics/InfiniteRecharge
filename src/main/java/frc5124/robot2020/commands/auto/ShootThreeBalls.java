@@ -5,21 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.RobotMap;
+import frc5124.robot2020.subsystems.Loader;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class ShooterAndLoader extends CommandBase {
+public class ShootThreeBalls extends CommandBase {
   private Shooter m_shooter;
   private Loader m_loader;
-  
+  private boolean isDone = false;
+  private double targetVelocity = RobotMap.ShooterMap.lineShootRPM;
   /**
-   * Creates a new setShootVelocity.
+   * Creates a new ShooterAndLoaderRev.
    */
-  public ShooterAndLoader (Shooter shooter, Loader loader) {
+  public ShootThreeBalls(Shooter shooter, Loader loader) {
     m_shooter = shooter;
     m_loader = loader;
 
@@ -27,31 +29,43 @@ public class ShooterAndLoader extends CommandBase {
     addRequirements(m_shooter);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
+ @Override
   public void initialize() {
     m_shooter.startShooter();
+    m_shooter.resetBallsShot();
   }
-
+   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.holeOpenedOrClose()){
+    super.execute();
+    if (Math.abs(targetVelocity) - Math.abs(m_shooter.getVelocity()) < 15) {
       m_loader.runBelt();
-    }
+      m_shooter.atSpeed(true);
+    } 
+
+    if(m_shooter.atSpeed() && m_loader.getAppliedOutput() > 0) {
+    m_shooter.currentWatch(targetVelocity);
   }
 
-  // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-      return false;
+    if (m_shooter.getBallsShot() == 3) {
+      isDone = true;
     }
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     m_shooter.stopShooter();
     m_loader.stopBelt();
+   
   }
-  
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return isDone;
+  }
 }

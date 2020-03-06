@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto.runpos;
+package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.Shooter;
@@ -13,15 +13,15 @@ import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Loader;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class ShooterAndLoaderRev extends WaitCommand {
+public class ShootThreeBallsTrench extends CommandBase {
   private Shooter m_shooter;
   private Loader m_loader;
-  private boolean startedShooter = false;
+  private boolean isDone = false;
+  private double targetVelocity = RobotMap.ShooterMap.trenchShootRPM;
   /**
    * Creates a new ShooterAndLoaderRev.
    */
-  public ShooterAndLoaderRev(Shooter shooter, Loader loader, double time) {
-    super(time);
+  public ShootThreeBallsTrench(Shooter shooter, Loader loader) {
     m_shooter = shooter;
     m_loader = loader;
 
@@ -31,23 +31,26 @@ public class ShooterAndLoaderRev extends WaitCommand {
 
  @Override
   public void initialize() {
-    if (!startedShooter) {
-      m_shooter.startShooter();
-      startedShooter = true;
-    }
+    m_shooter.startShooter(RobotMap.ShooterMap.trenchShootRPM);
+    m_shooter.resetBallsShot();
   }
    
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-   
     super.execute();
-    if (m_shooter.getVelocity() > RobotMap.ShooterMap.lineShootRPM-20) {
+    if (Math.abs(targetVelocity) - Math.abs(m_shooter.getVelocity()) <= 20) {
       m_loader.runBelt();
+      m_shooter.atSpeed(true);
+    } 
+    if(m_shooter.atSpeed()) {
+    m_shooter.currentWatch(targetVelocity);
+  }
+
+    if (m_shooter.getBallsShot() == 3) {
+      isDone = true;
     }
     
-   
   }
 
   // Called once the command ends or is interrupted.
@@ -59,9 +62,9 @@ public class ShooterAndLoaderRev extends WaitCommand {
    
   }
 
-  // // Returns true when the command should end.
-  // @Override
-  // public boolean isFinished() {
-  //   return false;
-  // }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return isDone;
+  }
 }

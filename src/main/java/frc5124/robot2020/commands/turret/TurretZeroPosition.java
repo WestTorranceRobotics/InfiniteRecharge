@@ -5,22 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.turret;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.SeeBallRunBelt;
-import frc5124.robot2020.subsystems.*;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc5124.robot2020.subsystems.Turret;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LoaderAndIntakeGroup extends ParallelCommandGroup {
-  /**
-   * Creates a new LoaderAndIntakeGroup.
-   */
-  
-  public LoaderAndIntakeGroup(Intake intake, Loader loader) {
-    super(new SetIntakePower(intake, 1), new SeeBallRunBelt(loader));   
+public class TurretZeroPosition extends InstantCommand {
+
+  public TurretZeroPosition(Turret turret) {
+    super(() -> {
+      turret.resetTurretDegrees();
+      turret.turretLimitSet();
+    }, turret);
   }
+
 }

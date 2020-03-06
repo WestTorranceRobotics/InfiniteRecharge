@@ -9,16 +9,18 @@ package frc5124.robot2020.commands.turret;
 
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Turret;
 
 public class TurretFindHome extends CommandBase {
   private Turret turret;
-  private boolean isDone = false;
-  private AnalogInput mag = new AnalogInput(3);
-  private double currentDegrees = 0;
-  private boolean switchAround = false;
+  private AnalogInput mag = Turret.mag;
+  private boolean isDone;
+
+
+  //in class
 
 
   /**
@@ -32,77 +34,55 @@ public class TurretFindHome extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (!(turret.setHome()) && !turret.initialHome()) {
-     turret.directPower(.1);
-     SmartDashboard.putNumber("yeet", 0);
-     SmartDashboard.updateValues();
+    turret.disableTurretLimit();
+    turret.isHome(false);
+    turret.isInitialHome(false);
+    if (!(turret.isHome()) && !turret.isInitialHome()) {
+     turret.directPower(RobotMap.TurretMap.zeroSpeed);
+     turret.setCoast();
   }
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!turret.setHome() && !turret.initialHome()) {
+    // SmartDashboard.putNumber("voltage", mag.getVoltage());
+    if (!turret.isHome() && !turret.isInitialHome()) {
     if (mag.getVoltage() < .1) {
       turret.directPower(0);
       turret.resetTurretDegrees();
-      turret.setHome(true);
+      turret.isHome(true);
     } 
-    
-  }
-  if (turret.setHome() && !turret.initialHome()) {
-    turret.setTurretDegrees(-10);
-    turret.initialHome(true);
-    turret.setHome(false);
   }
 
-  
 
-    if (turret.getDegrees() <= -9.9 && turret.initialHome() && !turret.setHome()) {
+  if (turret.isHome() && !turret.isInitialHome()) {
+    turret.setTurretDegrees(-17);
+    turret.isInitialHome(true);
+    turret.isHome(false);
+  }
+    if (turret.getDegrees() <= -17 && turret.isInitialHome() && !turret.isHome()) {
       turret.resetTurretDegrees();
       turret.turretLimitSet();
       turret.setTurretDegrees(0);
-      turret.setHome(true);
+      turret.isHome(true);
+      isDone = true;
     }
-      
-     
-  
-    
-    
-  //     if (turret.setHome() && turret.initialHome()) {
-  //     currentDegrees = turret.getDegrees();
-  //     if (currentDegrees <= -291) {
-  //       switchAround = true;
-  //       turret.rightLimitReached(true);
-  //       turret.setTurretDegrees(19);
-  //     }
-  //     else if (currentDegrees >= 21) {
-  //       switchAround = true;
-  //       turret.leftLimitReached(true);
-  //       turret.setTurretDegrees(-286);
-  //     }
-  //     if (switchAround && turret.rightLimitReached()) {
-  //       if (currentDegrees >= 19) {
-  //         switchAround = false;
-  //         turret.rightLimitReached(false);
-  //       }
-  //     } else if (switchAround && turret.leftLimitReached()) {
-  //       if (currentDegrees <= -286) {
-  //         switchAround = false;
-  //         turret.leftLimitReached(false);
-  //       }
-  //    }
-  // //}
-
-
-
   } 
-}
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+      turret.setBrake();
+    }
   
-    
-
-
-    
-
-
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+      if (isDone) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }

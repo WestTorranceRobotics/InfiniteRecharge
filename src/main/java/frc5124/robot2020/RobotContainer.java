@@ -8,26 +8,38 @@
 package frc5124.robot2020;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc5124.robot2020.commands.*;
-import frc5124.robot2020.commands.ReverseBeltAndShooter;
+
+import frc5124.robot2020.commands.auto.ChangeCamera;
+
+import frc5124.robot2020.commands.auto.ShootThreeBalls;
+import frc5124.robot2020.commands.auto.RunDistanceForward;
+import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.SixBallAutoNoShoot;
+import frc5124.robot2020.commands.auto.ThreeBallAuto;
+import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -37,7 +49,6 @@ import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.subsystems.*;
 
-
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
   * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -46,9 +57,7 @@ import frc5124.robot2020.subsystems.*;
  */
 
 public class RobotContainer {
-
-  private Camera camera;
-  private PanelController panelController;
+  
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
@@ -74,13 +83,17 @@ public class RobotContainer {
   public JoystickButton operatorStickLeft = new JoystickButton(operator, 11);
   public JoystickButton operatorStickRight = new JoystickButton(operator, 12);
 
+  public JoystickButton driverRightTrigger = new JoystickButton(driverRight, 1);
+  public JoystickButton driverRightThumb  = new JoystickButton(driverRight, 2);
+
   public POVButton operatorUp = new POVButton(operator, 0);
   public POVButton operatorDown = new POVButton(operator, 180);
   public POVButton operatorRight = new POVButton(operator, 90);
   public POVButton operatorLeft = new POVButton(operator, 270);
   
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
   private ShuffleboardTab display;
+  private Supplier<String> autoNameSupplier;
+  private HashMap<String, Command> autonomies = new HashMap<>();
 
   public RobotContainer() {
     configureSubsystems();
@@ -90,8 +103,6 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
-    camera = new Camera();
-    panelController = new PanelController();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
@@ -104,40 +115,77 @@ public class RobotContainer {
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    //AAA???
+    operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new ShootFromLine(shooter, loader));
-    operatorLB.toggleWhenPressed(new ShootFromTrench(shooter, loader));
-    //operatorDown.toggleWhenPressed(new ShootFromMidTrench(shooter, loader)); 
-    operatorUp.whileHeld(new LiftUp(hanger) );  
-    operatorDown.whileHeld(new LiftDown(hanger) );  
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
+    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
+    operatorY.whileHeld(new RunLoader(loader));
+    operatorUp.whileHeld(new LiftUp(hanger));
 
-   
+    operatorDown.whileHeld(new LiftDown(hanger));
+
+    driverRightTrigger.whenPressed(new ChangeCamera(
+      () -> ChangeCamera.lastSelection == ChangeCamera.INTAKE_CAM ? ChangeCamera.CLIMB_CAM : ChangeCamera.INTAKE_CAM)
+    );
+    driverRightThumb.whenPressed(new ChangeCamera(ChangeCamera.LIMELIGHT));
   }
 
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
-    turret.setDefaultCommand(new TurretFindHome(turret));
-    
-  }
 
+    autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
+    Command zeroTurret = new TurretZeroAndTurn(turret);
+    autonomies.put("Trench Zero Turret", zeroTurret);
+    autonomies.put("Middle Zero Turret", zeroTurret);
+    autonomies.put("Opposing Trench Zero Turret", zeroTurret);
+  }
 
   private void configureShuffleboard() {
     display = Shuffleboard.getTab("Driving Display");
-    shuffleboardButtonBooleanEntry = display.add("Button Boolean", false).getEntry();
-    ShuffleboardLayout poseLayout = display.getLayout("Pose", BuiltInLayouts.kGrid).withSize(3, 2).withPosition(1, 0);
-    ShuffleboardLayout xyLayout = poseLayout.getLayout("Location", BuiltInLayouts.kGrid);
-    NetworkTableEntry xSlider = xyLayout.add("Position X Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    NetworkTableEntry ySlider = xyLayout.add("Position Y Inches", 0).withWidget(BuiltInWidgets.kNumberSlider).getEntry();
-    poseLayout.add("Rotation", shuffleboardGyro(() -> 90 - driveTrain.getLocation().getRotation().getDegrees()))
-      .withWidget(BuiltInWidgets.kGyro).withSize(3, 3).withPosition(3, 0);
-    display.add("time", shuffleboardGyro(() -> System.currentTimeMillis()/1000)).withWidget(BuiltInWidgets.kGyro).withSize(3,3).withPosition(8,0);
-    //new LocationUpdaterCommand(driveTrain, xSlider, ySlider).schedule();
+    Shuffleboard.selectTab(display.getTitle());
+
+    NetworkTableEntry pipeEntry = NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline");
+
+    display.addNumber("Balls Intaked", loader::getBallsIntaked)
+    .withPosition(3, 1).withSize(1, 1);
+    display.addBoolean("Limelight On?",() -> (int) pipeEntry.getDouble(-1) == 0)
+    .withPosition(4, 1).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Intake Running?", () -> Math.abs(intake.getOutput()) > 0.0001)
+    .withPosition(3, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+    display.addBoolean("Shooter On?", shooter::active)
+    .withPosition(4, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+
+    SendableChooser<String> selectionsA = new SendableChooser<>();
+    selectionsA.addOption("Trench", "Trench");
+    selectionsA.addOption("Middle", "Middle");
+    selectionsA.addOption("Opposing Trench", "Opposing Trench");
+    display.add("Start Position Selector", selectionsA)
+    .withPosition(5, 1).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+    
+    SendableChooser<String> selectionsB = new SendableChooser<>();
+    selectionsB.addOption("Primary", "Primary");
+    selectionsB.addOption("Secondary", "Secondary");
+    selectionsB.addOption("Zero Turret", "Zero Turret");
+    display.add("Mode Selector", selectionsB)
+    .withPosition(5, 2).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+    autoNameSupplier = () -> selectionsA.getSelected() + " " + selectionsB.getSelected();
+
+    LiveWindow.disableAllTelemetry();
+    SmartDashboard.delete("limelight_Interface");
+    SmartDashboard.delete("limelight_Stream");
+    SmartDashboard.delete("limelight_PipelineName");
+    SmartDashboard.delete("Heartbeat");
   }
 
-  private GyroBase shuffleboardGyro(DoubleSupplier d) {
+  public static GyroBase shuffleboardGyro(DoubleSupplier d) {
     return new GyroBase(){
       @Override public void close() {}
       @Override public void reset() {}
@@ -171,6 +219,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TargetShootAuto(shooter, loader, turret, driveTrain);
+    return autonomies.get(autoNameSupplier.get());
   }
 }

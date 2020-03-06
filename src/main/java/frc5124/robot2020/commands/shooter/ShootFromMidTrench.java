@@ -7,8 +7,8 @@
 
 package frc5124.robot2020.commands.shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
@@ -32,21 +32,19 @@ public class ShootFromMidTrench extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.startShooter(RobotMap.ShooterMap.midTrenchShootRPM);
-    SmartDashboard.putBoolean("ShooterRunning", true);
+    // SmartDashboard.putBoolean("ShooterRunning", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    // m_shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
-      m_loader.runBelt();
-    }  
-    
-    
-    SmartDashboard.putNumber("SHOOTYVelocity", m_shooter.getVelocity());
-    SmartDashboard.updateValues();
-   
+    if (m_shooter.atSpeed()) {
+      m_shooter.currentWatch(RobotMap.ShooterMap.midTrenchShootRPM);
+      }
+      if (m_shooter.getVelocity() >= RobotMap.ShooterMap.midTrenchShootRPM-20 && m_loader.getAppliedOutput() == 0) {
+        m_loader.runBelt();
+        m_shooter.atSpeed(true);
+      } 
   }
   // Returns true when the command should end.
     @Override
@@ -57,9 +55,10 @@ public class ShootFromMidTrench extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SmartDashboard.putBoolean("ShooterRunning", false);
+    // SmartDashboard.putBoolean("ShooterRunning", false);
     m_shooter.stopShooter();
     m_loader.stopBelt();
+    m_shooter.atSpeed(false);
   }
   
 }

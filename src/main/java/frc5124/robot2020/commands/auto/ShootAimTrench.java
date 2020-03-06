@@ -5,23 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2020.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.ReverseBelt;
-import frc5124.robot2020.commands.shooter.ReverseShooter;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc5124.robot2020.commands.auto.ShootThreeBalls;
+import frc5124.robot2020.commands.shooter.ShootFromTrench;
+import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
+import frc5124.robot2020.subsystems.Turret;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ReverseBeltAndShooter extends ParallelCommandGroup {
+public class ShootAimTrench extends ParallelDeadlineGroup {
   /**
-   * Creates a new ReverseBeltWithIntake.
+   * Creates a new shootAim.
    */
-  public ReverseBeltAndShooter(Shooter shooter, Loader loader) {
-    super(new ReverseShooter(shooter), new ReverseBelt(loader));
+  public ShootAimTrench(Shooter shooter, Loader loader, Turret turret) {
+    // Add your commands in the super() call.  Add the deadline first.
+    super(new ShootThreeByFF(shooter, loader, 4950, 3), new TurretTargetByPIDPerpetually(turret));
   }
 }

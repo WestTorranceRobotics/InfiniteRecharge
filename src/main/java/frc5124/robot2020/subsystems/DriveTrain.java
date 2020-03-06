@@ -1,5 +1,6 @@
 package frc5124.robot2020.subsystems;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -12,6 +13,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -21,15 +23,18 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc5124.robot2020.RobotContainer;
 import frc5124.robot2020.RobotMap;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-public class DriveTrain implements Subsystem {
+public class DriveTrain extends SubsystemBase {
     public WPI_TalonFX leftLeader;
     public WPI_TalonFX rightLeader;
     private WPI_TalonFX leftFollower;
@@ -40,11 +45,10 @@ public class DriveTrain implements Subsystem {
     private DifferentialDriveKinematicsConstraint trajectoryConstraint;
     private DifferentialDriveOdometry odometry;
     private PIDController angleController = new PIDController(0.00125,0.00005,0.000005);
-    private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
+    private ShuffleboardTab debuggingTab;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
-    private double TICK_PER_INCHES = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
+    public double TICKS_PER_INCH = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
 
     public DriveTrain() {
 
@@ -68,47 +72,34 @@ public class DriveTrain implements Subsystem {
         leftFollower.setInverted(InvertType.FollowMaster);
         rightFollower.setInverted(InvertType.FollowMaster); 
 
-        //  /*
-        //  * [4] adjust sensor phase so sensor moves positive when Talon LEDs are green
-        //  */
-        // rightLeader.setSensorPhase(true);
-        // leftLeader.setSensorPhase(true);
-
-
         gyro = new AHRS(SPI.Port.kMXP);
         
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
         differentialDrive.setSafetyEnabled(true);
 
-        kinematics = new DifferentialDriveKinematics(30);
+        kinematics = new DifferentialDriveKinematics(RobotMap.DriveTrainMap.kTrackwidth);
         trajectoryConstraint = new DifferentialDriveKinematicsConstraint(kinematics, RobotMap.DriveTrainMap.kMaxVelocity);
-        odometry = new DifferentialDriveOdometry(new Rotation2d(Math.toRadians(90 - gyro.getAngle())));
-        resetOdometry();
-
         gyro.reset();
         gyro.zeroYaw();
+        last = gyro.getPitch();
+        odometry = new DifferentialDriveOdometry(getGyro());
+        resetOdometry();
     }
 
     @Override
     public void periodic() {
-        if (RobotMap.debugEnabled) {}
-        //the following is test code**********************************the following is test code
-
         double r = rightLeader.getSelectedSensorPosition();
         double l = leftLeader.getSelectedSensorPosition();
-        
         odometry.update(getGyro(), l * INCHES_PER_TICK, r * INCHES_PER_TICK);
-        SmartDashboard.putNumber("X", odometry.getPoseMeters().getTranslation().getX());
-        SmartDashboard.putNumber("Y", odometry.getPoseMeters().getTranslation().getY());
-        SmartDashboard.putNumber("encodeyBoy", l * INCHES_PER_TICK);
-        SmartDashboard.putNumber("encodeyGuy", r * INCHES_PER_TICK);
-        SmartDashboard.putNumber("Target Distance", 40 *TICK_PER_INCHES);
-
-        //(18.0f/28.0f) = gearRatio; (10.0f/64.0f) = gearRatio2; 0.1524f * Math.PI = WheelDiamet[=p-er; (1.0f/2048.0f) = 1 revoltion/ 2048 counts;
-
-        SmartDashboard.updateValues();
+        preventWrapping(gyro.getPitch());
     }
-
+    
+    public void resetEncoders() {
+        leftLeader.setSelectedSensorPosition(0);
+        rightLeader.setSelectedSensorPosition(0);
+        leftFollower.setSelectedSensorPosition(0);
+        rightFollower.setSelectedSensorPosition(0);
+    }
 
     // Control methods
 
@@ -128,13 +119,12 @@ public class DriveTrain implements Subsystem {
         resetOdometry(new Pose2d(0, 0, new Rotation2d(0, 1)));
     }
 
-    public double getTICKS_PER_INCHES(){
-        return TICK_PER_INCHES;
-    }
-
     public void directPower(double power){
         rightLeader.set(power);
         leftLeader.set(power);
+    }
+    public DifferentialDriveKinematics getKinematics(){
+        return kinematics;
     }
      
     public WPI_TalonFX getLeftLeader(){
@@ -160,19 +150,28 @@ public class DriveTrain implements Subsystem {
     public DifferentialDriveKinematicsConstraint getKinematicsConstraint() {
         return trajectoryConstraint;
     }
+
     public DifferentialDriveOdometry getOdometry(){
         return odometry;
     }
 
+    private static double last;
+    private static double preventWrapping(double x) {
+        while (last - 180 > x) {
+            x += 360;
+        }
+        while (last + 360 < x) {
+            x -= 360;
+        }
+        last = x;
+        return x;
+    }
+
     private Rotation2d getGyro() {
-        gyro.getRoll();
-        double radians = Math.toRadians(90 - gyro.getAngle());
+        double radians = Math.toRadians(preventWrapping(90 - last));
         return new Rotation2d(radians);
     }
 
-    public AHRS getGyroScope(){
-        return gyro;
-    }
     public double getGryoDegree() {
         return gyro.getAngle();
     }

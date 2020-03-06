@@ -9,6 +9,7 @@ package frc5124.robot2020.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc5124.robot2020.RobotMap;
 
 import com.revrobotics.CANSparkMax;
@@ -16,16 +17,18 @@ import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
-public class Loader implements Subsystem {
+public class Loader extends SubsystemBase {
   private CANSparkMax topBeltMotor;
   private CANSparkMax bottomBeltMotor;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
   AnalogInput motionSensor = new AnalogInput(1);
+  private ShuffleboardTab display;
+  private int ballIntaked;
+  private int newBall = 1;
   
   public Loader() { 
     topBeltMotor = new CANSparkMax(RobotMap.LoaderMap.topBeltCanId, MotorType.kBrushless);
@@ -34,30 +37,29 @@ public class Loader implements Subsystem {
     bottomBeltMotor.restoreFactoryDefaults();
     bottomBeltMotor.follow(topBeltMotor);
     bottomBeltMotor.setInverted(true);
-    display = Shuffleboard.getTab("Loader Display");
-    Shuffleboard.update();
   }
 
   public void setPower(double power){
     topBeltMotor.set(power);
-   // bottomBeltMotor.set(power);
   }
 
   public double getAppliedOutput() {
     return topBeltMotor.getAppliedOutput();
   }
   
+  public void runBelt(double power) {
+    topBeltMotor.set(power);
+  }
+    
   public void runBelt() {
     topBeltMotor.set(RobotMap.LoaderMap.beltSpeed);
   }
   public void stopBelt() {    
     topBeltMotor.set(0);
-   // bottomBeltMotor.set(0);
   }
 
   public void reverseBelt(){
-    topBeltMotor.set(-.35);
-  //  bottomBeltMotor.set(-.5); 
+    topBeltMotor.set(RobotMap.LoaderMap.reverseBeltSpeed);
   }
 
   public double getVoltage() {
@@ -65,12 +67,13 @@ public class Loader implements Subsystem {
   }
 
   public boolean seeBall() {
-    return (getVoltage() < 1.0);
+    return (getVoltage() < RobotMap.LoaderMap.seeBallVoltage);
   }
 
   public double returnRotations() {
-    return topBeltMotor.getEncoder(EncoderType.kHallSensor, 42).getCountsPerRevolution();
+    return topBeltMotor.getEncoder(EncoderType.kHallSensor, RobotMap.neoCounts).getCountsPerRevolution();
   }
+
   public void runLoader() {
     if(!seeBall()){
       runBelt();
@@ -80,11 +83,20 @@ public class Loader implements Subsystem {
     }
   }
 
+  public void ballIntaked(){
+    ballIntaked += newBall;
+  }
+
+  public void ballIntaked(int balls) {
+    ballIntaked = balls;
+  }
+
+  public int getBallsIntaked() {
+    return ballIntaked;
+  }
 
   //This was here when I started so I left it that way.
   @Override
-  public void periodic() {
-    if (RobotMap.debugEnabled) {}
-    SmartDashboard.updateValues();
+  public void periodic() {    
   }
 }

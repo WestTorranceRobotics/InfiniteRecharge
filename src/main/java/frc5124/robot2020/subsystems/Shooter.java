@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc5124.robot2020.subsystems;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc5124.robot2020.RobotMap;
 
@@ -14,11 +15,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class Shooter extends SubsystemBase {
@@ -27,10 +31,8 @@ public class Shooter extends SubsystemBase {
   private CANPIDController shootPID;
   private boolean atSpeed;
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
-  private int ballsShot;
+  private int ballsShot = 0;
   private boolean passedBallCurrent = false;
-  private NetworkTableEntry shuffleboardButtonBooleanEntry;
-  private ShuffleboardTab display;
  
   public Shooter() {
     shootMotorFollower.restoreFactoryDefaults();
@@ -38,8 +40,6 @@ public class Shooter extends SubsystemBase {
     shootMotorFollower.follow(shootMotorLeader, true);
     shootMotorLeader.setIdleMode(IdleMode.kCoast);
     shootMotorFollower.setIdleMode(IdleMode.kCoast);
-    shootMotorLeader.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
-    shootMotorFollower.setSmartCurrentLimit(RobotMap.ShooterMap.smartCurrentLimit);
     shootMotorLeader.setInverted(true);
     shootMotorFollower.setInverted(true);
     shootPID = shootMotorLeader.getPIDController();
@@ -47,13 +47,10 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
-    SmartDashboard.putNumber("PSHOOT", RobotMap.ShooterMap.Kp);
-    SmartDashboard.putNumber("DSHOOT", RobotMap.ShooterMap.Kd);
-    SmartDashboard.putNumber("FSHOOT", RobotMap.ShooterMap.Kf);
-    shootMotorFollower.setClosedLoopRampRate(.001);
-    shootMotorLeader.setClosedLoopRampRate(.001);
-    display = Shuffleboard.getTab("Shooter Display");
-    Shuffleboard.update();
+  }
+
+  public boolean active() {
+    return shootMotorLeader.getAppliedOutput() != 0;
   }
 
   public int getBallsShot() {
@@ -95,8 +92,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void startShooter(double rpm) {
-    //enablePID();
-    updatePID();
     shootPID.setReference(rpm, ControlType.kVelocity);
   }
 
@@ -105,9 +100,6 @@ public class Shooter extends SubsystemBase {
      shootMotorLeader.set(0);
     }
   
-/**
- * Units of ft/s
- */
   public double getVelocity() {
     return (shootMotorLeader.getEncoder().getVelocity() / RobotMap.ShooterMap.gearRatio); 
    }
@@ -119,53 +111,35 @@ public class Shooter extends SubsystemBase {
    public void atSpeed(boolean atSpeed) {
     this.atSpeed= atSpeed;
   }
-
-  public class atSpeed extends Shooter{
-    public boolean atSpeed() {
-      return atSpeed;
-    }
-  }
-  
-  public boolean holeOpenedOrClose(){
-    return shootSolenoid.get();
-  }
-
-  public void openHole(){
-    shootSolenoid.set(true);
-  }
-
-  public void closeHole(){
-    shootSolenoid.set(false);
+  public boolean atSpeed() {
+    return this.atSpeed;
   }
 
   public void directPower (double power) {
     shootMotorLeader.set(power);
   }
 
-  public boolean atSpeed () {
-    return true;
-  }
-
   /**
-   * Checks output current to shooter to count balls that have passed
-   * 
-   * Call in command execute or periodic
-   * 
-   * @param targetRPM PID RPM reference; will not count a ball shot if a current spike is detected below speed
+   * @deprecated Unreliable with higher loader speeds at the present
    */
   public void currentWatch(double targetRPM) {
-    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false && getVelocity() >= targetRPM-75 ) {
+    if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false) {
       passedBallCurrent = true;
-      ballsShot =+ 1;
-    } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent) {
+      ballsShot = ballsShot + 1;
+    } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent-7) {
       passedBallCurrent = false;
     }
   }
-  
+
+  public void directVolts(double volts) {
+    shootMotorLeader.setVoltage(volts);
+  }
 
   @Override
   public void periodic() {
-    if (RobotMap.debugEnabled) {}
-    SmartDashboard.putNumber("BallsShot", ballsShot);
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    double angle = ty + RobotMap.limelightAngle;
+    double tan = Math.tan(Math.toRadians(angle));
+    double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
   }
 }

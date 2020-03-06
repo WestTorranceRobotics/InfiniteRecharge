@@ -1,8 +1,6 @@
 package frc5124.robot2020;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -19,11 +17,9 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private Command m_autonomousCommand;
 
-    // Command autonomousCommand;
-    // SendableChooser<Command> chooser = new SendableChooser<>();
-
-    // public static OI oi;
-    // public static DriveTrain driveTrain;
+    public Robot() {
+        super();
+    }
 
     @Override
     public void robotInit() {
@@ -34,25 +30,6 @@ public class Robot extends TimedRobot {
         //(which it very likely will), subsystems are not guaranteed to be
         // constructed yet. Thus, their requires() statements may grab null
         // pointers. Bad news. Don't move it.
-
-        /*
-        driveTrain = new DriveTrain();
-        oi = new OI();
-
-        driveTrain.setDefaultCommand(new RunCommand(() -> driveTrain.curvatureDrive(
-            -oi.getDriver().getY(),
-            oi.getDriver().getTwist(),
-            oi.getDriver().getRawButton(Constants.OI.Driver.quickTurnButton)),
-            driveTrain));
-        
-
-        // Add commands to Autonomous Sendable Chooser
-        chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-
-        SmartDashboard.putData("Run Chosen Auto", new InstantCommand(() -> chooser.getSelected().schedule()));
-
-        */
     }
 
     /**

@@ -8,6 +8,7 @@
 package frc5124.robot2020.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
@@ -32,7 +33,7 @@ public class ReverseShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.directPower(-.3);
+    m_shooter.directPower(RobotMap.ShooterMap.reverseShooter);
   }
 
   // Returns true when the command should end.

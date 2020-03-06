@@ -17,10 +17,6 @@ public class ToggleIntakePivot extends CommandBase {
         intake.setDeployed(!intake.isDeployed());
     }
 
-    @Override
-    public void execute() {
-    }
-
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
