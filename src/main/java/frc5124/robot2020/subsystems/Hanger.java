@@ -57,8 +57,6 @@ public class Hanger extends SubsystemBase {
       brakeOff.set(true);
   }
 
-
-
   public void liftDown(){
       hangerMotor.set(RobotMap.HangerMap.hangerMotorDown);
       brakeOff.set(true);
