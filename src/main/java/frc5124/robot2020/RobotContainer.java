@@ -50,6 +50,7 @@ import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
+import frc5124.robot2020.commands.utility.LEDTimer;
 import frc5124.robot2020.subsystems.*;
 
 /**
@@ -120,7 +121,7 @@ public class RobotContainer {
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
-    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
+    operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader).deadlineWith(new LEDTimer(led, LED.Color.yellow, LED.Color.noColor)));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
     operatorRight.whileHeld(new RotateTurret(turret, false));
@@ -128,8 +129,8 @@ public class RobotContainer {
     operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
     operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
     operatorY.whileHeld(new RunLoader(loader));
-    operatorUp.whileHeld(new LiftUp(hanger, led));
-    operatorDown.whileHeld(new LiftDown(hanger, led));
+    operatorUp.whileHeld(new LiftUp(hanger));
+    operatorDown.whileHeld(new LiftDown(hanger).deadlineWith(new LEDTimer(led, LED.Color.hotPink, LED.Color.violet)));
 
     driverRightTrigger.whenPressed(new ChangeCamera(
       () -> ChangeCamera.lastSelection == ChangeCamera.INTAKE_CAM ? ChangeCamera.CLIMB_CAM : ChangeCamera.INTAKE_CAM)

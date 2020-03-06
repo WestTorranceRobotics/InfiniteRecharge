@@ -10,18 +10,9 @@ import jdk.jfr.Timespan;
 public class LiftUp extends CommandBase {
 
     private final Hanger m_hanger;
-    private LED led;
-    private double lastSwitch = 0;
-    private Timer colorTimer = new Timer();
-    private double delaySeconds = RobotMap.LEDMap.delaySeconds;
-    private boolean isViolet = false;
-    private boolean isHotPink = false;
 
-    
-
-    public LiftUp(Hanger subsystem, LED led) {
+    public LiftUp(Hanger subsystem) {
         m_hanger = subsystem;
-        this.led = led;
         addRequirements(m_hanger);
     }
 
@@ -29,11 +20,6 @@ public class LiftUp extends CommandBase {
     @Override
     public void initialize() {
         m_hanger.liftUp();
-        colorTimer.reset();
-        colorTimer.start();
-        isViolet = false;
-        isHotPink = true;
-        lastSwitch = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -42,18 +28,6 @@ public class LiftUp extends CommandBase {
         if ((m_hanger.getPosition() >= RobotMap.HangerMap.upperLimit)) {
             m_hanger.setNoPower();
           } 
-
-          if ((colorTimer.get() - lastSwitch) >= delaySeconds && isHotPink) {
-            led.setLED(LED.Color.violet);
-            isHotPink = false;
-            isViolet = true;
-            lastSwitch = colorTimer.get();
-          } else if ((colorTimer.get() - lastSwitch) >= delaySeconds && isViolet) {
-            led.setLED(LED.Color.hotPink);
-            isHotPink = true;
-            isViolet = true;
-            lastSwitch = colorTimer.get();
-          }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -66,7 +40,5 @@ public class LiftUp extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_hanger.setNoPower();
-        colorTimer.stop();
-        led.setLED(led.defaultColor);
     }
 }

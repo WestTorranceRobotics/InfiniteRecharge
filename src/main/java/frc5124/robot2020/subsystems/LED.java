@@ -7,8 +7,10 @@
 
 package frc5124.robot2020.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc5124.robot2020.RobotMap;
 
 /**
  * Add your docs here.
@@ -16,8 +18,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LED extends SubsystemBase {
   private Spark LED = new Spark(0);
   public double defaultColor = 0;
+  private boolean isTiming = false;
  
   public LED () {
+  }
+
+  public boolean isTiming() {
+    return isTiming;
+  }
+
+  public void isTiming(boolean isTiming) {
+    this.isTiming = isTiming;
   }
 
   public void setDefaultColor(double color){
@@ -31,6 +42,19 @@ public class LED extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+      double angle = ty + RobotMap.limelightAngle;
+      double tan = Math.tan(Math.toRadians(angle));
+      double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
+      if (!isTiming()) {
+      if (Math.abs(120 - dx) <= 10) {
+        setLED(Color.lime);
+      } else if (Math.abs(206.5 - dx) <= 10) {
+        setLED(Color.lawnGreen);
+      } else {
+        setLED(defaultColor);
+      }
+    }
   }
 
   public class Color extends LED {
@@ -56,6 +80,7 @@ public class LED extends SubsystemBase {
     public static final double gray = .95;
     public static final double darkGray = .97;
     public static final double black = .99;
+    public static final double noColor = 0;
     }
 }
 

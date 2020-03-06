@@ -45,18 +45,6 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
       NetworkTableInstance.getDefault().getTable("limelight")
       .getEntry("tx").getDouble(0);
       subsystem.setTurretDegrees(target);
-
-      double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-      double angle = ty + RobotMap.limelightAngle;
-      double tan = Math.tan(Math.toRadians(angle));
-      double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
-      if (Math.abs(120 - dx) <= 10) {
-        led.setLED(LED.Color.lime);
-      } else if (Math.abs(206.5 - dx) <= 10) {
-        led.setLED(LED.Color.lawnGreen);
-      } else {
-        led.setLED(led.defaultColor);
-      }
   }
 
   // Called once the command ends or is interrupted.

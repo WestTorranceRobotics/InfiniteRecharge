@@ -10,7 +10,7 @@ public class LiftDown extends CommandBase {
     private final Hanger m_hanger;
     private LED led;
 
-    public LiftDown(Hanger subsystem, LED led) {
+    public LiftDown(Hanger subsystem) {
         this.led = led;
         m_hanger = subsystem;
         addRequirements(m_hanger);
@@ -20,7 +20,6 @@ public class LiftDown extends CommandBase {
     @Override
     public void initialize() { 
         m_hanger.liftDown();
-        led.setLED(LED.Color.violet);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,6 +40,5 @@ public class LiftDown extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_hanger.setNoPower();
-        led.setLED(led.defaultColor);
     }
 }
