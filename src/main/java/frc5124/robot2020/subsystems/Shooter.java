@@ -141,8 +141,5 @@ public class Shooter extends SubsystemBase {
     double angle = ty + RobotMap.limelightAngle;
     double tan = Math.tan(Math.toRadians(angle));
     double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
-    SmartDashboard.putNumber("Distance to Target", dx);
-    SmartDashboard.putNumber("SHOOOOOT SPEEED", getVelocity());
-    SmartDashboard.updateValues();
   }
 }
