@@ -112,16 +112,17 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader));
+    operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400));
-    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950));
+    operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
+    operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
+
     operatorDown.whileHeld(new LiftDown(hanger));
 
     driverRightTrigger.whenPressed(new ChangeCamera(

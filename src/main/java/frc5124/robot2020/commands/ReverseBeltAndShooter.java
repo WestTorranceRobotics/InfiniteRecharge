@@ -17,11 +17,11 @@ import frc5124.robot2020.subsystems.Shooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ReverseBeltWithIntakeAndShooter extends ParallelCommandGroup {
+public class ReverseBeltAndShooter extends ParallelCommandGroup {
   /**
    * Creates a new ReverseBeltWithIntake.
    */
-  public ReverseBeltWithIntakeAndShooter(Shooter shooter, Loader loader) {
+  public ReverseBeltAndShooter(Shooter shooter, Loader loader) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     
