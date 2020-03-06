@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.DoubleAdder;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -40,6 +41,7 @@ import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc5124.robot2020.commands.driveTrain.*;
 import frc5124.robot2020.commands.hanger.LiftDown;
 import frc5124.robot2020.commands.hanger.LiftUp;
@@ -58,6 +60,7 @@ import frc5124.robot2020.subsystems.*;
 
 public class RobotContainer {
   
+  private LED led;
   private Intake intake;
   private Hanger hanger;
   private DriveTrain driveTrain;
@@ -94,6 +97,7 @@ public class RobotContainer {
   private ShuffleboardTab display;
   private Supplier<String> autoNameSupplier;
   private HashMap<String, Command> autonomies = new HashMap<>();
+  private Supplier<Double> colorSupplier;
 
   public RobotContainer() {
     configureSubsystems();
@@ -103,6 +107,7 @@ public class RobotContainer {
   }
 
   private void configureSubsystems() {
+    led = new LED();
     intake = new Intake();
     hanger = new Hanger();
     loader = new Loader();
@@ -116,15 +121,14 @@ public class RobotContainer {
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
+    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
     operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
     operatorLB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4950)); //trench distance
     operatorY.whileHeld(new RunLoader(loader));
-    operatorUp.whileHeld(new LiftUp(hanger));
-
-    operatorDown.whileHeld(new LiftDown(hanger));
+    operatorUp.whileHeld(new LiftUp(hanger, led));
+    operatorDown.whileHeld(new LiftDown(hanger, led));
 
     driverRightTrigger.whenPressed(new ChangeCamera(
       () -> ChangeCamera.lastSelection == ChangeCamera.INTAKE_CAM ? ChangeCamera.CLIMB_CAM : ChangeCamera.INTAKE_CAM)
@@ -135,12 +139,12 @@ public class RobotContainer {
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
 
-    autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Opposing Trench Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Opposing Trench Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake, led));
     Command zeroTurret = new TurretZeroAndTurn(turret);
     autonomies.put("Trench Zero Turret", zeroTurret);
     autonomies.put("Middle Zero Turret", zeroTurret);
@@ -161,6 +165,14 @@ public class RobotContainer {
     .withPosition(3, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
     display.addBoolean("Shooter On?", shooter::active)
     .withPosition(4, 2).withSize(1, 1).withWidget(BuiltInWidgets.kBooleanBox);
+
+    SendableChooser<Double> teamSelect = new SendableChooser<>();
+    teamSelect.addOption("Red", LED.Color.red);
+    teamSelect.addOption("Blue", LED.Color.blue);
+    display.add("Team Select", teamSelect)
+    .withPosition(5, 3).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+
+    colorSupplier = () -> teamSelect.getSelected();
 
     SendableChooser<String> selectionsA = new SendableChooser<>();
     selectionsA.addOption("Trench", "Trench");
@@ -199,6 +211,7 @@ public class RobotContainer {
    * Code to run when starting teleop mode.
    */
   public void teleopInit() {
+    led.setDefaultColor(colorSupplier.get());
   }
 
   /**

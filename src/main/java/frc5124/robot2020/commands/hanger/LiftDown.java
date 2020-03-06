@@ -3,12 +3,15 @@ package frc5124.robot2020.commands.hanger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Hanger;
+import frc5124.robot2020.subsystems.LED;
 
 public class LiftDown extends CommandBase {
 
     private final Hanger m_hanger;
+    private LED led;
 
-    public LiftDown(Hanger subsystem) {
+    public LiftDown(Hanger subsystem, LED led) {
+        this.led = led;
         m_hanger = subsystem;
         addRequirements(m_hanger);
     }
@@ -17,6 +20,7 @@ public class LiftDown extends CommandBase {
     @Override
     public void initialize() { 
         m_hanger.liftDown();
+        led.setLED(LED.Color.violet);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,5 +41,6 @@ public class LiftDown extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_hanger.setNoPower();
+        led.setLED(led.defaultColor);
     }
 }

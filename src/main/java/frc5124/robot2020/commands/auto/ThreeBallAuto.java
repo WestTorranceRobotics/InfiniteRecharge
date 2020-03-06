@@ -18,6 +18,7 @@ import frc5124.robot2020.subsystems.DriveTrain;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
 import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2020.subsystems.LED;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,14 +27,14 @@ public class ThreeBallAuto extends SequentialCommandGroup {
   /**
    * Creates a new ThreeBallAuto.
    */
-  public ThreeBallAuto(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
+  public ThreeBallAuto(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new ToggleIntakePivot(intake),
       new TurretFindHome(turret),
       new Turn180(turret),
-      new ShootAim(shooter, loader, turret),
+      new ShootAim(shooter, loader, turret, led),
       new RunDistanceForward(driveTrain, 30, .5)
     );
   }

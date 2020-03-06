@@ -16,6 +16,7 @@ import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
 import frc5124.robot2020.subsystems.Turret;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2020.subsystems.LED;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,8 +25,8 @@ public class ShootAim extends ParallelDeadlineGroup {
   /**
    * Creates a new shootAim.
    */
-  public ShootAim(Shooter shooter, Loader loader, Turret turret) {
+  public ShootAim(Shooter shooter, Loader loader, Turret turret, LED led) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeByFF(shooter, loader, 4350, 2), new TurretTargetByPIDPerpetually(turret));
+    super(new ShootThreeByFF(shooter, loader, 4350, 2), new TurretTargetByPIDPerpetually(turret, led));
   }
 }

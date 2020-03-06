@@ -12,15 +12,18 @@ import frc5124.robot2020.subsystems.Turret;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc5124.robot2020.subsystems.LED;
+import frc5124.robot2020.RobotMap;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretTargetByPIDPerpetually extends CommandBase {
   private Turret subsystem;
+  private LED led;
   /**
    * Creates a new TurretTargetByPIDPerpetually.
    */
-  public TurretTargetByPIDPerpetually(Turret subsystem) {
-  
+  public TurretTargetByPIDPerpetually(Turret subsystem, LED led) {
+    this.led = led;
     this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -42,7 +45,18 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
       NetworkTableInstance.getDefault().getTable("limelight")
       .getEntry("tx").getDouble(0);
       subsystem.setTurretDegrees(target);
-  // SmartDashboard.putNumber("Deg", subsystem.getDegrees());
+
+      double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+      double angle = ty + RobotMap.limelightAngle;
+      double tan = Math.tan(Math.toRadians(angle));
+      double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
+      if (Math.abs(120 - dx) <= 10) {
+        led.setLED(LED.Color.lime);
+      } else if (Math.abs(206.5 - dx) <= 10) {
+        led.setLED(LED.Color.lawnGreen);
+      } else {
+        led.setLED(led.defaultColor);
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -52,8 +66,7 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
     NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
     subsystem.setBrake();
-    //subsystem.setTurretDegrees(0);
-   // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
+    led.setLED(led.defaultColor);
   }
 
   // Returns true when the command should end.

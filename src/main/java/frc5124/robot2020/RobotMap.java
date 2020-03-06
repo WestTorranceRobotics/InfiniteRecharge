@@ -123,6 +123,10 @@ public class RobotMap {
         public static final double sweepConstant = 2.5;
         public static final double zeroSpeed = .25;
     }
-
+    
+    public static class LEDMap {
+        public static final double delaySeconds = .075;
+    }
+    
     public static class CameraMap {}
 }
