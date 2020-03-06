@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class Shooter extends SubsystemBase {
   private CANSparkMax shootMotorFollower = new CANSparkMax(RobotMap.ShooterMap.shootFollowerCanID, MotorType.kBrushless);
   private CANSparkMax shootMotorLeader = new CANSparkMax(RobotMap.ShooterMap.shootLeaderCanID, MotorType.kBrushless);
-  private CANPIDController shootPID; 
+  private CANPIDController shootPID;
   private boolean atSpeed;
   private Solenoid shootSolenoid = new Solenoid(RobotMap.modNumSolenoid, RobotMap.ShooterMap.shootSolenoid);
   private int ballsShot = 0;
@@ -128,7 +128,7 @@ public class Shooter extends SubsystemBase {
       ballsShot = ballsShot + 1;
     } else if (passedBallCurrent == true && shootMotorLeader.getOutputCurrent() < RobotMap.ShooterMap.ballCurrent-7) {
       passedBallCurrent = false;
-    } 
+    }
   }
 
   public void directVolts(double volts) {

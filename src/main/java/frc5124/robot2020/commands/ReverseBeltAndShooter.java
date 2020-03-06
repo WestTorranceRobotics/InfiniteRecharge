@@ -22,9 +22,6 @@ public class ReverseBeltAndShooter extends ParallelCommandGroup {
    * Creates a new ReverseBeltWithIntake.
    */
   public ReverseBeltAndShooter(Shooter shooter, Loader loader) {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
-    
     super(new ReverseShooter(shooter), new ReverseBelt(loader));
   }
 }

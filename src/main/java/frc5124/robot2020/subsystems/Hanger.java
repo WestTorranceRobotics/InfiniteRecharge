@@ -70,7 +70,6 @@ public class Hanger extends SubsystemBase {
     return bottomLimit.get();
   }
 
-
   public void setNoPower(){
     hangerMotor.set(RobotMap.HangerMap.hangerHalt);
     brakeOff.set(false);
