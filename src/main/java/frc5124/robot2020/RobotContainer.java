@@ -33,6 +33,7 @@ import frc5124.robot2020.commands.auto.ChangeCamera;
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
 import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.SixBallAutoNoShoot;
 import frc5124.robot2020.commands.auto.ThreeBallAuto;
 import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
 import frc5124.robot2020.commands.auto.runpos.*;
@@ -111,7 +112,7 @@ public class RobotContainer {
 
   private void configureButtonBindings(){
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
-    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader, intake));
+    operatorBack.whileHeld(new ReverseBeltWithIntakeAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
@@ -133,7 +134,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
 
     autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
-    autonomies.put("Trench Secondary", new SixBallAuto(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake));
     autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake));

@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc5124.robot2020.commands.intake.SetIntakePower;
 import frc5124.robot2020.commands.loader.ReverseBelt;
 import frc5124.robot2020.commands.shooter.ReverseShooter;
-import frc5124.robot2020.subsystems.Intake;
 import frc5124.robot2020.subsystems.Loader;
 import frc5124.robot2020.subsystems.Shooter;
 
@@ -22,10 +21,10 @@ public class ReverseBeltWithIntakeAndShooter extends ParallelCommandGroup {
   /**
    * Creates a new ReverseBeltWithIntake.
    */
-  public ReverseBeltWithIntakeAndShooter(Shooter shooter, Loader loader, Intake intake) {
+  public ReverseBeltWithIntakeAndShooter(Shooter shooter, Loader loader) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     
-    super(new ReverseShooter(shooter), new ReverseBelt(loader), new SetIntakePower(intake, -0.5));
+    super(new ReverseShooter(shooter), new ReverseBelt(loader));
   }
 }
