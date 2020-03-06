@@ -67,7 +67,9 @@ public class LED extends SubsystemBase {
 
   NetworkTableEntry ballsEntry = NetworkTableInstance.getDefault()
     .getTable("Shuffleboard").getSubTable("Driving Display").getEntry("Balls Intaked");
-  private long changeMillis = -1;
+  private double change = -1;
+  NetworkTableEntry intakeEntry = NetworkTableInstance.getDefault()
+    .getTable("Shuffleboard").getSubTable("Driving Display").getEntry("Intake Running?");
 
   @Override
   public void periodic() {
@@ -81,18 +83,19 @@ public class LED extends SubsystemBase {
       } else if (Math.abs(206.5 - dx) <= 10) {
         setLED(Color.lawnGreen);
       } else {
-        setLED(defaultColor);
+        setLED(intakeEntry.getBoolean(false) ? Color.yellow : defaultColor);
       }
     }
     int balls = (int) ballsEntry.getDouble(0);
     if (balls > lastBalls) {
+      // System.out.println("Ball added");
       setLED(Color.violet);
-      changeMillis = System.currentTimeMillis();
+      change = getTime();
     }
-    if (changeMillis != -1) {
-      if (System.currentTimeMillis() - changeMillis > 250) {
+    if (change != -1) {
+      if (getTime() - change > .250) {
         setLED(Color.yellow);
-        changeMillis = -1;
+        change = -1;
       } else {
         setLED(Color.violet);
       }
