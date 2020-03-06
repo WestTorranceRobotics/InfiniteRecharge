@@ -7,32 +7,39 @@
 
 package frc5124.robot2020.commands.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.subsystems.Shooter;
 
 
 public class ShootTuner extends CommandBase {
-  private Shooter m_shooter;
+  private Shooter shooter;
+  private double rpm = 0;
 
   /**
    * Creates a new setShootVelocity.
    */
   public ShootTuner (Shooter shooter) {
-    m_shooter = shooter;
-    addRequirements(m_shooter);
+    this.shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.startShooter(RobotMap.ShooterMap.lineShootRPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  m_shooter.updatePID();
+    rpm=SmartDashboard.getNumber("TargetRPM", 0);
+
+    double error = shooter.getVelocity() - rpm;
+    double comp = -1.2e-5 * Math.pow(error,3);
+    if (Math.abs(comp) > 0.2) {
+      comp = Math.signum(comp) * 2;
+    }
+    shooter.directVolts(0.147 + 0.0015538 * rpm );
   }
   // Returns true when the command should end.
     @Override
@@ -43,7 +50,7 @@ public class ShootTuner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.stopShooter();
+    shooter.stopShooter();
   }
   
 }

@@ -47,6 +47,8 @@ public class Shooter extends SubsystemBase {
     shootPID.setP(RobotMap.ShooterMap.Kp);
     shootPID.setFF(RobotMap.ShooterMap.Kf);
     shootPID.setReference(0, ControlType.kVelocity);
+    SmartDashboard.putNumber("TargetRPM", 0);
+    SmartDashboard.updateValues();
   }
 
   public boolean active() {
@@ -78,9 +80,9 @@ public class Shooter extends SubsystemBase {
   }
 
   public void updatePID() {
-    // shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
-    // shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
-    // shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
+    shootPID.setD(SmartDashboard.getNumber("DSHOOT", RobotMap.ShooterMap.Kd));
+    shootPID.setP(SmartDashboard.getNumber("PSHOOT", RobotMap.ShooterMap.Kp));
+    shootPID.setFF(SmartDashboard.getNumber("FSHOOT", RobotMap.ShooterMap.Kf));
   }
 
   /**
@@ -141,5 +143,7 @@ public class Shooter extends SubsystemBase {
     double angle = ty + RobotMap.limelightAngle;
     double tan = Math.tan(Math.toRadians(angle));
     double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
+    SmartDashboard.putNumber("Distance to Target", dx);
+    SmartDashboard.updateValues();
   }
 }
