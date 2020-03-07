@@ -9,6 +9,7 @@ package frc5124.robot2020.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc5124.robot2020.RobotMap;
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.shooter.ShootFromTrench;
 import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
@@ -25,8 +26,8 @@ public class ShootAimTrench extends ParallelDeadlineGroup {
   /**
    * Creates a new shootAim.
    */
-  public ShootAimTrench(Shooter shooter, Loader loader, Turret turret, LED led) {
+  public ShootAimTrench(Shooter shooter, Loader loader, Turret turret) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeByFF(shooter, loader, 4850, 3), new TurretTargetByPIDPerpetually(turret, led));
+    super(new ShootThreeByFF(shooter, loader, RobotMap.ShooterMap.trenchShootRPM, 3), new TurretTargetByPIDPerpetually(turret));
   }
 }

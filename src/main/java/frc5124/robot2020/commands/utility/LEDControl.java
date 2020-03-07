@@ -15,11 +15,11 @@ public class LEDControl extends CommandBase {
   private LED led;
   private double frequency;
   private int ledCount = 0;
-  Double[] colorIndex;
+  private double[] colorIndex;
   /**
    * Creates a new LEDControl.
    */
-  public LEDControl(LED led, Double[] colorIndex, double frequency) {
+  public LEDControl(LED led, double frequency, double... colorIndex) {
     this.led = led;
     this.colorIndex = colorIndex;    
     this.frequency = frequency;

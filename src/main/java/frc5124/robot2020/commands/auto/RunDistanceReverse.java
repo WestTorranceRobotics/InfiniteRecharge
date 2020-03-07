@@ -34,10 +34,13 @@ public class RunDistanceReverse extends CommandBase {
   public void initialize() {
     startingEncoderVal = m_DriveTrain.getLeftEncoderVal();
     isDone = false;
+    System.out.println("Reverse command beugn: starting value = " + startingEncoderVal + " & target = " + targetCounts);
   }
 
   public void driveStraightToPoint(){ 
     m_DriveTrain.tankDrive(-.75, -.75);
+    System.out.println("Encoder Value of reverse travel is " + m_DriveTrain.getLeftEncoderVal());
+    System.out.println("Delta is " + Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) + " out of " + targetCounts);
     if (Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) >= Math.abs(targetCounts)){
       m_DriveTrain.tankDrive(0, 0);
       isDone = true;
@@ -53,6 +56,7 @@ public class RunDistanceReverse extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Exiting reverse driving command");
     // SmartDashboard.putNumber("ended", 1);
   }
 

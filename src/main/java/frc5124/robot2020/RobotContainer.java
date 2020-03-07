@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc5124.robot2020.commands.*;
 
 import frc5124.robot2020.commands.auto.ChangeCamera;
-
+import frc5124.robot2020.commands.auto.NewDriveDistance;
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
 import frc5124.robot2020.commands.auto.SixBallTrench;
@@ -55,6 +55,7 @@ import frc5124.robot2020.commands.intake.*;
 import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
+import frc5124.robot2020.commands.utility.LEDControl;
 import frc5124.robot2020.commands.utility.LEDTimer;
 import frc5124.robot2020.subsystems.*;
 import frc5124.robot2020.subsystems.LED.Color;
@@ -125,19 +126,20 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings(){
-    operatorStart.whileHeld(new SetIntakePower(intake, -.6));
+    operatorStart.whileHeld(new SetIntakePower(intake, -1));
+    operatorStart.whileHeld(new ReverseBelt(loader));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorX.whenPressed(new InstantCommand(() -> led.setLED(Color.yellow)));
+    // operatorX.whileHeld(new LEDControl(led, 0.2, LED.Color.yellow));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret, led));
+    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
-    operatorRB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .2).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 4400).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
-    operatorLB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .2).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 5050).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
+    operatorRB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .3).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 4400).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
+    operatorLB.toggleWhenPressed(new SequentialCommandGroup(new ReversePriorToShoot(loader, .3).deadlineWith(new ReverseShooter(shooter)), new RPMbyFF(shooter, loader, 5050).deadlineWith(new SetIntakePower(intake, RobotMap.IntakeMap.motorPower))));
     operatorY.whileHeld(new RunLoader(loader));
     operatorUp.whileHeld(new LiftUp(hanger));
-    operatorUp.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.orange));
+    operatorUp.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.violet));
     operatorDown.whileHeld(new LiftDown(hanger));
     operatorDown.whileHeld(new LEDTimer(led, LED.Color.hotPink, LED.Color.violet));
 
@@ -150,12 +152,12 @@ public class RobotContainer {
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
 
-    autonomies.put("Trench Primary", new SixBallTrench(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Middle Primary", new ThreeBallMiddle(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Middle Secondary", new ThreeBallDriveInMiddle(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Opposing Trench Primary", new ThreeBallOpposite(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Opposing Trench Secondary", new ThreeBallDriveInOpposite(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Trench Primary", new SixBallTrench(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Primary", new ThreeBallMiddle(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Middle Secondary", new ThreeBallDriveInMiddle(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Primary", new ThreeBallOpposite(turret, loader, shooter, driveTrain, intake));
+    autonomies.put("Opposing Trench Secondary", new ThreeBallDriveInOpposite(turret, loader, shooter, driveTrain, intake));
     Command zeroTurret = new TurretZeroAndTurn(turret);
     autonomies.put("Trench Zero Turret", zeroTurret);
     autonomies.put("Middle Zero Turret", zeroTurret);
@@ -255,6 +257,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autonomies.get(autoNameSupplier.get());
+    return new SixBallTrench(turret, loader, shooter, driveTrain, intake);
+    // return new NewDriveDistance(driveTrain, 25, 1);
+    // return autonomies.get(autoNameSupplier.get());
   }
 }

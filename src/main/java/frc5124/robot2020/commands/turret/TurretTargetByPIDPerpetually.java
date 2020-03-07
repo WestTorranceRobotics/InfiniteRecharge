@@ -18,12 +18,10 @@ import frc5124.robot2020.RobotMap;
 
 public class TurretTargetByPIDPerpetually extends CommandBase {
   private Turret subsystem;
-  private LED led;
   /**
    * Creates a new TurretTargetByPIDPerpetually.
    */
-  public TurretTargetByPIDPerpetually(Turret subsystem, LED led) {
-    this.led = led;
+  public TurretTargetByPIDPerpetually(Turret subsystem) {
     this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -54,7 +52,6 @@ public class TurretTargetByPIDPerpetually extends CommandBase {
     NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
     subsystem.setBrake();
-    led.setLED(led.defaultColor);
   }
 
   // Returns true when the command should end.

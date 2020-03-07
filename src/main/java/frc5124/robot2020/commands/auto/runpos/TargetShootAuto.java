@@ -23,7 +23,7 @@ public class TargetShootAuto extends SequentialCommandGroup {
   /**
    * Creates a new TargetShootAuto.
    */
-  public TargetShootAuto(Shooter shooter, Loader loader, Turret turret, DriveTrain driveTrain, LED led) {
-    super(new Turn180(turret), new ShootAim(shooter, loader, turret, led), new DriveForTime(driveTrain, 2));
+  public TargetShootAuto(Shooter shooter, Loader loader, Turret turret, DriveTrain driveTrain) {
+    super(new Turn180(turret), new ShootAim(shooter, loader, turret), new DriveForTime(driveTrain, 2));
   }
 }

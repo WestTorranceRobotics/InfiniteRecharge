@@ -39,11 +39,14 @@ public class RunDistanceForward extends CommandBase {
     distanceToDrive = x; 
     targetCounts = countsPerInch * distanceToDrive;
     startingEncoderVal = m_DriveTrain.getLeftEncoderVal();
+    System.out.println("Forward command beugn: starting value = " + startingEncoderVal + " & target = " + targetCounts);
     dtPower = power;
   }
 
   public void driveStraightToPoint(){  // after it figures out the angle, it should just drive straight
-      m_DriveTrain.tankDrive(dtPower, dtPower);
+    m_DriveTrain.tankDrive(dtPower, dtPower);
+    System.out.println("Encoder Value of forward travel is " + m_DriveTrain.getLeftEncoderVal());
+    System.out.println("Delta is " + Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) + " out of " + targetCounts);
     if (Math.abs(m_DriveTrain.getLeftEncoderVal() - startingEncoderVal) >= Math.abs(targetCounts)){
       m_DriveTrain.tankDrive(0, 0);
       isDone = true;
@@ -59,6 +62,7 @@ public class RunDistanceForward extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Exiting forward driving command");
   }
 
   // Returns true when the command should end.

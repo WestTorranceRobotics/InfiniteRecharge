@@ -28,17 +28,18 @@ public class SixBallTrench extends SequentialCommandGroup {
   /**
    * Creates a new SixBallAuto.
    */
-  public SixBallTrench(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
+  public SixBallTrench(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new InstantCommand(() -> intake.setDeployed(true), intake),
       new TurretFindHome(turret),
       new Turn180(turret),
-      new ShootAim(shooter, loader, turret, led),
+      new ShootAim(shooter, loader, turret),
       new DriveAndIntake(165, .45, driveTrain, intake, loader),
       new RunDistanceReverse(driveTrain, 72),
-      new ShootAimTrench(shooter, loader, turret, led)
+      // new NewDriveDistance(driveTrain, -72, -1),
+      new ShootAimTrench(shooter, loader, turret)
     );
   }
 

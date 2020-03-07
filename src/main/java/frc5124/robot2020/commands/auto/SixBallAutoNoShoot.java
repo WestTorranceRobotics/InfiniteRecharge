@@ -28,14 +28,14 @@ public class SixBallAutoNoShoot extends SequentialCommandGroup {
   /**
    * Creates a new SixBallAutoNoShoot.
    */
-  public SixBallAutoNoShoot(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
+  public SixBallAutoNoShoot(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new InstantCommand(() -> intake.setDeployed(true), intake),
       new TurretFindHome(turret),
       new Turn180(turret),
-      new ShootAim(shooter, loader, turret, led),
+      new ShootAim(shooter, loader, turret),
       new DriveAndIntake(165, .5, driveTrain, intake, loader),
       new RunDistanceReverse(driveTrain, 80)
     );

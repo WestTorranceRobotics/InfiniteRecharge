@@ -28,14 +28,14 @@ public class ThreeBallDriveInOpposite extends SequentialCommandGroup {
   /**
    * Creates a new ThreeBallAutoDriveIn.
    */
-  public ThreeBallDriveInOpposite(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
+  public ThreeBallDriveInOpposite(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new ToggleIntakePivot(intake),
       new TurretFindHome(turret),
       new TurnTurret(turret, 230),
-      new ShootAim(shooter, loader, turret, led),
+      new ShootAim(shooter, loader, turret),
       new RunDistanceReverse(driveTrain, 30)
     );
   }

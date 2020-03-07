@@ -49,7 +49,7 @@ public class RobotMap {
         public static final double Kd = 0;
         public static final double Kf = 0.000080;
         public static final double lineShootRPM = 4400; 
-        public static final double trenchShootRPM = 5300; 
+        public static final double trenchShootRPM = 6000; 
         public static final double midTrenchShootRPM = 7150;
         public static final double maxShootRPM = 7300;
         public static final int smartCurrentLimit = 20;

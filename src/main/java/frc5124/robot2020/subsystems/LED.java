@@ -77,7 +77,7 @@ public class LED extends SubsystemBase {
       double angle = ty + RobotMap.limelightAngle;
       double tan = Math.tan(Math.toRadians(angle));
       double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
-      if (!isTiming()) {
+      // if (!isTiming()) {
       if (Math.abs(120 - dx) <= 10) {
         setLED(Color.lime);
       } else if (Math.abs(206.5 - dx) <= 10) {
@@ -89,7 +89,7 @@ public class LED extends SubsystemBase {
           setLED(defaultColor);
         }
       }
-    }
+    // }
     int balls = (int) ballsEntry.getDouble(0);
     if (balls > lastBalls) {
       setLED(Color.violet);
@@ -103,7 +103,7 @@ public class LED extends SubsystemBase {
         setLED(Color.violet);
       }
     }
-    lastBalls = balls;
+   lastBalls = balls;
 
   }
 
