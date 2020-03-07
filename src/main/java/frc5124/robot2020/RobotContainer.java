@@ -7,6 +7,7 @@
 
 package frc5124.robot2020;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -35,10 +36,13 @@ import frc5124.robot2020.commands.auto.ChangeCamera;
 
 import frc5124.robot2020.commands.auto.ShootThreeBalls;
 import frc5124.robot2020.commands.auto.RunDistanceForward;
-import frc5124.robot2020.commands.auto.SixBallAuto;
+import frc5124.robot2020.commands.auto.SixBallTrench;
 import frc5124.robot2020.commands.auto.SixBallAutoNoShoot;
-import frc5124.robot2020.commands.auto.ThreeBallAuto;
-import frc5124.robot2020.commands.auto.ThreeBallAutoDriveIn;
+import frc5124.robot2020.commands.auto.ThreeBallMiddle;
+import frc5124.robot2020.commands.auto.ThreeBallOpposite;
+import frc5124.robot2020.commands.auto.ThreeBallDriveInMiddle;
+import frc5124.robot2020.commands.auto.ThreeBallDriveInOpposite;
+import frc5124.robot2020.commands.auto.ThreeBallMiddle;
 import frc5124.robot2020.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -146,12 +150,12 @@ public class RobotContainer {
   private void configureDefaultCommands(){
     driveTrain.setDefaultCommand(new JoystickTankDrive(driverLeft, driverRight, driveTrain));
 
-    autonomies.put("Trench Primary", new SixBallAuto(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Trench Primary", new SixBallTrench(turret, loader, shooter, driveTrain, intake, led));
     autonomies.put("Trench Secondary", new SixBallAutoNoShoot(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Middle Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Middle Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Opposing Trench Primary", new ThreeBallAuto(turret, loader, shooter, driveTrain, intake, led));
-    autonomies.put("Opposing Trench Secondary", new ThreeBallAutoDriveIn(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Middle Primary", new ThreeBallMiddle(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Middle Secondary", new ThreeBallDriveInMiddle(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Opposing Trench Primary", new ThreeBallOpposite(turret, loader, shooter, driveTrain, intake, led));
+    autonomies.put("Opposing Trench Secondary", new ThreeBallDriveInOpposite(turret, loader, shooter, driveTrain, intake, led));
     Command zeroTurret = new TurretZeroAndTurn(turret);
     autonomies.put("Trench Zero Turret", zeroTurret);
     autonomies.put("Middle Zero Turret", zeroTurret);
@@ -159,6 +163,7 @@ public class RobotContainer {
   }
 
   private void configureShuffleboard() {
+    CameraServer.getInstance().startAutomaticCapture();
     display = Shuffleboard.getTab("Driving Display");
     Shuffleboard.selectTab(display.getTitle());
 

@@ -7,6 +7,7 @@
 
 package frc5124.robot2020.commands.auto;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc5124.robot2020.commands.auto.runpos.ShootAim;
 import frc5124.robot2020.commands.auto.runpos.Turn180;
@@ -23,19 +24,21 @@ import frc5124.robot2020.subsystems.LED;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ThreeBallAuto extends SequentialCommandGroup {
+public class SixBallTrench extends SequentialCommandGroup {
   /**
-   * Creates a new ThreeBallAuto.
+   * Creates a new SixBallAuto.
    */
-  public ThreeBallAuto(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
+  public SixBallTrench(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new ToggleIntakePivot(intake),
+      new InstantCommand(() -> intake.setDeployed(true), intake),
       new TurretFindHome(turret),
       new Turn180(turret),
       new ShootAim(shooter, loader, turret, led),
-      new RunDistanceForward(driveTrain, 30, .5)
+      new DriveAndIntake(165, .45, driveTrain, intake, loader),
+      new RunDistanceReverse(driveTrain, 72),
+      new ShootAimTrench(shooter, loader, turret, led)
     );
   }
 

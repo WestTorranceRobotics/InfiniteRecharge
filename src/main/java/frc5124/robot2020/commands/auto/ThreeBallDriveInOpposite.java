@@ -7,10 +7,10 @@
 
 package frc5124.robot2020.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc5124.robot2020.commands.auto.runpos.ShootAim;
 import frc5124.robot2020.commands.auto.runpos.Turn180;
+import frc5124.robot2020.commands.auto.runpos.TurnTurret;
 import frc5124.robot2020.commands.intake.ToggleIntakePivot;
 import frc5124.robot2020.commands.turret.TurretFindHome;
 import frc5124.robot2020.commands.turret.TurretZeroPosition;
@@ -24,21 +24,19 @@ import frc5124.robot2020.subsystems.LED;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class SixBallAuto extends SequentialCommandGroup {
+public class ThreeBallDriveInOpposite extends SequentialCommandGroup {
   /**
-   * Creates a new SixBallAuto.
+   * Creates a new ThreeBallAutoDriveIn.
    */
-  public SixBallAuto(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
+  public ThreeBallDriveInOpposite(Turret turret, Loader loader, Shooter shooter, DriveTrain driveTrain, Intake intake, LED led) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new InstantCommand(() -> intake.setDeployed(true), intake),
+      new ToggleIntakePivot(intake),
       new TurretFindHome(turret),
-      new Turn180(turret),
+      new TurnTurret(turret, 230),
       new ShootAim(shooter, loader, turret, led),
-      new DriveAndIntake(165, .45, driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 72),
-      new ShootAimTrench(shooter, loader, turret, led)
+      new RunDistanceReverse(driveTrain, 30)
     );
   }
 

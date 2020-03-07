@@ -60,15 +60,15 @@ public class RobotMap {
     }
 
     public static class IntakeMap {
-        public static final double motorPower = .75;
+        public static final double motorPower = .6;
         public static final double flushOutSpeed = -1;
         public static final int rollerCanId = 14; //14
         public static final int intakeSolenoid = 1;
     }
 
     public static class HangerMap {
-        public static final double hangerMotorUp = 0.5;   
-        public static final double hangerMotorDown = -0.5;
+        public static final double hangerMotorUp = 1;   
+        public static final double hangerMotorDown = -1;
         public static final double hangerHalt = 0.0;
         public static final int hangerCanID = 10;
         public static final int hangerSolenoid = 2;
