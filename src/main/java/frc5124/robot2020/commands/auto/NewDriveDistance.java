@@ -36,11 +36,12 @@ public class NewDriveDistance extends CommandBase {
   }
 
   private boolean targetUnreached() {
+    System.out.println(getAvgDistanceLocation() + " " + target);
     if (distance > 0) {
       return getAvgDistanceLocation() < target;
     }
     if (distance < 0) {
-      return getAvgDistanceLocation() < target;
+      return getAvgDistanceLocation() > target;
     }
     return false;
   }

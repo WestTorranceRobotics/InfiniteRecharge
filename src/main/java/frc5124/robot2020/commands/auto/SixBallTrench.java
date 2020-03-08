@@ -37,8 +37,8 @@ public class SixBallTrench extends SequentialCommandGroup {
       new Turn180(turret),
       new ShootAim(shooter, loader, turret),
       new DriveAndIntake(165, .45, driveTrain, intake, loader),
-      new RunDistanceReverse(driveTrain, 72),
-      // new NewDriveDistance(driveTrain, -72, -1),
+      // new RunDistanceReverse(driveTrain, 72),
+      new NewDriveDistance(driveTrain, -72, -1),
       new ShootAimTrench(shooter, loader, turret)
     );
   }

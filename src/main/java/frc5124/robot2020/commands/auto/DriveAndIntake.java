@@ -26,8 +26,8 @@ public class DriveAndIntake extends ParallelDeadlineGroup {
   public DriveAndIntake(double inchesDriven, double power, DriveTrain driveTrain, Intake intake, Loader loader) {
     // Add your commands in the super() call.  Add the deadline first.
     super(
-        new RunDistanceForward(driveTrain, inchesDriven, power),
-        // new NewDriveDistance(driveTrain, inchesDriven, power),
+        // new RunDistanceForward(driveTrain, inchesDriven, power),
+        new NewDriveDistance(driveTrain, inchesDriven, power),
         new SetIntakePower(intake, 1),
         new SeeBallRunBelt(loader)
     );

@@ -130,7 +130,7 @@ public class RobotContainer {
     operatorStart.whileHeld(new ReverseBelt(loader));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    // operatorX.whileHeld(new LEDControl(led, 0.2, LED.Color.yellow));
+    // operatorX.whileHeld(new LEDTimer(led, LED.Color.yellow, LED.Color.yellow));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
     operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
     operatorRight.whileHeld(new RotateTurret(turret, false));

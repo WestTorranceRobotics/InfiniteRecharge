@@ -74,37 +74,36 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-      double angle = ty + RobotMap.limelightAngle;
-      double tan = Math.tan(Math.toRadians(angle));
-      double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
-      // if (!isTiming()) {
-      if (Math.abs(120 - dx) <= 10) {
+    double angle = ty + RobotMap.limelightAngle;
+    double tan = Math.tan(Math.toRadians(angle));
+    double dx = (RobotMap.targetHeight - RobotMap.limelightHeight) / tan;
+    if (!isTiming()) {
+      if (Math.abs(120 - dx) <= 15) {
         setLED(Color.lime);
-      } else if (Math.abs(206.5 - dx) <= 10) {
+      } else if (Math.abs(206.5 - dx) <= 15) {
         setLED(Color.lawnGreen);
       } else {
-        if (intakeEntry.getBoolean(false)) {
+        if (intakeEntry.getBoolean(false)) {    
           setLED(Color.yellow);
         } else {
           setLED(defaultColor);
         }
       }
-    // }
-    int balls = (int) ballsEntry.getDouble(0);
-    if (balls > lastBalls) {
-      setLED(Color.violet);
-      changeMillis = System.currentTimeMillis();
-    }
-    if (changeMillis != -1) {
-      if (System.currentTimeMillis() - changeMillis > 250) {
-        setLED(Color.yellow);
-        changeMillis = -1;
-      } else {
+      int balls = (int) ballsEntry.getDouble(0);
+      if (balls > lastBalls) {
         setLED(Color.violet);
+        changeMillis = System.currentTimeMillis();
       }
+      if (changeMillis != -1) {
+        if (System.currentTimeMillis() - changeMillis > 250) {
+          setLED(Color.yellow);
+          changeMillis = -1;
+        } else {
+          setLED(Color.violet);
+        }
+      }
+      lastBalls = balls;
     }
-   lastBalls = balls;
-
   }
 
   public class Color extends LED {

@@ -48,7 +48,7 @@ public class DriveTrain extends SubsystemBase {
     private ShuffleboardTab debuggingTab;
     
     private double INCHES_PER_TICK = (18.0f/28.0f) * (10.0f/64.0f) * 6.0f * Math.PI * (1.0f/2048.0f);
-    public double TICKS_PER_INCH = 40 * (1.0/(Math.PI * 6.0) * 2048.0 * (64.0/10.0) * (28.0/18.0));
+    public double TICKS_PER_INCH = 1 / INCHES_PER_TICK;
 
     public DriveTrain() {
 

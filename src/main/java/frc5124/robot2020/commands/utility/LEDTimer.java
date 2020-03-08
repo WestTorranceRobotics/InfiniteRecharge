@@ -57,7 +57,7 @@ public class LEDTimer extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     led.isTiming(false);
-    led.setLED(led.defaultColor);
+    // led.setLED(led.defaultColor);
   }
 
   // Returns true when the command should end.
