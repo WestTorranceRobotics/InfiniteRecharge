@@ -12,6 +12,14 @@ import frc5124.robot2020.subsystems.DriveTrain;
 
 public class NewDriveDistance extends CommandBase {
 
+  //constants Brennan is coding in
+  private final double anglekP = 0.01;
+  private double startAngle;
+  private double currentAngle;
+  private double currentError;
+  private double adjustingSpeed;
+  //end of Brennan's constants
+
   private double distance;
   private double power;
   private DriveTrain drive;
@@ -48,6 +56,10 @@ public class NewDriveDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    //line Brennan coded
+    startAngle = drive.getGryoDegree();
+
     target = getAvgDistanceLocation() + distance;
     finished = false;
   }
@@ -55,12 +67,25 @@ public class NewDriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    //with Brennan's change
+    currentAngle = drive.getGryoDegree();
+    currentError = startAngle - currentAngle;
+    adjustingSpeed = currentError * anglekP;
     if (targetUnreached()) {
-      drive.tankDrive(power, power);
+      drive.tankDrive(power + adjustingSpeed, power - adjustingSpeed);
     } else {
       finished = true;
       drive.tankDrive(0, 0);
     }
+
+    //original
+    // if (targetUnreached()) {
+    //   drive.tankDrive(power, power);
+    // } else {
+    //   finished = true;
+    //   drive.tankDrive(0, 0);
+    // }
   }
 
   // Called once the command ends or is interrupted.
