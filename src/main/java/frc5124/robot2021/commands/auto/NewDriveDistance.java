@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto;
+package frc5124.robot2021.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2021.subsystems.DriveTrain;
 
 public class NewDriveDistance extends CommandBase {
 

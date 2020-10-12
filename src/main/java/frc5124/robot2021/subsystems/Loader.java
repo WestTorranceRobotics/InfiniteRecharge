@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.subsystems;
+package frc5124.robot2021.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc5124.robot2020.RobotMap;
+import frc5124.robot2021.RobotMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.EncoderType;

@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.subsystems;
+package frc5124.robot2021.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.RobotMap;
-import frc5124.robot2020.commands.turret.TurretFindHome;
+import frc5124.robot2021.RobotMap;
+import frc5124.robot2021.commands.turret.TurretFindHome;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -123,6 +123,7 @@ public class Shooter extends SubsystemBase {
   /**
    * @deprecated Unreliable with higher loader speeds at the present
    */
+  @Deprecated
   public void currentWatch(double targetRPM) {
     if (shootMotorLeader.getOutputCurrent() >= RobotMap.ShooterMap.ballCurrent && passedBallCurrent == false) {
       passedBallCurrent = true;

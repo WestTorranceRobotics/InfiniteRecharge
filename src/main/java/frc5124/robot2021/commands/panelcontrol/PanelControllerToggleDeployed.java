@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.panelcontrol;
+package frc5124.robot2021.commands.panelcontrol;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc5124.robot2020.subsystems.PanelController;
+import frc5124.robot2021.subsystems.PanelController;
 
 public class PanelControllerToggleDeployed extends InstantCommand {
 

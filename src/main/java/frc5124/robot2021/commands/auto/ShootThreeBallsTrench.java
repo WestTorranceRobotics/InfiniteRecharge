@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto;
+package frc5124.robot2021.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Shooter;
-import frc5124.robot2020.RobotMap;
-import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2021.subsystems.Shooter;
+import frc5124.robot2021.RobotMap;
+import frc5124.robot2021.subsystems.Loader;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class ShootThreeBallsTrench extends CommandBase {

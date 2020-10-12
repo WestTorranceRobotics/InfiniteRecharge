@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto;
+package frc5124.robot2021.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc5124.robot2020.RobotMap;
-import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.SeeBallRunBelt;
-import frc5124.robot2020.subsystems.DriveTrain;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
+import frc5124.robot2021.RobotMap;
+import frc5124.robot2021.commands.intake.SetIntakePower;
+import frc5124.robot2021.commands.loader.SeeBallRunBelt;
+import frc5124.robot2021.subsystems.DriveTrain;
+import frc5124.robot2021.subsystems.Intake;
+import frc5124.robot2021.subsystems.Loader;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

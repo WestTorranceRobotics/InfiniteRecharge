@@ -5,10 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.intake;
+package frc5124.robot2021.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
+import frc5124.robot2021.subsystems.Intake;
 
 public class SetIntakePower extends CommandBase {
   private Intake intake;

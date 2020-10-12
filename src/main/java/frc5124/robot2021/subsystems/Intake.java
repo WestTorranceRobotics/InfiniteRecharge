@@ -1,5 +1,5 @@
-package frc5124.robot2020.subsystems;
-import frc5124.robot2020.RobotMap;
+package frc5124.robot2021.subsystems;
+import frc5124.robot2021.RobotMap;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.revrobotics.CANSparkMax;

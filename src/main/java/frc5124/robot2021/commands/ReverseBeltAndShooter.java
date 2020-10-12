@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands;
+package frc5124.robot2021.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc5124.robot2020.commands.intake.SetIntakePower;
-import frc5124.robot2020.commands.loader.ReverseBelt;
-import frc5124.robot2020.commands.shooter.ReverseShooter;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2021.commands.intake.SetIntakePower;
+import frc5124.robot2021.commands.loader.ReverseBelt;
+import frc5124.robot2021.commands.shooter.ReverseShooter;
+import frc5124.robot2021.subsystems.Loader;
+import frc5124.robot2021.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

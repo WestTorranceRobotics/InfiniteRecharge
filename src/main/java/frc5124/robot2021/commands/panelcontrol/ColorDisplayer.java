@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.panelcontrol;
+package frc5124.robot2021.commands.panelcontrol;
 
 import java.util.Set;
 import java.util.function.Consumer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc5124.robot2020.subsystems.PanelController;
-//import frc5124.robot2020.subsystems.PanelController.OutputColor;
+import frc5124.robot2021.subsystems.PanelController;
+//import frc5124.robot2021.subsystems.PanelController.OutputColor;
 
 public class ColorDisplayer implements Command {
 

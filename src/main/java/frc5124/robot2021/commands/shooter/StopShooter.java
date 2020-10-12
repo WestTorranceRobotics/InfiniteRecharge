@@ -5,12 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.shooter;
+package frc5124.robot2021.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.Intake;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
+import frc5124.robot2021.subsystems.Intake;
+import frc5124.robot2021.subsystems.Loader;
+import frc5124.robot2021.subsystems.Shooter;
 
 public class StopShooter extends CommandBase {
   private Shooter m_shooter;

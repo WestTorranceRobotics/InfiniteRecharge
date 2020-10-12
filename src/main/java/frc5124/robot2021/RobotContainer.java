@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020;
+package frc5124.robot2021;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -30,35 +30,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc5124.robot2020.commands.*;
+import frc5124.robot2021.commands.*;
 
-import frc5124.robot2020.commands.auto.ChangeCamera;
-import frc5124.robot2020.commands.auto.NewDriveDistance;
-import frc5124.robot2020.commands.auto.ShootThreeBalls;
-import frc5124.robot2020.commands.auto.RunDistanceForward;
-import frc5124.robot2020.commands.auto.SixBallTrench;
-import frc5124.robot2020.commands.auto.SixBallAutoNoShoot;
-import frc5124.robot2020.commands.auto.ThreeBallMiddle;
-import frc5124.robot2020.commands.auto.ThreeBallOpposite;
-import frc5124.robot2020.commands.auto.ThreeBallDriveInMiddle;
-import frc5124.robot2020.commands.auto.ThreeBallDriveInOpposite;
-import frc5124.robot2020.commands.auto.ThreeBallMiddle;
-import frc5124.robot2020.commands.auto.runpos.*;
+import frc5124.robot2021.commands.auto.ChangeCamera;
+import frc5124.robot2021.commands.auto.NewDriveDistance;
+import frc5124.robot2021.commands.auto.ShootThreeBalls;
+import frc5124.robot2021.commands.auto.RunDistanceForward;
+import frc5124.robot2021.commands.auto.SixBallTrench;
+import frc5124.robot2021.commands.auto.SixBallAutoNoShoot;
+import frc5124.robot2021.commands.auto.ThreeBallMiddle;
+import frc5124.robot2021.commands.auto.ThreeBallOpposite;
+import frc5124.robot2021.commands.auto.ThreeBallDriveInMiddle;
+import frc5124.robot2021.commands.auto.ThreeBallDriveInOpposite;
+import frc5124.robot2021.commands.auto.ThreeBallMiddle;
+import frc5124.robot2021.commands.auto.runpos.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc5124.robot2020.commands.driveTrain.*;
-import frc5124.robot2020.commands.hanger.LiftDown;
-import frc5124.robot2020.commands.hanger.LiftUp;
-import frc5124.robot2020.commands.intake.*;
-import frc5124.robot2020.commands.loader.*;
-import frc5124.robot2020.commands.shooter.*;
-import frc5124.robot2020.commands.turret.*;
-import frc5124.robot2020.commands.utility.LEDControl;
-import frc5124.robot2020.commands.utility.LEDTimer;
-import frc5124.robot2020.subsystems.*;
-import frc5124.robot2020.subsystems.LED.Color;
+import frc5124.robot2021.commands.driveTrain.*;
+import frc5124.robot2021.commands.hanger.LiftDown;
+import frc5124.robot2021.commands.hanger.LiftUp;
+import frc5124.robot2021.commands.intake.*;
+import frc5124.robot2021.commands.loader.*;
+import frc5124.robot2021.commands.shooter.*;
+import frc5124.robot2021.commands.turret.*;
+import frc5124.robot2021.commands.utility.LEDControl;
+import frc5124.robot2021.commands.utility.LEDTimer;
+import frc5124.robot2021.subsystems.*;
+import frc5124.robot2021.subsystems.LED.Color;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a

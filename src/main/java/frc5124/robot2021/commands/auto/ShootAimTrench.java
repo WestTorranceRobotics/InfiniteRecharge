@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.commands.auto;
+package frc5124.robot2021.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc5124.robot2020.RobotMap;
-import frc5124.robot2020.commands.auto.ShootThreeBalls;
-import frc5124.robot2020.commands.shooter.ShootFromTrench;
-import frc5124.robot2020.commands.turret.TurretTargetByPIDPerpetually;
-import frc5124.robot2020.subsystems.Turret;
-import frc5124.robot2020.subsystems.Loader;
-import frc5124.robot2020.subsystems.Shooter;
-import frc5124.robot2020.subsystems.LED;
+import frc5124.robot2021.RobotMap;
+import frc5124.robot2021.commands.auto.ShootThreeBalls;
+import frc5124.robot2021.commands.shooter.ShootFromTrench;
+import frc5124.robot2021.commands.turret.TurretTargetByPIDPerpetually;
+import frc5124.robot2021.subsystems.Turret;
+import frc5124.robot2021.subsystems.Loader;
+import frc5124.robot2021.subsystems.Shooter;
+import frc5124.robot2021.subsystems.LED;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

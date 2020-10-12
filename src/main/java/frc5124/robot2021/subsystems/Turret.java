@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc5124.robot2020.subsystems;
+package frc5124.robot2021.subsystems;
 
-import frc5124.robot2020.RobotMap;
+import frc5124.robot2021.RobotMap;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
