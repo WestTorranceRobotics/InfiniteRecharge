@@ -9,8 +9,8 @@ package frc5124.robot2020.commands.driveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc5124.robot2020.subsystems.DriveTrain;
-import frc5124.robot2020.commands.auto.ChangeCamera;;
+import frc5124.robot2020.commands.auto.ChangeCamera;
+import frc5124.robot2020.subsystems.DriveTrain;;
 
 public class JoystickTankDrive extends CommandBase {
 

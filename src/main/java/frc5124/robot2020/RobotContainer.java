@@ -17,6 +17,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.GyroBase;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -48,7 +49,7 @@ import frc5124.robot2020.commands.loader.*;
 import frc5124.robot2020.commands.shooter.*;
 import frc5124.robot2020.commands.turret.*;
 import frc5124.robot2020.subsystems.*;
-
+import frc5124.robot2020.SimTable;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
   * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -60,7 +61,7 @@ public class RobotContainer {
   
   private Intake intake;
   private Hanger hanger;
-  private DriveTrain driveTrain;
+  public DriveTrain driveTrain;
   private Shooter shooter; 
   private Turret turret;
   private Loader loader;
@@ -95,11 +96,15 @@ public class RobotContainer {
   private Supplier<String> autoNameSupplier;
   private HashMap<String, Command> autonomies = new HashMap<>();
 
+  private SimTable simTable;
+
   public RobotContainer() {
     configureSubsystems();
     configureButtonBindings();
     configureShuffleboard();
     configureDefaultCommands();
+    simTable = new SimTable(this);
+    simTable.start();
   }
 
   private void configureSubsystems() {
@@ -219,6 +224,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autonomies.get(autoNameSupplier.get());
+    //return autonomies.get(autoNameSupplier.get());
+    return new DriveForTime(driveTrain, 10);
   }
 }

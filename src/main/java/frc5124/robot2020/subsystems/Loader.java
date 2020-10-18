@@ -95,7 +95,6 @@ public class Loader extends SubsystemBase {
     return ballIntaked;
   }
 
-  //This was here when I started so I left it that way.
   @Override
   public void periodic() {    
   }

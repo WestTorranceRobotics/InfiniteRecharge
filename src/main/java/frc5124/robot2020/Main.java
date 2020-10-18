@@ -1,5 +1,6 @@
 package frc5124.robot2020;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Watchdog;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all.
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Main {
   private Main() {
+  
   }
 
   /**
