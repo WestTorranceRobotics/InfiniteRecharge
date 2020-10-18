@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.net.InetAddress;
 
 
@@ -42,9 +43,8 @@ public class SimTable extends Thread {
             return;
           }
 
-          testEntry.setDouble(robotContainer.driveTrain.rightLeader.get());
-          
-          
+          entryRightLeaderPower.setDouble(robotContainer.driveTrain.rightLeader.get());
+          entryLeftLeaderPower.setDouble(robotContainer.driveTrain.leftLeader.get());
         }
       }
 }
@@ -78,7 +78,11 @@ class SimSocket extends Thread
         }
 
         NetworkTable table = simTable.getTable("SimTable");
-        NetworkTableEntry testEntry = table.getEntry("x");
+        NetworkTableEntry entryRightLeaderPower = table.getEntry("RightLeaderPower");
+        NetworkTableEntry entryLeftLeaderPower = table.getEntry("LeftLeaderPower");
+
+        double[] outbound = {entryRightLeaderPower.getDouble(99), entryLeftLeaderPower.getDouble(99)};
+        String outboundString = Arrays.toString(outbound);
 
         Runtime.getRuntime().addShutdownHook(new Thread() { public void run(){ try { 
             socket.close();
@@ -109,11 +113,11 @@ class SimSocket extends Thread
             inputStream.read(receivedBytes, 0, len);
             String received = new String(receivedBytes, 0, len);
     
-            System.out.print("\n\n RECIEVED " + received + "\n\n");
+            System.out.print("\n\nEcho: " + received + "\n\n");
             
 
             // Out
-            String toSend = "Echo: NO   " + received;
+            String toSend = outboundString;
             byte[] toSendBytes = toSend.getBytes();
             int toSendLen = toSendBytes.length;
             byte[] toSendLenBytes = new byte[4];
