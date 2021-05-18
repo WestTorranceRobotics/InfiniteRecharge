@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -65,12 +66,16 @@ public class DriveTrain extends SubsystemBase {
         leftLeader.setNeutralMode(NeutralMode.Brake);
         leftFollower.setNeutralMode(NeutralMode.Coast);
 
-        leftLeader.setInverted(true);
-        
+        leftLeader.setInverted(true);        
         rightLeader.setInverted(false);
 
         leftFollower.setInverted(InvertType.FollowMaster);
         rightFollower.setInverted(InvertType.FollowMaster); 
+        boolean currentLim = false;
+        leftLeader.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(currentLim, 20, 30, 0.2));
+        leftFollower.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(currentLim, 20, 30, 0.2));
+        rightLeader.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(currentLim, 20, 30, 0.2));
+        rightFollower.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(currentLim, 20, 30, 0.2));
 
         gyro = new AHRS(SPI.Port.kMXP);
         
@@ -84,6 +89,7 @@ public class DriveTrain extends SubsystemBase {
         last = gyro.getPitch();
         odometry = new DifferentialDriveOdometry(getGyro());
         resetOdometry();
+
     }
 
     @Override

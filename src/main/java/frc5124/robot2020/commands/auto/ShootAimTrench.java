@@ -28,6 +28,6 @@ public class ShootAimTrench extends ParallelDeadlineGroup {
    */
   public ShootAimTrench(Shooter shooter, Loader loader, Turret turret) {
     // Add your commands in the super() call.  Add the deadline first.
-    super(new ShootThreeByFF(shooter, loader, RobotMap.ShooterMap.trenchShootRPM, 3), new TurretTargetByPIDPerpetually(turret));
+    super(new ShootThreeByFF(shooter, loader, 4850, 3), new TurretTargetByPIDPerpetually(turret));
   }
 }

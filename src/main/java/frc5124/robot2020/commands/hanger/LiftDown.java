@@ -25,7 +25,7 @@ public class LiftDown extends CommandBase {
     public void execute() { 
         if ((m_hanger.getPosition() <= RobotMap.HangerMap.lowerLimit)) {
             m_hanger.setNoPower();
-          } 
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

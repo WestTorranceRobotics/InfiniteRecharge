@@ -13,12 +13,15 @@ import frc5124.robot2020.subsystems.DriveTrain;
 public class NewDriveDistance extends CommandBase {
 
   //constants Brennan is coding in
-  private final double anglekP = 0.01;
+  private final double anglekP = 0;
   private double startAngle;
   private double currentAngle;
   private double currentError;
   private double adjustingSpeed;
   //end of Brennan's constants
+  // Brennan's inital kP choice is 0.01
+  // Code can be turned off by kP = 0.01
+  // Empirical kP of WTR2020 dt =
 
   private double distance;
   private double power;

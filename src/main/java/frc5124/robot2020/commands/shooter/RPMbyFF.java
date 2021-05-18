@@ -46,9 +46,9 @@ public class RPMbyFF extends CommandBase {
     }
     shooter.directVolts(0.147 + 0.0015538 * rpm );
     
-    if (shooter.atSpeed()) {
-      shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
-    }
+    // if (shooter.atSpeed()) {
+    //   shooter.currentWatch(RobotMap.ShooterMap.lineShootRPM);
+    // }
     if (shooter.getVelocity() >= rpm-50 && loader.getAppliedOutput() == 0) {
       loader.runBelt(RobotMap.LoaderMap.runLoaderSpeed);
       shooter.atSpeed(true);

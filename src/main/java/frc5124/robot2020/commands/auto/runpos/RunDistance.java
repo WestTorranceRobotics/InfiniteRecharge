@@ -243,6 +243,7 @@ rightLeader.configAuxPIDPolarity(false, kTimeoutMs);
       rightLeader.set(ControlMode.Position, targetDistance, DemandType.AuxPID, targetAngle);
      
       leftLeader.follow(rightLeader, FollowerType.AuxOutput1);
+
   }
 
   // Called once the command ends or is interrupted.
