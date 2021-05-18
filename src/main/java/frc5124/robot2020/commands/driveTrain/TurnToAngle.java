@@ -11,6 +11,7 @@ public class TurnToAngle extends CommandBase {
   private DriveTrain subsystem;
   float Kp = -0.1f;
   float min_command = 0.15f;
+  boolean isDone = false;
   
   /** Creates a new TurnToAngle. */
   public TurnToAngle(DriveTrain subsystem) {
@@ -28,10 +29,7 @@ public class TurnToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double tx = 
-      NetworkTableInstance.getDefault().getTable("limelight")
-      .getEntry("tx").getDouble(0);
-      // float heading_error = tx;
+      double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
       float steering_adjust = 0.0f;
       if (tx > 1.0) {
         steering_adjust = (tx / 20) * -min_command;
@@ -39,8 +37,10 @@ public class TurnToAngle extends CommandBase {
       else if (tx < 1.0) {
         steering_adjust = (tx / 20) *  min_command;
       }
+      else {
+        isDone = true;
+      }
       subsystem.tankDrive(steering_adjust, -steering_adjust);
-  // SmartDashboard.putNumber("Deg", subsystem.getDegrees());
   }
 
   // Called once the command ends or is interrupted.
@@ -48,13 +48,13 @@ public class TurnToAngle extends CommandBase {
   public void end(boolean interrupted) {
     NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
-    //subsystem.setTurretDegrees(0);
-   // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setDouble(1.0);
+
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }
