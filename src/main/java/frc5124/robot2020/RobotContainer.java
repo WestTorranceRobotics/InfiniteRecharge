@@ -116,7 +116,7 @@ public class RobotContainer {
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
     operatorA.whenPressed(new ToggleIntakePivot(intake));
-    operatorB.toggleWhenPressed(new TurretTargetByPIDPerpetually(turret));
+    operatorB.toggleWhenPressed(new TurnToAngle(driveTrain));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
     operatorRB.toggleWhenPressed(new RPMbyFF(shooter, loader, 4400)); //line distance
