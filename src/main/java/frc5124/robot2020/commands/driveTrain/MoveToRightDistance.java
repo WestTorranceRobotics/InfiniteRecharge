@@ -4,7 +4,9 @@
 
 package frc5124.robot2020.commands.driveTrain;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc5124.robot2020.subsystems.DriveTrain;
 
 public class MoveToRightDistance extends CommandBase {
   private DriveTrain subsystem;

@@ -4,13 +4,14 @@
 
 package frc5124.robot2020.commands.driveTrain;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
 public class TurnToAngle extends CommandBase {
   private DriveTrain subsystem;
   float Kp = -0.1f;
-  float min_command = 0.15f;
+  double min_command = 0.15f;
   boolean isDone = false;
   
   /** Creates a new TurnToAngle. */
@@ -30,12 +31,12 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-      float steering_adjust = 0.0f;
+      double steering_adjust = 0.0f;
       if (tx > 1.0) {
-        steering_adjust = (tx / 20) * -min_command;
+        steering_adjust = Math.min((tx / 2) * 0.4, 0.4) + min_command;
       }
       else if (tx < 1.0) {
-        steering_adjust = (tx / 20) *  min_command;
+        steering_adjust = Math.min((tx / 2) * 0.4, 0.4) - min_command;
       }
       else {
         isDone = true;
