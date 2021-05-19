@@ -34,13 +34,10 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-      double error = Math.abs(tx);
+      double error = tx;
       integral += (error * 0.2);
       double spin = kP * error + kI * integral;
-      if (tx > 1.0) {
-        spin *= -1; 
-      }
-      else if (tx > -1.0 && tx < 1.0) {
+      if (tx > -1.0 && tx < 1.0) {
         isDone = true;
       }
       subsystem.arcadeDrive(0, spin);
