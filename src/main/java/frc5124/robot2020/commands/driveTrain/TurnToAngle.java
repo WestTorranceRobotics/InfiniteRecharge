@@ -10,8 +10,11 @@ import frc5124.robot2020.subsystems.DriveTrain;
 
 public class TurnToAngle extends CommandBase {
   private DriveTrain subsystem;
-  float Kp = -0.1f;
-  double min_command = 0.15f;
+  double kP = 0.1;
+  double kI = 0.1;
+  double kD = 0.1;
+  double integral = 0.0;
+  double min_command = 0.15;
   boolean isDone = false;
   
   /** Creates a new TurnToAngle. */
@@ -31,17 +34,16 @@ public class TurnToAngle extends CommandBase {
   @Override
   public void execute() {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-      double steering_adjust = 0.0f;
+      double error = Math.abs(tx);
+      integral += (error * 0.2);
+      double spin = kP * error + kI * integral;
       if (tx > 1.0) {
-        steering_adjust = Math.min((tx / 2) * 0.4, 0.4) + min_command;
+        spin *= -1; 
       }
-      else if (tx < 1.0) {
-        steering_adjust = Math.min((tx / 2) * 0.4, 0.4) - min_command;
-      }
-      else {
+      else if (tx > -1.0 && tx < 1.0) {
         isDone = true;
       }
-      subsystem.tankDrive(steering_adjust, -steering_adjust);
+      subsystem.arcadeDrive(0, spin);
   }
 
   // Called once the command ends or is interrupted.
@@ -49,8 +51,7 @@ public class TurnToAngle extends CommandBase {
   public void end(boolean interrupted) {
     NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
-
-
+    integral = 0;
   }
 
   // Returns true when the command should end.
