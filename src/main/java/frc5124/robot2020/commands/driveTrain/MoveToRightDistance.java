@@ -9,10 +9,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
 
 public class MoveToRightDistance extends CommandBase {
-  private DriveTrain subsystem;
+  private DriveTrain driveTrain;
+  private Turret turret;
+
+  double kP = 0.1;
+  double kI = 0.1;
+  double kD = 0.1;
+  double integral = 0.0;
+  
   /** Creates a new MoveToRightDistance. */
-  public MoveToRightDistance(DriveTrain subsystem) {
-    this.subsystem = subsystem;
+  public MoveToRightDistance(DriveTrain driveTrain, Turret turret) {
+    this.driveTrain = driveTrain;
+    this.turret = turret;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,9 +31,10 @@ public class MoveToRightDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    double d = (98.25 - 21) / Math.tan(Math.toRadians(20.5 + ty));
-    
+    double error = turret.getDistanceFromTarget() - targetDistance;
+    integral += (error * 0.02);
+    double move = kP * error + kI * integral;
+    driveTrain.tankDrive(move, move);
   }
 
   // Called once the command ends or is interrupted.

@@ -153,7 +153,7 @@ public class RobotContainer {
 
     NetworkTableEntry pipeEntry = NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline");
 
-    display.addNumber("TX", () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0));
+    display.addNumber("Distance From Target", turret::getDistanceFromTarget);
 
     display.addNumber("Balls Intaked", loader::getBallsIntaked)
     .withPosition(3, 1).withSize(1, 1);

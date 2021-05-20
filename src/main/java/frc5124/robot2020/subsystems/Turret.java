@@ -192,6 +192,12 @@ public class Turret extends SubsystemBase {
     return turretMotor.getAppliedOutput();
   }
 
+  public double getDistanceFromTarget() {
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    double d = (98.25 - 21) / Math.tan(Math.toRadians(20.5 + ty));
+    return  d;
+  }
+
   @Override
   public void periodic() {
   }

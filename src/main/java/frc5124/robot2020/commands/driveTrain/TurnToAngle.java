@@ -35,7 +35,7 @@ public class TurnToAngle extends CommandBase {
   public void execute() {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
       double error = tx;
-      integral += (error * 0.2);
+      integral += (error * 0.02);
       double spin = kP * error + kI * integral;
       if (tx > -1.0 && tx < 1.0) {
         isDone = true;
