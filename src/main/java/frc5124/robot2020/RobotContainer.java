@@ -115,7 +115,7 @@ public class RobotContainer {
     operatorStart.whileHeld(new SetIntakePower(intake, -.6));
     operatorBack.whileHeld(new ReverseBeltAndShooter(shooter, loader));
     operatorX.whileHeld(new LoaderAndIntakeGroup(intake, loader));
-    operatorA.whenPressed(new ToggleIntakePivot(intake));
+    operatorA.toggleWhenPressed(new MoveToRightDistance(driveTrain, turret));
     operatorB.toggleWhenPressed(new TurnToAngle(driveTrain));
     operatorRight.whileHeld(new RotateTurret(turret, false));
     operatorLeft.whileHeld(new RotateTurret(turret, true));
@@ -153,7 +153,10 @@ public class RobotContainer {
 
     NetworkTableEntry pipeEntry = NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline");
 
-    display.addNumber("Distance From Target", turret::getDistanceFromTarget);
+    display.addNumber("Distance From Target", turret::getDistanceFromTarget)
+    .withPosition(1, 1).withSize(1, 1);
+    display.addNumber("TX", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
+    .withPosition(1, 2).withSize(1, 1);
 
     display.addNumber("Balls Intaked", loader::getBallsIntaked)
     .withPosition(3, 1).withSize(1, 1);
