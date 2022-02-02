@@ -7,6 +7,7 @@ package frc5124.robot2020.commands.driveTrain;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc5124.robot2020.subsystems.DriveTrain;
+import frc5124.robot2020.subsystems.Turret;
 
 public class MoveToRightDistance extends CommandBase {
   private DriveTrain driveTrain;
@@ -31,6 +32,7 @@ public class MoveToRightDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double targetDistance = 0;
     double error = turret.getDistanceFromTarget() - targetDistance;
     integral += (error * 0.02);
     double move = kP * error + kI * integral;

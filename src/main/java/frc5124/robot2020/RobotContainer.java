@@ -155,7 +155,7 @@ public class RobotContainer {
 
     display.addNumber("Distance From Target", turret::getDistanceFromTarget)
     .withPosition(1, 1).withSize(1, 1);
-    display.addNumber("TX", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
+    display.addNumber("TX", () -> NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0))
     .withPosition(1, 2).withSize(1, 1);
 
     display.addNumber("Balls Intaked", loader::getBallsIntaked)

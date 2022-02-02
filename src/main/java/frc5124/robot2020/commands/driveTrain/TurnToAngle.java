@@ -10,11 +10,11 @@ import frc5124.robot2020.subsystems.DriveTrain;
 
 public class TurnToAngle extends CommandBase {
   private DriveTrain subsystem;
-  double kP = 0.1;
+  double kP = 0.045;
   double kI = 0.1;
   double kD = 0.1;
   double integral = 0.0;
-  double min_command = 0.15;
+  double min_command = 0.2;
   boolean isDone = false;
   
   /** Creates a new TurnToAngle. */
@@ -36,18 +36,26 @@ public class TurnToAngle extends CommandBase {
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
       double error = tx;
       integral += (error * 0.02);
-      double spin = kP * error + kI * integral;
+      double spin = kP * error + min_command;
       if (tx > -1.0 && tx < 1.0) {
-        isDone = true;
+        // isDone = true;
       }
-      subsystem.arcadeDrive(0, spin);
+      // double spin = 0.0;
+      // if (tx > 1.0) {
+      //   spin = 0.4;
+      // }
+      // else if (tx < -1.0) {
+      //   spin = -0.4;
+      // }
+      
+      subsystem.tankDrive(spin, -spin);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     NetworkTableInstance.getDefault().getTable("rpi").getEntry("aimbot").setDouble(0);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
+    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1.0);
     integral = 0;
   }
 
